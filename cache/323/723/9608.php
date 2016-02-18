@@ -1,0 +1,1 @@
+86400      a:2:{s:11:"primary_key";s:2:"id";s:6:"fields";a:10:{s:2:"id";s:10:"bigint(20)";s:7:"user_id";s:10:"bigint(20)";s:6:"amount";s:11:"float(10,2)";s:4:"name";s:12:"varchar(255)";s:9:"type_name";s:12:"varchar(255)";s:7:"account";s:12:"varchar(255)";s:4:"note";s:12:"varchar(255)";s:7:"re_note";s:12:"varchar(255)";s:4:"time";s:8:"datetime";s:6:"status";s:10:"tinyint(1)";}}

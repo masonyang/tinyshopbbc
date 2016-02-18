@@ -1,0 +1,156 @@
+{echo:JS::import('form');}
+
+{query:name=goods_category order=path/}
+		{set:$goods_category=Common::treeArray($items)}
+		{list:items=$goods_category}
+		{if:!isset($path) || strpos($item['path'],$path)===false}
+		{set:$num = count(explode(',',$item['path']))-3;}
+			{set:$categorys[$item['id']] = $item['name'];}
+		{/if}
+		{/list}
+
+<div id="obj_form" class="form2">
+{query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,email,disabled,register_time,province,city,county,addr,phone,site_logo,site_icp,site_ios_url,site_android_url,zip,site_keyword,disabled  where=distributor_id eq $id item=$dist}
+      <dl class="lineD">
+      <dt>授权分类：</dt>
+      <dd>
+        {set:$_catids = explode(',',$dist['catids']);}
+		{list:items=$_catids}
+			{$categorys[$_catids[$key]]},
+		{/list}
+      </dd>
+      </dl>
+
+    <dl class="lineD">
+      <dt>分销商名称：</dt>
+      <dd>
+        <label>{$dist['distributor_name']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>邮箱：</dt>
+      <dd>
+        <label>{$dist['email']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>注册时间：</dt>
+      <dd>
+        <label><b>注册：</b>{$dist['register_time']}</label>
+      </dd>
+      </dl>
+	  <dl class="lineD">
+      <dt>地区：</dt>
+      <dd >
+        <div id="area">
+        <select id="province"  name="province" province="{$dist['province']|0}" disabled><option value="0">==省份/直辖市==</option></select>
+        <select id="city" name="city" city="{$dist['city']|0}" disabled><option value="0">==市==</option></select>
+        <select id="county" name="county" county="{$dist['county']|0}" disabled><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="test" type="text" style="visibility:hidden;width:0;" value="{$dist['province']},{$dist['city']},{$dist['county']}" alt="请选择完整地区信息！"><label></label></div>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>详细地址：</dt>
+      <dd>
+        <label>{$dist['addr']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>固定电话：</dt>
+      <dd>
+        <label>{$dist['phone']}</label>
+      </dd>
+      </dl><dl class="lineD">
+      <dt>手机：</dt>
+      <dd>
+        <label>{$dist['mobile']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>站点名称：</dt>
+      <dd>
+        <label>{$dist['site_name']}</label>
+      </dd>
+      </dl>
+	  <dl class="lineD">
+        <dt>站点Logo：</dt>
+        <dd>
+              <img height='50' src="{$dist['site_logo']}">
+        </dd>
+      </dl>
+	  <dl class="lineD">
+      <dt>公司/备案号：</dt>
+      <dd>
+        <label>{$dist['site_icp']}</label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>网址：</dt>
+      <dd>
+        <label>{$dist['site_url']}{$domain}</label>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>ios下载地址：</dt>
+      <dd>
+        <label>{$dist['site_ios_url']}</label>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>android下载地址：</dt>
+      <dd>
+        <label>{$dist['site_android_url']}</label>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>邮政编码：</dt>
+      <dd>
+        <label>{$dist['zip']}</label>
+      </dd>
+    </dl>
+	    <dl class="lineD">
+      <dt>关键字：</dt>
+      <dd>
+        <label>{$dist['site_keyword']}</label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>描述信息：</dt>
+      <dd>
+	    <label>{$dist['site_description']}dsfgsdg</label>
+      </dd>
+    </dl>
+	  <dl class="lineD">
+      <dt>预存款：</dt>
+      <dd>
+	    <label>{$dist['deposit']}</label>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>是否启用：</dt>
+      <dd>
+	    <label> {if:isset($dist['disabled']) && $dist['disabled']==1}禁用{else:}启用{/if}</label>
+      </dd>
+      </dl>
+{/query}
+</div>
+
+<script type="text/javascript">
+  var province = $('#province').attr('province');
+  var city = $('#city').attr('city');
+  var county = $('#county').attr('county');
+  $("#area").Linkage({ url:"{url:/ajax/area_data}",selected:[province,city,county],callback:function(data){
+    var text = new Array();
+    var value = new Array();
+    for(i in data[0]){
+      if(data[0][i]!=0){
+        text.push(data[1][i]);
+        value.push(data[0][i]);
+      }
+    }
+    $("#test").val(value.join(','));
+    FireEvent(document.getElementById("test"),"change");
+    }});
+
+
+
+</script>

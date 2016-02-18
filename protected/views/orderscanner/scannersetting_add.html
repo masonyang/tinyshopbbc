@@ -1,0 +1,65 @@
+{echo:JS::import('form');}
+{echo:JS::import('date');}
+
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<h1 class="page_title">扫描枪设置({$memo})</h1>
+<div id="obj_form" class="form2">
+    <form action="{url:/orderscanner/$action}" method="post" >
+        {if:isset($scanners['scanner_id'])}<input type="hidden" name="id" id="objId" value="{$scanners['scanner_id']}">{/if}
+        <dl class="lineD">
+            <dt>员工姓名：</dt>
+            <dd>
+                {if:isset($scanners['scanner_id']) && isset($scanners['scanner_name']) }
+                <label>{$scanners['scanner_name']}</label>
+                <input type="hidden" name="scanner_name" value="{$scanners['scanner_name']}">
+                {else:}
+                <input name="scanner_name" type="text" pattern="required" value="" alt="员工姓名（必填）" />
+                <label></label>
+                {/if}
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>员工工号：</dt>
+            <dd>
+                <input name="scanner_number" type="text" pattern="required" value="{$scanners['scanner_number']}" alt="员工工号（必填）" />
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>选择扫描枪：</dt>
+            <dd>
+                <select name="scan_no" id="scan_no">
+                    {list:items=$scannermenu item=$item key=$_key}
+                    <optgroup label="{$_key}">
+                        {list:items=$item item=$iitem }
+                        {if: $scanners['scan_no'] == $iitem} {set: $opt=$_key} {/if}
+                        <option opt="{$_key}" value="{$iitem}" {if: $scanners['scan_no'] == $iitem}selected{/if} > {$iitem}</option>
+                        {/list}
+                    </optgroup>
+                    {/list}
+                </select>
+                <input type="hidden" name="scanner_type" id="scanner_type" value="{if: empty($opt)}出单枪{else:}{$opt}{/if}">
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>状态：</dt>
+            <dd>
+                {if:$scanners['status']}
+                    <input type="radio" name="status" {if: $scanners['status'] == 'false'} checked {/if} value="false">启用&nbsp;<input type="radio" name="status" {if: $scanners['status'] == 'true'} checked {/if} value="true">禁用
+                {else:}
+                <input type="radio" name="status" checked="checked" value="false">启用&nbsp;<input type="radio" name="status" value="true">禁用
+                {/if}
+            </dd>
+        </dl>
+
+        <div style="text-align:center"><input type="submit" value="保存" class="button"></div>
+    </form>
+</div>
+<script type="text/javascript">
+    (function (){
+        $('#scan_no').change(function (e){
+            var opt = $("#scan_no").find("option:selected").attr('opt');
+            $('#scanner_type').val(opt);
+        });
+    })();
+</script>

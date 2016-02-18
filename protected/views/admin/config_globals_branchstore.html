@@ -1,0 +1,173 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+{echo:JS::import('form');}
+{echo:JS::import('validator');}
+<h2 class="page_title">{$node_index['name']}</h2>
+<div class="form2">
+	<form name="config_form" method="post" action="{url:/admin/config/group/globals}">
+        {if:isset($manager['id'])}<input type="hidden" name="id" value="{$manager['id']}">{/if}
+
+	 <dl class="lineD">
+      <dt>授权分类：</dt>
+      <dd>
+		{query:name=goods_category order=path/}
+		{set:$goods_category=Common::treeArray($items)}
+		{list:items=$goods_category}
+		{if:!isset($path) || strpos($item['path'],$path)===false}
+		{set:$num = count(explode(',',$item['path']))-3;}
+			{set:$categorys[$item['id']] = $item['name'];}
+		{/if}
+		{/list}
+		{set:$_catids = explode(',',$manager['catids']);}
+				{list:items=$_catids}
+					{$categorys[$_catids[$key]]},
+				{/list}
+      </dd>
+      </dl>
+    <dl class="lineD">
+      <dt>分销商名称：</dt>
+      <dd>
+        <label>{$manager['name']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>邮箱：</dt>
+      <dd>
+        <label>{$manager['email']}</label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>注册时间：</dt>
+      <dd>
+        <label><b>注册：</b>{$manager['register_time']}</label>
+      </dd>
+      </dl>
+	  <dl class="lineD">
+      <dt>地区：</dt>
+      <dd >
+        <div id="area">
+        <select id="province"  name="province" province="{$manager['province']|0}" ><option value="0">==省份/直辖市==</option></select>
+        <select id="city" name="city" city="{$manager['city']|0}" ><option value="0">==市==</option></select>
+        <select id="county" name="county" county="{$manager['county']|0}" ><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="test" type="text" style="visibility:hidden;width:0;" value="{$manager['province']},{$manager['city']},{$manager['county']}" alt="请选择完整地区信息！"><label></label></div>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>详细地址：</dt>
+      <dd>
+        <input name="addr" type="text" empty  pattern="required" value="{$manager['addr']}">
+        <label></label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>固定电话：</dt>
+      <dd>
+        <input name="phone" type="text" empty pattern="phone" value="{$manager['phone']}">
+        <label></label>
+      </dd>
+      </dl><dl class="lineD">
+      <dt>手机：</dt>
+      <dd>
+        <input name="mobile" type="text" empty pattern="mobi" value="{$manager['mobile']}">
+        <label></label>
+      </dd>
+      </dl>
+      <dl class="lineD">
+      <dt>站点名称：</dt>
+      <dd>
+        <label>{$manager['site_name']}</label>
+      </dd>
+      </dl>
+	  <dl class="lineD">
+        <dt>站点Logo：</dt>
+        <dd>
+          <div id="img-show" >
+            {if:isset($manager['site_logo'])}
+              <img height='50' src="{$manager['site_logo']}">
+            {/if}
+          </div>
+        </dd>
+      </dl>
+	  <dl class="lineD">
+      <dt>公司/备案号：</dt>
+      <dd>
+        {$manager['site_icp']}
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>网址：</dt>
+      <dd>
+        {$manager['site_url']}{$domain}
+        <span>  </span>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>ios下载地址：</dt>
+      <dd>
+        <input name="site_ios_url" type="text"  size=40 value="{$manager['site_ios_url']}"/>
+        <span>  </span>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>android下载地址：</dt>
+      <dd>
+        <input name="site_android_url" type="text"  size=40 value="{$manager['site_android_url']}"/>
+        <span>  </span>
+      </dd>
+    </dl>
+	<dl class="lineD">
+      <dt>邮政编码：</dt>
+      <dd>
+        <input name="zip" type="text" size=40 value="{$manager['zip']}"/>
+        <span>  </span>
+      </dd>
+    </dl>
+	    <dl class="lineD">
+      <dt>关键字：</dt>
+      <dd>
+        <input name="site_keyword" type="text" size=60 value="{$manager['site_keyword']}">
+        <label>多个使用英文的“|”分割</label>
+      </dd>
+    </dl>
+    <dl class="lineD">
+      <dt>描述信息：</dt>
+      <dd>
+        <input name="site_description" type="text" size=60 value="{$manager['site_description']}">
+        <label>多个使用英文的“|”分割 </label>
+      </dd>
+    </dl>
+	  <dl class="lineD">
+      <dt>预存款：</dt>
+      <dd>
+        <input name="deposit" type="text" size=10 disabled value="{$manager['deposit']}">&nbsp;&nbsp;&nbsp;<a href="#">充值</a>
+      </dd>
+    </dl>
+
+	   <div class="center">
+      <input type="submit" name="submit" class="button action fn" value="确 定">
+    </div>
+    </form>
+</div>
+
+<script>
+	{if:isset($message)}
+	art.dialog.tips('<p class="success">{$message}</p>');
+	{/if}
+
+  var province = $('#province').attr('province');
+  var city = $('#city').attr('city');
+  var county = $('#county').attr('county');
+  $("#area").Linkage({ url:"{url:/ajax/area_data}",selected:[province,city,county],callback:function(data){
+    var text = new Array();
+    var value = new Array();
+    for(i in data[0]){
+      if(data[0][i]!=0){
+        text.push(data[1][i]);
+        value.push(data[0][i]);
+      }
+    }
+    $("#test").val(value.join(','));
+    FireEvent(document.getElementById("test"),"change");
+    }});
+
+
+</script>

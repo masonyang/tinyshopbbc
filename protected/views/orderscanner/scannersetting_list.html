@@ -1,0 +1,52 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+        <a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/orderscanner/scannersetting_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>
+        <a class="icon-eye-blocked" href="{url:/orderscanner/scannersetting_add}"> 新增</a>
+
+        <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:50px">选择</th>
+            <th style="width:70px">操作</th>
+            <th style="width:100px">修改时间</th>
+            <th style="width:70px">员工名称 </th>
+            <th style="width:70px">员工工号</th>
+            <th style="width:70px">扫描编号</th>
+            <th style="width:80px">是否禁用</th>
+        </tr>
+        {query:name=scannersetting fields=scanner_id,modifytime,scanner_name,scanner_number,scan_no,status where=$where id=$obj page=1 order= scanner_id desc }
+        <tr><td style="width:50px"><input type="checkbox" name="id[]" value="{$item['scanner_id']}"></td>
+            <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-pencil" href="{url:/orderscanner/scannersetting_add/id/$item['scanner_id']}"> 编辑</a></li>
+                <li><a class="icon-remove-2" href="javascript:;" onclick="confirm_action('{url:/orderscanner/scannersetting_del/id/$item[scanner_id]}')"> 删除</a></li>
+                </ul></div></div> </td>
+            <td style="width:100px">{$item['modifytime']|date('Y-m-d H:i:s',$item['modifytime'])|''}</td>
+            <td style="width:70px">{$item['scanner_name']}</td>
+            <td style="width:70px">{$item['scanner_number']}</td>
+            <td style="width:70px">{$item['scan_no']}</td>
+            <td style="width:80px">{if: $item['status'] == 'false'}启用{else:}禁用{/if}</td>
+            </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+
+<script type="text/javascript">
+
+    {set:$scan_no=""}
+    {list:items=$scannermenu item=$item key=$_key}
+    {list:items=$item item=$iitem }
+    {set:$scan_no.="'".$iitem."':'".$iitem."(".$_key.")',"}
+    {/list}
+    {/list}
+    {set:$scan_no=trim($scan_no,',');}
+    $("#condition").on("click",function(){
+        $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/orderscanner/scannersetting_list}',method:'get'});},data:{scanner_number:{name:'员工编号'},scan_no:{name:'扫描枪编号',values:{{$scan_no}}},scanner_name:{name:'员工名称'}}});
+    })
+</script>

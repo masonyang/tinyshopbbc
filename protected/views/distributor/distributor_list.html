@@ -1,0 +1,69 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<form action="" method="post">
+<div class="tools_bar clearfix">
+    <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+
+	<a class="icon-plus" href="{url:/distributor/distributor_edit}"> 添加分销商</a>
+
+    <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+</div>
+<table class="default" >
+    <tr>
+        <th style="width:30px">选择</th>
+        <th style="width:70px">操作</th>
+        <th style="width:100px">姓名</th>
+        <th style="width:70px">联系方式 </th>
+		<th style="width:70px">网店地址 </th>
+        <th style="width:70px">预存款</th>
+		<th style="width:70px">收益</th>
+        <th style="width:70px">会员总数</th>
+        <th style="width:80px">订单总数</th>
+        <th style="width:80px">已授权分类</th>
+    </tr>
+		{query:name=goods_category order=path/}
+		{set:$goods_category=Common::treeArray($items)}
+		{list:items=$goods_category}
+		{if:!isset($path) || strpos($item['path'],$path)===false}
+		{set:$num = count(explode(',',$item['path']))-3;}
+			{set:$categorys[$item['id']] = $item['name'];}
+		{/if}
+		{/list}
+
+    {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids where=$where id=$obj page=1 order= distributor_id desc }
+        <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['distributor_id']}"></td>
+            <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-eye" href="javascript:;" onclick="view({$item['distributor_id']})"> 查看</a></li>
+                <li><a class="icon-pencil" href="{url:/distributor/distributor_edit/id/}{$item['distributor_id']}"> 编辑</a></li>
+				</ul></div></div>
+			</td>
+            <td style="width:100px">{$item['distributor_name']}</td>
+			<td style="width:70px">{$item['mobile']}</td>
+			<td style="width:70px">{$item['site_url']}{$domain}</td>
+			<td style="width:70px">{$item['deposit']}</td>
+			<td style="width:80px">{$item['income']}</td>
+			<td style="width:80px">{$item['member_count']}</td>
+			<td style="width:50px">{$item['order_count']}</td>
+			<td style="width:50px">
+				{set:$_catids = explode(',',$item['catids']);}
+				{list:items=$_catids}
+					{$categorys[$_catids[$key]]},
+				{/list}
+			</td>
+		</tr>
+    {/query}
+</table>
+</form>
+<div class="page_nav">
+{echo:$obj->pageBar()}
+</div>
+<script type="text/javascript">
+
+    function view(id){
+        art.dialog.open("{url:/distributor/distributor_view/id/}"+id,{id:'view_dialog',title:'查看分销商',resize:false,width:900,height:450});
+    }
+
+$("#condition").on("click",function(){
+  $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/distributor/distributor_list}',method:'get'});},data:{distributor_name:{name:'姓名'},site_name:{name:'站点名称'},mobile:{name:'手机号'}}});
+})
+</script>

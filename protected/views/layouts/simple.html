@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta name="Generator" content="TinyShop" />
+	<meta charset="UTF-8">
+	<title>109商城</title>
+	<link type="image/x-icon" href="{url:@favicon.ico}" rel="icon">
+	<link type="text/css" rel="stylesheet" href="{url:@static/css/common.css}" />
+	{echo:JS::import('jquery');}
+	<script type='text/javascript' src="{url:@static/js/common.js}"></script>
+	<!--[if IE 6]>
+		<script src="{url:@static/js/DD_belatedPNG-min.js}"></script>
+		<script>DD_belatedPNG.fix('.ie6png');</script>
+	<![endif]-->
+</head>
+<body class="screen_960">
+	<!--S 头部 -->
+	<div id="header" class="clearfix">
+		<div class="header-main" style="border-bottom:#7c0000 2px solid;">
+			<div class="wrap">
+				<div class="logo "><a href="{url:/index/index}"><img class="ie6png" src="{url:@$site_logo}" style="max-height:74px;"></a></div>
+			</div>
+		</div>
+	</div>
+	<!--E 头部 -->
+	<!--S content-->
+	<div id="content">
+		<div class="wrap">
+		{if:isset($msg)}
+		<div class="message-box mt5" >
+			<div class="message-head"><div class="message_{$msg[0]} ie6png">{$msg[1]}</div><i class="fail"></i></div>
+			<div class="message-content">
+			</div>
+		</div>
+		{/if}
+			{__viewcontents}
+		</div>
+	</div>
+	<!--E content-->
+	<!--S 底部 -->
+	<div id="footer" class="mt20  ">
+		<div class="wrap">
+			<div class="copyright" style="border: 0">
+				<div><a href="">联系我们</a> <a href="">公司简介</a> <a href=""></a> <a href="">法律条款</a></div>
+				<div><span>Powered by <a href="http://www.109.com"><b style="color: #7c0000">109.com</b></a></span> © 2016 . 保留所有权利 。{$site_icp} </div>
+			</div>
+		</div>
+
+	</div>
+	<!--E 底部 -->
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>{if:isset($seo_title) && isset($site_title) && ($seo_title == $site_title)}{$seo_title}{else:}{$seo_title}-{$site_title}{/if}</title>
+	<link type="image/x-icon" href="{url:@favicon.ico}" rel="icon">
+	<link type="text/css" rel="stylesheet" href="{url:#css/common.css}" />
+	<link type="text/css" rel="stylesheet" href="{url:#css/simple.css}" />
+	{echo:JS::import('jquery');}
+	<script type='text/javascript' src="{url:#js/common.js}"></script>
+	<!--[if IE 6]>
+		<script src="{url:#js/DD_belatedPNG-min.js}"></script>
+		<script>DD_belatedPNG.fix('.ie6png');</script>
+	<![endif]-->
+</head>
+<body class="screen_960">
+	<!--S 头部 -->
+	<div id="header" class="clearfix">
+		<div class="header-main" style="border-bottom:#7c0000 2px solid;">
+			<div class="wrap">
+				<div class="logo "><a href="{url:/index/index}"><img class="ie6png" src="{url:@$site_logo}" style="max-height:74px;"></a></div>
+			</div>
+		</div>
+	</div>
+	<!--E 头部 -->
+	<!--S content-->
+	<div id="content">
+		<div class="wrap">
+		{if:isset($msg)}
+		<div class="message-box mt5" >
+			<div class="message-head"><div class="message_{$msg[0]} ie6png">{$msg[1]}</div><i class="fail "></i></div>
+			<div class="message-content">
+			</div>
+		</div>
+		{/if}
+			{__viewcontents}
+		</div>
+	</div>
+	<!--E content-->
+	<!--S 底部 -->
+	<div id="footer" class="mt20  ">
+		<div class="wrap">
+			<div class="copyright" style="border: 0">
+				<div>{query:name=nav where=type eq 'bottom' order=`sort` desc}
+					<a href="{if:strstr($item['link'],'http://')===false}{url:$item[link]}{else:}{$item['link']}{/if}" target="{if:$item['open_type']==1}_blank{else:}_self{/if}">{$item['name']}</a>
+					{/query}</div>
+					<div><span>Powered by <a href="http://www.109.com"><b style="color: #7c0000">109.com</b></a></span> © 2016 . 保留所有权利 。{$site_icp} </div>
+			</div>
+		</div>
+
+	</div>
+	<!--E 底部 -->
+</body>
+</html>

@@ -1,0 +1,74 @@
+{echo:JS::import('form')}
+<div class="mt20 login box clearfix">
+	<div class="line-D">
+		<div class="clearfix oauth-info">
+			<div class="u-img"><img src="{$head_img}"></div>
+			<div class="model-text f16">
+				<p>来自<b>{$type_name}</b>的<b class="green">{$open_name}</b>，你好。</p><p>立即设置一个密码，以后就可以直接登录！</p>
+			</div>
+		</div>
+	</div>
+<div class=" login-form " style="border:none; margin:auto;margin-top:40px;width:700px;">
+	<form action="{url:/simple/oauth_bind_act}" method="post" callback="checkReadme">
+		
+		<dl class="clearfix">
+			<dt>电子邮箱：</dt><dd><input class="input"  name="email" id="email"  pattern="email" value="{$user['email']}" alt="邮箱(例如:demo@tinyx.com)"><label></label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt>密&nbsp;&nbsp;&nbsp;&nbsp;码：</dt><dd><input type="password" id="password" bind="repassword" minlen=6 maxlen=20 class="input" name="password" pattern="required" alt="6-20任意字符组合"><label id="password-msg"></label></dd>
+		</dl>
+		{if:$user['name']==null}
+		<dl class="clearfix" id="repassword-line">
+			<dt>确认密码：</dt><dd><input id="repassword" type="password"  minlen=6 maxlen=20  bind="password" class="input" name="repassword" pattern="required" alt="6-20任意字符组合"><label></label></dd>
+		</dl>
+		{/if}
+		
+		<dl class="clearfix">
+			<dt>&nbsp;</dt><dd><input id="readme" type="checkbox" checked="cheched"><label></label><label>我已阅读并同意《109商城用户注册协议》</label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt></dt><dd style="padding-left:200px;"><input type="submit" class="btn" value="同意协议，立即注册"></dd>
+		</dl>
+	</form>
+</div>
+</div>
+<script type="text/javascript">
+	
+	$("input[name='email']").on("change",function(event){
+		if(autoValidate.validate(event)){
+			$.post("{url:/ajax/email/email/}"+$(this).val(),function(data){
+				if(data['status']){
+					$("#repassword-line").show();
+					$("#repassword").show();
+					autoValidate.showMsg({id:document.getElementById('email'),error:false,msg:'账户不存在，注册绑定!'});
+					$("#password-msg").text('6-20任意字符组合');
+					
+				}else{
+					$("#repassword-line").hide();
+					$("#repassword").hide();
+					autoValidate.showMsg({id:document.getElementById('email'),error:false,msg:'已存在的账户，填写密码进行绑定!'});
+				}
+		},'json');
+		}
+	});
+	$("#readme").on("change",function(){
+		if($("#readme:checked").length>0)autoValidate.showMsg({id:document.getElementById('readme'),error:false,msg:''});
+		else autoValidate.showMsg({id:document.getElementById('readme'),error:true});
+	});
+	function checkReadme(e){
+		if(e) return false;
+		else{
+			if($("#readme:checked").length>0)return true;
+			{
+				autoValidate.showMsg({id:document.getElementById('readme'),error:true});
+				return false;
+			}
+		}
+	}
+	{if:isset($invalid)}
+		var form = new Form();
+		form.setValue('email', '{$email}');
+		autoValidate.showMsg({id:$("input[name='{$invalid['field']}']").get(0),error:true,msg:"{$invalid['msg']}"});
+	{/if}
+	FireEvent(document.getElementById('email'),"change");
+</script>

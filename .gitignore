@@ -1,0 +1,9 @@
+data/database/*
+data/uploads/head/*
+themes-sass/
+
+.tags
+.tags_sorted_by_file
+update.txt
+*.zip
+*.tar

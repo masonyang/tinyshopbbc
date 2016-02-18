@@ -1,0 +1,131 @@
+{echo:JS::import('form')}
+{echo:JS::import('dialog?skin=simple');}
+{echo:JS::import('dialogtools');}
+<div class="mt20 login box clearfix">
+	<div class="head">用户注册</div>
+<div class="fl login-form mt20">
+	<form action="{url:/simple/reg_act}" method="post" callback="checkReadme">
+		<dl class="clearfix">
+			<dt>电子邮箱：</dt><dd><input class="input"  name="email" id="email"  pattern="email" alt="邮箱(例如:demo@tinyx.com)"><label></label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt>密&nbsp;&nbsp;&nbsp;&nbsp;码：</dt><dd><input type="password" bind="repassword" minlen=6 maxlen=20 class="input" name="password" pattern="required" alt="6-20任意字符组合"><label></label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt>确认密码：</dt><dd><input type="password"  minlen=6 maxlen=20  bind="password" class="input" name="repassword" pattern="required" alt="6-20任意字符组合"><label></label></dd>
+		</dl>
+
+		{if:class_exists('SMS') && SMS::getInstance()->getStatus()}
+		<dl class="clearfix">
+			<dt>手机号：</dt><dd><input type="text" id="mobile" class="input" name="mobile" pattern="mobi" value="{$mobile}" alt="正确的手机号码"><label></label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt>短信验证码：</dt><dd><input type="text" class="input small" name="mobile_code" pattern="\d{6}"><label></label><input id="sendSMS" type="button" class="btn btn-gray" value="获取短信验证码"></dd>
+		</dl>
+		{else:}
+		<dl class="clearfix">
+			<dt>验证码：</dt><dd style="height:40px;"><input type="text" class="input" name="verifyCode" id="verifyCode"  pattern="\w{4}" maxlength="4" style="width: 80px;" ><img id="captcha_img"  src="{url:/simple/captcha/h/40/w/120}"><label><a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/random/}'+Math.random()">换一张</a></label></dd>
+		</dl>
+		{/if}
+		<dl class="clearfix">
+			<dt>&nbsp;</dt><dd><input id="readme" type="checkbox"><label></label><label>我已阅读并同意《<a class="red" id="user-license" href="javascript:;">{$site_title}用户注册协议</a>》</label></dd>
+		</dl>
+		<dl class="clearfix">
+			<dt></dt><dd style="padding-left:200px;"><input type="submit" class="btn" value="同意协议，立即注册"></dd>
+		</dl>
+		{token:key=reg}
+	</form>
+</div>
+<div class="login-note mt20">
+	<ul>
+		<li><h1>我已经注册， <a href="{url:/simple/login}" class="red">登录</a></h1></li>
+	</ul>
+</div>
+</div>
+<div id="license-content" style="display:none;">
+	<div style="height:400px;overflow:auto">
+	{query:name=help where=id eq 14}
+	{$item['content']}
+	{/query}
+	</div>
+	<div class="mt20 tc"><a href="javascript:closeLicense();" class="btn">同意用户注册协议</a></div>
+</div>
+<script type="text/javascript">
+	$("#user-license").on("click",function(){
+		art.dialog({id:'license-dialog',opacity:0.3,padding:'20px 10px 10px 20px',width:900,height:400,title:'用户注册协议',content:document.getElementById('license-content'),lock:true});
+	});
+
+	function closeLicense(){
+		$('#readme').attr("checked",'true');
+		autoValidate.showMsg({id:document.getElementById('readme'),error:false,msg:''});
+		art.dialog({id:'license-dialog'}).close();
+	}
+
+	$("#sendSMS").click(function(){
+
+		var data = 'mobile=' + $("#mobile").val()+'&r=' + Math.random();
+		if(autoValidate.validate(document.getElementById('mobile'))===false)return;
+
+		$.ajax({
+			type: "get",
+			url: "{url:/ajax/send_sms}",
+            data: data,
+            dataType:'json',
+            success:function(result){
+            	if(result['status']=='success'){
+            		$('#mobile').attr("readonly","readonly");
+            		var send_sms = $("#sendSMS");
+            		send_sms.attr("disabled",true);
+            		send_sms.addClass("btn-disable");
+            		var i = 120;
+                    send_sms.val(i + '秒后重新获取');
+                    var timer = setInterval(function () {
+                        i--;
+                        send_sms.val(i + '秒后重新获取');
+                        if (i <= 0) {
+                            clearInterval(timer);
+                            send_sms.val('获取短信验证码');
+                            $('#mobile').removeAttr("readonly");
+                            send_sms.removeClass("btn-disable");
+                            send_sms.attr("disabled",false);
+                        }
+                    }, 1000);
+            	}else{
+            		art.dialog.tips("<p class='fail'>"+result['msg']+"</p>");
+            	}
+            }
+        });
+	});
+
+	$("input[name='email']").on("change",function(event){
+		if(autoValidate.validate(event)){
+			$.post("{url:/ajax/email/email/}"+$(this).val(),function(data){
+			autoValidate.showMsg({id:document.getElementById('email'),error:!data['status'],msg:data['msg']});
+		},'json');
+		}
+	})
+	$("input[name='verifyCode']").on("change",function(){
+		$.post("{url:/ajax/verifyCode/verifyCode/}"+$(this).val(),function(data){
+			autoValidate.showMsg({id:document.getElementById('verifyCode'),error:!data['status'],msg:data['msg']});
+		},'json');
+	})
+	$("#readme").on("change",function(){
+		if($("#readme:checked").length>0)autoValidate.showMsg({id:document.getElementById('readme'),error:false,msg:''});
+		else autoValidate.showMsg({id:document.getElementById('readme'),error:true});
+	});
+	function checkReadme(e){
+		if(e) return false;
+		else{
+			if($("#readme:checked").length>0)return true;
+			{
+				autoValidate.showMsg({id:document.getElementById('readme'),error:true});
+				return false;
+			}
+		}
+	}
+	{if:isset($invalid)}
+		var form = new Form();
+		form.setValue('email', '{$email}');
+		autoValidate.showMsg({id:$("input[name='{$invalid['field']}']").get(0),error:true,msg:"{$invalid['msg']}"});
+	{/if}
+</script>
