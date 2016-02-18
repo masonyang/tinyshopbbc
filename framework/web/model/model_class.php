@@ -122,7 +122,6 @@ class Model
                 $this->sql['table'] =   implode(',',$tables);
             }
 
-            $this->md5key($name);
         }
         return $this;
     }

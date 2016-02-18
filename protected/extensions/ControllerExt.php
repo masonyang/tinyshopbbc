@@ -7,8 +7,9 @@ class ControllerExt implements Extension
         //测试平板或者手机端主题
         $clientType = Chips::clientType();
         if($clientType=='tablet' || $clientType=='mobile'){
-            $config_path = APP_CODE_ROOT.'config/config.php';
-            $config = require($config_path);
+            //$config_path = APP_CODE_ROOT.'config/config.php';
+            //$config = require($config_path);
+            $config = Tiny::getServerConfig();
             if(isset($config['themes_mobile'])) $themes_mobile = Tiny::app()->setTheme($config['themes_mobile']);
             else Tiny::app()->setTheme("default");
 //            if(strpos($_SERVER['HTTP_USER_AGENT'], 'MicroMessenger') !== false){
