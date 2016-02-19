@@ -51,7 +51,7 @@ CREATE TABLE `tiny_article` (
   `summary` varchar(255) DEFAULT '' ,
   `status` int(2) DEFAULT '0' ,
   `top` int(1) DEFAULT '0' ,
-  `publish_time` datetime DEFAULT '0000-00-00 00:00:00' ,
+  `publish_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `count` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ;
@@ -472,7 +472,7 @@ CREATE TABLE `tiny_help` (
   `summary` varchar(255) DEFAULT '',
   `status` int(2) DEFAULT '0',
   `top` int(1) DEFAULT '0',
-  `publish_time` datetime DEFAULT '0000-00-00 00:00:00',
+  `publish_time` datetime DEFAULT NULL,
   `count` bigint(20) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;

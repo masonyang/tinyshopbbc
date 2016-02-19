@@ -431,6 +431,7 @@ class IndexController extends Controller{
     }
     public function category()
     {
+        $this->assign("footer","category");
         $this->parseCondition();
     }
     //搜索与分类的条件解析
@@ -761,6 +762,7 @@ class IndexController extends Controller{
     }
 
     function index(){
+        $this->assign("footer","index");
         $this->redirect();
     }
     public function login(){

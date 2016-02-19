@@ -1,0 +1,127 @@
+<header class="home-page avoid ng-scope un-avoid">
+    <div class="wrap-heard" style="display: block;">
+        <div class="header-Ico"></div>
+        <a href="?m=Category&a=Index">
+            <span class="head-typeimg"></span>
+        </a>
+    </div>
+    <div class="wrap-menuNavNewProduct" title="分类导航条">
+        <div class="menuNavNewProductPanel">
+            <ul class="menuNavNewProduct">
+                <li class="ng-scope">
+                    <a class="font-large" href="?m=Category&a=Index&id=all">全部商品</a>
+                </li>
+                <foreach name="cateTree" item="cate">
+                    <li class="ng-scope">
+                        <a class="font-large" href="?m=Category&a=Index&id={$cate.cat_id}">{$cate.cat_name}</a>
+                    </li>
+                </foreach>
+            </ul>
+        </div>
+        <div class="menuNavNewProductDetailsimg">
+            <i id="rightmove" class="chkDetailsimg btnright" onclick="rightMove();"></i>
+        </div>
+    </div>
+</header>
+
+<article class="home-body avoid ng-scope un-avoid">
+
+    <div class="scroll">
+        <div class="scroll-container swiper-container">
+            <div class="swiper-wrapper">
+                <foreach name='lunbo' item="item">
+                    <div class="swiper-slide"><a href="{$item['url']}" class=""><img src="/{$item['image_url']}" width="100%" /></a></div>
+                </foreach>
+            </div>
+        </div>
+        <div class="dot"></div>
+    </div>
+    <script>
+        var mySwiper = new Swiper('.scroll-container',{
+            pagination: '.dot',
+            autoplay:3000,
+            loop:true,
+            grabCursor: true,
+            paginationClickable: true,
+            cssHeight:false,
+            calculateHeight:true
+        });
+    </script>
+    <!--<div class="ng-scope">
+        <div class="bulletins ng-scope" title="通告栏">
+            <ul>
+                <li class="ng-scope Hot">
+                    <img class="bul-ico" src="../Public/images/ico_horn_on.png">
+                    <div class="bul-txt">会员今日可能有惊喜哦[看你手气]</div>
+                </li>
+            </ul>
+        </div>
+      </div>-->
+    <div class="ng-scope">
+        <div class="wrap-dailyNewProduct ng-scope" title="每日都有新品">
+            <div class="dailyNewProduct font-large">
+                <p class="text-title font-large">每日都有新品</p>
+            </div>
+            <foreach name="lunbo_index" item="value">
+                <div class="dailyNewProduct-img ng-scope">
+                    <if condition="$value['url'] neq ''">
+                        <a href="{$value['url']}" class="">
+                    </if>
+                    <img style="min-height: 150px" src="/{$value['image_url']}">
+                    <div class="doc font-medium"></div>
+                    <div class="doc-text font-medium" style="margin-top:-3.2rem; padding-left: 1rem;">{$value['description']}</div>
+                    <div class="nav-doc font-medium">
+                        <div class="title font-medium">&nbsp;{$value['lunbo_name']}</div>
+                    </div>
+                    <if condition="$value['url'] neq ''">
+                        </a>
+                    </if>
+                </div>
+            </foreach>
+        </div>
+    </div>
+    <div class="ng-scope">
+        <div class="wrap-dailyNewProduct ng-scope">
+            <div>
+                <dl class="vipbestlove-list">
+                    <foreach name='goodslist2' item='goods'>
+                        <dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">
+                            <a href="__APP__?m=Goods&a=Index&id={$goods.goods_id}">
+                                <img style="min-height: 100px" src="/{$goods.img}">
+                                <div class="wrap-doc-vipbestlove">
+                                    <div class="title font-medium">{$goods.name}</div>
+                                    <div>
+                                        <span class="spanSale font-medium"></span>
+                                        <span class="salePrice font-medium">￥{$goods.price}</span>
+                                        <!--
+                                        <span class="activityPrice font-medium"></span>
+                                        <span class="pricetag font-medium" href="#"></span>-->
+                                    </div>
+                                </div>
+                            </a>
+                        </dd>
+                    </foreach>
+
+                    <foreach name='goodslist' item='goods'>
+                        <dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">
+                            <a href="__APP__?m=Goods&a=Index&id={$goods.goods_id}">
+                                <img style="min-height: 100px" src="/{$goods.img}">
+                                <div class="wrap-doc-vipbestlove">
+                                    <div class="title font-medium">{$goods.name}</div>
+                                    <div>
+                                        <span class="spanSale font-medium"></span>
+                                        <span class="salePrice font-medium">￥{$goods.price}</span>
+                                        <!--
+                                        <span class="activityPrice font-medium"></span>
+                                        <span class="pricetag font-medium" href="#"></span>-->
+                                    </div>
+                                </div>
+                            </a>
+                        </dd>
+                    </foreach>
+                </dl>
+            </div>
+        </div>
+
+    </div>
+</article>

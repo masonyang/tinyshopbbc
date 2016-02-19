@@ -546,6 +546,7 @@ class UcenterController extends Controller
         $this->assign("comment",$comment);
         $this->assign("order",$order);
         $this->assign("customer",$customer);
+        $this->assign("footer","user");
         $this->redirect();
     }
 

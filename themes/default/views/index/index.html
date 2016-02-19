@@ -13,7 +13,7 @@ if(screen.width >= 1200)$(".category>.group").css("display","block");
 						<h2>商城动态</h2>
 						<div class="p5" style="height:356px;">
 							<ul class="list">
-							{query:name=article order=id desc limit=14}
+							{query:name=article domain=zd issalve=salve order=id desc limit=14}
 								<li><a href="{url:/index/article/id/$item[id]}" target="_blank">{echo:TString::msubstr($item['title'],0,15)}</a></li>
 							{/query}
 							</ul>

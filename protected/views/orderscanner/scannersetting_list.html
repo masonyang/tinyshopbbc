@@ -18,10 +18,10 @@
             <th style="width:70px">扫描编号</th>
             <th style="width:80px">是否禁用</th>
         </tr>
-        {query:name=scannersetting fields=scanner_id,modifytime,scanner_name,scanner_number,scan_no,status where=$where id=$obj page=1 order= scanner_id desc }
+        {query:name=scannersetting domain=zd issalve=salve fields=scanner_id,modifytime,scanner_name,scanner_number,scan_no,status where=$where id=$obj page=1 order= scanner_id desc }
         <tr><td style="width:50px"><input type="checkbox" name="id[]" value="{$item['scanner_id']}"></td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
-                <li><a class="icon-pencil" href="{url:/orderscanner/scannersetting_add/id/$item['scanner_id']}"> 编辑</a></li>
+                <li><a class="icon-pencil" href="{url:/orderscanner/scannersetting_add/id/$item[scanner_id]}"> 编辑</a></li>
                 <li><a class="icon-remove-2" href="javascript:;" onclick="confirm_action('{url:/orderscanner/scannersetting_del/id/$item[scanner_id]}')"> 删除</a></li>
                 </ul></div></div> </td>
             <td style="width:100px">{$item['modifytime']|date('Y-m-d H:i:s',$item['modifytime'])|''}</td>

@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>{if:isset($seo_title) && isset($site_title) && ($seo_title == $site_title)}{$seo_title}{else:}{$seo_title}-{$site_title}{/if}</title>
+
+    <link type="text/css" href="{url:#css/style.css}" rel="stylesheet" />
+    <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+    <script type="text/javascript" src="{url:#js/idangerous.swiper.min.js}"></script>
+    <link type="text/css" href="{url:#css/idangerous.swiper.css}" rel="stylesheet" />
+</head>
+
+<body>
+
+{__viewcontents}
+
+<footer class="footer">
+    <div>
+        <ul id="footermenuNav">
+            <li>
+                <a href="{url:/index/index}">
+                    <div {if: $footer == 'index'}class="homeicohover"{else:}class="homeico"{/if} ></div>
+    <span {if: $footer == 'index'}class="lispanhover"{if} >首页</span>
+    </a>
+    </li>
+    <li>
+        <a href="{url:/index/category}">
+            <div {if: $footer == 'category'}class="typeicohover"{else:}class="typeico"{/if}</if> ></div>
+            <span {if: $footer == 'category'}class="lispanhover"{/if} >分类</span>
+        </a>
+    </li>
+    <li>
+        <a href="{url:/simple/order}">
+            <div {if: $footer == 'order'}class="shoppingcarticohover"{else:}class="shoppingcartico"{/if} ></div>
+            <span {if: $footer == 'order'}class="lispanhover"{/if} >购物车</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{url:/ucenter/index}">
+            <div {if: $footer == 'user'}class="accountcentericohover"{else:}class="accountcenterico"{/if} ></div>
+            <span {if: $footer == 'user'}class="lispanhover"{/if} >用户中心</span>
+        </a>
+    </li>
+    </ul>
+    </div>
+
+    <script type="text/javascript" src="{url:#js/gotop.js}"></script>
+    <div id="tbox" class="groupbar">
+        <ul>
+            <li class="J_BackToTop"><a id="gotop" class="icon"></a></li>
+        </ul>
+    </div>
+</footer>
+
+
+</body>
+</html>

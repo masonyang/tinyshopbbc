@@ -429,6 +429,7 @@ class SimpleController extends Controller{
 
 
     public function order(){
+        $this->assign("footer","order");
         if(!$this->cart)$this->redirect("cart");
         if($this->checkOnline()){
             $this->parserOrder();
