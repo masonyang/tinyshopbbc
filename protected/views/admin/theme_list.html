@@ -24,7 +24,7 @@
 		<div id="themes-list" >
 		{list:items=$themes_pc}
 		<div class="card-wrapper"><a id="{$item['file']}" class="card theme_pc {if:$current_theme_pc==$item['file']}current{/if}" href="javascript:;">
-		<img src="{url:@themes/$item[file]/preview.jpg}">
+		<img src="{url:@themes/$item[file]/preview.jpg}" width="360" height="98">
 		<i class="icon-checkmark selected"></i>
 		<div class="action"><span class="btn btn-preview btn-orange"><i class="icon-eye-2"></i> 前台预览</span></div>
 		</a><div class="tc">{$item['info']['name']}</div></div>
@@ -33,7 +33,7 @@
 		<div id="themes-list" >
 		{list:items=$themes_mobile}
 		<div class="card-wrapper"><a id="{$item['file']}" class="card theme_mobile {if:$current_theme_mobile==$item['file']}current{/if}" href="javascript:;">
-		<img src="{url:@themes/$item[file]/preview.jpg}">
+		<img src="{url:@themes/$item[file]/preview.jpg}" width="360" height="98">
 		<i class="icon-checkmark selected"></i>
 		<div class="action"><span class="btn btn-preview btn-orange"><i class="icon-eye-2"></i> 前台预览</span></div>
 		</a><div class="tc">{$item['info']['name']}</div></div>
