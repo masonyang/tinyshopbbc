@@ -330,6 +330,11 @@ class IndexController extends Controller{
     //商品展示
     public function product()
     {
+
+        if(ControllerExt::$isMobile){
+            $this->layout = 'product';
+        }
+
         $parse = array('直接打折','减价优惠','固定金额','买就赠优惠券','买M件送N件');
         $id = Filter::int(Req::args('id'));
         $this->assign('id',$id);
@@ -428,11 +433,31 @@ class IndexController extends Controller{
     public function search()
     {
         $this->parseCondition();
+
+        if(ControllerExt::$isMobile){
+            $this->layout = '';
+            $this->assign("footer","category");
+        }
+
+        $this->redirect();
     }
     public function category()
     {
-        $this->assign("footer","category");
         $this->parseCondition();
+
+        if(ControllerExt::$isMobile){
+            $this->layout = '';
+            $this->assign("footer","category");
+            $cid = Filter::int(Req::args("cid"));
+            if($cid == 0){
+                $this->assign('is_categorylist','false');
+            }else{
+                $this->assign('cid',$cid);
+                $this->assign('is_categorylist','true');
+            }
+        }
+
+        $this->redirect();
     }
     //搜索与分类的条件解析
     private function parseCondition()
@@ -711,7 +736,6 @@ class IndexController extends Controller{
 
         if($action=='search') $this->assign("url","/index/search/keyword/".$keyword."/cid/$cid/sort/$sort".$url);
         else $this->assign("url","/index/category/cid/".$cid."/sort/$sort".$url);
-        $this->redirect();
 
 
     }
@@ -719,7 +743,8 @@ class IndexController extends Controller{
     public function get_ask(){
         $page = Filter::int(Req::args("page"));
         $id = Filter::int(Req::args("id"));
-        $asks = $this->model->table("ask as ak")->fields("ak.*,ak.id as id,us.name as uname,us.head_pic")->join("left join user as us on ak.user_id = us.id")->where("ak.goods_id = $id and ak.status!=2")->order('ak.id desc')->findPage($page,10,1,true);
+        $model = new Model("ask as ak");
+        $asks = $model->fields("ak.*,ak.id as id,us.name as uname,us.head_pic")->join("left join user as us on ak.user_id = us.id")->where("ak.goods_id = $id and ak.status!=2")->order('ak.id desc')->findPage($page,10,1,true);
         foreach ($asks['data'] as $key => $value) {
             $asks['data'][$key]['head_pic'] = $value['head_pic']!=''?Url::urlFormat("@").$value['head_pic']:Url::urlFormat("#images/no-img.png");
             $asks['data'][$key]['uname'] = TString::msubstr($value['uname'],0,3,'utf-8','***');
@@ -748,7 +773,8 @@ class IndexController extends Controller{
             default:
                 break;
         }
-        $review = $this->model->table("review as re")->join("left join user as us on re.user_id = us.id")->fields("re.*,re.id as id,us.name as uname,us.head_pic")->where($where)->order("re.id desc")->findPage($page,10,$pagetype,true);
+        $model = new Model("review as re");
+        $review = $model->join("left join user as us on re.user_id = us.id")->fields("re.*,re.id as id,us.name as uname,us.head_pic")->where($where)->order("re.id desc")->findPage($page,10,$pagetype,true);
         $data = $review['data'];
         foreach ($data as  $key => $value) {
             $data[$key]['point'] = round($data[$key]['point']/5,2)*100;
@@ -761,10 +787,35 @@ class IndexController extends Controller{
         echo JSON::encode($review);
     }
 
+    private function lunbo()
+    {
+        $id = 'qgiowmka-us4k-p0up-vs3c-blkqmtb7';
+        $headStore = Config::getInstance('config')->get('headStore');
+        $model = new Model('ad',$headStore,'salve');
+        $time = date('Y-m-d');
+
+        $ad = $model->where("number = '$id' and start_time<='$time' and end_time >='$time'")->find();
+        if($ad==null) return;
+        if($ad['is_open']==0 || $ad['type']==5) return;
+        $ad['content'] = unserialize($ad['content']);
+        $lunbo = array();
+        foreach ($ad['content'] as $key => $item) {
+            $lunbo[$key]['url'] = $item['url'];
+            $lunbo[$key]['image_url'] = Url::fullUrlFormat('@'.$item['path']);
+            $lunbo[$key]['title'] = $item['title'];
+        }
+
+        $this->assign("lunbo",$lunbo);
+    }
+
     function index(){
-        $this->assign("footer","index");
+        if(ControllerExt::$isMobile){
+            $this->lunbo();
+            $this->assign("footer","index");
+        }
         $this->redirect();
     }
+
     public function login(){
         $this->layout = "simple";
         $this->redirect("login");
@@ -866,7 +917,8 @@ class IndexController extends Controller{
     {
 
         $id = Filter::sql(Req::args("id"));
-        $model = new Model("ad");
+        $headStore = Config::getInstance('config')->get('headStore');
+        $model = new Model('ad',$headStore,'salve');
         $time = date('Y-m-d');
 
         $ad = $model->where("number = '$id' and start_time<='$time' and end_time >='$time'")->find();

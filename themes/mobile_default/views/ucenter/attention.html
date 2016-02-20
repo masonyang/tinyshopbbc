@@ -1,0 +1,38 @@
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">我的收藏</p>
+    </div>
+</header>
+
+<article class="uscenter-cont ng-scope" style="margin-top: 6rem">
+
+    <div class="middlecontext">
+        {if: $attention['data']}
+        {list:items=$attention['data']}
+            <div class="wrap-commmdlistcontent ng-scope">
+                <div class="commmdlistcontent-img">
+                    <a href="{url:/index/product/id/$item[gid]}">
+
+                        <img style="width: 100%; min-height: 150px" src="{echo:Common::thumb($item['img'],100,100)}">
+                        <div class="Appeal font-medium ng-binding">&nbsp;&nbsp;</div>
+                        <div class="Commodity-doc">
+                            <div class="title font-medium ng-binding">&nbsp;&nbsp;{echo:TString::msubstr($item['name'],0,20)}</div>
+                            <div>
+                                <div class="doc-left font-medium">
+                                    <span class="salePrice ng-binding">{$currency_symbol}{$item['sell_price']}</span>&nbsp;&nbsp;
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {/list}
+        <span class="clr">{$attention['html']}</span>
+        {else:}
+            <h3 style="text-align: center">暂无收藏</h3>
+        {/if}
+    </div>
+
+
+</article>

@@ -1,0 +1,138 @@
+<article class="item-body avoid ng-scope un-avoid" >
+    <div class="scroll">
+        <div class="scroll-container swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"> <img src="{echo:Common::thumb($goods['img'],200)}" width="100%"/> </div>
+                {list:items=unserialize($goods['imgs']) item=$img}
+                <div class="swiper-slide"> <img src="{echo:Common::thumb($img,200)}" width="100%"/> </div>
+                {/list}
+            </div>
+        </div>
+        <div class="dot"></div>
+    </div>
+    <script>
+        var mySwiper = new Swiper('.scroll-container',{
+            pagination: '.dot',
+            autoplay:3000,
+            loop:true,
+            grabCursor: true,
+            paginationClickable: true,
+            cssHeight:false,
+            calculateHeight:true
+        });
+    </script>
+    <dl>
+        <dd class="Detail-info font-medium" style="margin-bottom: 0;margin-top: 0">
+            <div class="ng-binding">{$goods['name']}<span style="float:right;color:red" class="ng-binding"></span></div>
+
+            <div>
+                销售价：<span class="ng-binding ng-hide" style=" font-size: 1.6rem;">{$currency_symbol}{$goods['sell_price']}</span>
+            </div>
+
+            <div>
+                库存：<span class="ng-binding ng-hide"  style="font-size: 1.6rem;">{if:$goods['store_nums']>0} {$goods['store_nums']} {else:} 此商品暂时售完 {/if}</span>
+            </div>
+
+            <div class="ng-binding"></div>
+        </dd>
+
+        <dd class="font-medium FreightPromotion ng-scope" style="margin-top: 0; margin-bottom: 0;  border-top: 1px solid #eeeeee;">
+            <div style="width: 90%;display: inline-block" class="ng-binding">
+                货号：
+                {$goods['goods_no']}
+            </div>
+        </dd>
+
+        {if: $goods['unit']}
+        <dd class="font-medium FreightPromotion ng-scope" style="margin-top: 0; margin-bottom: 0;  border-top: 1px solid #eeeeee;">
+            <div style="width: 90%;display: inline-block" class="ng-binding">单位：
+                {$goods['unit']}
+            </div>
+        </dd>
+        {/if}
+
+        {list:items=$goods_attrs}
+                    <dd class="font-medium FreightPromotion ng-scope" style="margin-top: 0; margin-bottom: 0;  border-top: 1px solid #eeeeee;">
+                        <div style="width: 90%;display: inline-block" class="ng-binding">{$item['name']}：
+                                {$item['vname']}
+                        </div>
+                    </dd>
+        {/list}
+
+        {if: $skumap}
+            {set: $skuMap=array();}
+            {list:items=unserialize($goods['specs']) item=$spec}
+                    {list:items=$spec['value'] item=$value}
+                        {$skuMap[$spec[id]}][] = $spec['id'].':'.$value['id']}
+                    {/list}
+            {/list}
+            {dump: $test=$skuMap}
+            <dl class="spec-item clearfix">
+                <dt>{$spec['name']}：</dt>
+                <dd>
+                    <ul class="spec-values" spec_id="{$spec['id']}">
+                        {list:items=$spec['value'] item=$value}
+                        <li data-value="{$spec['id']}:{$value['id']}">{if:$value['img']==''}<span>{$value['name']}</span>{else:}<img src="{echo:Common::thumb($value['img'],100)}"  width="36" height="36"><label>{$value['name']}</label>{/if}<i></i></li>
+                        {/list}
+                    </ul>
+                </dd>
+            </dl>
+            {/list}
+
+            {list: items=$skumap key=$key item=$product}
+                <dd class="font-medium pselect">
+                    <ul>
+                        <li class="tit">货号:{$product['pro_no']} <br/>()</li>
+                        <li>
+                            <div class="col col-1">销售价</div>
+                            <div class="col col-2">库存</div>
+                            <div class="col col-3">数量</div>
+                        </li>
+                        <li>
+                            <div class="col col-1">{$product['sell_price']}</div>
+                            <div class="col col-2">{$product['store_nums']}</div>
+                            <div class="col col-3">
+                                <input type="text" class="spinnerExample batchnum" id="{$goods['id']}-{$product['pro_no']}" name="batchnum[{$goods['id']}-{$product['pro_no']}]"/>
+                            </div>
+                        </li>
+                    </ul>
+                </dd>
+            {/list}
+        {else:}
+            <dd class="font-medium pselect">
+                <ul>
+                    <li>
+                        <div class="col col-1">销售价</div>
+                        <div class="col col-2">库存</div>
+                        <div class="col col-3">数量</div>
+                    </li>
+                    <li>
+                        <div class="col col-1">{$goods['sale_price']}</div>
+                        <div class="col col-2">{$goods['store_nums']}</div>
+                        <div class="col col-3"><input type="text" class="spinnerExample batchnum" id="{$goods['id']}" name="batchnum[{$goods['id']}]" mprice="{$goods['sale_price']}"/></div>
+                    </li>
+                </ul>
+            </dd>
+        {/if}
+
+    </dl>
+    <!--
+    <div class="warp-Menus un-avoid">
+        <div id="Menus">
+            <dl style="padding-left: 2%">
+                <dd class=""><span class="focusTab">商品介绍</span></dd>
+                <dd class=""><span class="">规格参数</span></dd>
+                <dd class=""><span class="">服务承诺</span></dd>
+                <dd class=""><span class="ng-binding">评论(6886)</span></dd>
+            </dl>
+        </div>
+    </div>
+    -->
+    <div id="Menus-content">
+        <!--商品介绍-->
+        <div class="Detailsdiv" style="padding-top:0px;">
+            {$goods['content']}
+        </div>
+    </div>
+
+</article>

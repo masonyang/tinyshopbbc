@@ -2,11 +2,14 @@
 //控制器扩展
 class ControllerExt implements Extension
 {
+    public static $isMobile = false;
+
     public function before($obj=null)
     {
         //测试平板或者手机端主题
         $clientType = Chips::clientType();
         if($clientType=='tablet' || $clientType=='mobile'){
+            self::$isMobile = true;
             //$config_path = APP_CODE_ROOT.'config/config.php';
             //$config = require($config_path);
             $config = Tiny::getServerConfig();

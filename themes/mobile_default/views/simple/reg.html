@@ -1,0 +1,66 @@
+{set: $footer='user'}
+<script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">注册</p>
+    </div>
+</header>
+
+<article id="us-login-cont">
+
+    <div class="register-tab">
+        <ul>
+            <li class="li-link font-large li-hover">新朋友注册</li>
+            <li class="li-link font-large"  onclick="window.location.href='{url:/simple/login}'">老会员登录</li>
+        </ul>
+    </div>
+    <div id="wrap">
+        <div class="ng-hide">
+            <form action="{url:/simple/reg_act}" class="ng-pristine ng-invalid ng-invalid-required ng-valid-email">
+                <ul class="fm-list">
+                    <li>
+                        <div class="field-tt">电子邮箱：</div>
+                        <input type="text" class="field-ipt ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" placeholder="请填写常用的邮箱" id="email" name="email"><label id="emailerror" style="color: red;"></label>
+                    </li>
+                    <li>
+                        <div class="field-tt">设置密码：</div>
+                        <input type="password" class="field-ipt ng-pristine ng-untouched ng-invalid ng-invalid-required" placeholder="密码必须是6-20位字母、数字或符号" id="passwd" minlen=6 maxlen=20 name="password">
+                    </li>
+                    <li>
+                        <div class="field-tt">确认密码：</div>
+                        <input type="password" class="field-ipt ng-pristine ng-untouched ng-invalid ng-invalid-required" placeholder="请再次填写密码" id="passwd_rc" minlen=6 maxlen=20 name="repassword">
+                    </li>
+                </ul>
+                <ul class="fm-list">
+                    <li>
+                        <div class="field-tt">验证码：</div>
+                        <input type="text" name="verifyCode" id="verifyCode" class="field-ipt ng-pristine ng-untouched ng-invalid ng-invalid-required" placeholder="请填写右侧验证码" ng-model="Regist.Captcha" style="width: 40%" required="required"><label id="verifyCodeerror" style="color: red;"></label>
+                        <img id="captcha_img"  src="{url:/simple/captcha/h/40/w/120}">
+                        <label><a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/random/}'+Math.random()">换一张</a></label>
+                    </li>
+                </ul>
+                <input class="btn-com space m-top" type="submit" value="注册">
+            </form>
+        </div>
+    </div>
+
+</article>
+<script>
+    $("input[name='email']").on("change",function(event){
+        $("input[name='email']").on("change",function(event){
+            $.post("{url:/ajax/email/email/}"+$(this).val(),function(data){
+                var msg = '合法用户';
+                if(data['status']) msg = '用户不存在';
+                $('#emailerror').html(msg);
+            },'json');
+        });
+    })
+    $("input[name='verifyCode']").on("change",function(){
+        $.post("{url:/ajax/verifyCode/verifyCode/}"+$(this).val(),function(data){
+            $('#verifyCodeerror').html(data['msg']);
+        },'json');
+    })
+
+
+</script>

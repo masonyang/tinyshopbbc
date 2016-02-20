@@ -1,0 +1,20 @@
+.ThinkAjax {
+    width:100%;
+    display:none;
+    position:fixed;
+    z-index:999999;
+    text-align:center;
+    top:80%;
+    visibility: visible;
+    font-size:12px;
+}
+
+.ThinkAjax .ThinkMsg {
+    width:auto;
+    display:inline;
+    padding:8px 10px;
+    color:#fff;
+    border-radius:3px;
+    background-color:#111;
+    opacity:0.80;
+}

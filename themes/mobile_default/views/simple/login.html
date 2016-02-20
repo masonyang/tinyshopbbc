@@ -1,0 +1,48 @@
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">登录</p>
+    </div>
+</header>
+
+
+<article id="us-login-cont">
+
+    <div class="register-tab">
+        <ul>
+            <li class="li-link font-large" onclick="window.location.href='{url:/simple/reg}'">新朋友注册</li>
+            <li class="li-link font-large li-hover">老会员登录</li>
+        </ul>
+    </div>
+    <div id="wrap">
+        <div>
+            <form id="login-form" class="ng-pristine ng-invalid ng-invalid-required" action="{url:/simple/login_act}" method="post">
+                <input type="hidden" name="redirectURL" value="{$redirectURL|$this->perPage()}">
+                <ul class="fm-list">
+                    <li>
+                        <div class="field-tt">电子邮箱：</div>
+                        <input type="text" class="field-ipt ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" placeholder="请填写常用的邮箱" name="email" id="email">
+                    </li>
+                    <li>
+                        <div class="field-tt">登录密码：</div>
+                        <input type="password" name='password' id='password' class="field-ipt ng-pristine ng-untouched ng-invalid ng-invalid-required" placeholder="请输入登录密码">
+                    </li>
+                </ul>
+                <div id="setting" class="set-link">
+                    <!--
+                    <a href="#/account/initpassword">未设置过登录密码的老会员，请点击设置</a>
+                    -->
+                </div>
+                <input class="btn-com space" type="submit" value="登录">
+                <!--
+                <div id="forget-password" class="conv-entry align-r">
+                  <a href="#/account/retrievepassword">忘记登录密码</a>
+                </div>
+                -->
+            </form>
+        </div>
+    </div>
+
+</article>
+<script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+

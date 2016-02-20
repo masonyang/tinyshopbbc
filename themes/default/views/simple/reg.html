@@ -12,7 +12,7 @@
 			<dt>密&nbsp;&nbsp;&nbsp;&nbsp;码：</dt><dd><input type="password" bind="repassword" minlen=6 maxlen=20 class="input" name="password" pattern="required" alt="6-20任意字符组合"><label></label></dd>
 		</dl>
 		<dl class="clearfix">
-			<dt>确认密码：</dt><dd><input type="password"  minlen=6 maxlen=20  bind="password" class="input" name="repassword" pattern="required" alt="6-20任意字符组合"><label></label></dd>
+			<dt>确认密码：</dt><dd><input type="password"  minlen=6 maxlen=20  bind="password" class="input" name="repassword"  pattern="required" alt="6-20任意字符组合"><label></label></dd>
 		</dl>
 
 		{if:class_exists('SMS') && SMS::getInstance()->getStatus()}

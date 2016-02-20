@@ -1,0 +1,240 @@
+<!doctype html>
+{if: $is_categorylist == 'false'}
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>{if:isset($seo_title) && isset($site_title) && ($seo_title == $site_title)}{$seo_title}{else:}{$seo_title}-{$site_title}{/if}</title>
+
+    <link type="text/css" href="{url:#css/style.css}" rel="stylesheet" />
+    <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $("#menu li").on("click",function(){
+                var _index=$(this).index();
+                $(this).addClass("PType-Sel").siblings().removeClass("PType-Sel");
+                $("#items>div").eq(_index).show().siblings().hide();
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">{$seo_keywords}</p>
+    </div>
+</header>
+
+
+<article class="ng-scope">
+    <!--搜索栏-->
+    <div id="wrap" class="search-bar-wrap">
+        <div id="search-bar">
+            <input class="searchinput font-large ng-pristine ng-untouched ng-valid" type="search" placeholder="搜索商品" onclick="search(this.value);">
+        </div>
+    </div>
+
+    <div class="ng-scope">
+        <div class="wrap-allCommodity ng-scope">
+            <div class="allCommodityContent">
+                <div id="category">
+                    <div id="menu">
+                        <ul>
+                            {list:items=$category item=$categ}
+                                <li class="font-medium ng-scope PType-Def">
+                                    <a class="font-medium">{$categ['title']} </a>
+                                </li>
+                            {/list}
+                        </ul>
+                    </div>
+                    <div id="items">
+                        {list:items=$category item=$categ}
+                                <div style="display:none;">
+                                    <ul>
+                                            {if: $categ['child']}
+                                                {list:items=$categ['child'] item=$child}
+                                                    <li class="font-medium ng-scoae">
+                                                         <a class="item-title font-medium" href="{url:/index/category/cid/$child[id]}">{$child['title']}</a>
+                                                    </li>
+                                                {/list}
+                                            {/if}
+                                    </ul>
+                                </div>
+                        {/list}
+                    </div>
+                    <div style='clear:both;'></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</article>
+
+<footer class="footer">
+    <div>
+        <ul id="footermenuNav">
+            <li>
+                <a href="{url:/index/index}">
+                    <div {if: $footer == 'index'}class="homeicohover"{else:}class="homeico"{/if} ></div>
+    <span {if: $footer == 'index'}class="lispanhover"{/if} >首页</span>
+    </a>
+    </li>
+    <li>
+        <a href="{url:/index/category}">
+            <div {if: $footer == 'category'}class="typeicohover"{else:}class="typeico"{/if} ></div>
+            <span {if: $footer == 'category'}class="lispanhover"{/if} >分类</span>
+        </a>
+    </li>
+    <li>
+        <a href="{url:/simple/order}">
+            <div {if: $footer == 'order'}class="shoppingcarticohover"{else:}class="shoppingcartico"{/if} ></div>
+            <span {if: $footer == 'order'}class="lispanhover"{/if} >购物车</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{url:/ucenter/index}">
+            <div {if: $footer == 'user'}class="accountcentericohover"{else:}class="accountcenterico"{/if} ></div>
+            <span {if: $footer == 'user'}class="lispanhover"{/if} >用户中心</span>
+        </a>
+    </li>
+    </ul>
+    </div>
+
+    <script type="text/javascript" src="{url:#js/gotop.js}"></script>
+    <div id="tbox" class="groupbar">
+        <ul>
+            <li class="J_BackToTop"><a id="gotop" class="icon"></a></li>
+        </ul>
+    </div>
+</footer>
+
+<script language="JavaScript">
+    function search(keyword) {
+        if(!keyword) {
+            return false;
+        }
+        window.location.href= '{url:/index/search/keyword/'+keyword+'}';
+
+    }
+</script>
+</body>
+</html>
+{else:}
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>{if:isset($seo_title) && isset($site_title) && ($seo_title == $site_title)}{$seo_title}{else:}{$seo_title}-{$site_title}{/if}</title>
+
+    <link type="text/css" href="{url:#css/style.css}" rel="stylesheet" />
+    <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+</head>
+
+<body>
+
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">{$seo_keywords}</p>
+    </div>
+</header>
+
+<article class="middle middle-commoditylist ng-scope" style="margin-top: 4rem; margin-bottom:4rem;">
+        <div style="margin-top: 0rem" class="wrap-menuNavcommmdlist">
+            <div class="menuNavcommmdlistPanel">
+                <ul class="menuNavcommmdlist">
+                    <li class="menuNavli-link font-medium" onclick="window.location.href='{url:/index/category/cid/$cid/sort/5}'"><span {if: $sort == 5} class="focusTab" {/if} >最新</span> </li>
+                    <li class="menuNavli-link font-medium" onclick="window.location.href='{url:/index/category/cid/$cid/sort/4}'"><span {if: $sort == 4} class="focusTab" {/if} >价格</span> </li>
+                    <li class="menuNavli-link font-medium" onclick="window.location.href='{url:/index/category/cid/$cid/sort/1}'"><span {if: $sort == 1} class="focusTab" {/if} >销量</span></li>
+                    <li class="menuNavli-link font-medium" onclick="window.location.href='{url:/index/category/cid/$cid/sort/0}'"><span {if: $sort == 0} class="focusTab" {/if} >人气</span></li>
+                </ul>
+            </div>
+        </div>
+
+    <div class="middlecontext" id="goodsList">
+
+        {if:isset($goods['data'])}
+        {list:items=$goods['data']}
+        <div class="wrap-commmdlistcontent ng-scope">
+            <div class="commmdlistcontent-img">
+                <a href="{url:/index/product/id/$item[id]}">
+                    <img style="width: 100%; min-height: 150px" src="{echo:Common::thumb($item[img],400,400)}">
+                </a>
+                <div class="Commodity-doc">
+                    <div class="title font-medium ndg-binding">&nbsp;&nbsp;{$item['name']}</div>
+                    <div>
+                        <div class="doc-left font-medium">
+                            &nbsp;&nbsp;<span class="salePrice ng-binding">{$currency_symbol}{$item['sell_price']}</span>&nbsp;&nbsp;
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        {/list}
+        {/if}
+
+    </div>
+
+    <span class="clr"></span>
+
+    <div class="page-nav">{$goods['html']}</div>
+
+
+</article>
+
+<footer class="footer">
+    <div>
+        <ul id="footermenuNav">
+            <li>
+                <a href="{url:/index/index}">
+                    <div {if: $footer == 'index'}class="homeicohover"{else:}class="homeico"{/if} ></div>
+    <span {if: $footer == 'index'}class="lispanhover"{/if} >首页</span>
+    </a>
+    </li>
+    <li>
+        <a href="{url:/index/category}">
+            <div {if: $footer == 'category'}class="typeicohover"{else:}class="typeico"{/if} ></div>
+            <span {if: $footer == 'category'}class="lispanhover"{/if} >分类</span>
+        </a>
+    </li>
+    <li>
+        <a href="{url:/simple/cart}">
+            <div {if: $footer == 'order'}class="shoppingcarticohover"{else:}class="shoppingcartico"{/if} ></div>
+            <span {if: $footer == 'order'}class="lispanhover"{/if} >购物车</span>
+        </a>
+    </li>
+
+    <li>
+        <a href="{url:/ucenter/index}">
+            <div {if: $footer == 'user'}class="accountcentericohover"{else:}class="accountcenterico"{/if} ></div>
+            <span {if: $footer == 'user'}class="lispanhover"{/if} >用户中心</span>
+        </a>
+    </li>
+    </ul>
+    </div>
+
+    <script type="text/javascript" src="{url:#js/gotop.js}"></script>
+    <div id="tbox" class="groupbar">
+        <ul>
+            <li class="J_BackToTop"><a id="gotop" class="icon"></a></li>
+        </ul>
+    </div>
+</footer>
+
+
+</body>
+</html>
+
+{/if}

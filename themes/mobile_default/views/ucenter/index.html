@@ -1,0 +1,64 @@
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">用户中心</p>
+    </div>
+</header>
+
+<article class="uscenter-cont ng-scope">
+
+    <div>
+        <div class="account">
+            <div>
+
+                <div class="accountico" {if:$user['head_pic']==''} style="background-image: url({url:#images/no-img.png}); {else:} style="background-image: url({echo:Common::thumb($user[head_pic],100,100)}); {/if}">
+                    <span class="font-large ng-binding">{$user['name']}</span>
+                    <span class="font-large ng-binding">余额:<em style="color:#89be48;">{$currency_symbol}{$customer['balance']}</em></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="first">
+        <a class="whitebar" href="{url:/ucenter/order}">
+            <span id="icon1"></span>
+            <span class="icon-name font-mediumSmall">我的订单</span>
+            <span class="right-icon"></span>
+        </a>
+    </div>
+    <div class="filler"></div>
+    <div class="secondtwo">
+        <a class="whitebar" href="{url:/ucenter/address}">
+            <span id="icon2"></span>
+            <span class="icon-name font-mediumSmall">收货地址</span>
+            <span class="right-icon"></span>
+        </a>
+    </div>
+    <div class="secondtwo">
+        <a class="whitebar" href="{url:/ucenter/attention}">
+            <span id="icon3"></span>
+            <span class="icon-name font-mediumSmall">我的收藏</span>
+            <span class="right-icon"></span>
+        </a>
+    </div>
+    <div class="second">
+        <a class="whitebar" href="{url:/ucenter/info}">
+            <span id="icon4"></span>
+            <span class="icon-name font-mediumSmall">个人资料</span>
+            <span class="right-icon"></span>
+        </a>
+    </div>
+    <div class="filler"></div>
+
+    <div class="secondone">
+        <a class="whitebar" href="{url:/ucenter/password_change}">
+            <span id="icon5"></span>
+            <span class="icon-name font-mediumSmall">修改登陆密码</span>
+            <span class="right-icon"></span>
+        </a>
+    </div>
+
+    <div id="btnbox">
+        <input class="btn btn-logout font-medium" type="button" value="退出当前账号" onclick="window.location.href='{url:/simple/logout}'">
+    </div>
+
+</article>

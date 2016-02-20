@@ -405,6 +405,11 @@ class UcenterController extends Controller
     }
     public function info()
     {
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         $info = $this->model->table("customer as cu ")->fields("cu.*,us.email,us.name,gr.name as gname")->join("left join user as us on cu.user_id = us.id left join grade as gr on cu.group_id = gr.id")->where("cu.user_id = ".$this->user['id'])->find();
         if($info){
             $this->assign("info",$info);
@@ -444,6 +449,12 @@ class UcenterController extends Controller
     }
     public function attention()
     {
+
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         $page = Filter::int(Req::args('p'));
         $attention = $this->model->table("attention as at")->fields("at.*,go.name,go.store_nums,go.img,go.sell_price,go.id as gid")->join("left join goods as go on at.goods_id = go.id")->where("at.user_id = ".$this->user['id'])->findPage($page);
         $this->assign("attention",$attention);
@@ -462,11 +473,20 @@ class UcenterController extends Controller
     }
     public function order_detail()
     {
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         $id = Filter::int(Req::args("id"));
-        $order = $this->model->table("order as od")->fields("od.*,pa.pay_name")->join("left join payment as pa on od.payment = pa.id")->where("od.id = $id and od.user_id=".$this->user['id'])->find();
+        $orderModel = new Model("order as od");
+        $order = $orderModel->fields("od.*,pa.pay_name")->join("left join payment as pa on od.payment = pa.id")->where("od.id = $id and od.user_id=".$this->user['id'])->find();
+
         if($order){
-            $invoice = $this->model->table("doc_invoice as di")->fields("di.*,ec.code as ec_code,ec.name as ec_name,ec.alias as ec_alias")->join("left join express_company as ec on di.express_company_id = ec.id")->where("di.order_id=".$id)->find();
-            $order_goods = $this->model->table("order_goods as og ")->join("left join goods as go on og.goods_id = go.id left join products as pr on og.product_id = pr.id")->where("og.order_id=".$id)->findAll();
+            $orderGoodsModel = new Model("order_goods as og ");
+            $docInvoiceModel = new Model("doc_invoice as di");
+            $invoice = $docInvoiceModel->fields("di.*,ec.code as ec_code,ec.name as ec_name,ec.alias as ec_alias")->join("left join express_company as ec on di.express_company_id = ec.id")->where("di.order_id=".$id)->find();
+            $order_goods = $orderGoodsModel->join("left join goods as go on og.goods_id = go.id left join products as pr on og.product_id = pr.id")->where("og.order_id=".$id)->findAll();
             $area_ids = $order['province'].','.$order['city'].','.$order['county'];
 
             $headStore = Config::getInstance('config')->get('headStore');
@@ -504,6 +524,11 @@ class UcenterController extends Controller
     }
     public function address()
     {
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         $model = new Model("address");
         $address = $model->where("user_id=".$this->user['id'])->order("id desc")->findAll();
         $area_ids = array();
@@ -534,6 +559,11 @@ class UcenterController extends Controller
     public function index()
     {
         $id = $this->user['id'];
+
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
 
         $customer = $this->model->table("customer as cu")->fields("cu.*,gr.name as gname")->join("left join grade as gr on cu.group_id = gr.id")->where("cu.user_id = $id")->find();
         $orders = $this->model->table("order")->where("user_id = $id")->findAll();

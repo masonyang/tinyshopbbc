@@ -1,0 +1,43 @@
+{set: $footer='user';}
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">我的订单</p>
+    </div>
+</header>
+
+<article class="middle ng-scope">
+
+    <div class="middlecontext" id="goodsList">
+
+        {query:name=order where=user_id eq $user[id] order=id desc page=1 id=$obj}
+            <div class="wrap-OrderList">
+                <div class="OrderItem ng-scope">
+                    <div class="OrderCode font-medium ng-binding">
+                        订单号：{$item['order_no']}
+                    </div>
+                    <div class="wrap-Details">
+                        <a href="{url:/ucenter/order_detail/id/$item[id]}" target="_self">
+                            <div style="float:left;width:90%;display:block;white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                                <span class="ng-binding">下单时间：{$item['create_time']}</span>
+                            </div>
+                            <span class="right-icon height7r"></span>
+                        </a>
+                    </div>
+                    <div class="Actions font-medium">
+                        <span class="ng-binding">订单金额：{$currency_symbol}{$item['order_amount']}</span>
+
+                        <button class="order-action-cancel">{echo:$this->order_status($item)}</button>
+                    </div>
+                </div>
+            </div>
+        {/list}
+
+    </div>
+
+    <div class="page">
+        {echo:$obj->pagebar()}
+    </div>
+
+
+</article>

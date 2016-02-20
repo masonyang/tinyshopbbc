@@ -1,0 +1,44 @@
+<script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+<link type="text/css" href="{url:#css/address.css}" rel="stylesheet" />
+<header class="header ng-scope" xmlns="http://www.w3.org/1999/html">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">收货地址</p>
+    </div>
+</header>
+<article class="uscenter-cont ng-scope">
+    <div class="p-address-list">
+        {if:isset($msg)}
+        <div class="message_{$msg[0]} ie6png">{$msg[1]}</div>
+        {elseif:isset($validator)}
+        <div class="message_warning ie6png">{$validator['msg']}</div>
+        {/if}
+        {list:items=$address}
+            <div class="addr-area {if: $item['is_default'] == 1}default{/if}">
+            <a href="{url:/simple/address_other/id/$item[id]}" class="addr-block">
+                <p>{$item['accept_name']}<span class="fr">{$item['mobile']}/{$item['phone']}</span></p>
+                <p>{$parse_area[$item['province']]},{$parse_area[$item['city']]},{$parse_area[$item['county']]}&nbsp;{$item['addr']}</p>
+            </a>
+            <div class="operation clearfix">
+                <span class="default-address fl">默认地址</span>
+                <ul class="confirmlist fr">
+                    <li><a class="addr-edit" href="{url:/simple/address_other/id/$item[id]}">编辑</a></li>
+                    <li><a class="addr-delete" href="javascript:;" onclick="deladdr({$item['id']})">删除</a></li>
+                </ul>
+            </div>
+
+            </div>
+        {/list}
+    </div>
+</article>
+<a class="btn-com space m-top" href="{url:/simple/address_other}">添加</a>
+
+<script type="text/javascript">
+
+    function deladdr(id){
+        if(confirm('确定要删除吗?')){
+            window.location.href = '{url:/ucenter/address_del/id/'+id+'}';
+        }
+    }
+
+</script>

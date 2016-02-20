@@ -31,6 +31,7 @@ class SimpleController extends Controller{
         $cart = Cart::getCart();
         $this->cart = $cart->all();
         $this->assign("cart",$this->cart);
+
     }
 
     public function reg_act(){
@@ -150,6 +151,12 @@ class SimpleController extends Controller{
     }
     public function login()
     {
+
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         if($this->checkOnline())
             $this->redirect('/ucenter/index');
         else {
@@ -1028,8 +1035,15 @@ class SimpleController extends Controller{
         $this->redirect();
     }
     public function address_other(){
+
         Session::set("order_status",Req::args());
         $this->layout = '';
+
+        if(ControllerExt::$isMobile){
+            $this->layout = 'index';
+            $this->assign("footer","user");
+        }
+
         $id = Filter::int(Req::args("id"));
         if($id){
             $model = new Model("address");
@@ -1077,8 +1091,12 @@ class SimpleController extends Controller{
             Req::args("id",null);
             //$this->redirect("address_other",false);
 
-            if($redirect==null) echo "<script>parent.location.reload();</script>";
-            else $this->redirect($redirect);
+            if(ControllerExt::$isMobile){
+                $this->redirect("ucenter/address");
+            }else{
+                if($redirect==null) echo "<script>parent.location.reload();</script>";
+                else $this->redirect($redirect);
+            }
             exit;
         }
         else{

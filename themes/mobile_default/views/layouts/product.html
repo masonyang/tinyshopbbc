@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>{if:isset($seo_title) && isset($site_title) && ($seo_title == $site_title)}{$seo_title}{else:}{$seo_title}-{$site_title}{/if}</title>
+
+    <link type="text/css" href="{url:#css/style.css}" rel="stylesheet" />
+
+    <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+    <script type="text/javascript" src="{url:#js/msg.js}"></script>
+
+    <link type="text/css" href="{url:#css/ajax.css}" rel="stylesheet" />
+
+    <script type="text/javascript" src="{url:#js/idangerous.swiper.min.js}"></script>
+
+    <link type="text/css" href="{url:#css/idangerous.swiper.css}" rel="stylesheet" />
+
+    <script type="text/javascript" src="{url:#js/jquery.spinner.js}"></script>
+
+    <script type="text/javascript">
+        $(function(){
+            $('#Menus dd').click(function(){
+                $(this).find('span').addClass("focusTab").parent().siblings().find('span').removeClass("focusTab");
+                $('#Menus-content .page').eq($('#Menus dd').index(this)).show().siblings('.page').hide();
+            });
+
+            $(".s-tag .item").click(function(){
+                $(this).addClass("yellowgreen").siblings().removeClass("yellowgreen");
+            });
+
+            $('#collect').click(function(){
+                var id = "{$goods[id]}";
+                Collection(id);
+            });
+        });
+
+        /*
+         * 收藏商品
+         */
+        function Collection(id) {
+            var type = $('#collect').attr('data');
+
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:'__APP__?m=User&a=AjaxCollection',
+                data:{id:id, type:type},
+                success:function(data) {
+                    if(data.status == 0) {
+                        if(type == 1) {
+                            $('#collect').attr('data', '0');
+                            $('#collect').attr('class', '');
+                            msg('取消收藏');
+                        }else{
+                            $('#collect').attr('data', '1');
+                            $('#collect').attr('class', 'cur');
+                            msg('收藏成功');
+                        }
+                        return false;
+                    }else{
+                        msg(data.info);
+                    }
+                }
+            })
+        }
+
+        /*
+         * 加入购物车
+         */
+        function addCart(id) {
+            var type = 'batch';
+            var obj = $(".batchnum:input");
+            var batchnum = new Array();
+            var data = 'type=batch&gid='+id;
+            var sum = 0;
+
+            if(obj.length < 1) {
+                return false;
+            }
+
+            obj.each(function(index) {
+                sum += this.value*1;
+                data += '&'+this.name+'='+this.value;
+            })
+
+            if(sum == 0) {
+                msg('请选择数量');
+                return false;
+            }
+
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                url:'__APP__?m=Goods&a=AjaxAddCart',
+                data:data,
+                success:function(data) {
+                    if(data.status == 1) {
+                        $('#cartnum').html(data.data);
+                    }else if(data.status == 2) {
+                        window.location.href='__APP__'+data.info;
+                    }
+                    msg(data.info);
+                }
+            })
+        }
+
+    </script>
+</head>
+
+<body>
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">{echo: TString::msubstr($goods['name'],0,10,'utf-8','...');</p>
+    </div>
+</header>
+
+{__viewcontents}
+
+<footer class="ng-scope">
+    <!--<span id="collect" <if condition='$goods['collection'] == 1'>class="cur"</if>  data="{$goods['collection']}" ><i></i></span>-->
+
+    <button class="float-left font-medium  ng-binding ShoppingCartAdd" onclick="addCart({$goods['id']})">加入购物车</button>
+    <a target="_self" href="{url:/index/cart_add}" class="float-right" style="width:5.5rem; display:block; position:relative; margin-right:1rem;">
+        <img src="{url:#images/shoppingcartgrey.ico}" style="width:90%; display:block;">
+			<span style="width:1.6rem; height:1.6rem; line-height:1.6rem; text-align:center; border:1px solid #ffffff; border-radius:50%;box-shadow: 2px 2px 1px #bbbbbb; background-color:#cc0000; position:absolute; left:4.1rem; top:0.5rem; display:block;">
+				<em style="font-style:normal; color:#ffffff; font-size:8px;" class="ng-binding" id="cartnum">{echo:count($cart)}</em>
+			</span>
+    </a>
+</footer>
+
+<script type="text/javascript">
+    $('.spinnerExample').spinner({
+        value:0,
+        min:0
+    });
+
+    /* 视频标签转换
+     if($('#Menus-content .Detailsdiv').find('embed')) {
+     if($('#Menus-content .Detailsdiv').find('embed').attr('src')) {
+     var video='<div style="text-align: center;"><video width="100%" src="'+$('#Menus-content .Detailsdiv').find('embed').attr('src')+'" controls="controls">您的浏览器不支持该视频格式</video></div>';
+     $('#Menus-content .Detailsdiv').prepend(video);
+     $('#Menus-content .Detailsdiv').find('embed').remove();
+     }
+     }
+     */
+    $('#Menus-content .Detailsdiv').find('embed').remove();
+
+</script>
+
+<script>
+    /*
+     var navH = $(".warp-Menus").offset().top-48;
+     $(window).scroll(function(){
+     var scroH = $(this).scrollTop();
+     if(scroH>=navH){
+     $(".warp-Menus").addClass('fixed-top');
+     }else if(scroH<navH){
+     $(".warp-Menus").removeClass('fixed-top');
+     }
+     });
+     */
+</script>
+<script type="text/javascript" src="{url:#js/gotop.js}"></script>
+<div id="tbox" class="groupbar">
+    <ul>
+        <li class="J_BackToTop"><a id="gotop" class="icon"></a></li>
+    </ul>
+</div>
+</body>
+</html>

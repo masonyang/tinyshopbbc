@@ -516,6 +516,20 @@ CREATE TABLE `tiny_review` (
   `comment_time` date DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+DROP TABLE IF EXISTS `tiny_ask`;
+CREATE TABLE `tiny_ask` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `question` varchar(255) NOT NULL ,
+  `user_id` bigint(20) DEFAULT NULL ,
+  `goods_id` bigint(20) DEFAULT NULL ,
+  `admin_id` bigint(20) DEFAULT NULL ,
+  `content` varchar(255) DEFAULT NULL ,
+  `ask_time` datetime DEFAULT NULL ,
+  `reply_time` datetime DEFAULT NULL ,
+  `type` int(3) DEFAULT '0' ,
+  `status` tinyint(1) DEFAULT '0' ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_grade`;
 CREATE TABLE `tiny_grade` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
@@ -524,6 +538,21 @@ CREATE TABLE `tiny_grade` (
   `message_ids` varchar(255) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+DROP TABLE IF EXISTS `tiny_payment`;
+CREATE TABLE `tiny_payment` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `plugin_id` varchar(32) NOT NULL ,
+  `pay_name` varchar(100) NOT NULL ,
+  `config` text,
+  `client_type` int(1) DEFAULT '0',
+  `description` text ,
+  `note` text ,
+  `pay_fee` float(10,2) DEFAULT '0.00' ,
+  `fee_type` tinyint(1) DEFAULT '0' ,
+  `sort` int(11) DEFAULT NULL ,
+  `status` int(1) DEFAULT '0' ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_help`;
 CREATE TABLE `tiny_help` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,

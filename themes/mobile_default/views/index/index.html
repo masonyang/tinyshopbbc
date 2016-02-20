@@ -1,7 +1,7 @@
 <header class="home-page avoid ng-scope un-avoid">
     <div class="wrap-heard" style="display: block;">
         <div class="header-Ico"></div>
-        <a href="?m=Category&a=Index">
+        <a href="{url:/index/category}">
             <span class="head-typeimg"></span>
         </a>
     </div>
@@ -9,13 +9,20 @@
         <div class="menuNavNewProductPanel">
             <ul class="menuNavNewProduct">
                 <li class="ng-scope">
-                    <a class="font-large" href="?m=Category&a=Index&id=all">全部商品</a>
+                    <a class="font-large" href="{url:/index/category/cid/all}">全部商品</a>
                 </li>
-                <foreach name="cateTree" item="cate">
-                    <li class="ng-scope">
-                        <a class="font-large" href="?m=Category&a=Index&id={$cate.cat_id}">{$cate.cat_name}</a>
-                    </li>
-                </foreach>
+                {list:items=$category item=$categ}
+                <li class="ng-scope">
+                    <a class="font-large" href="{url:/index/category/cid/$categ[id]}">{$categ['title']}</a>
+                </li>
+                {if: $categ['child']}
+                {list:items=$categ['child'] item=$child}
+                <li class="ng-scope">
+                    <a class="font-large" href="{url:/index/category/cid/$child[id]}">{$child['title']}</a>
+                </li>
+                {/list}
+                {/if}
+                {/list}
             </ul>
         </div>
         <div class="menuNavNewProductDetailsimg">
@@ -29,9 +36,9 @@
     <div class="scroll">
         <div class="scroll-container swiper-container">
             <div class="swiper-wrapper">
-                <foreach name='lunbo' item="item">
-                    <div class="swiper-slide"><a href="{$item['url']}" class=""><img src="/{$item['image_url']}" width="100%" /></a></div>
-                </foreach>
+                {list: items=$lunbo}
+                    <div class="swiper-slide"><a href="{$item['url']}" class=""><img src="{$item['image_url']}" title="{$item['title']}" width="100%" /></a></div>
+                {/list}
             </div>
         </div>
         <div class="dot"></div>
@@ -47,16 +54,7 @@
             calculateHeight:true
         });
     </script>
-    <!--<div class="ng-scope">
-        <div class="bulletins ng-scope" title="通告栏">
-            <ul>
-                <li class="ng-scope Hot">
-                    <img class="bul-ico" src="../Public/images/ico_horn_on.png">
-                    <div class="bul-txt">会员今日可能有惊喜哦[看你手气]</div>
-                </li>
-            </ul>
-        </div>
-      </div>-->
+
     <div class="ng-scope">
         <div class="wrap-dailyNewProduct ng-scope" title="每日都有新品">
             <div class="dailyNewProduct font-large">
@@ -80,45 +78,28 @@
             </foreach>
         </div>
     </div>
+
     <div class="ng-scope">
         <div class="wrap-dailyNewProduct ng-scope">
             <div>
                 <dl class="vipbestlove-list">
-                    <foreach name='goodslist2' item='goods'>
+                    {list:items=$category item=$categ}
+                        {set:$path_like = "like '$categ[path]%'";}
+                        {query:name=goods where= is_online eq 0 and category_id in (select id from tiny_goods_category where path $path_like) order=sort desc limit=10}
                         <dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">
-                            <a href="__APP__?m=Goods&a=Index&id={$goods.goods_id}">
-                                <img style="min-height: 100px" src="/{$goods.img}">
+                            <a href="{url:/index/product/id/$item[id]}">
+                                <img style="min-height: 100px" src="{echo:Common::thumb($item['img'],400,400);}">
                                 <div class="wrap-doc-vipbestlove">
-                                    <div class="title font-medium">{$goods.name}</div>
+                                    <div class="title font-medium">{$item['name']}</div>
                                     <div>
                                         <span class="spanSale font-medium"></span>
-                                        <span class="salePrice font-medium">￥{$goods.price}</span>
-                                        <!--
-                                        <span class="activityPrice font-medium"></span>
-                                        <span class="pricetag font-medium" href="#"></span>-->
+                                        <span class="salePrice font-medium">{$currency_symbol}{$item['sell_price']}</span>
                                     </div>
                                 </div>
                             </a>
                         </dd>
-                    </foreach>
-
-                    <foreach name='goodslist' item='goods'>
-                        <dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">
-                            <a href="__APP__?m=Goods&a=Index&id={$goods.goods_id}">
-                                <img style="min-height: 100px" src="/{$goods.img}">
-                                <div class="wrap-doc-vipbestlove">
-                                    <div class="title font-medium">{$goods.name}</div>
-                                    <div>
-                                        <span class="spanSale font-medium"></span>
-                                        <span class="salePrice font-medium">￥{$goods.price}</span>
-                                        <!--
-                                        <span class="activityPrice font-medium"></span>
-                                        <span class="pricetag font-medium" href="#"></span>-->
-                                    </div>
-                                </div>
-                            </a>
-                        </dd>
-                    </foreach>
+                        {/list}
+                    {/list}
                 </dl>
             </div>
         </div>

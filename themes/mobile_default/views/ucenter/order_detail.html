@@ -1,0 +1,100 @@
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">订单详情</p>
+    </div>
+</header>
+
+<article class="ng-scope" style="margin-bottom: 3.5rem;">
+
+    <dl>
+        <dd class="font-medium" style="padding: 2%;width: 96%; ">
+            <p class="ng-binding" style="margin:0.4rem 0px;">订单号：{$order['order_no']}</p>
+            <p class="StatusName ng-binding" style="color:#ff6a00;">
+            {echo:$this->order_status($order)}&nbsp;&nbsp;&nbsp;
+            {if:$order['pay_status']>0}
+                {$order['pay_time']}&nbsp;&nbsp;<span class="black">订单{$order['order_no']} 付款 {$currency_symbol}<b>{$order['order_amount']}</b></span>
+            {/if}
+            {if:$order['status']>=3}
+                <span class="black">订单{$order['order_no']} 已审核通过！</span>
+            {/if}
+            {if:$order['delivery_status']>0}
+                {$order['send_time']}&nbsp;&nbsp;<span class="black">订单<b class="orange">全部商品</b>已发货</span>
+            {/if}
+            {if:$order['status']==4}
+                {$order['completion_time']}&nbsp;&nbsp;<span class="black">订单完成</span>
+            {/if}
+            </p>
+            <a></a>
+        </dd>
+        <dd class="Address font-medium">
+            <table width="100%">
+                <tbody><tr>
+                    <td rowspan="3" width="10%">
+                        <div class="ico"></div>
+                    </td>
+                    <td><span class="ng-binding">收件人：{$order['accept_name']}</span></td>
+                </tr>
+                <tr>
+                    <td><span class="CellPhone ng-binding">{$order['mobile']}</span></td>
+                </tr>
+                <tr>
+                    <td class="ng-binding">{$parse_area[$order['province']]} {$parse_area[$order['city']]} {$parse_area[$order['county']]} {$order['addr']}</td>
+                </tr>
+                </tbody></table>
+        </dd>
+        <dd class="ValidPayWayCode font-medium">
+            <span>支付方式&nbsp;&nbsp;</span>
+            <span class="subtitle  float-right ng-binding" style="color: black;margin-right:4%;">{$order['pay_name']}</span>
+        </dd>
+        <dd class="ValidPayWayCode font-medium">
+            <span>配送方式&nbsp;&nbsp;</span>
+            <span class="subtitle  float-right ng-binding" style="color: black;margin-right:4%;">{$invoice['ec_name']}</span>
+            <div class="pay-info-wrap">{$invoice['express_no']}</div>
+        </dd>
+    </dl>
+    <div id="wrapProduct">
+        <div class="Parcel font-medium ng-scope">
+            {set:$total=0.00;$subtotal=0.00;}
+            {list:items=$order_goods}
+            {set:$subtotal = ($item['real_price']*$item['goods_nums']);$total+=$subtotal; $subtotal = sprintf ("%01.2f",$subtotal);}
+                <a href = "{url:/index/product/id/$item[goods_id]}">
+                    <div class="Product-item ng-scope">
+                        <div class="Product-img">
+                            <img width="100%" src="{echo:Common::thumb($item['img'],400,400);}">
+                        </div>
+
+                        <div class="Product-Info">
+                            <div style="font-size: 1.2rem; line-height: 1.0rem;" class="ng-binding">{$item['name']}</div>
+                            <div style="margin-top:1.5rem; color: red;" class="ng-binding">{$currency_symbol}{$item['goods_price']}</div>
+                            <div class="ng-binding">x{$item['goods_nums']}</div>
+                        </div>
+                    </div>
+                </a>
+            {/list}
+        </div>
+        <div class="Orderinfo font-medium">
+            <table width="100%">
+                <tbody><tr>
+                    <td>商品结算金额</td>
+                    <td class="Price ng-binding">{$currency_symbol}{$total}</td>
+                </tr>
+                    <tr>
+                        <td>运费</td>
+                        <td class="Price ng-binding">+{$currency_symbol}{$order['real_freight']}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <ul class="font-medium " style="text-align: right;padding-right: 3%;background-color: white; margin-bottom:5rem; overflow:hidden;border-top: 1px solid #ccc;">
+            <li>
+                <span style="font-weight:bold">订单金额：</span><span style="font-weight:bold" class="Price ng-binding">{$currency_symbol}{$order['order_amount']}</span>
+            </li>
+            <li>
+                <span style="color: silver">下单时间：</span>
+                <span style="color: silver" class="ng-binding">{$order['create_time']}</span>
+            </li>
+        </ul>
+    </div>
+
+</article>

@@ -1,0 +1,277 @@
+{set: $footer='order';}
+    <link type="text/css" href="{url:#css/cart.css}" rel="stylesheet" />
+    <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
+    <script type="text/javascript" src="{url:#js/msg.js}"></script>
+    <link type="text/css" href="{url:#css/ajax.css}" rel="stylesheet" />
+
+    <script type="text/javascript">
+        $(function(){
+            //勾选或者不勾选商品
+            $(document).on("click",".grid-order .order-select",function(){
+                //退选操作
+                if($(this).hasClass("checked")){
+                    $(this).removeClass("checked");
+                    if($(".allselect-content .order-select").hasClass("checked")){
+                        $(".allselect-content .order-select").removeClass("checked");
+                    }
+                }else{
+                    //勾选操作
+                    $(this).addClass("checked");
+                    var olength=$(".grid-order .order-select").length;
+                    var clength=$(".grid-order .order-select.checked").length;
+                    if(clength==olength){
+                        $(".allselect-content .order-select").addClass("checked");
+                    }
+                }
+            });
+            $(document).on("click",".allselect-content .order-select",function(){
+                //退选操作
+                if($(this).hasClass("checked")){
+                    $(this).removeClass("checked");
+                    $(".grid-order .order-select").removeClass("checked");
+                }else{
+                    //勾选操作
+                    $(this).addClass("checked");
+                    $(".grid-order .order-select").addClass("checked");
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">购物车</p>
+    </div>
+</header>
+
+
+<article class="wrap-content ng-scope">
+    {if:$cart}
+        <div>
+            <div class="grid-main bgwhite">
+                <ul>
+                    {set:$total=0.00;}
+                    {list:items=$cart}
+                    {set:$total+=$item['amount'];}
+                        <li class="grid-order" id="li_{$item['id']}">
+                            <div class="item-item">
+                                <a href="{url:/index/product/id/$item[goods_id]}" class="order-link"><img src="{echo:Common::thumb($item['img'],140,140)}"></a>
+                                <div class="order-des">
+                                    <h2>{$item['name']}</h2>
+                                    <div class="gw_sl">
+                                        <div class="gw_sl_niu i_box">
+                                            <a href="javascript:;" class="control_amount_sub J_minus">－</a>
+                                            <input id="text_box number_{$item[goods_id]}" pid="{$item[goods_id]}" gid="{$item[goods_id]}" class="buy_input J_input" type="text" user_can_bought="1000" max_per_user="1000" min_per_user="1" value="{$item['num']}" size="60" name="amount">
+                                            <a href="javascript:;" class="control_amount_add J_add">＋</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="order-opt">
+                                    <p class="price"><span class="ui-price-icon">{$currency_symbol}</span><span class="sub_price">{$item['price']}</span></p>
+                                    <a class="opt-delete" onclick="delCart('{$item[goods_id]}', '{$item[goods_id]}');"></a>
+                                </div>
+                            </div>
+                        </li>
+                    {/list}
+                </ul>
+            </div>
+
+            <span class="clr"></span>
+        </div>
+        <div class="wrap-allselect">
+            <div class="allselect-content">
+                <ul class="allselect-ul">
+                    <li  class="li-jisuan">
+                        <input type="button" id="num" class="btnpaymentlink font-medium backgroundgreen" onclick="window.location.href='{url:/index/cart_add}'" value="去结算({echo:count($cart)})" >
+                    </li>
+                    <li class="licenter" style="float:left; margin-left:1rem;">
+                        <div style="color: black; font-size:1.5rem;">商品总金额 <span style="color:#c00;">{$currency_symbol}<span class="sum_price">{echo:sprintf("%01.2f",$total)}</span></span></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+    {else:}
+        <div id="wrap-nodata" class=""  style="margin-top:35%;">
+            <div id="carts-img">
+                <label class="cartimg font-medium" style="display: block;margin: 0 auto;width: 130px;height: 122px;background: url('{url:#images/lifevc-ios-ico.png}') no-repeat -48px -2314px;background-size: 510px 2663px;"></label>
+            </div>
+            <div id="carts-text font-medium" style="text-align: center;font-size: 1.8rem;color: #666666;line-height: 3rem;">
+                <p>您的购物车还是空荡荡的</p>
+            </div>
+            <div id="carts-link font-medium" style="text-align: center;">
+                <a href="{url:/index/index}" style="border: 1px solid #d71515;padding: 0.5rem 1.5rem;display: inline-block;border-radius: 6px;font-size: 1.5rem;letter-spacing: 1px;margin-top: 1rem;color: #d71515;">赶紧去逛逛</a>
+            </div>
+        </div>
+
+    {/if}
+
+</article>
+
+<script type="text/javascript">
+    /*******************************
+     * @author Mr.Think
+     * @author blog http://mrthink.net/
+     * @2011.12.09
+     * @可自由转载及使用,但请注明版权归属
+     *******************************/
+    $.fn.iVaryVal=function(iSet,CallBack){
+        /*
+         * Minus:点击元素--减小
+         * Add:点击元素--增加
+         * Input:表单元素
+         * Min:表单的最小值，非负整数
+         * Max:表单的最大值，正整数
+         */
+        iSet=$.extend({Minus:$('.J_minus'),Add:$('.J_add'),Input:$('.J_input'),Min:1,Max:999},iSet);
+        var C=null,O=null;
+        //插件返回值
+        var $CB={};
+        //增加
+        iSet.Add.each(function(i){
+            $(this).click(function(){
+                O=parseInt(iSet.Input.eq(i).val());
+                (O+1<=iSet.Max) || (iSet.Max==null) ? iSet.Input.eq(i).val(O+1) : iSet.Input.eq(i).val(iSet.Max);
+                //输出当前改变后的值
+                $CB.val=iSet.Input.eq(i).val();
+                $CB.index=i;
+                //回调函数
+                if (typeof CallBack == 'function') {
+                    CallBack($CB.val,$CB.index);
+                }
+            });
+        });
+        //减少
+        iSet.Minus.each(function(i){
+            $(this).click(function(){
+                O=parseInt(iSet.Input.eq(i).val());
+                O-1<iSet.Min ? iSet.Input.eq(i).val(iSet.Min) : iSet.Input.eq(i).val(O-1);
+                $CB.val=iSet.Input.eq(i).val();
+                $CB.index=i;
+                //回调函数
+                if (typeof CallBack == 'function') {
+                    //alert(CallBack);
+                    CallBack($CB.val,$CB.index);
+                }
+            });
+        });
+        //手动
+        iSet.Input.bind({
+            'click':function(){
+                O=parseInt($(this).val());
+                $(this).select();
+            },
+            'keyup':function(e){
+                if($(this).val()!=''){
+                    C=parseInt($(this).val());
+                    //非负整数判断
+                    if(/^[1-9]\d*|0$/.test(C)){
+                        $(this).val(C);
+                        O=C;
+                    }else{
+                        $(this).val(O);
+                    }
+                }
+                //键盘控制：上右--加，下左--减
+                if(e.keyCode==38 || e.keyCode==39){
+                    iSet.Add.eq(iSet.Input.index(this)).click();
+                }
+                if(e.keyCode==37 || e.keyCode==40){
+                    iSet.Minus.eq(iSet.Input.index(this)).click();
+                }
+                //输出当前改变后的值
+                $CB.val=$(this).val();
+                $CB.index=iSet.Input.index(this);
+                //回调函数
+                if (typeof CallBack == 'function') {
+                    CallBack($CB.val,$CB.index);
+                }
+            },
+            'blur':function(){
+                $(this).trigger('keyup');
+                if($(this).val()==''){
+                    $(this).val(O);
+                }
+                //判断输入值是否超出最大最小值
+                if(iSet.Max){
+                    if(O>iSet.Max){
+                        $(this).val(iSet.Max);
+                    }
+                }
+                if(O<iSet.Min){
+                    $(this).val(iSet.Min);
+                }
+                //输出当前改变后的值
+                $CB.val=$(this).val();
+                $CB.index=iSet.Input.index(this);
+                //回调函数
+                if (typeof CallBack == 'function') {
+                    CallBack($CB.val,$CB.index);
+                }
+            }
+        });
+    }
+    //调用
+    $( function() {
+
+        $('.i_box').iVaryVal({},function(value,index){
+            upCart(index);
+            //$('.i_tips').html('你点击的表单索引是：'+index+'；改变后的表单值是：'+value);
+        });
+
+    });
+
+    function upCart(index) {
+
+        var obj = $("input[name='amount']").eq(index);
+        var num = obj.val();
+        var pid = obj.attr('pid');
+        var gid = obj.attr('gid');
+
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:'{url:/index/cart_add}',
+            data:{'num':num, 'pid':pid, 'gid':gid},
+            success:function(data) {
+                if(data.status == 0) {
+                    obj.val(data.data);
+                    msg(data.info);
+                }else{
+                    $(".sub_price").eq(index).text(data.data['sub_price']);
+                    $('#num').val('去结算('+data.data['num']+')');
+                    $('.licenter').find('.sum_price').text(data.data['sum_price']);
+                }
+            }
+        })
+    }
+
+    function delCart(pid, gid) {
+
+        $.ajax({
+            type:'POST',
+            dataType:'json',
+            url:'{url:/index/cart_del}',
+            data:{'num':0, 'pid':pid, 'gid':gid},
+            success:function(data) {
+                if(data.status == 0) {
+                    msg(data.info);
+                }else{
+                    window.location.href='__APP__?m=Goods&a=Cart';
+                    return false;
+                    if(data.data['num'] == 0) {
+                        window.location.href='__APP__?m=Goods&a=Cart';
+                        return false;
+                    }else{
+                        $('#li_'+pid).remove();
+                        $('#num').val('去结算('+data.data['num']+')');
+                        $('.licenter').find('.sum_price').text(data.data['sum_price']);
+                    }
+                }
+            }
+        })
+    }
+</script>
