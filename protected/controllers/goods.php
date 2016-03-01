@@ -47,6 +47,12 @@ class GoodsController extends Controller
 		if($status!=0 && $status!=1) $status = 0;
 		$model = new Model('goods');
 		$model->data(array('is_online'=>$status))->where("id in($id)")->update();
+
+        $params = array();
+        $params['id'] = $id;// id is array
+        $params['is_online'] = $status;
+        syncGoods::getInstance()->setParams($params,'update')->sync();
+
 		$this->redirect("goods_list");
 	}
 	function goods_type_save(){
@@ -81,10 +87,12 @@ class GoodsController extends Controller
 		$goods_type = new Model("goods_type");
 		$id = Req::args('id');
 		if($id == null){
+            $action = 'add';
 			$result = $goods_type->insert();
 			$lastid = $result;
 			Log::op($this->manager['id'],"添加商品类型","管理员[".$this->manager['name']."]:添加了商品类型 ".Req::args('name'));
 		}else{
+            $action = 'update';
 			$result = $goods_type->where("id=".$id)->update();
 			$lastid = $id;
 			Log::op($this->manager['id'],"修改商品类型","管理员[".$this->manager['name']."]:修改了商品类型 ".Req::args('name'));
@@ -123,6 +131,9 @@ class GoodsController extends Controller
 			$goods_attr->where('type_id = '.$lastid)->delete();
 
 		}
+
+        $params = array();
+        syncGoodsType::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect('goods_type_list');
 	}
@@ -180,6 +191,9 @@ class GoodsController extends Controller
 			}
 			Log::op($this->manager['id'],"删除商品类型","管理员[".$this->manager['name']."]:删除了商品类型 ".$str);
 
+            $params = array();
+            syncGoodsType::getInstance()->setParams($params,'del')->sync();
+
 			$this->redirect('goods_type_list');
 		}else{
 			$this->msg = array("warning","未选择项目，无法删除！");
@@ -199,10 +213,12 @@ class GoodsController extends Controller
 		$values = array();
 		$goods_spec = new Model("goods_spec");
 		if($id){
+            $action = 'update';
 			$goods_spec->save();
 			$lastid = $id;
 			Log::op($this->manager['id'],"修改商品规格","管理员[".$this->manager['name']."]:修改了规格 ".$name);
 		}else{
+            $action = 'add';
 			$lastid = $goods_spec->save();
 			Log::op($this->manager['id'],"添加商品规格","管理员[".$this->manager['name']."]:添加了规格 ".$name);
 		}
@@ -227,6 +243,10 @@ class GoodsController extends Controller
 		else{
 			$spec_value->where('spec_id = '.$lastid)->delete();
 		}
+
+        $params = array();
+        syncSpec::getInstance()->setParams($params,$action)->sync();
+
 		$this->redirect('goods_spec_list');
 	}
 	function goods_spec_del(){
@@ -250,6 +270,10 @@ class GoodsController extends Controller
 				$str .= $value['name'].'、';
 			}
 			Log::op($this->manager['id'],"删除商品规格","管理员[".$this->manager['name']."]:删除了规格 ".$str);
+
+            $params = array();
+            syncSpec::getInstance()->setParams($params,'del')->sync();
+
 			$this->redirect('goods_spec_list');
 		}else{
 			$this->msg = array("warning","未选择项目，无法删除！");
@@ -297,7 +321,11 @@ class GoodsController extends Controller
 					$goods_category->data(array('path'=>"replace(`path`,'$current_path','$new_path')"))->where("path like '$current_path%'")->update();
 					$goods_category->data(array('parent_id'=>$parent_id,'id'=>$id,'sort'=>$sort,'name'=>$name,'alias'=>$alias,'type_id'=>$type_id,'seo_title'=>$seo_title,'seo_keywords'=>$seo_keywords,'seo_description'=>$seo_description,'img'=>$img,'imgs'=>serialize($imgs)))->update();
 					Log::op($this->manager['id'],"更新商品分类","管理员[".$this->manager['name']."]:更新了商品分类 ".Req::args('name'));
-					$this->redirect("goods_category_list");
+
+                    $params = array();
+                    syncCategory::getInstance()->setParams($params,'update')->sync();
+
+                    $this->redirect("goods_category_list");
 				}else{
 					$this->msg = array("warning","此节点不能放到自己的子节点上,操作失败！");
 					$this->redirect("goods_category_edit",false,Req::args());
@@ -311,7 +339,11 @@ class GoodsController extends Controller
 				$goods_category->data(array('path'=>"$new_path",'id'=>$lastid,'sort'=>$sort,'type_id'=>$type_id,'seo_title'=>$seo_title,'seo_keywords'=>$seo_keywords,'seo_description'=>$seo_description,'img'=>$img,'imgs'=>serialize($imgs)))->update();
 
 				Log::op($this->manager['id'],"添加商品分类","管理员[".$this->manager['name']."]:添加商品分类 ".Req::args('name'));
-				$this->redirect("goods_category_list");
+
+                $params = array();
+                syncCategory::getInstance()->setParams($params,'add')->sync();
+
+                $this->redirect("goods_category_list");
 			}
 			$cache = CacheFactory::getInstance();
         	$cache->delete("_GoodsCategory");
@@ -339,6 +371,9 @@ class GoodsController extends Controller
 				$cache = CacheFactory::getInstance();
         		$cache->delete("_GoodsCategory");
 
+                $params = array();
+                syncCategory::getInstance()->setParams($params,'del')->sync();
+
 				$this->redirect("goods_category_list");
 			}
 		}
@@ -355,6 +390,7 @@ class GoodsController extends Controller
 		$warning_line = Req::args("warning_line");
 		$weight = Req::args("weight");
 		$sell_price = Req::args("sell_price");
+        $trade_price = Req::args("trade_price");
 		$market_price = Req::args("market_price");
 		$cost_price = Req::args("cost_price");
 
@@ -416,10 +452,12 @@ class GoodsController extends Controller
 		$gdata['name'] = Filter::sql($gdata['name']);
 		if(is_array($gdata['pro_no'])) $gdata['pro_no'] = $gdata['pro_no'][0];
 		if($id==0){
+            $action = 'add';
 			$gdata['create_time'] = date("Y-m-d H:i:s");
 			$goods_id = $goods->data($gdata)->save();
 			Log::op($this->manager['id'],"添加商品","管理员[".$this->manager['name']."]:添加了商品 ".Req::args('name'));
 		}else{
+            $action = 'update';
 			$goods_id = $id;
 			$goods->data($gdata)->where("id=".$id)->update();
 			Log::op($this->manager['id'],"修改商品","管理员[".$this->manager['name']."]:修改了商品 ".Req::args('name'));
@@ -431,7 +469,7 @@ class GoodsController extends Controller
 		foreach ($values_dcr as $key => $value) {
 			$result = $products->where("goods_id = ".$goods_id." and specs_key = '$key'")->find();
 
-			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
+			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'trade_price'=>$trade_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
 			$g_store_nums += $data['store_nums'];
 			if($g_warning_line==0) $g_warning_line = $data['warning_line'];
 			else if($g_warning_line>$data['warning_line']) $g_warning_line = $data['warning_line'];
@@ -458,8 +496,9 @@ class GoodsController extends Controller
 			$g_weight = $weight;
 			$g_sell_price = $sell_price;
 			$g_market_price = $market_price;
+            $g_trade_price = $trade_price;
 			$g_cost_price = $cost_price;
-			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'specs_key'=>'','spec'=>serialize(array()));
+			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
 			$result = $products->where("goods_id = ".$goods_id)->find();
 			if(!$result){
 				$products->data($data)->insert();
@@ -468,7 +507,7 @@ class GoodsController extends Controller
 			}
 		}
 		//更新商品相关货品的部分信息
-		$goods->data(array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price))->where("id=".$goods_id)->update();
+		$goods->data(array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'trade_price'=>$g_trade_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price))->where("id=".$goods_id)->update();
 
 		$keys = array_keys($values_dcr);
 		$keys = implode("','", $keys);
@@ -493,6 +532,10 @@ class GoodsController extends Controller
 		$spec_attr->where("goods_id = ".$goods_id)->delete();
 		$dbinfo = DBFactory::getDbInfo();
 		$spec_attr->query("insert into {$dbinfo['tablePre']}spec_attr values $value_str");
+
+        $params = array();
+        syncGoods::getInstance()->setParams($params,$action)->sync();
+
 		$this->redirect("goods_list");
 	}
 	function goods_del()
@@ -517,6 +560,10 @@ class GoodsController extends Controller
 		}
 		$str = trim($str,'、');
 		Log::op($this->manager['id'],"删除商品","管理员[".$this->manager['name']."]:删除了商品 ".$str);
+
+        $params = array();
+        syncGoods::getInstance()->setParams($params,'del')->sync();
+
 		$msg = array('success',"成功删除商品 ".$str);
 		$this->redirect("goods_list",false,array('msg'=> $msg));
 	}

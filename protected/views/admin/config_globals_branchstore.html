@@ -6,6 +6,7 @@
 <div class="form2">
 	<form name="config_form" method="post" action="{url:/admin/config/group/globals}">
         {if:isset($manager['id'])}<input type="hidden" name="id" value="{$manager['id']}">{/if}
+        <input type="hidden" name="site_url" value="{$manager['site_url']}">
 
 	 <dl class="lineD">
       <dt>授权分类：</dt>
@@ -138,7 +139,7 @@
 	  <dl class="lineD">
       <dt>预存款：</dt>
       <dd>
-        <input name="deposit" type="text" size=10 disabled value="{$manager['deposit']}">&nbsp;&nbsp;&nbsp;<a href="#">充值</a>
+          {$manager['deposit']} 元
       </dd>
     </dl>
 

@@ -17,7 +17,7 @@
     <div class="content" style="margin-left: 212px;">
       <div class="box help-content p20" style="min-height:200px;">
         <ul class="list">
-            {query:name=article where=$where order=id desc page=1 id=$article}
+            {query:name=article domain=zd issalve=salve where=$where order=id desc page=1 id=$article}
             <li><span class="fr">{$item['publish_time']}</span><a href="{url:/index/article/id/$item[id]}">{$item['title']}</a></li>
             {/query}
         </ul>

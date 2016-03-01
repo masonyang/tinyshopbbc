@@ -137,6 +137,12 @@ return array(
 				'<a href="<?php echo urldecode(Url::urlFormat("/index/index"));?>" target="_blank">返回前台</a> |',
 			),
 		),
+        'order_list'=>array(
+            'nodisplay'=>array(
+                '<a class="icon-delicious" href="<?php echo urldecode(Url::urlFormat("/order/batch_order"));?>"> 批量下单</a>',
+
+            ),
+        ),
 		'customer_list'=>array(
 			'nodisplay'=>array(
 			    '<a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:\'<?php echo urldecode(Url::urlFormat("/customer/customer_del"));?>\',msg:\'删除后无法恢复，你真的删除吗？\'})" title="删除"> 删除</a>',

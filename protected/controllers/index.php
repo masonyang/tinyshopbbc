@@ -16,6 +16,7 @@ class IndexController extends Controller{
     public $safebox = null;
     private $model = null;
     private $category = array();
+    private $headStore = null;
 
     protected $needRightActions=array('review'=>true,'review_act'=>true);
 
@@ -45,7 +46,7 @@ class IndexController extends Controller{
         $this->assign('site_title',$site_config['site_name']);
         $this->assign('seo_keywords',$site_config['site_keywords']);
         $this->assign('seo_description',$site_config['site_description']);
-
+        $this->headStore = Config::getInstance('config')->get('headStore');
     }
     public function attention()
     {
@@ -90,13 +91,30 @@ class IndexController extends Controller{
     }
     public function cart_add()
     {
-        $id = Filter::int(Req::args("id"));
-        $num = intval(Req::args("num"));
-        $num = $num>0?$num:1;
-        $cart = Cart::getCart();
-        $cart->addItem($id,$num);
-        $products = $cart->all();
-        echo JSON::encode($products);
+        if(ControllerExt::$isMobile){
+            $batchnum = Req::args("batchnum");
+            if(isset($batchnum) && is_array($batchnum)){
+                $cart = Cart::getCart();
+                foreach($batchnum as $id=>$num){
+                    $num = intval($num);
+                    if($num < 1){
+                        continue;
+                    }
+                    $cart->addItem($id,$num);
+                }
+                echo JSON::encode(array('status'=>1,'data'=>count($cart->all()),'info'=>'成功加入购物车'));
+            }
+        }else{
+            $id = Filter::int(Req::args("id"));
+            $num = intval(Req::args("num"));
+            $num = $num>0?$num:1;
+            $cart = Cart::getCart();
+            $cart->addItem($id,$num);
+            $products = $cart->all();
+            echo JSON::encode($products);
+        }
+
+
     }
     public function cart_del()
     {
@@ -110,14 +128,30 @@ class IndexController extends Controller{
 
     public function cart_num()
     {
-        $id = Filter::int(Req::args("id"));
-        $num = intval(Req::args("num"));
-        $num = $num>0?$num:1;
-        $cart = Cart::getCart();
-        $cart->modNum($id,$num);
-        $products = $cart->all();
-        echo JSON::encode($products);
+        if(ControllerExt::$isMobile){
+            $id = Filter::int(Req::args("id"));
+            $num = intval(Req::args("num"));
+            $num = $num>0?$num:1;
+            $cart = Cart::getCart();
+            $cart->modNum($id,$num);
+            $products = $cart->all();
+            $result = array();
+            $result['status'] = 1;
+            $result['data'] = array('sub_price'=>$products[$id]['sell_total'],'num'=>count($products),'sum_price'=>$products[$id]['amount']);
+            $result['info'] = '更新成功';
+            echo JSON::encode($result);
+        }else{
+            $id = Filter::int(Req::args("id"));
+            $num = intval(Req::args("num"));
+            $num = $num>0?$num:1;
+            $cart = Cart::getCart();
+            $cart->modNum($id,$num);
+            $products = $cart->all();
+            echo JSON::encode($products);
+        }
+
     }
+
     public function goods_consult()
     {
         $id = Filter::int(Req::args('id'));
@@ -150,7 +184,7 @@ class IndexController extends Controller{
     public function help()
     {
         $id = Filter::int(Req::args("id"));
-        $model = new Model('help');
+        $model = new Model('help',$this->headStore,'salve');
         $help = $model->where("id=$id")->find();
         if($help){
             $this->assign("id",$id);
@@ -166,7 +200,8 @@ class IndexController extends Controller{
     public function article()
     {
         $id = Filter::int(Req::args("id"));
-        $model = new Model('article');
+
+        $model = new Model('article',$this->headStore,'salve');
         $article = $model->where("id = $id")->find();
         if($article){
             $this->assign('seo_title',$article['title']);
@@ -331,10 +366,6 @@ class IndexController extends Controller{
     public function product()
     {
 
-        if(ControllerExt::$isMobile){
-            $this->layout = 'product';
-        }
-
         $parse = array('直接打折','减价优惠','固定金额','买就赠优惠券','买M件送N件');
         $id = Filter::int(Req::args('id'));
         $this->assign('id',$id);
@@ -416,6 +447,24 @@ class IndexController extends Controller{
             if($sale_protection){
                 $this->assign("sale_protection",$sale_protection['content']);
             }
+
+            if(ControllerExt::$isMobile){
+                $this->layout = 'product';
+                $_specs = unserialize($goods['specs']);
+                $sku = $skumm = array();
+                foreach($_specs as $s){
+                    foreach($s['value'] as $v){
+                        $sku[$v['spec_id'].':'.$v['id']] = $v['name'];
+                    }
+                }
+
+                foreach($skumap as $k=>$sk){
+                    $specs_key = explode(';',$sk['specs_key']);
+                    $skumap[$k]['guige'] = $sku[$specs_key[1]].','.$sku[$specs_key[2]];
+                }
+
+            }
+
             $this->assign("child_category",$childCategory);
             $this->assign("prom",$prom);
             $this->assign("goods",$goods);

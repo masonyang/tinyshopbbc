@@ -8,9 +8,20 @@
 
 <article class="middle ng-scope">
 
+    <div class="wrap-menuNavHeard">
+        <div class="menuNavHeardPanel">
+            <ul class="menuNavHeard">
+                <a href="{url:/ucenter/order/status/1}"><li class="menuNavHeardli-link {if: $status ==1}menuNavHeard-lihover{/if}">未付款</li></a>
+                <a href="{url:/ucenter/order/status/3}"><li class="menuNavHeardli-link {if: $status ==3}menuNavHeard-lihover{/if}">已付款</li></a>
+                <a href="{url:/ucenter/order/status/4}"><li class="menuNavHeardli-link {if: $status ==4}menuNavHeard-lihover{/if}">已完成</li></a>
+                <a href="{url:/ucenter/order/status/6}"><li class="menuNavHeardli-link {if: $status ==6}menuNavHeard-lihover{/if}">已作废</li></a>
+            </ul>
+        </div>
+    </div>
+
     <div class="middlecontext" id="goodsList">
 
-        {query:name=order where=user_id eq $user[id] order=id desc page=1 id=$obj}
+        {query:name=order where=user_id eq $user[id] where=$where order=id desc page=1 id=$obj}
             <div class="wrap-OrderList">
                 <div class="OrderItem ng-scope">
                     <div class="OrderCode font-medium ng-binding">
@@ -27,7 +38,37 @@
                     <div class="Actions font-medium">
                         <span class="ng-binding">订单金额：{$currency_symbol}{$item['order_amount']}</span>
 
-                        <button class="order-action-cancel">{echo:$this->order_status($item)}</button>
+                        <button class="order-action-cancel">
+                            {if: $item['status'] == '1'}
+                                等待付款
+                            {elseif: $item['status'] == '2'}
+                                    {if: $item['pay_status'] == 1}
+                                        等待审核
+                                    {else:}
+                                        {set: $payment_info = Common::getPaymentInfo($item[payment]);}
+                                        {if: $payment_info[class_name]=='received'}
+                                            等待审核
+                                        {else:}
+                                            等待付款
+                                        {/if}
+                                    {/if}
+                            {elseif: $item['status'] == '3'}
+                                    {if: $item['delivery_status'] == 0}
+                                        等待发货
+                                    {elseif: $item['delivery_status'] == 1}
+                                        已发货
+                                    {/if}
+                                    {if: $item['pay_status'] == 3}
+                                        已退款
+                                    {/if}
+                            {elseif: $item['status'] == 4}
+                                    已完成
+                            {elseif: $item['status'] == 5}
+                                    已取消
+                            {elseif: $item['status'] == 6}
+                                    已作废
+                            {/if}
+                        </button>
                     </div>
                 </div>
             </div>

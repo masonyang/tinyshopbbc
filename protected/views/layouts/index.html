@@ -1,9 +1,9 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-	<meta name="Generator" content="TinyShop" />
+	<meta name="Generator" content="109" />
 	<meta charset="UTF-8">
-	<title>{$seo_title|'TinyShop商城'}-{$site_title}</title>
+	<title>{$seo_title|'109商城'}-{$site_title}</title>
 	<meta name="description" content="{$seo_description}">
 	<meta name="Keywords" content="{$seo_keywords}">
 	<meta http-equiv=”X-UA-Compatible” content=”IE=EmulateIE7″ >
@@ -35,7 +35,7 @@
 			<div class="wrap nav">
 				<ul class=" fr">
 					{if:$user}
-					<li>你好<b>{$user['name']}</b> [<a href="{url:/simple/logout}">安全退出</a>]，欢迎来到TinyShop商城！</li>
+					<li>你好<b>{$user['name']}</b> [<a href="{url:/simple/logout}">安全退出</a>]，欢迎来到109商城！</li>
 					<li><a href="{url:/ucenter/order}">我的订单</a></li>
 					{else:}
 					<li><a href="{url:/simple/login}"><b>登录</b></a></li>
@@ -55,7 +55,7 @@
 						{token:key=me}
 						<input id="search-keyword" class="txt-keyword" name="keyword" value="{$keyword}" type="text"><button class="btn-search fl"><b>搜 索</b></button>
 					</form>
-					<p id="tags-list"><b>热门标签：</b>{query:name=tags order=is_hot desc,sort desc,num desc limit=6}<a href="#">{$item['name']}</a>{/query}</p>
+					<p id="tags-list"><b>热门标签：</b>{query:name=tags domain=zd issalve=salve order=is_hot desc,sort desc,num desc limit=6}<a href="#">{$item['name']}</a>{/query}</p>
 				</div>
 				<div class="header-cart fr">
 					<dl class="fr">

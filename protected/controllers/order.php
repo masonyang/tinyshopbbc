@@ -158,7 +158,51 @@ class OrderController extends Controller
 		$express_no = Filter::str(Req::args("express_no"));
 		$express_company_id = Filter::int(Req::args('express_company_id'));
 
-		$model = new Model("doc_invoice");
+        //处理发货之前,先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货
+
+        //订单所有产品的批发价之和  == 分销商预存款金额 比较
+
+        //同步发货信息
+        $model = new Model("doc_invoice");
+        $order_info = $model->table("order")->where("id=$order_id")->find();
+
+        $orderGoodsModelObj = new Model('order_goods');
+        $managerObj = new Model('manager');//去分店 manager表中的数据
+        $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
+
+        //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
+        $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
+
+        $depost = $manager['deposit'] - $ordergoods[0]['tradeprice'];
+
+        if(($depost) <= 0){
+            echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
+            exit;
+        }else{
+            $zdModel = new Model("distributor","zd","master");
+            $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
+            $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $ordergoods[0]['tradeprice']))->where("distributor_id=".$manager['distributor_id'])->update();
+
+            //同步预存款金额到分店
+            $managerObj = new Model("manager",$manager['site_url'],"master");
+            $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
+            $distrInfo['deposit'] -= $ordergoods[0]['tradeprice'];
+
+            $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
+
+            $manager = $this->safebox->get('manager');
+            $data['op_name'] = $manager['name'];
+            $data['op_time'] = time();
+            $data['op_id'] = $manager['id'];
+            $data['money'] = $ordergoods[0]['tradeprice'];
+            $data['action'] = 'minus';
+            $data['op_ip'] = Chips::getIP();
+            $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_bn'].'进行发货 扣除'.$ordergoods[0]['tradeprice'].'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+            Log::rechange($data,$distrInfo['site_url']);
+
+        }
+
+
 		$delivery_status = Req::args("delivery_status");
 		if($delivery_status==3){
 			$model->where("order_id=$order_id")->insert();
@@ -171,8 +215,7 @@ class OrderController extends Controller
 				$model->where("order_id=$order_id")->insert();
 			}
 		}
-		//同步发货信息
-		$order_info = $model->table("order")->where("id=$order_id")->find();
+
 		if($order_info){
 			if($order_info['trading_info']!=''){
 				$payment_id = $order_info['payment'];
@@ -187,8 +230,48 @@ class OrderController extends Controller
 			}
 		}
 		$model->table("order")->where("id=$order_id")->data(array('delivery_status'=>1,'send_time'=>date('Y-m-d H:i:s')))->update();
+
+        //处理发货之后,计算收益逻辑 并加入到预存款中，并生成一条添加预存款记录
+        //todo
+        //如果没有用支付宝支付的话 是不是公式就变成了收益=订单金额-分销商批发价格
+        //分销商批发价格 = 所有产品的批发价之和
+        //收益=订单金额-分销商批发价格-(订单金额*0.6%)
+
+        $paymentModel = new Model("payment as pa");
+        $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
+
+        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
+
+            $payfee = $order_info['order_amount'] * ($paymentInfo['pay_fee']/100);
+
+            $income = $order_info['order_amount'] - $ordergoods[0]['tradeprice'] - $payfee;
+        }else{ //其他方式支付 收益=订单金额-分销商批发价格
+            $income = $order_info['order_amount'] - $ordergoods[0]['tradeprice'];
+        }
+
+        $zdModel = new Model("distributor","zd","master");
+        $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
+        $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $income))->where("distributor_id=".$manager['distributor_id'])->update();
+
+        $managerObj = new Model("manager",$manager['site_url'],"master");
+        $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
+        $distrInfo['deposit'] += $income;
+
+        $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
+
+        $manager = $this->safebox->get('manager');
+        $data['op_name'] = $manager['name'];
+        $data['op_time'] = time();
+        $data['op_id'] = $manager['id'];
+        $data['money'] = $income;
+        $data['action'] = 'add';
+        $data['op_ip'] = Chips::getIP();
+        $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_bn'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+        Log::rechange($data,$distrInfo['site_url']);
+
 		echo "<script>parent.send_dialog_close();</script>";
 	}
+
 	public function order_list(){
 		$condition = Req::args("condition");
 		$condition_str = Common::str2where($condition);

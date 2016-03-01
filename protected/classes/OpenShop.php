@@ -136,6 +136,9 @@ class OpenShop
         echo "_syncTagsing...<br>";
         $this->_syncTags();//商品标签
         echo "_syncTagsed...<br>";
+        echo "_syncGoodsPaymenting...<br>";
+        $this->_syncPayment();//支付方式
+        echo "_syncGoodsPaymented...<br>";
 	}
 
 	//同步分类
@@ -318,6 +321,30 @@ class OpenShop
 			}
 		}
 	}
+
+    //同步支付方式
+    protected function _syncPayment()
+    {
+        $paymentModel = new Model('payment');
+        $payments = $paymentModel->findAll();
+
+        $syncPaymentModel = new Model('payment',$this->dbname,'master');
+        if($payments){
+            foreach($payments as $payment){
+                $syncPaymentModel->data($payment)->add();
+            }
+        }
+
+        $payPluginModel = new Model('pay_plugin');
+        $payPlugins = $payPluginModel->findAll();
+
+        $syncPayPluginModel = new Model('pay_plugin',$this->dbname,'master');
+        if($payPlugins){
+            foreach($payPlugins as $payPlugin){
+                $syncPayPluginModel->data($payPlugin)->add();
+            }
+        }
+    }
 
 	//同步分销商基本信息
 	public function syncDistributorInfo()

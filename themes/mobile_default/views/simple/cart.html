@@ -1,4 +1,5 @@
 {set: $footer='order';}
+{set: $nogoto = 'true';}
     <link type="text/css" href="{url:#css/cart.css}" rel="stylesheet" />
     <script type="text/javascript" src="{url:#js/jquery-1.10.2.js}"></script>
     <script type="text/javascript" src="{url:#js/msg.js}"></script>
@@ -60,18 +61,22 @@
                             <div class="item-item">
                                 <a href="{url:/index/product/id/$item[goods_id]}" class="order-link"><img src="{echo:Common::thumb($item['img'],140,140)}"></a>
                                 <div class="order-des">
-                                    <h2>{$item['name']}</h2>
+                                    <h2>{$item['name']} &nbsp;&nbsp;
+                                        {list:items=$item['spec'] item=$spec}
+                                        {$spec['name']}：{$spec['value'][2]}
+                                        {/list}
+                                    </h2>
                                     <div class="gw_sl">
                                         <div class="gw_sl_niu i_box">
                                             <a href="javascript:;" class="control_amount_sub J_minus">－</a>
-                                            <input id="text_box number_{$item[goods_id]}" pid="{$item[goods_id]}" gid="{$item[goods_id]}" class="buy_input J_input" type="text" user_can_bought="1000" max_per_user="1000" min_per_user="1" value="{$item['num']}" size="60" name="amount">
+                                            <input id="text_box number_{$item[id]}" pid="{$item[id]}" class="buy_input J_input" type="text" user_can_bought="1000" max_per_user="1000" min_per_user="1" value="{$item['num']}" size="60" name="amount">
                                             <a href="javascript:;" class="control_amount_add J_add">＋</a>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="order-opt">
-                                    <p class="price"><span class="ui-price-icon">{$currency_symbol}</span><span class="sub_price">{$item['price']}</span></p>
-                                    <a class="opt-delete" onclick="delCart('{$item[goods_id]}', '{$item[goods_id]}');"></a>
+                                    <p class="price"><span class="ui-price-icon">{$currency_symbol}</span><span class="sub_price">{$item['amount']}</span></p>
+                                    <a class="opt-delete" onclick="delCart('{$item[id]}');"></a>
                                 </div>
                             </div>
                         </li>
@@ -85,7 +90,7 @@
             <div class="allselect-content">
                 <ul class="allselect-ul">
                     <li  class="li-jisuan">
-                        <input type="button" id="num" class="btnpaymentlink font-medium backgroundgreen" onclick="window.location.href='{url:/index/cart_add}'" value="去结算({echo:count($cart)})" >
+                        <a href="{url:/simple/order}" target="_self"><input type="button" id="num" class="btnpaymentlink font-medium backgroundgreen" value="去 >结算({echo:count($cart)})" ></a>
                     </li>
                     <li class="licenter" style="float:left; margin-left:1rem;">
                         <div style="color: black; font-size:1.5rem;">商品总金额 <span style="color:#c00;">{$currency_symbol}<span class="sum_price">{echo:sprintf("%01.2f",$total)}</span></span></div>
@@ -229,47 +234,40 @@
         var obj = $("input[name='amount']").eq(index);
         var num = obj.val();
         var pid = obj.attr('pid');
-        var gid = obj.attr('gid');
 
         $.ajax({
             type:'POST',
             dataType:'json',
-            url:'{url:/index/cart_add}',
-            data:{'num':num, 'pid':pid, 'gid':gid},
+            url:'{url:/index/cart_num}',
+            data:{'num':num, 'id':pid},
             success:function(data) {
                 if(data.status == 0) {
-                    obj.val(data.data);
-                    msg(data.info);
+//                    obj.val(data.data);
+//                    msg(data.info);
                 }else{
-                    $(".sub_price").eq(index).text(data.data['sub_price']);
+                    var total = 0.00;
+                    var sum_price = data.data['sum_price'];
+                    for(var i in sum_price) total += parseFloat(sum_price[i]['amount']);
+                    $(".sub_price").eq(index).text(parseFloat(data.data['sub_price']));
                     $('#num').val('去结算('+data.data['num']+')');
-                    $('.licenter').find('.sum_price').text(data.data['sum_price']);
+                    $('.licenter').find('.sum_price').text(total);
                 }
             }
         })
     }
 
-    function delCart(pid, gid) {
+    function delCart(pid) {
 
         $.ajax({
             type:'POST',
             dataType:'json',
             url:'{url:/index/cart_del}',
-            data:{'num':0, 'pid':pid, 'gid':gid},
+            data:{'id':pid},
             success:function(data) {
-                if(data.status == 0) {
-                    msg(data.info);
+                if(data.status == 'fail') {
+                    msg('删除失败');
                 }else{
-                    window.location.href='__APP__?m=Goods&a=Cart';
-                    return false;
-                    if(data.data['num'] == 0) {
-                        window.location.href='__APP__?m=Goods&a=Cart';
-                        return false;
-                    }else{
-                        $('#li_'+pid).remove();
-                        $('#num').val('去结算('+data.data['num']+')');
-                        $('.licenter').find('.sum_price').text(data.data['sum_price']);
-                    }
+                    window.location.href='{url:/simple/cart}';
                 }
             }
         })

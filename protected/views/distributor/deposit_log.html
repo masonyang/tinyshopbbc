@@ -1,0 +1,42 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:100px">操作人</th>
+            <th style="width:70px">金额 </th>
+            <th style="width:70px">操作时间 </th>
+            <th style="width:70px">操作ip地址 </th>
+            <th style="width:70px">备注</th>
+        </tr>
+
+        {query:name=distributor_depost domain=$domain fields=id,money,op_id,op_name,action,memo,op_time,op_ip where=$where id=$obj page=1 order= id desc }
+        <tr>
+            <td style="width:100px">{$item['op_name']}</td>
+            <td style="width:70px">
+                {if: $item['action'] == 'add'}
+                +
+                {elseif: $item['action'] == 'minus'}
+                -
+                {/if}
+                {$item['money']}
+            </td>
+            <td style="width:70px">{echo: date('Y/m/d H:i:s',$item['op_time'])}</td>
+            <td style="width:70px">{$item['op_ip']}</td>
+            <td style="width:80px">{$item['memo']}</td>
+        </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+<script type="text/javascript">
+
+    $("#condition").on("click",function(){
+        $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/distributor/deposit_log/id/$id}',method:'get'});},data:{op_name:{name:'操作人'},op_time:{name:'操作时间'}}});
+    })
+</script>

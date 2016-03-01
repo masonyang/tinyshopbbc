@@ -150,7 +150,7 @@ CREATE TABLE `tiny_goods` (
   `tag_ids` varchar(255) DEFAULT NULL ,
   `sell_price` float(10,2) NOT NULL ,
   `branchstore_sell_price` float(10,2) DEFAULT NULL COMMENT '分店自定义销售价',
-  `wholesale_price` float(10,2) DEFAULT NULL COMMENT '批发价',
+  `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',
   `market_price` float(10,2) NOT NULL ,
   `cost_price` float(10,2) NOT NULL ,
   `create_time` datetime DEFAULT NULL ,
@@ -302,6 +302,7 @@ CREATE TABLE `tiny_order` (
   `payment` bigint(20) NOT NULL ,
   `express` bigint(20) DEFAULT NULL ,
   `status` tinyint(1) DEFAULT '1' ,
+  `distr_balance_status` tinyint(1) DEFAULT '0' COMMENT '总店扣除分销商预存款之后,状态 0:未处理 1:已处理',
   `pay_status` tinyint(1) DEFAULT '0' ,
   `delivery_status` tinyint(1) DEFAULT '0' ,
   `accept_name` varchar(20) DEFAULT NULL ,
@@ -350,6 +351,7 @@ CREATE TABLE `tiny_order_goods` (
   `product_id` bigint(20) DEFAULT NULL ,
   `goods_price` float(10,2) DEFAULT '0.00' ,
   `real_price` float(10,2) DEFAULT '0.00' ,
+  `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',
   `goods_nums` int(11) DEFAULT '1' ,
   `goods_weight` float DEFAULT '0' ,
   `shipments` int(11) DEFAULT '0' ,
@@ -376,7 +378,8 @@ CREATE TABLE `tiny_products` (
   `spec` text ,
   `store_nums` int(11) DEFAULT '0' ,
   `warning_line` int(11) DEFAULT '0' ,
-  `branchstore_sell_price` float(10,2) DEFAULT NULL COMMENT '分店自定义销售价',
+  `branchstore_sell_price` float(10,2) DEFAULT '0.00' COMMENT '分店自定义销售价',
+  `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',
   `market_price` float(10,2) DEFAULT '0.00' ,
   `sell_price` float(10,2) DEFAULT '0.00' ,
   `cost_price` float(10,2) DEFAULT '0.00' ,
@@ -553,6 +556,16 @@ CREATE TABLE `tiny_payment` (
   `status` int(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ;
+DROP TABLE IF EXISTS `tiny_pay_plugin`;
+CREATE TABLE `tiny_pay_plugin` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL ,
+  `class_name` varchar(30) NOT NULL ,
+  `description` text ,
+  `logo` varchar(255) DEFAULT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 ;
+INSERT INTO `tiny_pay_plugin` (`id`,`name`,`class_name`,`description`,`logo`) VALUES ('1','预存款支付','balance','预存款是客户在您网站上的虚拟资金帐户。','/payments/logos/pay_deposit.gif'),('5','腾讯财付通','tenpay','费率最低至<span style=\"color: #FF0000;font-weight: bold;\">0.61%</span>，并赠送价值千元企业QQ <a style=\"color:blue\" href=\"http://union.tenpay.com/mch/mch_register.shtml\" target=\"_blank\">立即申请</a>','/payments/logos/pay_tenpay.gif'),('2','支付宝[担保交易]','alipaytrad','淘宝买家最熟悉的付款方式：买家先将交易资金存入支付宝并通知卖家发货，买家确认收货后资金自动进入卖家支付宝账户，完成交易 <a style=\"color:blue\" href=\"https://b.alipay.com/order/productDetail.htm?productId=2012111200373121\" target=\"_blank\">立即申请</a>','/payments/logos/pay_alipaytrad.gif'),('3','支付宝[双向接口]','alipay','买家付款时，可选择担保交易或即时到账中的任一支付方式进行付款，完成交易。<a style=\"color:blue\" href=\"https://b.alipay.com/order/productDetail.htm?productId=2012111300373136\" target=\"_blank\">立即申请</a>','/payments/logos/pay_alipay.gif'),('6','PayPal','paypal','PayPal 是全球最大的在线支付平台，同时也是目前全球贸易网上支付标准。','/payments/logos/pay_paypal.gif'),('4','支付宝[即时到帐]','alipaydirect','网上交易时，买家的交易资金直接打入卖家支付宝账户，快速回笼交易资金。 <a style=\"color:blue\" href=\"https://b.alipay.com/order/productDetail.htm?productId=2012111200373124\" target=\"_blank\">立即申请</a>','/payments/logos/pay_alipay.gif'),(7,'货到付款','received','客户收到商品时，再进行付款，让客户更放心。','/payments/logos/pay_received.gif'),(8,'支付宝[银行支付]','alipaygateway',NULL,'/payments/logos/pay_alipay.gif');
 DROP TABLE IF EXISTS `tiny_help`;
 CREATE TABLE `tiny_help` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
@@ -567,3 +580,44 @@ CREATE TABLE `tiny_help` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 INSERT INTO `tiny_help` (`id`,`title`,`content`,`category_id`,`summary`,`status`,`top`,`publish_time`,`count`) VALUES ('3','账户注册','<h5 style=\"color:#666666;font-family:Tahoma;\">\r\n	<br /></h5>','1','','0','0','2014-02-10 22:36:35','0'),('5','购物流程','','1','','0','0','2014-03-07 14:36:45','0'),('6','积分制度','<h5 style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	一、积分制度\r\n</h5>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	您在TinyShop商城购物消费，或参加活动等，即可获得<span style=\"color:#666666;font-family:Tahoma, simsun;font-size:14px;line-height:21px;background-color:#FFFFFF;\">TinyShop商城</span>的积分。积分可以兑换TinyShop商城的代金卷，在购买商品进行确认订单的时候，可能使用满足条件的代金卷。\r\n</p>\r\n<h5 style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	二、积分获取\r\n</h5>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	您可以通过以下几种方式，获取积分：\r\n</p>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	a)每个商品都有不同的对应积分，购买后都可以得到对应的积分。<br />\r\nb)当满足了订单促销活动时，如果是积分N倍活动，则可以得到，商品总分N倍的积分。\r\n</p>\r\n<h5 style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	三、积分的使用\r\n</h5>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	您可以采取以下几种方式，使用积分：\r\n</p>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	<b class=\"bor_tl\">兑换代金卷</b><br />\r\n积分可用来兑换TinyShop商城的代金卷。\r\n</p>\r\n<p class=\"pl20\" style=\"font-size:14px;color:#666666;font-family:Tahoma, simsun;background-color:#FFFFFF;\">\r\n	<b class=\"bor_tl\">会员升级</b><br />\r\n积分累计和新增积分到特定数额，即可自动提升会员等级。不同等级会员，可以享受不同优惠。\r\n</p>','1','','0','0','2014-03-07 14:38:30','0'),('7','配送范围','','3','','0','0','2014-03-07 15:25:41','0'),('8','余额支付','','5','','0','0','2014-03-07 15:34:36','0'),('9','退款说明','','6','','0','0','2014-03-07 15:35:07','0'),('10','联系客服','','7','','0','0','2014-03-07 15:35:33','0'),('11','找回密码','','7','','0','0','2014-03-07 15:35:46','0'),('12','常见问题','','7','','0','0','2014-03-07 15:35:58','0'),('13','售后保障','<div style=\"color:#666666;font-family:Arial;\">\r\n	<strong>服务承诺：</strong><br />\r\n商城向您保证所售商品均为正品行货，自营商品开具机打发票或电子发票。凭质保证书及商城发票，可享受全国联保服务（奢侈品、钟表除外；奢侈品、钟表由联系保修，享受法定三包售后服务），与您亲临商场选购的商品享受相同的质量保证。商城还为您提供具有竞争力的商品价格和运费政策，请您放心购买！ <br />\r\n注：因厂家会在没有任何提前通知的情况下更改产品包装、产地或者一些附件，本司不能确保客户收到的货物与商城图片、产地、附件说明完全一致。只能确保为原厂正货！并且保证与当时市场上同样主流新品一致。若本商城没有及时更新，请大家谅解！\r\n</div>\r\n<div style=\"color:#666666;font-family:Arial;\">\r\n	<strong>权利声明：</strong><br />\r\n商城上的所有商品信息、客户评价、商品咨询、网友讨论等内容，是商城重要的经营资源，未经许可，禁止非法转载使用。\r\n	<p>\r\n		<b>注：</b>本站商品信息均来自于厂商，其真实性、准确性和合法性由信息拥有者（厂商）负责。本站不提供任何保证，并不承担任何法律责任。\r\n	</p>\r\n</div>','6','','0','0','2014-05-04 10:38:55','0'),('14','用户注册协议','<p>\r\n	演示内容，请尽快完善用户注册协议。\r\n</p>',7,'',0,0,'2015-04-02 14:25:42',0);
+DROP TABLE IF EXISTS `tiny_sync_queue`;
+CREATE TABLE `tiny_sync_queue` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `content` longtext NOT NULL COMMENT '扫描人',
+  `distributor_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '分销商id',
+  `inserttime` int(11) DEFAULT NULL COMMENT '插入时间',
+  `modifytime` int(11) DEFAULT NULL COMMENT '执行时间',
+  `level` int(1) NOT NULL DEFAULT 0 COMMENT '优先级 0:普通 1:中 2:高',
+  `sync_direct` enum('headtobranch', 'branchtohead') DEFAULT 'headtobranch',
+  `action` enum('add', 'update','del') DEFAULT 'add',
+  `status` enum('ready', 'syncing','success','fail') DEFAULT 'ready',
+  `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='数据同步队列表';
+DROP TABLE IF EXISTS `tiny_sync_queue`;
+CREATE TABLE `tiny_sync_queue` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `content` longtext NOT NULL COMMENT '扫描人',
+  `distributor_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '分销商id',
+  `inserttime` int(11) DEFAULT NULL COMMENT '插入时间',
+  `modifytime` int(11) DEFAULT NULL COMMENT '执行时间',
+  `level` int(1) NOT NULL DEFAULT 0 COMMENT '优先级 0:普通 1:中 2:高',
+  `sync_direct` enum('headtobranch', 'branchtohead') DEFAULT 'headtobranch',
+  `action` enum('add', 'update','del') DEFAULT 'add',
+  `status` enum('ready', 'syncing','success','fail') DEFAULT 'ready',
+  `action_type` enum('normal', 'openshop') DEFAULT 'normal',
+  `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商预存款日志表';
+DROP TABLE IF EXISTS `tiny_distributor_depost`;
+CREATE TABLE `tiny_distributor_depost` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',
+  `memo` varchar(200) NOT NULL COMMENT '备注',
+  `op_id` bigint(20) NOT NULL DEFAULT 0 COMMENT '操作人id',
+  `op_time` int(11) DEFAULT NULL COMMENT '操作时间',
+  `money` float(10,2) NOT NULL COMMENT '操作金额',
+  `action` enum('add', 'minus') DEFAULT 'add' COMMENT '交易类型 +、-',
+  `op_ip` varchar(40) DEFAULT NULL COMMENT '操作ip地址',
+  `op_name` varchar(200) NOT NULL COMMENT '操作人名称',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商预存款日志表';

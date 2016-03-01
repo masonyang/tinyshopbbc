@@ -20,5 +20,17 @@ class Log
 			$model->table("balance_log")->data($log)->insert();
 		}
 	}
+
+    //分销商预存款充值日志
+    public static function rechange($data = array(),$dbname = '')
+    {
+        if($dbname && $data){
+            $model = new Model('distributor_depost',$dbname,"master");
+            $model->data($data)->add();
+        }
+
+    }
+
+
 }
 ?>

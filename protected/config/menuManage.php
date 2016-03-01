@@ -21,6 +21,7 @@ $menuManage['branchstore'] = array(
 		'/admin/index'=>array('name'=>'管理首页','parent'=>'config'),
         '/admin/theme_list'=>array('name'=>'主题设置','parent'=>'config'),
 		'/admin/config_globals_branchstore'=>array('name'=>'站点设置','parent'=>'config'),
+        '/distributor/deposit_list'=>array('name'=>'分销商预存款日志','parent'=>'config'),
         '/admin/clear'=>array('name'=>'清除缓存','parent'=>'safe'),
         '/admin/log_operation_list'=>array('name'=>'操作日志','parent'=>'safe'),
         '/goods/goods_list'=>array('name'=>'商品列表','parent'=>'goods'),
@@ -70,8 +71,8 @@ $menuManage['headstore'] = array(
 		'distributor'=>array('name'=>'分销商管理','parent'=>'distributor'),
         'receipt'=>array('name'=>'单据管理','parent'=>'order'),
         'express'=>array('name'=>'快递单配置','parent'=>'order'),
-        //'count'=>array('name'=>'销售统计','parent'=>'count'),
-        //'customer_count'=>array('name'=>'客户统计','parent'=>'count'),
+//        'count'=>array('name'=>'销售统计','parent'=>'count'),
+//        'customer_count'=>array('name'=>'客户统计','parent'=>'count'),
         'promotions'=>array('name'=>'促销活动','parent'=>'marketing'),
         //'voucher'=>array('name'=>'代金券管理','parent'=>'marketing'),
         'scannersetting'=>array('name'=>'扫描枪配置','parent'=>'order'),
@@ -160,11 +161,11 @@ $menuManage['headstore'] = array(
         '/order/doc_invoice_list'=>array('name'=>'发货单','parent'=>'receipt'),
         '/order/doc_refund_list'=>array('name'=>'退款单','parent'=>'receipt'),
         '/order/doc_returns_list'=>array('name'=>'售后单','parent'=>'receipt'),
-
-        //'/count/index'=>array('name'=>'订单统计','parent'=>'count'),
-        //'/count/hot'=>array('name'=>'热销统计','parent'=>'count'),
-        //'/count/area_buy'=>array('name'=>'地区统计','parent'=>'count'),
-        //'/count/user_reg'=>array('name'=>'会员分布统计','parent'=>'customer_count'),
+//
+//        '/count/index'=>array('name'=>'订单统计','parent'=>'count'),
+//        '/count/hot'=>array('name'=>'热销统计','parent'=>'count'),
+//        '/count/area_buy'=>array('name'=>'地区统计','parent'=>'count'),
+//        '/count/user_reg'=>array('name'=>'会员分布统计','parent'=>'customer_count'),
 
 
         //'/marketing/voucher_template_list'=>array('name'=>'代金券模板','parent'=>'voucher'),

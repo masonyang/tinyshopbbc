@@ -60,6 +60,27 @@ class DistributorController extends Controller
 		}
 		$serverName = Tiny::getServerName();
 		$domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
+
+
+        $distrObj = new Model('distributor');
+        $distrInfos = $distrObj->where('disabled = 0')->findAll();
+
+        $mapper = @require(APP_CODE_ROOT.'config/mapper.php');
+        $mappers = array_keys($mapper);
+        unset($mapper);
+
+        $siteurl = array('zd');
+        foreach($distrInfos as $val){
+            $siteurl[] = $val['site_url'];
+        }
+
+        $domainList = array_diff($mappers,$siteurl);
+
+        unset($mappers);
+        unset($distrInfos);
+
+        $this->assign("domain_list",$domainList);
+
 		$this->assign("domain",$domain);
 		$this->redirect('distributor_edit',false,$distributor);
 	}
@@ -132,8 +153,22 @@ class DistributorController extends Controller
 		if($id){
 			$distributorModel->data($data)->where("distributor_id=$id")->update();
 
-			//为分销商 更新授权商品分类、授权商品、分销商信息
-
+            //同步分销商信息到分店
+            syncDistributorInfo::getInstance()->setParams($data)->sync();
+            //同步商品分类
+            syncBrand::getInstance()->setParams($data)->sync();
+            //同步商品
+            syncGoods::getInstance()->setParams($data)->sync();
+            //同步货品
+            syncProducts::getInstance()->setParams($data)->sync();
+            //同步规格
+            syncSpec::getInstance()->setParams($data)->sync();
+            //同步商品类型
+            syncGoodsType::getInstance()->setParams($data)->sync();
+            //同步品牌
+            syncBrand::getInstance()->setParams($data)->sync();
+            //同步标签
+            syncTag::getInstance()->setParams($data)->sync();
 		}else{
 			$data['distributor_name'] = $distributor_name;
 			$validcode = CHash::random(8);
@@ -154,6 +189,7 @@ class DistributorController extends Controller
 					$this->msg = array("error",$msg['msg']);
 				}
 		}
+
 		$this->redirect("distributor_list",$return);
 	}
 
@@ -183,4 +219,88 @@ class DistributorController extends Controller
 		$this->redirect();
 	}
 
+    public function deposit_list()
+    {
+        $condition = Req::args('condition');
+        $condition_str = Common::str2where($condition);
+        if($condition_str)$this->assign("where",$condition_str);
+        else $this->assign("where","1=1");
+
+        $this->assign("condition",$condition);
+        $this->redirect();
+    }
+
+    public function deposit_log()
+    {
+        $this->layout = "blank";
+        $id = Filter::int(Req::args('id'));
+        $condition = Req::args('condition');
+        $condition_str = Common::str2where($condition);
+        if($condition_str)$this->assign("where",$condition_str);
+        else $this->assign("where","1=1");
+
+        $model = new Model("distributor");
+        $distrInfo = $model->where("distributor_id=$id")->find();
+        if($distrInfo['site_url']){
+            $domain = $distrInfo['site_url'];
+        }else{
+            $domain = 'zd';
+        }
+        $this->assign("domain",$domain);
+        $this->assign("id",$id);
+        $this->redirect();
+    }
+
+    public function distributor_rechange()
+    {
+        $id = Filter::int(Req::args('id'));
+        $deposit = Req::args('deposit');
+        $info = array('status'=>'fail','msg'=>'充值失败');
+        $model = new Model("distributor","zd","master");
+        $distrInfo = $model->where("distributor_id=$id")->find();
+        if($distrInfo){
+            $distrInfo['deposit'] += $deposit;
+            $model->data(array('deposit'=>$distrInfo['deposit']))->where("distributor_id=$id")->update();
+
+            //同步预存款金额到分店
+            $managerObj = new Model("manager",$distrInfo['site_url'],"master");
+            $distrInfo = $managerObj->where("distributor_id=$id")->find();
+            $distrInfo['deposit'] += $deposit;
+
+            $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
+
+            $manager = $this->safebox->get('manager');
+            $data['op_name'] = $manager['name'];
+            $data['op_time'] = time();
+            $data['op_id'] = $manager['id'];
+            $data['money'] = $deposit;
+            $data['action'] = 'add';
+            $data['op_ip'] = Chips::getIP();
+            $data['memo'] = '操作人【'.$manager['name'].'】充值 '.$deposit.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+            Log::rechange($data,$distrInfo['site_url']);
+            $info = array('status'=>'success','money'=>$distrInfo['deposit']);
+        }
+
+        echo JSON::encode($info);
+    }
+
+    public function rechange_login()
+    {
+        $rechangelogin = Req::post('rechangelogin');
+        $info = array('status'=>'fail','msg'=>'密码错误');
+        $manager = $this->safebox->get('manager');
+        $managerObj = new Model('manager');
+        $user = $managerObj->fields('distr_rechange_pwd,distr_rechange_validcode,roles')->where('id = '.$manager['id'])->find();
+
+        if($user['roles'] == 'administrator'){
+            $key = md5($user['distr_rechange_validcode']);
+            $password = substr($key,0,16).$rechangelogin.substr($key,16,16);
+            if($user['distr_rechange_pwd'] == md5($password))
+            {
+                $info = array('status'=>'success','msg'=>'');
+            }
+        }
+
+        echo JSON::encode($info);
+    }
 }

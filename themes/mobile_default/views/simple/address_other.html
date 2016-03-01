@@ -41,7 +41,7 @@
                 <label></label>
             </div>
             <div class="form-row">
-                <label>收货人姓名:&nbsp;</label>
+                <label>姓名:&nbsp;</label>
                 <input type="text" pattern="required" name="accept_name" maxlen="10" value="{$accept_name}" alt="不为空，且长度不得超过10个字" class="form-item"><label></label>
 
             </div>
@@ -61,7 +61,7 @@
                 <label></label>
             </div>
             <div class="form-row" style="padding-bottom:12px;">
-                <label>设为默认地址&nbsp;:</label>
+                <label>默认地址&nbsp;:</label>
                 <input type="radio" value="1" class="form-item ng-pristine ng-untouched" name="is_default" {if:isset($is_default) && $is_default==1}checked{/if} >
                 <span class="radio-button_checkmark"></span>是
 

@@ -67,7 +67,7 @@
       <dl class="lineD">
       <dt>注册时间：</dt>
       <dd>
-        <label><b>注册：</b>{$register_time}</label>
+        <label><b>注册：</b>{echo:date('Y/m/d H:i:s',$register_time)}</label>
       </dd>
       </dl>
 	  <dl class="lineD">
@@ -130,7 +130,17 @@
     <dl class="lineD">
       <dt>网址：</dt>
       <dd>
-        <input name="site_url" type="text"  size=5 style="width:50px;" maxlength="10" value="{$site_url}"/>&nbsp;&nbsp;{$domain}
+          {if: $site_url}
+            {$site_url}
+            <input type="hidden" name="site_url" name="site_url" value="{$site_url}">
+          {else:}
+              <select name="site_url">
+                  {list:items=$domain_list}
+                  <option value="{$key}" {if: $item == $site_url}selected disabled{/if} >{$item}</option>
+                  {/list}
+              </select>&nbsp;&nbsp;
+          {/if}
+        {$domain}
         <span>  </span>
       </dd>
     </dl>
@@ -172,7 +182,7 @@
 	  <dl class="lineD">
       <dt>预存款：</dt>
       <dd>
-        <input name="deposit" type="text" size=10 disabled value="{$deposit}">&nbsp;&nbsp;&nbsp;<a href="#">充值</a>
+        <input name="deposit" id="_deposit" type="text" size=10 disabled value="{$deposit}">&nbsp;&nbsp;&nbsp;<a href="javascript:;" onclick="rechange_login()">充值</a>
       </dd>
     </dl>
 	<dl class="lineD">
@@ -202,6 +212,33 @@
       <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
       </form>
 </div>
+
+<div id="rechange_info" style="display: none;width:520px">
+    <form class="form2" callback="changeRechange">
+        <dl class="lineD">
+            <dt><b class="red">*</b>金额：</dt>
+            <dd>
+                <input name="deposit_rechange" type="text" id="deposit_rechange" pattern="required" alt="金额不能为空！">
+                <label></label>
+            </dd>
+        </dl>
+        <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
+    </form>
+</div>
+
+<div id="rechange_login" style="display: none;width:520px;">
+    <form class="form2" callback="rechangelogin">
+        <dl class="lineD">
+            <dt><b class="red">*</b>密码：</dt>
+            <dd>
+                <input name="rechangelogin" type="password" id="rechangelogin" pattern="\w{6,}">
+                <label>密码必需大于6位</label>
+            </dd>
+        </dl>
+        <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
+    </form>
+</div>
+
 <script type="text/javascript">
 var form =  new Form();
 form.setValue('parent_id','{$parent_id}');
@@ -244,7 +281,7 @@ $(function(){
         noneSelectedText: "==请选择==",
         checkAllText: "全选",
         uncheckAllText: '全不选',
-        selectedList:8
+        selectedList:50
     });
 });
 
@@ -260,6 +297,52 @@ function setImg(value){
   var img = "{url:@}"+value;
   $("#img-show").html("<img height='50' src='"+img+"'>");
   art.dialog({id:'upimg_dialog'}).close();
+}
+
+
+function rechange_login()
+{
+    art.dialog({id:'rechangelogin',title:'充值验证:',content:document.getElementById('rechange_login')});
+}
+
+function rechangelogin(e)
+{
+    var rechangelogin = $("#rechangelogin").val();
+    if(!e){
+        $.post("{url:/distributor/rechange_login}",{rechangelogin:rechangelogin},function(data){
+            if(data['status']=="success"){
+                art.dialog.tips("<p class='success'>"+data['msg']+"！</p>");
+                art.dialog({id:"rechangelogin"}).close();
+                rechange_dialog();
+            }else{
+                art.dialog.tips("<p class='"+data['status']+"'>"+data['msg']+"</p>");
+            }
+        },"json");
+    }
+    return false;
+}
+
+function rechange_dialog()
+{
+    art.dialog({id:'rechange_dialog',title:'充值:',content:document.getElementById('rechange_info')});
+}
+
+function changeRechange(e){
+    var deposit = $("#deposit_rechange").val();
+    var id = $("#objId").val();
+    if(!e){
+        $.post("{url:/distributor/distributor_rechange}",{id:id,deposit:deposit},function(data){
+            if(data['status']=="success"){
+                $('#_deposit').val(data['money']);
+                art.dialog.tips("<p class='success'>充值成功！</p>");
+            }else{
+                art.dialog.tips("<p class='"+data['status']+"'>"+data['msg']+"</p>");
+            }
+
+            art.dialog({id:"rechange_dialog"}).close();
+        },"json");
+    }
+    return false;
 }
 
 </script>

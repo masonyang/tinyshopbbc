@@ -436,6 +436,7 @@ class SimpleController extends Controller{
 
 
     public function order(){
+        $this->assign("usedefault","false");
         $this->assign("footer","order");
         if(!$this->cart)$this->redirect("cart");
         if($this->checkOnline()){
@@ -680,286 +681,297 @@ class SimpleController extends Controller{
     //提交订单处理
     public function order_act(){
         if($this->checkOnline()){
-            $address_id = Filter::int(Req::args('address_id'));
-            $payment_id = Filter::int(Req::args('payment_id'));
-            $prom_id = Filter::int(Req::args('prom_id'));
-            $is_invoice = Filter::int(Req::args('is_invoice'));
-            $invoice_type = Filter::int(Req::args('invoice_type'));
-            $invoice_title = Filter::text(Req::args('invoice_title'));
-            $user_remark = Filter::txt(Req::args('user_remark'));
-            $voucher_id = Filter::int(Req::args('voucher'));
+            try{
+                $address_id = Filter::int(Req::args('address_id'));
+                $payment_id = Filter::int(Req::args('payment_id'));
+                $prom_id = Filter::int(Req::args('prom_id'));
+                $is_invoice = Filter::int(Req::args('is_invoice'));
+                $invoice_type = Filter::int(Req::args('invoice_type'));
+                $invoice_title = Filter::text(Req::args('invoice_title'));
+                $user_remark = Filter::txt(Req::args('user_remark'));
+                $voucher_id = Filter::int(Req::args('voucher'));
 
-            //非普通促销信息
-            $type = Req::args("type");
-            $id = Filter::int(Req::args('id'));
-            $product_id = Req::args('product_id');
-            $buy_num = Req::args('buy_num');
+                //非普通促销信息
+                $type = Req::args("type");
+                $id = Filter::int(Req::args('id'));
+                $product_id = Req::args('product_id');
+                $buy_num = Req::args('buy_num');
 
-            if(!$address_id || !$payment_id || ($is_invoice==1 && $invoice_title=='')){
-                if(is_array($product_id)){
-                    foreach($product_id as $key=>$val){
-                        $product_id[$key] = Filter::int($val);
-                    }
-                    $product_id = implode('-', $product_id);
-                }
-                else $product_id =  Filter::int($product_id);
-                $data = Req::args();
-                $data['is_invoice']=$is_invoice;
-                if(!$address_id) $data['msg'] = array('fail',"必需选择收货地址，才能确认订单。");
-                else if(!$payment_id)$data['msg'] = array('fail',"必需选择支付方式，才能确认订单。");
-                else $data['msg'] = array('fail',"索要发票，必需写明发票抬头。");
-                if($type==null)$this->redirect("order",false,$data);
-                else {
-                    unset($data['act']);
-                    Req::args('pid',$product_id);
-                    Req::args('id',$id);
-                    unset($_GET['act']);
-                    Req::args('type',$type);
-                    Req::args('msg',$data['msg']);
-                    $this->redirect("/simple/order_info",true,Req::args());
-                }
-                exit;
-            }
-            //地址信息
-            $address_model = new Model('address');
-            $address = $address_model->where("id=$address_id and user_id=".$this->user['id'])->find();
-            if(!$address){
-                $data = Req::args();
-                $data['msg'] = array('fail',"选择的地址信息不正确！");
-                $this->redirect("order",false,$data);
-                exit;
-            }
-            //if(!$payment_id)$this->redirect("order",false,Req::args());
-
-            if($this->getModule()->checkToken('order')){
-
-                //订单类型: 0普通订单 1团购订单 2限时抢购 3捆绑促销
-                $order_type = 0;
-                $model = new Model('');
-
-                //团购处理
-                if($type=="groupbuy"){
-                    $product_id = Filter::int($product_id[0]);
-                    $num = Filter::int($buy_num[0]);
-                    if($num<1) $num = 1;
-                    $item = $model->table("groupbuy as gb")->join("left join goods as go on gb.goods_id=go.id left join products as pr on pr.id=$product_id")->fields("*,pr.id as product_id,pr.spec")->where("gb.id=$id")->find();
-                    $order_products = $this->packGroupbuyProducts($item,$num);
-
-                    $groupbuy = $model->table("groupbuy")->where("id=$id")->find();
-                    unset($groupbuy['description']);
-                    $data['prom'] = serialize($groupbuy);
-                    $data['prom_id'] = $id;
-                    $order_type = 1;
-
-                }else if($type=="flashbuy"){//抢购处理
-                    $product_id = Filter::int($product_id[0]);
-                    $num = Filter::int($buy_num[0]);
-                    if($num<1) $num = 1;
-                    $item = $model->table("flash_sale as fb")->join("left join goods as go on fb.goods_id=go.id left join products as pr on pr.id=$product_id")->fields("*,pr.id as product_id,pr.spec")->where("fb.id=$id")->find();
-                    $order_products = $this->packFlashbuyProducts($item,$num);
-
-                    $flashbuy = $model->table("flash_sale")->where("id=$id")->find();
-                    unset($flashbuy['description']);
-                    $data['prom'] = serialize($flashbuy);
-                    $data['prom_id'] = $id;
-                    $order_type = 2;
-                }else if($type=="bundbuy"){//捆绑销售处理
+                if(!$address_id || !$payment_id || ($is_invoice==1 && $invoice_title=='')){
                     if(is_array($product_id)){
                         foreach($product_id as $key=>$val){
                             $product_id[$key] = Filter::int($val);
                         }
+                        $product_id = implode('-', $product_id);
                     }
                     else $product_id =  Filter::int($product_id);
+                    $data = Req::args();
+                    $data['is_invoice']=$is_invoice;
+                    if(!$address_id) $data['msg'] = array('fail',"必需选择收货地址，才能确认订单。");
+                    else if(!$payment_id)$data['msg'] = array('fail',"必需选择支付方式，才能确认订单。");
+                    else $data['msg'] = array('fail',"索要发票，必需写明发票抬头。");
+                    if($type==null)$this->redirect("order",false,$data);
+                    else {
+                        unset($data['act']);
+                        Req::args('pid',$product_id);
+                        Req::args('id',$id);
+                        unset($_GET['act']);
+                        Req::args('type',$type);
+                        Req::args('msg',$data['msg']);
+                        $this->redirect("/simple/order_info",true,Req::args());
+                    }
+                    exit;
+                }
+                //地址信息
+                $address_model = new Model('address');
+                $address = $address_model->where("id=$address_id and user_id=".$this->user['id'])->find();
+                if(!$address){
+                    $data = Req::args();
+                    $data['msg'] = array('fail',"选择的地址信息不正确！");
+                    $this->redirect("order",false,$data);
+                    exit;
+                }
+                //if(!$payment_id)$this->redirect("order",false,Req::args());
 
-                    $product_ids = implode(',', $product_id);
-                    $num = Filter::int($buy_num[0]);
+                if($this->getModule()->checkToken('order')){
 
-                    $model = new Model("bundling");
-                    $bund = $model->where("id=$id")->find();
+                    //订单类型: 0普通订单 1团购订单 2限时抢购 3捆绑促销
+                    $order_type = 0;
+                    $model = new Model('');
 
-                    if($bund){
-                        $goods_id = $bund['goods_id'];
-                        $products = $model->table("goods as go")->join("left join products as pr on pr.goods_id=go.id")->where("pr.id in ($product_ids)")->fields("*,pr.id as product_id,pr.spec")->group("go.id")->findAll();
-                        $order_products = $this->packBundbuyProducts($products,$num);
+                    //团购处理
+                    if($type=="groupbuy"){
+                        $product_id = Filter::int($product_id[0]);
+                        $num = Filter::int($buy_num[0]);
+                        if($num<1) $num = 1;
+                        $item = $model->table("groupbuy as gb")->join("left join goods as go on gb.goods_id=go.id left join products as pr on pr.id=$product_id")->fields("*,pr.id as product_id,pr.spec")->where("gb.id=$id")->find();
+                        $order_products = $this->packGroupbuyProducts($item,$num);
+
+                        $groupbuy = $model->table("groupbuy")->where("id=$id")->find();
+                        unset($groupbuy['description']);
+                        $data['prom'] = serialize($groupbuy);
+                        $data['prom_id'] = $id;
+                        $order_type = 1;
+
+                    }else if($type=="flashbuy"){//抢购处理
+                        $product_id = Filter::int($product_id[0]);
+                        $num = Filter::int($buy_num[0]);
+                        if($num<1) $num = 1;
+                        $item = $model->table("flash_sale as fb")->join("left join goods as go on fb.goods_id=go.id left join products as pr on pr.id=$product_id")->fields("*,pr.id as product_id,pr.spec")->where("fb.id=$id")->find();
+                        $order_products = $this->packFlashbuyProducts($item,$num);
+
+                        $flashbuy = $model->table("flash_sale")->where("id=$id")->find();
+                        unset($flashbuy['description']);
+                        $data['prom'] = serialize($flashbuy);
+                        $data['prom_id'] = $id;
+                        $order_type = 2;
+                    }else if($type=="bundbuy"){//捆绑销售处理
+                        if(is_array($product_id)){
+                            foreach($product_id as $key=>$val){
+                                $product_id[$key] = Filter::int($val);
+                            }
+                        }
+                        else $product_id =  Filter::int($product_id);
+
+                        $product_ids = implode(',', $product_id);
+                        $num = Filter::int($buy_num[0]);
+
+                        $model = new Model("bundling");
+                        $bund = $model->where("id=$id")->find();
+
+                        if($bund){
+                            $goods_id = $bund['goods_id'];
+                            $products = $model->table("goods as go")->join("left join products as pr on pr.goods_id=go.id")->where("pr.id in ($product_ids)")->fields("*,pr.id as product_id,pr.spec")->group("go.id")->findAll();
+                            $order_products = $this->packBundbuyProducts($products,$num);
+                        }
+
+                        $bundbuy = $model->table("bundling")->where("id=$id")->find();
+                        unset($bundbuy['description']);
+                        $data['prom'] = serialize($bundbuy);
+                        $data['prom_id'] = $id;
+                        $current = current($order_products);
+                        $bundbuy_amount = sprintf("%01.2f",$bund['price']) * $current['num'];
+
+                        $order_type = 3;
+                    }
+                    if($order_type==0){
+                        $order_products = $this->cart;
+                        $data['prom_id'] = $prom_id;
                     }
 
-                    $bundbuy = $model->table("bundling")->where("id=$id")->find();
-                    unset($bundbuy['description']);
-                    $data['prom'] = serialize($bundbuy);
-                    $data['prom_id'] = $id;
-                    $current = current($order_products);
-                    $bundbuy_amount = sprintf("%01.2f",$bund['price']) * $current['num'];
+                    //检测products 是否还有数据
+                    if(empty($order_products)){
+                        $msg = array('type'=>'fail','msg'=>'非法提交订单！');
+                        $this->redirect('/index/msg',false,$msg);
+                        return;
+                    }
 
-                    $order_type = 3;
-                }
-                if($order_type==0){
-                    $order_products = $this->cart;
-                    $data['prom_id'] = $prom_id;
-                }
+                    //商品总金额,重量,积分计算
+                    $payable_amount = 0.00;
+                    $real_amount = 0.00;
+                    $weight=0;
+                    $point = 0;
+                    foreach ($order_products as $item) {
+                        $payable_amount+=$item['sell_total'];
+                        $real_amount+=$item['amount'];
+                        $weight += $item['weight']*$item['num'];
+                        $point += $item['point']*$item['num'];
+                    }
+                    if($order_type == 3) $real_amount = $bundbuy_amount;
 
-                //检测products 是否还有数据
-                if(empty($order_products)){
+                    //计算运费
+                    $fare = new Fare($weight);
+                    $payable_freight = $fare->calculate($address_id);
+                    $real_freight = $payable_freight;
+
+                    //计算订单优惠
+                    $prom_order = array();
+                    $discount_amount = 0;
+                    if($order_type ==0 ){
+                        if($prom_id){
+                            $prom = new Prom($real_amount);
+                            $prom_order = $model->table("prom_order")->where("id=$prom_id")->find();
+
+                            //防止非法会员使用订单优惠
+                            $user = $this->user;
+                            $group_id = ',0,';
+                            if(isset($user['group_id'])) $group_id = ','.$user['group_id'].',';
+
+                            if(stripos(','.$prom_order['group'].',',$group_id)!==false){
+                                $prom_parse = $prom->parsePorm($prom_order);
+                                $discount_amount = $prom_parse['value'];
+                                if($prom_order['type']==4) $discount_amount = $payable_freight;
+                                else if($prom_order['type']==2){
+                                    $multiple = intval($prom_order['expression']);
+                                    $multiple = $multiple==0?1:$multiple;
+                                    $point = $point * $multiple;
+                                }
+                                $data['prom'] = serialize($prom_order);
+                            }
+                            else $data['prom'] = serialize(array());
+                        }
+                    }
+                    //税计算
+                    $tax_fee = 0;
+                    $config = Config::getInstance();
+                    $config_other = $config->get('other');
+                    $open_invoice = isset($config_other['other_is_invoice'])?!!$config_other['other_is_invoice']:false;
+                    $tax = isset($config_other['other_tax'])?intval($config_other['other_tax']):0;
+                    if($open_invoice && $is_invoice){
+                        $tax_fee = $real_amount*$tax/100;
+                    }
+
+                    //代金券处理
+                    $voucher_value = 0;
+                    $voucher = array();
+                    if($voucher_id){
+                        $voucher = $model->table("voucher")->where("id=$voucher_id and is_send=1 and user_id=".$this->user['id']." and status = 0 and '".date("Y-m-d H:i:s")."' <=end_time and '".date("Y-m-d H:i:s")."' >=start_time and money<=".$real_amount)->find();
+                        if($voucher){
+                            $voucher_value = $voucher['value'];
+                            if($voucher_value>$real_amount)$voucher_value = $real_amount;
+                        }
+                    }
+                    //计算订单总金额
+                    $order_amount = $real_amount + $payable_freight + $tax_fee - $discount_amount - $voucher_value;
+
+
+
+                    //填写订单
+                    $data['order_no'] = Common::createOrderNo();
+                    $data['user_id'] = $this->user['id'];
+                    $data['payment'] = $payment_id;
+                    $data['status'] = 2;
+                    $data['pay_status'] = 0;
+                    $data['accept_name'] = Filter::text($address['accept_name']);
+                    $data['phone'] = $address['phone'];
+                    $data['mobile'] = $address['mobile'];
+                    $data['province'] = $address['province'];
+                    $data['city'] = $address['city'];
+                    $data['county'] = $address['county'];
+                    $data['addr'] = Filter::text($address['addr']);
+                    $data['zip'] = $address['zip'];
+                    $data['payable_amount'] = $payable_amount;
+
+                    $data['payable_freight'] = $payable_freight;
+                    $data['real_freight'] = $real_freight;
+                    $data['create_time'] = date('Y-m-d H:i:s');
+                    $data['user_remark'] = $user_remark;
+                    $data['is_invoice'] = $is_invoice;
+                    if($is_invoice==1){
+                        $data['invoice_title'] = $invoice_type.':'.$invoice_title;
+                    }else{
+                        $data['invoice_title'] = '';
+                    }
+
+                    $data['taxes'] = $tax_fee;
+
+
+                    $data['discount_amount'] = $discount_amount;
+
+                    $data['order_amount'] = $order_amount;
+                    $data['real_amount'] = $real_amount;
+
+                    $data['point'] = $point;
+                    $data['type'] = $order_type;
+                    $data['voucher_id'] = $voucher_id;
+                    $data['voucher'] = serialize($voucher);
+
+
+                    //var_dump($order_products);exit();
+
+                    //写入订单数据
+                    $order_id = $model->table("order")->data($data)->insert();
+                    //写入订单商品
+                    $tem_data = array();
+
+                    foreach ($order_products as $item) {
+                        $tem_data['order_id'] = $order_id;
+                        $tem_data['goods_id'] = $item['goods_id'];
+                        $tem_data['product_id'] = $item['id'];
+                        $tem_data['goods_price'] = $item['sell_price'];
+                        $tem_data['real_price'] = $item['real_price'];
+                        $tem_data['trade_price'] = $item['trade_price'] ? $item['trade_price'] : 0;//商品批发价
+                        $tem_data['goods_nums'] = $item['num'];
+                        $tem_data['goods_weight'] = $item['weight'];
+                        $tem_data['prom_goods'] = serialize($item['prom_goods']);
+                        $tem_data['spec'] = serialize($item['spec']);
+                        $model->table("order_goods")->data($tem_data)->insert();
+                    }
+                    //发送提醒
+                    $NoticeService = new NoticeService();
+                    $data['user'] = $this->user['name'];
+                    $NoticeService->send('create_order',$data);
+                    //优惠券锁死
+                    if(!empty($voucher)){
+                        $model->table("voucher")->where("id=$voucher_id and user_id=".$this->user['id'])->data(array('status'=>2))->update();
+                    }
+                    //清空购物车与表单缓存
+                    if($order_type==0){
+                        $cart = Cart::getCart();
+                        $cart->clear();
+                        Session::clear("order_status");
+                    }
+                    $payment = new Payment($payment_id);
+                    $payment_plugin = $payment->getPaymentPlugin();
+
+                    if(ControllerExt::$isMobile){
+                        $this->redirect("/ucenter/order_detail/id/$order_id");
+                    }else{
+                        if($payment_plugin->isOnlinePay()){
+                            $this->redirect("/simple/order_status/order_id/$order_id");
+                        }else{
+                            $this->redirect("/simple/order_completed/order_id/$order_id");
+                        }
+                    }
+                }
+                else{
                     $msg = array('type'=>'fail','msg'=>'非法提交订单！');
                     $this->redirect('/index/msg',false,$msg);
-                    return;
                 }
-
-                //商品总金额,重量,积分计算
-                $payable_amount = 0.00;
-                $real_amount = 0.00;
-                $weight=0;
-                $point = 0;
-                foreach ($order_products as $item) {
-                    $payable_amount+=$item['sell_total'];
-                    $real_amount+=$item['amount'];
-                    $weight += $item['weight']*$item['num'];
-                    $point += $item['point']*$item['num'];
-                }
-                if($order_type == 3) $real_amount = $bundbuy_amount;
-
-                //计算运费
-                $fare = new Fare($weight);
-                $payable_freight = $fare->calculate($address_id);
-                $real_freight = $payable_freight;
-
-                //计算订单优惠
-                $prom_order = array();
-                $discount_amount = 0;
-                if($order_type ==0 ){
-                    if($prom_id){
-                        $prom = new Prom($real_amount);
-                        $prom_order = $model->table("prom_order")->where("id=$prom_id")->find();
-
-                        //防止非法会员使用订单优惠
-                        $user = $this->user;
-                        $group_id = ',0,';
-                        if(isset($user['group_id'])) $group_id = ','.$user['group_id'].',';
-
-                        if(stripos(','.$prom_order['group'].',',$group_id)!==false){
-                            $prom_parse = $prom->parsePorm($prom_order);
-                            $discount_amount = $prom_parse['value'];
-                            if($prom_order['type']==4) $discount_amount = $payable_freight;
-                            else if($prom_order['type']==2){
-                                $multiple = intval($prom_order['expression']);
-                                $multiple = $multiple==0?1:$multiple;
-                                $point = $point * $multiple;
-                            }
-                            $data['prom'] = serialize($prom_order);
-                        }
-                        else $data['prom'] = serialize(array());
-                    }
-                }
-                //税计算
-                $tax_fee = 0;
-                $config = Config::getInstance();
-                $config_other = $config->get('other');
-                $open_invoice = isset($config_other['other_is_invoice'])?!!$config_other['other_is_invoice']:false;
-                $tax = isset($config_other['other_tax'])?intval($config_other['other_tax']):0;
-                if($open_invoice && $is_invoice){
-                    $tax_fee = $real_amount*$tax/100;
-                }
-
-                //代金券处理
-                $voucher_value = 0;
-                $voucher = array();
-                if($voucher_id){
-                    $voucher = $model->table("voucher")->where("id=$voucher_id and is_send=1 and user_id=".$this->user['id']." and status = 0 and '".date("Y-m-d H:i:s")."' <=end_time and '".date("Y-m-d H:i:s")."' >=start_time and money<=".$real_amount)->find();
-                    if($voucher){
-                        $voucher_value = $voucher['value'];
-                        if($voucher_value>$real_amount)$voucher_value = $real_amount;
-                    }
-                }
-                //计算订单总金额
-                $order_amount = $real_amount + $payable_freight + $tax_fee - $discount_amount - $voucher_value;
-
-
-
-                //填写订单
-                $data['order_no'] = Common::createOrderNo();
-                $data['user_id'] = $this->user['id'];
-                $data['payment'] = $payment_id;
-                $data['status'] = 2;
-                $data['pay_status'] = 0;
-                $data['accept_name'] = Filter::text($address['accept_name']);
-                $data['phone'] = $address['phone'];
-                $data['mobile'] = $address['mobile'];
-                $data['province'] = $address['province'];
-                $data['city'] = $address['city'];
-                $data['county'] = $address['county'];
-                $data['addr'] = Filter::text($address['addr']);
-                $data['zip'] = $address['zip'];
-                $data['payable_amount'] = $payable_amount;
-
-                $data['payable_freight'] = $payable_freight;
-                $data['real_freight'] = $real_freight;
-                $data['create_time'] = date('Y-m-d H:i:s');
-                $data['user_remark'] = $user_remark;
-                $data['is_invoice'] = $is_invoice;
-                if($is_invoice==1){
-                    $data['invoice_title'] = $invoice_type.':'.$invoice_title;
-                }else{
-                    $data['invoice_title'] = '';
-                }
-
-                $data['taxes'] = $tax_fee;
-
-
-                $data['discount_amount'] = $discount_amount;
-
-                $data['order_amount'] = $order_amount;
-                $data['real_amount'] = $real_amount;
-
-                $data['point'] = $point;
-                $data['type'] = $order_type;
-                $data['voucher_id'] = $voucher_id;
-                $data['voucher'] = serialize($voucher);
-
-
-                //var_dump($order_products);exit();
-
-                //写入订单数据
-                $order_id = $model->table("order")->data($data)->insert();
-                //写入订单商品
-                $tem_data = array();
-
-                foreach ($order_products as $item) {
-                    $tem_data['order_id'] = $order_id;
-                    $tem_data['goods_id'] = $item['goods_id'];
-                    $tem_data['product_id'] = $item['id'];
-                    $tem_data['goods_price'] = $item['sell_price'];
-                    $tem_data['real_price'] = $item['real_price'];
-                    $tem_data['goods_nums'] = $item['num'];
-                    $tem_data['goods_weight'] = $item['weight'];
-                    $tem_data['prom_goods'] = serialize($item['prom_goods']);
-                    $tem_data['spec'] = serialize($item['spec']);
-                    $model->table("order_goods")->data($tem_data)->insert();
-                }
-                //发送提醒
-                $NoticeService = new NoticeService();
-                $data['user'] = $this->user['name'];
-                $NoticeService->send('create_order',$data);
-                //优惠券锁死
-                if(!empty($voucher)){
-                    $model->table("voucher")->where("id=$voucher_id and user_id=".$this->user['id'])->data(array('status'=>2))->update();
-                }
-                //清空购物车与表单缓存
-                if($order_type==0){
-                    $cart = Cart::getCart();
-                    $cart->clear();
-                    Session::clear("order_status");
-                }
-                $payment = new Payment($payment_id);
-                $payment_plugin = $payment->getPaymentPlugin();
-                if($payment_plugin->isOnlinePay()){
-                    $this->redirect("/simple/order_status/order_id/$order_id");
-                }else{
-                    $this->redirect("/simple/order_completed/order_id/$order_id");
-                }
+            }catch (Exception $e){
+                echo $e->getMessage();exit;
             }
-            else{
-                $msg = array('type'=>'fail','msg'=>'非法提交订单！');
-                $this->redirect('/index/msg',false,$msg);
-            }
+
         }else{
             $this->redirect("login");
         }

@@ -75,7 +75,7 @@
             var type = 'batch';
             var obj = $(".batchnum:input");
             var batchnum = new Array();
-            var data = 'type=batch&gid='+id;
+            var data = '';
             var sum = 0;
 
             if(obj.length < 1) {
@@ -95,13 +95,13 @@
             $.ajax({
                 type:'POST',
                 dataType:'json',
-                url:'__APP__?m=Goods&a=AjaxAddCart',
+                url:'{url:/index/cart_add}',
                 data:data,
                 success:function(data) {
                     if(data.status == 1) {
                         $('#cartnum').html(data.data);
                     }else if(data.status == 2) {
-                        window.location.href='__APP__'+data.info;
+                        //window.location.href='__APP__'+data.info;
                     }
                     msg(data.info);
                 }
@@ -115,7 +115,7 @@
 <header class="header ng-scope">
     <div class="header-content" onclick="history.back();return false;">
         <label class="leftback-img"></label>
-        <p class="header-title">{echo: TString::msubstr($goods['name'],0,10,'utf-8','...');</p>
+        <p class="header-title">{echo: TString::msubstr($goods['name'],0,10,'utf-8','...');}</p>
     </div>
 </header>
 
@@ -125,7 +125,7 @@
     <!--<span id="collect" <if condition='$goods['collection'] == 1'>class="cur"</if>  data="{$goods['collection']}" ><i></i></span>-->
 
     <button class="float-left font-medium  ng-binding ShoppingCartAdd" onclick="addCart({$goods['id']})">加入购物车</button>
-    <a target="_self" href="{url:/index/cart_add}" class="float-right" style="width:5.5rem; display:block; position:relative; margin-right:1rem;">
+    <a target="_self" href="{url:/simple/cart}" class="float-right" style="width:5.5rem; display:block; position:relative; margin-right:1rem;">
         <img src="{url:#images/shoppingcartgrey.ico}" style="width:90%; display:block;">
 			<span style="width:1.6rem; height:1.6rem; line-height:1.6rem; text-align:center; border:1px solid #ffffff; border-radius:50%;box-shadow: 2px 2px 1px #bbbbbb; background-color:#cc0000; position:absolute; left:4.1rem; top:0.5rem; display:block;">
 				<em style="font-style:normal; color:#ffffff; font-size:8px;" class="ng-binding" id="cartnum">{echo:count($cart)}</em>

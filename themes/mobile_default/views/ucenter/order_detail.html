@@ -11,7 +11,47 @@
         <dd class="font-medium" style="padding: 2%;width: 96%; ">
             <p class="ng-binding" style="margin:0.4rem 0px;">订单号：{$order['order_no']}</p>
             <p class="StatusName ng-binding" style="color:#ff6a00;">
-            {echo:$this->order_status($order)}&nbsp;&nbsp;&nbsp;
+                <span class="red">
+                {if: $order['status'] == '1'}
+                等待付款 <a href="javascript:void(0);" class="dopay">去支付</a>
+                    <form action="{url:/payment/dopay}" method="post" class="formdopay">
+                        <input type="hidden" name="payment_id" value="{$order['payment']}">
+                        <input type="hidden" name="order_id" value="{$order['id']}">
+                    </form>
+                {elseif: $order['status'] == '2'}
+                {if: $order['pay_status'] == 1}
+                等待审核
+                {else:}
+                {set: $payment_info = Common::getPaymentInfo($item[payment]);}
+                {if: $payment_info[class_name]=='received'}
+                等待审核
+                {else:}
+                等待付款 <a href="javascript:void(0);" class="dopay">去支付</a>
+                    <form action="{url:/payment/dopay}" method="post" class="formdopay">
+                        <input type="hidden" name="payment_id" value="{$order['payment']}">
+                        <input type="hidden" name="order_id" value="{$order['id']}">
+                    </form>
+                {/if}
+                {/if}
+                {elseif: $order['status'] == '3'}
+                {if: $order['delivery_status'] == 0}
+                等待发货
+                {elseif: $order['delivery_status'] == 1}
+                已发货
+                {/if}
+                {if: $order['pay_status'] == 3}
+                已退款
+                {/if}
+                {elseif: $order['status'] == 4}
+                已完成
+                {elseif: $order['status'] == 5}
+                已取消
+                {elseif: $order['status'] == 6}
+                已作废
+                {/if}
+
+                </span>
+                &nbsp;&nbsp;&nbsp;
             {if:$order['pay_status']>0}
                 {$order['pay_time']}&nbsp;&nbsp;<span class="black">订单{$order['order_no']} 付款 {$currency_symbol}<b>{$order['order_amount']}</b></span>
             {/if}
@@ -46,11 +86,6 @@
         <dd class="ValidPayWayCode font-medium">
             <span>支付方式&nbsp;&nbsp;</span>
             <span class="subtitle  float-right ng-binding" style="color: black;margin-right:4%;">{$order['pay_name']}</span>
-        </dd>
-        <dd class="ValidPayWayCode font-medium">
-            <span>配送方式&nbsp;&nbsp;</span>
-            <span class="subtitle  float-right ng-binding" style="color: black;margin-right:4%;">{$invoice['ec_name']}</span>
-            <div class="pay-info-wrap">{$invoice['express_no']}</div>
         </dd>
     </dl>
     <div id="wrapProduct">
@@ -98,3 +133,8 @@
     </div>
 
 </article>
+<script>
+    $('.dopay').click(function(){
+        $('.formdopay').submit();
+    });
+</script>

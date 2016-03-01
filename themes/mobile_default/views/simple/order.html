@@ -1,0 +1,124 @@
+<header class="header ng-scope">
+    <div class="header-content" onclick="history.back();return false;">
+        <label class="leftback-img"></label>
+        <p class="header-title">结算</p>
+    </div>
+</header>
+<form action="{url:/simple/order_act}" method="post">
+<article class="ng-scope">
+    <dl>
+        {token:key=order}
+        <dd class="Address font-medium" style="padding: 0 1%;line-height: 2rem;">
+            <table width="100%">
+                <tbody>
+                {set:$address_default=0;}
+                {list:items=$address}
+                <tr style="font-size: 1.3rem;">
+                    <td rowspan="2" width="15%">
+                        <div class="ico"></div>
+                    </td>
+                    <td class="major ng-binding">收件人：{$item['accept_name']}</td>
+                    <td class="major ng-binding" style="text-align:right;">{$item['mobile']}</td>
+                    <td rowspan="2">
+                        <a href="javascript:void(0);" onclick="window.location.href='{url:/ucenter/address}'"><div class="rightico"></div></a>
+                    </td>
+                </tr>
+                <tr style="font-size: 1.1rem;">
+                    <td colspan="2" class="ng-binding">{$parse_area[$item['province']]} {$parse_area[$item['city']]} {$parse_area[$item['county']]} {$item['addr']}</td>
+                    <input type="hidden" name="address_id" value="{$item['id']}" />
+                </tr>
+                {/list}
+                </tbody>
+            </table>
+        </dd>
+
+        <dd class="ValidPayWayCode font-medium" style="font-size: 1.2rem; margin-bottom:0; padding-bottom:0;">
+            <div><span>支付方式&nbsp;&nbsp;</span></div>
+
+            <table class="warp-validPayWayCode">
+                <tbody>
+                {query:name=payment issalve=salve domain=zd where=status eq 0 and (client_type eq 0 or client_type eq 2) order=sort desc}
+                    <tr  class="ng-scope">
+                        <td>
+                            <input type="radio" name="payment_id" id="option{$item['id']}" class="radio pay-radio" pid="{$item['id']}" {if:$key==0}checked="checked"{/if} value="{$item['id']}" >
+                            <label for="option{$item['id']}" class="radio-label"></label>
+                        </td>
+                        <td>
+                            {$item['pay_name']}
+                        </td>
+                    </tr>
+
+                        <tr class="pay-info" style="display:none;">
+                            <td colspan="2">
+                                <div class="pay-info-wrap">
+                                    {$item['pay_desc']}
+                                </div>
+                            </td>
+                        </tr>
+                {/query}
+                </tbody>
+            </table>
+        </dd>
+
+    </dl>
+    <div id="wrapProduct">
+        {set:$total=0.00;$weight=0;$point=0;}
+        {list:items=$cart}
+        {set:$total+=$item['amount'];$weight += ($item['weight']*$item['num']);$point += ($item['point']*$item['num']);}
+            <div class="Product-item font-medium ng-scope" >
+                <div class="Product-img">
+                    <img  width="100%" src="{url:@$item[img]}">
+                </div>
+                <div class="Product-Info">
+                    <div class="ng-binding" style="font-size: 1.2rem; line-height: 1.0rem;">{echo: TString::msubstr($item['name'],0,20,'utf-8','...');}</div>
+                    <div class="ng-binding" style="margin-top:1.2rem; line-height: 1.0rem;">{list:items=$item['spec'] item=$spec}{$spec['name']}：{$spec['value'][2]}{/list}</div>
+                    <div class="ng-binding" style="margin-top:1.5rem; color: red;">{$item['amount']}</div>
+                    <div class="ng-binding">x{$item['num']}</div>
+                </div>
+            </div>
+        {/list}
+
+        <dd class="ValidPayWayCode font-medium" style="font-size: 1.2rem; margin-bottom:0; padding-bottom:0;">
+            <table class="warp-validPayWayCode">
+                <tbody>
+                <tr  class="ng-scope">
+                    <td colspan="2">
+                        <textarea name="user_remark" cols="30" form-rows="10" placeholder="请填写订单备注"></textarea>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </dd>
+
+        {set:$fare = new Fare($weight);}
+        <div class="confirm font-medium" style="width:94%; margin:0 auto; line-height:2.5rem;font-size: 1.3rem; padding-bottom:1rem;">
+            <table width="100%">
+                <tbody><tr>
+                    <td>商品结算金额</td>
+                    <td class="Price ng-binding">{$currency_symbol}{echo:sprintf("%01.2f",$total)}</td>
+                </tr>
+                    <tr>
+                        <td class="ng-binding">运费</td>
+                        <td class="Price ng-binding" id="fare" data-weight="{$weight}">+￥{echo:$fare->calculate(16);}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</article>
+
+<footer class="footer">
+    <table width="100%" class="font-medium" style="line-height:normal;">
+        <tbody>
+        <tr>
+            <td style="padding: 0 0 0 0.5rem;color: black"><span>本单您只需支付</span><br>
+                <span class="Price ng-binding" id="total-amount" total="{$total}">{$currency_symbol}<b class="cart-total red" id="real-total">{echo:sprintf("%01.2f",$total)}</b></span>
+            </td>
+            <td rowspan="2">
+                <button class="Submit" style="background: #ffb03f;">提交订单</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</footer>
+</form>

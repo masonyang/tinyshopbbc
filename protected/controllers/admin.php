@@ -496,6 +496,7 @@ class AdminController extends Controller
 		$name = Req::args("name");
 		$password = Req::args("password");
 		$roles = Req::args("roles");
+        $distr_rechange_pwd = Req::args("distr_rechange_pwd");
 
 		$managerModel = new Model("manager");
 		$model = new Model('roles');
@@ -524,7 +525,20 @@ class AdminController extends Controller
 				$key = md5($validcode);
 				$password = substr($key,0,16).$password.substr($key,16,16);
 				$password = md5($password);
-				$managerModel->data(array('name'=>$name,'password'=>$password,'roles'=>$roles,'validcode'=>$validcode))->insert();
+
+                $data = array('name'=>$name,'password'=>$password,'roles'=>$roles,'validcode'=>$validcode);
+
+                if(!empty($distr_rechange_pwd)){
+                    $distr_rechange_validcode = CHash::random(8);
+                    $key = md5($distr_rechange_validcode);
+                    $distr_rechange_pwd = substr($key,0,16).$distr_rechange_pwd.substr($key,16,16);
+                    $distr_rechange_pwd = md5($distr_rechange_pwd);
+
+                    $data['distr_rechange_pwd'] = $distr_rechange_pwd;
+                    $data['distr_rechange_validcode'] = $distr_rechange_validcode;
+                }
+
+				$managerModel->data($data)->insert();
 				Log::op($this->manager['id'],'添加管理员','添加管理员【'.$name.'】,角色为【'.$roles_name.'】！');
 			}
 
@@ -877,6 +891,7 @@ class AdminController extends Controller
 					$this->assign('message','信息保存成功！');
 				}
 			}
+
 		}
 		$this->assign('data',$config->get($group));
 		$this->redirect('config_'.$group.'_headstore',false);
@@ -887,19 +902,41 @@ class AdminController extends Controller
 		$group = Req::args('group');
 		if(Req::args('submit')!=null)
 		{
-			//$configService = new ConfigService($config);
-			//if(method_exists($configService,$group))
-			//{
-			//	$result = $configService->$group();
-			//	if(is_array($result))
-			//	{
-			//		$this->assign('message',$result['msg']);
-			//	}
-			//	else if($result ==true)
-			//	{
-			//		$this->assign('message','信息保存成功！');
-			//	}
-			//}
+            if('globals' == $group){
+                $params = array();
+                $params['province'] = Req::args('province');
+                $params['city'] = Req::args('city');
+                $params['county'] = Req::args('county');
+                $params['addr'] = Req::args('addr');
+                $params['phone'] = Req::args('phone');
+                $params['mobile'] = Req::args('mobile');
+                $params['site_ios_url'] = Req::args('site_ios_url');
+                $params['site_android_url'] = Req::args('site_android_url');
+                $params['zip'] = Req::args('zip');
+                $params['site_keyword'] = Req::args('site_keyword');
+                $params['site_description'] = Req::args('site_description');
+                //$params['deposit'] = Req::args('deposit');
+                $params['site_url'] = Req::args('site_url');
+                $params['distributor_id'] = Req::args('id');
+                //同步分销商信息到总店
+                syncDistributorInfo::getInstance()->setParams($params)->sync();
+            }else{
+                $config = Config::getInstance();
+                $configService = new ConfigService($config);
+                if(method_exists($configService,$group))
+                {
+                    $result = $configService->$group();
+                    if(is_array($result))
+                    {
+                        $this->assign('message',$result['msg']);
+                    }
+                    else if($result ==true)
+                    {
+                        $this->assign('message','信息保存成功！');
+                    }
+                }
+            }
+
 		}
 		//$this->assign('data',$config->get($group));
 		$this->redirect('config_'.$group.'_branchstore',false);
@@ -977,4 +1014,27 @@ class AdminController extends Controller
 			echo JSON::encode($info);
 		}
 	}
+
+    public function manager_distr_password()
+    {
+        $id = Req::post("id");
+        $password = Req::post("password");
+        $repassword = Req::post("repassword");
+        $info = array('status'=>'fail','msg'=>'密码修改失败');
+        if($id && $password && $password == $repassword){
+            $model = new Model("manager");
+            $validcode = CHash::random(8);
+            $key = md5($validcode);
+            $password = substr($key,0,16).$password.substr($key,16,16);
+            $password = md5($password);
+
+
+            $flag = $model->where("id=$id")->data(array('distr_rechange_pwd'=>$password,'distr_rechange_validcode'=>$validcode))->update();
+            if($flag)$info = array('status'=>'success');
+            $manager = $model->where("id=$id")->find();
+            Log::op($this->manager['id'],'修改管理员(分销商充值验证)密码','修改管理员(分销商充值验证)【'.$manager['name'].'】的密码！');
+        }
+        echo JSON::encode($info);
+    }
+
 }

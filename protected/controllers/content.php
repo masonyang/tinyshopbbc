@@ -356,6 +356,10 @@ class ContentController extends Controller
 			$sort = Filter::int($sort);
 			$model->data(array('sort'=>$sort))->where("id=$id")->update();
 		}
+
+        $params = array();
+        syncTag::getInstance()->setParams($params,'update')->sync();
+
 		echo JSON::encode(array('status'=>'success'));
 	}
 

@@ -60,29 +60,10 @@
         {/list}
 
         {if: $skumap}
-            {set: $skuMap=array();}
-            {list:items=unserialize($goods['specs']) item=$spec}
-                    {list:items=$spec['value'] item=$value}
-                        {$skuMap[$spec[id]}][] = $spec['id'].':'.$value['id']}
-                    {/list}
-            {/list}
-            {dump: $test=$skuMap}
-            <dl class="spec-item clearfix">
-                <dt>{$spec['name']}：</dt>
-                <dd>
-                    <ul class="spec-values" spec_id="{$spec['id']}">
-                        {list:items=$spec['value'] item=$value}
-                        <li data-value="{$spec['id']}:{$value['id']}">{if:$value['img']==''}<span>{$value['name']}</span>{else:}<img src="{echo:Common::thumb($value['img'],100)}"  width="36" height="36"><label>{$value['name']}</label>{/if}<i></i></li>
-                        {/list}
-                    </ul>
-                </dd>
-            </dl>
-            {/list}
-
             {list: items=$skumap key=$key item=$product}
                 <dd class="font-medium pselect">
                     <ul>
-                        <li class="tit">货号:{$product['pro_no']} <br/>()</li>
+                        <li class="tit">货号:{$product['pro_no']} <br/>({$product['guige']})</li>
                         <li>
                             <div class="col col-1">销售价</div>
                             <div class="col col-2">库存</div>
@@ -92,7 +73,7 @@
                             <div class="col col-1">{$product['sell_price']}</div>
                             <div class="col col-2">{$product['store_nums']}</div>
                             <div class="col col-3">
-                                <input type="text" class="spinnerExample batchnum" id="{$goods['id']}-{$product['pro_no']}" name="batchnum[{$goods['id']}-{$product['pro_no']}]"/>
+                                <input type="text" class="spinnerExample batchnum" id="{$product['id']}" name="batchnum[{$product['id']}]"/>
                             </div>
                         </li>
                     </ul>

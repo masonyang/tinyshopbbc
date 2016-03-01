@@ -16,7 +16,6 @@
         <th style="width:70px">联系方式 </th>
 		<th style="width:70px">网店地址 </th>
         <th style="width:70px">预存款</th>
-		<th style="width:70px">收益</th>
         <th style="width:70px">会员总数</th>
         <th style="width:80px">订单总数</th>
         <th style="width:80px">已授权分类</th>
@@ -35,13 +34,13 @@
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['distributor_id']})"> 查看</a></li>
                 <li><a class="icon-pencil" href="{url:/distributor/distributor_edit/id/}{$item['distributor_id']}"> 编辑</a></li>
+                <li><a class="icon-eye" href="javascript:;" onclick="dispostlog({$item['distributor_id']});"> 预存款操作日志</a></li>
 				</ul></div></div>
 			</td>
             <td style="width:100px">{$item['distributor_name']}</td>
 			<td style="width:70px">{$item['mobile']}</td>
 			<td style="width:70px">{$item['site_url']}{$domain}</td>
 			<td style="width:70px">{$item['deposit']}</td>
-			<td style="width:80px">{$item['income']}</td>
 			<td style="width:80px">{$item['member_count']}</td>
 			<td style="width:50px">{$item['order_count']}</td>
 			<td style="width:50px">
@@ -63,6 +62,10 @@
         art.dialog.open("{url:/distributor/distributor_view/id/}"+id,{id:'view_dialog',title:'查看分销商',resize:false,width:900,height:450});
     }
 
+    function dispostlog(id){
+        art.dialog.open("{url:/distributor/deposit_log/id/}"+id,{id:'view_dialog',title:'预存款操作日志',resize:true,width:900,height:450});
+
+    }
 $("#condition").on("click",function(){
   $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/distributor/distributor_list}',method:'get'});},data:{distributor_name:{name:'姓名'},site_name:{name:'站点名称'},mobile:{name:'手机号'}}});
 })

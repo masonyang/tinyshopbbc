@@ -18,6 +18,7 @@
 
 {__viewcontents}
 
+{if: !isset($usedefault)}
 <footer class="footer">
     <div>
         <ul id="footermenuNav">
@@ -48,15 +49,16 @@
     </li>
     </ul>
     </div>
-
+    {if: !isset($nogoto)}
     <script type="text/javascript" src="{url:#js/gotop.js}"></script>
     <div id="tbox" class="groupbar">
         <ul>
             <li class="J_BackToTop"><a id="gotop" class="icon"></a></li>
         </ul>
     </div>
+    {/if}
 </footer>
-
+{/if}
 
 </body>
 </html>

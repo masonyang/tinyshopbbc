@@ -5,6 +5,7 @@
     <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
     <a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/order/order_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>
     <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
+    <a class="icon-delicious" href="{url:/order/batch_order}"> 批量下单</a>
     <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
     <a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>
     <a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>
@@ -31,7 +32,7 @@
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['id']})"> 查看</a></li>
                 {if:$item['status'] == 1 || $item['status'] == 2}
-                <li><a class="icon-pencil" href="javascript:;" onclick="edit({$item['id']})"> 编辑</a></li>
+                <!--<li><a class="icon-pencil" href="javascript:;" onclick="edit({$item['id']})"> 编辑</a></li>-->
                 <li><a class="icon-drawer-3" href="javascript:;" onclick="change_status({$item['id']},3,null)"> 审核</a></li>
                 {/if}
                 {if:$item['status'] == 3}

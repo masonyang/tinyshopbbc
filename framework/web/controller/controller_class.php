@@ -693,5 +693,28 @@ class Controller extends Object
         else $url = $parse['path'].'?'.http_build_query($params);
         return $url;
     }
+
+    //分销商店铺列表
+    public function getShopList()
+    {
+        $serverName = Tiny::getServerName();
+        $mapper = Config::getInstance('mapper')->get($serverName['top']);
+
+        if($mapper['menu'] == 'headstore'){
+            $shopList = array();
+            $distrObj = new Model('distributor');
+            $distrInfos = $distrObj->where('disabled = 0')->findAll();
+            if($distrInfos){
+                foreach($distrInfos as $k=>$val){
+                    $shopList[$val['distributor_id']]['distributor_id'] = $val['distributor_id'];
+                    $shopList[$val['distributor_id']]['site_url'] = $val['site_url'];
+                    $shopList[$val['distributor_id']]['distributor_name'] = $val['distributor_name'];
+                }
+            }
+            return $shopList;
+        }else{
+            return false;
+        }
+    }
 }
 ?>

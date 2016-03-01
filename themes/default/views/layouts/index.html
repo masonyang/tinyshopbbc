@@ -55,7 +55,7 @@
 							{token:}
 							<input id="search-keyword" class="txt-keyword" name="keyword" value="{$keyword}" type="text"><button type="submit" class="btn-search fl"><b>搜 索</b></button>
 						</form>
-						<p id="tags-list"><b>热门标签：</b>{query:name=tags order=is_hot desc,sort desc,num desc limit=6}<a href="#">{$item['name']}</a>{/query}</p>
+						<p id="tags-list"><b>热门标签：</b>{query:name=tags domain=zd issalve=salve order=is_hot desc,sort desc,num desc limit=6}<a href="#">{$item['name']}</a>{/query}</p>
 					</div>
 					<div class="header-cart">
 						<dl class="fr">
@@ -76,7 +76,7 @@
 				<div class="wrap">
 					<ul class="nav">
 						<li><a href="{url:/index/index}">首页</a></li>
-						{query:name=nav  where=type eq 'main' and enable eq 1 order=`sort` desc}
+						{query:name=nav domain=zd issalve=salve where=type eq 'main' and enable eq 1 order=`sort` desc}
 						<li><a href="{if:strstr($item['link'],'http://')===false}{url:$item[link]}{else:}{$item['link']}{/if}" target="{if:$item['open_type']==1}_blank{else:}_self{/if}">{$item['name']}</a></li>
 						{/query}
 					</ul>

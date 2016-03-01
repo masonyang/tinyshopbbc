@@ -22,46 +22,45 @@ if(screen.width >= 1200)$(".category>.group").css("display","block");
 				</div>
 				<div class="content tab" style="margin-right: 240px;">
 					<ul class="tab-head clearfix">
-						<li class="current">团购活动</li>
-						<li class="current">限时抢购</li>
+						<li class="current">更多活动</li>
 					</ul>
 					<div class="tab-body" style="border:none;height:362px;padding:0;zoom:1;overflow:hidden;">
 						<!--S 团购-->
-						<dl class="product_show  " style="margin-left:-11px;">
-						    <dd class="clearfix">
-						        <ul >
-						        {query:name=groupbuy as gb fields=*,gb.id as id join=left join goods as go on gb.goods_id eq go.id order=is_end , goods_num desc limit=4 id=$groupbuy}
-						            <li class="mt10">
-						                <dl class="product">
-						                    <dt class="img tc"><a href="{url:/index/groupbuy/id/$item[id]}"><img src="{echo:Common::thumb($item['img'],220,220);}" width="220"></a></dt>
-						                    <dd><a href="{url:/index/groupbuy/id/$item[id]}">{$item['title']}</a></dd>
-						                    <dd><span class="fl">团购价：<b class="red price">{$currency_symbol}{$item['price']}</b></span><span class="market_price fr">{$item['goods_num']}人购买</span></dd>
-						                    <dd class="tr">{if:$item['is_end']==0}<a href="{url:/index/groupbuy/id/$item[id]}" class="btn btn-mini">团购</a>{else:}<span class="btn btn-mini btn-disable">已结束</span>{/if}</dd>
-						                </dl>
-						            </li>
-						            {/list}
-						        </ul>
-						    </dd>
-						</dl>
+						<!--<dl class="product_show  " style="margin-left:-11px;">-->
+						    <!--<dd class="clearfix">-->
+						        <!--<ul >-->
+						        <!--{query:name=groupbuy as gb fields=*,gb.id as id join=left join goods as go on gb.goods_id eq go.id order=is_end , goods_num desc limit=4 id=$groupbuy}-->
+						            <!--<li class="mt10">-->
+						                <!--<dl class="product">-->
+						                    <!--<dt class="img tc"><a href="{url:/index/groupbuy/id/$item[id]}"><img src="{echo:Common::thumb($item['img'],220,220);}" width="220"></a></dt>-->
+						                    <!--<dd><a href="{url:/index/groupbuy/id/$item[id]}">{$item['title']}</a></dd>-->
+						                    <!--<dd><span class="fl">团购价：<b class="red price">{$currency_symbol}{$item['price']}</b></span><span class="market_price fr">{$item['goods_num']}人购买</span></dd>-->
+						                    <!--<dd class="tr">{if:$item['is_end']==0}<a href="{url:/index/groupbuy/id/$item[id]}" class="btn btn-mini">团购</a>{else:}<span class="btn btn-mini btn-disable">已结束</span>{/if}</dd>-->
+						                <!--</dl>-->
+						            <!--</li>-->
+						            <!--{/list}-->
+						        <!--</ul>-->
+						    <!--</dd>-->
+						<!--</dl>-->
 						<!--S 团购-->
 						<!--S 抢购-->
-						<dl class=" product_show " style="margin-left:-11px; ">
-						    <dd class='clearfix'>
-						        <ul>
-						        {query:name=flash_sale as gb fields=*,gb.id as id join=left join goods as go on gb.goods_id eq go.id order=is_end , goods_num desc limit=4 id=$groupbuy}
-						            <li class="mt10">
-						                <dl class="product">
-						                    <dt class="img tc"><a href="{url:/index/flashbuy/id/$item[id]}"><img src="{echo:Common::thumb($item['img'],220,220);}" width=220></a></dt>
-						                    <dd><a href="{url:/index/flashbuy/id/$item[id]}">{$item['title']}</a></dd>
-						                    <dd><span class=" fl">抢购价：<b class="red price">{$currency_symbol}{$item['price']}</b></span><span class="market_price fr">{$item['goods_num']}人已购买</span></dd>
-						                    <dd class="tr">{if:$item['is_end']==0}<a href="{url:/index/flashbuy/id/$item[id]}" class="btn btn-mini">抢购</a>{else:}<span class="btn btn-mini btn-disable">已结束</span>{/if}
-						                    </dd>
-						                </dl>
-						            </li>
-						            {/list}
-						        </ul>
-						    </dd>
-						</dl>
+						<!--<dl class=" product_show " style="margin-left:-11px; ">-->
+						    <!--<dd class='clearfix'>-->
+						        <!--<ul>-->
+						        <!--{query:name=flash_sale as gb fields=*,gb.id as id join=left join goods as go on gb.goods_id eq go.id order=is_end , goods_num desc limit=4 id=$groupbuy}-->
+						            <!--<li class="mt10">-->
+						                <!--<dl class="product">-->
+						                    <!--<dt class="img tc"><a href="{url:/index/flashbuy/id/$item[id]}"><img src="{echo:Common::thumb($item['img'],220,220);}" width=220></a></dt>-->
+						                    <!--<dd><a href="{url:/index/flashbuy/id/$item[id]}">{$item['title']}</a></dd>-->
+						                    <!--<dd><span class=" fl">抢购价：<b class="red price">{$currency_symbol}{$item['price']}</b></span><span class="market_price fr">{$item['goods_num']}人已购买</span></dd>-->
+						                    <!--<dd class="tr">{if:$item['is_end']==0}<a href="{url:/index/flashbuy/id/$item[id]}" class="btn btn-mini">抢购</a>{else:}<span class="btn btn-mini btn-disable">已结束</span>{/if}-->
+						                    <!--</dd>-->
+						                <!--</dl>-->
+						            <!--</li>-->
+						            <!--{/list}-->
+						        <!--</ul>-->
+						    <!--</dd>-->
+						<!--</dl>-->
 						<!--S 抢购-->
 					</div>
 				</div>

@@ -9,11 +9,6 @@
 <link type="text/css" href="{url:#css/address.css}" rel="stylesheet" />
 <script src="{url:@static/js/common.js}" charset="UTF-8" type="text/javascript"></script>
 <article class="uscenter-cont ng-scope">
-    {if:isset($msg)}
-    <div class="message_{$msg[0]} ie6png">{$msg[1]}</div>
-    {elseif:isset($validator)}
-    <div class="message_warning ie6png">{$validator['msg']}</div>
-    {/if}
     <div class="p-address">
     <form class="ng-pristine ng-valid address-form" id="info-form" method="post" action="{url:/ucenter/info_save}">
 
@@ -50,15 +45,15 @@
         </div>
         <div class="form-row">
                 <label>生日：</label>
-                <input type="text" id="birthday" class="form-item field-ipt ng-pristine ng-untouched ng-valid" onfocus="WdatePicker()" value="{$birthday}"> <label></label>
+                <input type="text" id="birthday" class="form-item field-ipt ng-pristine ng-untouched ng-valid" onfocus="WdatePicker()" name="birthday" value="{$birthday}"> <label></label>
          </div>
         <div class="form-row">
                 <label>手机号码：</label>
-                <input type="text" id="mobile" class="form-item field-ipt ng-pristine ng-untouched ng-valid" pattern="mobi" value="{$mobile}" alt="请正确填写手机号"> <label></label>
+                <input type="text" id="mobile" class="form-item field-ipt ng-pristine ng-untouched ng-valid" pattern="mobi" value="{$mobile}" name="mobile" alt="请正确填写手机号"> <label></label>
          </div>
         <div class="form-row">
                 <label>电话号码：</label>
-                <input type="text" id="phone" class="form-item field-ipt ng-pristine ng-untouched ng-valid" empty pattern="phone" alt="请正确填写电话号码" value="{$phone}"> <label></label>
+                <input type="text" id="phone" class="form-item field-ipt ng-pristine ng-untouched ng-valid" empty pattern="phone" name="phone" alt="请正确填写电话号码" value="{$phone}"> <label></label>
         </div>
 
         <div class="form-row">
@@ -88,6 +83,12 @@
     </div>
 </article>
 <script type="text/javascript" src="{url:#js/msg.js}"></script>
+
+{if:isset($msg)}
+<script>msg("{$msg[1]}");</script>
+{elseif:isset($validator)}
+<script>msg("{$validator['msg']}");</script>
+{/if}
 
 <link type="text/css" href="{url:#css/ajax.css}" rel="stylesheet" />
 <script type="text/javascript">

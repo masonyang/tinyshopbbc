@@ -471,6 +471,41 @@ class UcenterController extends Controller
         $this->model->table("attention")->where("id in($ids) and user_id=".$this->user['id'])->delete();
         $this->redirect("attention");
     }
+
+    public function order()
+    {
+        $status = Req::get("status");
+        if($status){
+            $_status = '';
+            switch($status){
+                case 1:
+                case 2:
+                    $_status = '1,2';
+                break;
+                case 3:
+                    $_status = '3';
+                break;
+                case 4:
+                    $_status = '4';
+                break;
+                case 5:
+                case 6:
+                    $_status = '5,6';
+                break;
+                default:
+                    $_status = '1,2';
+                    $status = 1;
+                break;
+            }
+            $this->assign("where","status in(".$_status.")");
+            $this->assign("status",$status);
+        }else{
+            $this->assign("where","status in (1,2)");
+            $this->assign("status",1);
+        }
+        $this->redirect();
+    }
+
     public function order_detail()
     {
         if(ControllerExt::$isMobile){
