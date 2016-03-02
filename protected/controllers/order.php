@@ -240,7 +240,7 @@ class OrderController extends Controller
         $paymentModel = new Model("payment as pa");
         $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
 
-        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
+        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
 
             $payfee = $order_info['order_amount'] * ($paymentInfo['pay_fee']/100);
 
@@ -595,18 +595,50 @@ class OrderController extends Controller
     //批量下单功能
     public function batch_order()
     {
-
+        $this->layout = 'blank';
         $customersModel = new Model('customer');
-        $addressModel = new Model('address');
         $customers = $customersModel->findAll();
 
-        foreach($customers as $k=>$value){
-           $address = $addressModel->where('user_id = '.$value['user_id'])->findAll();
-           $customers[$k]['address'] = $address;
+        $this->assign("customers",$customers);
+        $this->redirect();
+    }
+
+    public function goods_select()
+    {
+        $this->layout = "blank";
+        $s_type = Req::args("s_type");
+        $s_content = Req::args("s_content");
+        $where = "";
+        if($s_content && $s_content!=''){
+            if($s_type == 1){
+                $where = " p.pro_no like '{$s_content}%'";
+            }else if($s_type==2) {
+                $where = " g.name like '{$s_content}%' ";
+            }
         }
 
-        $this->assign("customers",$customers);
-        $this->redirect('batch_order_edit');
+        $products_id = Req::args("products_id");
+        if(is_array($products_id)){
+            $products_id = implode(',', $products_id);
+            $where .= " p.id not in($products_id)";
+        }else{
+            $where .= "";
+        }
+        $id = Req::args('id');
+        if(!$id  || $id=='') $id = 0;
+
+        $productsModel = new Model('products as p');
+        $products = $productsModel->fields('p.*,g.name as gname')->join('left join goods as g on p.goods_id=g.id')->where($where)->findAll();
+
+        $this->assign('products',$products);
+        $result = array('products'=>'','s_content'=>$s_content);
+        $result['products'] = '<colgroup><col width="60"/><col /><col /><col width="100"/><col width="100"/></colgroup>';
+
+        foreach($products as $product){
+            $result['products'] .= '<tr><td><input type="checkbox" name="products_id[]" value="'.$product['id'].'"></td><td>'.$product['pro_no'].'</td><td>'.$product['gname'].'</td><td>'.$product['sell_price'].'</td><td>'.$product['store_nums'].'</td></tr>';
+        }
+        echo json_encode($result);exit;
+
     }
 
     //批量下单处理

@@ -139,7 +139,7 @@ return array(
 		),
         'order_list'=>array(
             'nodisplay'=>array(
-                '<a class="icon-delicious" href="<?php echo urldecode(Url::urlFormat("/order/batch_order"));?>"> 批量下单</a>',
+                '<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>',
 
             ),
         ),

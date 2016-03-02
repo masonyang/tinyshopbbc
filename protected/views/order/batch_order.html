@@ -1,0 +1,142 @@
+{echo:JS::import("form")}
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+{echo:JS::import('mutiselect');}
+<div style="overflow: auto;width:900px;height: 415px;">
+    <!--<form class="form2" action="{url:/order/batch_order_act}" method="post" >-->
+    <table class="default">
+        <!-- 选择会员，以及 会员 发货地址-->
+        <tr>
+            <td width="140">选择会员：</td>
+            <td>
+            <select name="customer[]" id="customer" multiple="multiple" size="5">
+                {list:items=$customers item=$c}
+                <option value="{$c['user_id']}">{$c['real_name']}</option>
+                {/list}
+            </select>
+            </td>
+        </tr>
+
+    </table>
+
+    <h3 class="lineD">商品信息：<a class="button" href="javascript:;" onclick="selectgoods()">选择商品 ...</a> <span style="color: red;">(点击"选择商品 ..." 进行搜索商品，进行添加。再次点击"选择商品 ..." 会收起)</span></h3>
+
+        <div class="goods-select" style="padding:10px;margin-bottom: 40px;display: none;">
+                <div class="tools_bar clearfix" >
+                    <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('products_id[]',this)" title="全选" data="true"> 全选 </a>
+                    <span class="fr"><input type="text" id="s_content"  value="{$s_content}" name="s_content" /><a href='javascript:;' onclick="goods_select({action:'{url:/order/goods_select}'})" class="fr icon-search" style="" ></a></span>
+                    <span class="fr"><select name="s_type"><option value="1">货品编号</option></select></span>
+                </div>
+            <div class=" tc"><button class="button" onclick="add_goods()">添加勾选的商品</button></div>
+                <table class="default" >
+                    <colgroup>
+                        <col width="60"/>
+                        <col />
+                        <col />
+                        <col width="100"/>
+                        <col width="100"/>
+                    </colgroup>
+                    <tr>
+                        <th>选择</th>
+                        <th>货号</th>
+                        <th>商品名称</th>
+                        <th>零售价</th>
+                        <th>库存</th>
+                    </tr>
+                </table>
+                <div style="overflow: auto; height: 300px;">
+                    <table class="default productsinfo" style="border-top: 0">
+                        <tr>
+                            <td colspan="5" style="text-align: center;">请先搜索商品...</td>
+                        </tr>
+                    </table>
+                </div>
+
+        </div>
+
+    <table class="default" id="goods_list">
+        <tr><th style="width:0">选择</th><th>货号</th><th>商品名称</th><th style="width:100px;">价格</th><th style="width:100px;">库存</th><th style="width:40px;">操作</th></tr>
+    </table>
+
+        <h3 class="lineD">其他信息：</h3>
+        <table class="default">
+            <tr>
+                <td width="40">支付方式:</td>
+                <td width="140">线下支付</td>
+            </tr>
+            <tr>
+                <td width="40">订单备注</td>
+                <td width="140"><textarea name="user_remark" id="user_remark" rows="5" cols="50"></textarea></td>
+            </tr>
+        </table>
+
+        <div class="alone_footer tc"><button class="focus_button" onclick="saveorder()">生成订单</button></div>
+    <!--</form>-->
+
+</div>
+
+<script type="text/javascript">
+
+    $(function(){
+        $("#customer").multiselect({
+            noneSelectedText: "==请选择==",
+            checkAllText: "全选",
+            uncheckAllText: '全不选',
+            selectedList:50
+        });
+    });
+
+    function saveorder(){
+        var customer = $("input[name='customer[]']").val();
+        var user_remark = $('#user_remark').val();
+
+        if(customer.length <=0){
+            art.dialog.tips("<p class='warning'>请选择会员！</p>");
+            return false;
+        }
+
+
+        alert('生成订单');
+    }
+
+    function selectgoods(){
+        var checktype = $('.goods-select');
+        if(checktype.css('display') == 'block'){
+            checktype.hide();
+        }else{
+            checktype.show();
+        }
+    }
+
+    function goods_select(){
+        var params = $("input[name='products_id[]']").serialize()+"&id={$id}";
+        var url = '{url:/order/goods_select}';
+        if(url.indexOf('?')==-1) url = url+'?'+params;
+        else url = url + '&'+params;
+
+        url = url + '&s_type=1&s_content='+$('#s_content').val();
+
+        $.post(url,function(data){
+            $('.productsinfo').html(data['products']);
+            $('#s_content').val(data['s_content']);
+        },'json');
+    }
+
+    function goods_del(id){
+        $(id).parent().parent().remove();
+    }
+
+    function add_goods(){
+        if($("tr").has("td input:checked").size()>0){
+            $("tr").has("td input:checked").each(function(){
+                $("input:checked",$(this)).attr("checked","checked");
+                $("#goods_list").append("<tr>"+$(this).html()+'<td><a href="javascript:;" class="icon-close" onclick="goods_del(this)"></a></td></tr>');
+            });
+        }else{
+            art.dialog.tips("<p class='warning'>选择商品后再添加！</p>");
+            return faslse;
+        }
+
+    }
+
+</script>
