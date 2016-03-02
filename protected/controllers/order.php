@@ -591,4 +591,18 @@ class OrderController extends Controller
         }
         return $str;
     }
+
+    //批量下单功能
+    public function batch_order()
+    {
+        $this->assign("ship_id",'');
+        $this->redirect('batch_order_edit');
+    }
+
+    //批量下单处理
+    public function batch_order_act()
+    {
+
+    }
+
 }
