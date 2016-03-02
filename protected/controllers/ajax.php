@@ -157,6 +157,7 @@ class AjaxController extends Controller
 	{
 		$cache = CacheFactory::getInstance();
         $items = $cache->get("_AreaData");
+        $items = null;
         if($items == null)
         {
             $items = JSON::encode($this->_AreaInit(0));

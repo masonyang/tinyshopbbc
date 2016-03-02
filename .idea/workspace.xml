@@ -41,15 +41,33 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="batch_order_edit.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="batch_order_edit.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/views/order/batch_order_edit.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="92" column="0" selection-start="6640" selection-end="6640" vertical-scroll-proportion="2.3232324" vertical-offset="0" max-vertical-offset="1470">
+            <state line="92" column="0" selection-start="6640" selection-end="6640" vertical-scroll-proportion="-57.5" vertical-offset="0" max-vertical-offset="1470">
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#span#0;n#td#0;n#tr#9;n#table#0;n#form#0;n#div#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#td#0;n#tr#2;n#table#1;n#form#0;n#div#0;n#!!top" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".gitignore" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="6" column="0" selection-start="82" selection-end="82" vertical-scroll-proportion="-3.6" vertical-offset="0" max-vertical-offset="255">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ajax.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/protected/controllers/ajax.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="159" column="22" selection-start="4761" selection-end="4761" vertical-scroll-proportion="0.4057239" vertical-offset="2144" max-vertical-offset="3060">
+              <folding />
             </state>
           </provider>
         </entry>
@@ -73,8 +91,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/themes/mobile_default/views/ucenter/order_detail.html" />
-        <option value="$PROJECT_DIR$/protected/views/admin/payment_edit.html" />
         <option value="$PROJECT_DIR$/framework/web/action/action_class.php" />
         <option value="$PROJECT_DIR$/protected/classes/datasync/syncDistributorInfo.php" />
         <option value="$PROJECT_DIR$/protected/classes/datasync/syncCategory.php" />
@@ -124,6 +140,8 @@
         <option value="$PROJECT_DIR$/protected/views/order/order_list.html" />
         <option value="$PROJECT_DIR$/protected/views/order/batch_order_edit.html" />
         <option value="$PROJECT_DIR$/protected/controllers/order.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/protected/controllers/ajax.php" />
       </list>
     </option>
   </component>
@@ -188,7 +206,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
+              <option name="myItemId" value="themes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -203,32 +221,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="order" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -247,20 +239,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -375,11 +353,6 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protected/classes/Config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="6" selection-start="12" selection-end="12" vertical-scroll-proportion="0.026269702" vertical-offset="0" max-vertical-offset="810" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/mobile_default/views/ucenter/order_detail.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="129" column="78" selection-start="6069" selection-end="6069" vertical-scroll-proportion="5.3474574" vertical-offset="42" max-vertical-offset="2175" />
@@ -573,11 +546,6 @@
         <state line="245" column="17" selection-start="7772" selection-end="7772" vertical-scroll-proportion="0.2929293" vertical-offset="3501" max-vertical-offset="9330" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/ajax.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="155" column="25" selection-start="4645" selection-end="4650" vertical-scroll-proportion="0.33211008" vertical-offset="2144" max-vertical-offset="3045" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/mapper.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="45" column="27" selection-start="1083" selection-end="1083" vertical-scroll-proportion="0.46232876" vertical-offset="405" max-vertical-offset="1950" />
@@ -652,12 +620,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/order/batch_order_edit.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="92" column="0" selection-start="6640" selection-end="6640" vertical-scroll-proportion="2.3232324" vertical-offset="0" max-vertical-offset="1470">
+        <state line="92" column="0" selection-start="6640" selection-end="6640" vertical-scroll-proportion="-57.5" vertical-offset="0" max-vertical-offset="1470">
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#span#0;n#td#0;n#tr#9;n#table#0;n#form#0;n#div#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#td#0;n#tr#2;n#table#1;n#form#0;n#div#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="6" column="0" selection-start="82" selection-end="82" vertical-scroll-proportion="-3.6" vertical-offset="0" max-vertical-offset="255">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/ajax.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="159" column="22" selection-start="4761" selection-end="4761" vertical-scroll-proportion="0.4057239" vertical-offset="2144" max-vertical-offset="3060">
+          <folding />
         </state>
       </provider>
     </entry>
