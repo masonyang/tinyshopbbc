@@ -595,7 +595,17 @@ class OrderController extends Controller
     //批量下单功能
     public function batch_order()
     {
-        $this->assign("ship_id",'');
+
+        $customersModel = new Model('customer');
+        $addressModel = new Model('address');
+        $customers = $customersModel->findAll();
+
+        foreach($customers as $k=>$value){
+           $address = $addressModel->where('user_id = '.$value['user_id'])->findAll();
+           $customers[$k]['address'] = $address;
+        }
+
+        $this->assign("customers",$customers);
         $this->redirect('batch_order_edit');
     }
 
