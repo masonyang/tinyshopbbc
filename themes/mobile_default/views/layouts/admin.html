@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{$admin_title}</title>
+    <link rel="stylesheet" type="text/css" href="{url:#css/default_admin_index.css}">
+    <link rel='stylesheet prefetch' href='{url:#css/family_admin.css}'>
+    <link rel='stylesheet prefetch' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
+    <link rel='stylesheet prefetch' href='{url:#css/animate.min.css}'>
+    <link rel='stylesheet prefetch' href='{url:#css/styles_admin_index.css}'>
+    <!--[if IE]>
+    <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+<div class="htmleaf-container">
+<div class="mobile-wrap">
+<div class="mobile clearfix">
+<div class="header">
+    <span class="ion-ios-navicon pull-left"><i></i></span>
+    <span class="title">{$admin_title}</span>
+    <!--<span class="ion-ios-search pull-right"></span>-->
+</div>
+<div class="sidebar">
+    <div class="sidebar-overlay"></div>
+    <div class="sidebar-content">
+        <div class="top-head">
+            <div class="name">{$manager['name']}</div>
+        </div>
+        <div class="nav-left">
+            <a href="#home"><span class="ion-ios-home-outline"></span> 桌面</a>
+            <a href="{url:/admin/goods_list}"><span class="ion-ios-list-outline"></span> 商品管理</a>
+            <a href="{url:/admin/logout}"><span></span>退出</a>
+            <!--<a href="#compose"><span class="ion-ios-compose-outline"></span> Compose</a>-->
+            <!--<a href="#chats"><span class="ion-ios-chatboxes-outline"></span> Chats</a>-->
+            <!--<a href="#profile"><span class="ion-ios-person-outline"></span> Profile</a>-->
+            <!--<a href="#settings"><span class="ion-ios-gear-outline"></span> Settings</a>-->
+            <!--<a href="#credits"><span class="ion-ios-information-outline"></span> Credits</a>-->
+        </div>
+    </div>
+</div>
+<div class="content">
+    {__viewcontents}
+</div>
+
+
+<!--<div class="nav">-->
+    <!--<a href="#profile" class="nav-item nav-count-1"><i class="ion-ios-person-outline"></i><span class="invisible">Profile</span></a>-->
+    <!--<a href="#compose" class="nav-item nav-count-2"><i class="ion-ios-compose-outline"></i><span class="invisible">Compose</span></a>-->
+    <!--<a href="#chats" class="nav-item nav-count-3"><i class="ion-ios-chatboxes-outline"></i><span class="invisible">Chats</span></a>-->
+    <!--<a href="#alarm" class="nav-item nav-count-4"><i class="ion-ios-alarm-outline"></i><span class="invisible">Alarm</span></a>-->
+    <!--<a href="#toggle" class="mask"><i class="ion-ios-plus-empty"></i></a>-->
+<!--</div>-->
+</div>
+</div>
+
+
+
+
+
+</div>
+
+<script src='{url:js/jquery-1.11.0.js}'></script>
+<script>
+    $(function(){
+        App.init();
+    });
+    var App = {
+        init: function() {
+            this.datetime(), this.side.nav(), this.navigation(), this.hyperlinks(), setInterval("App.datetime();", 1e3)
+        },
+        datetime: function() {
+            var e = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六"),
+                    t = new Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+                    a = new Date,
+                    i = a.getYear();
+            1e3 > i && (i += 1900);
+            var n = a.getDay(),
+                    s = a.getMonth(),
+                    l = a.getDate();
+            10 > l && (l = "0" + l);
+            var r = a.getHours(),
+                    o = a.getMinutes(),
+                    c = a.getSeconds(),
+                    v = "上午";
+            r >= 12 && (v = "下午"), r > 12 && (r -= 12), 0 == r && (r = 12), 9 >= o && (o = "0" + o), 9 >= c && (c = "0" + c), $(".welcome .datetime .day").text(e[n]), $(".welcome .datetime .date").text(i + " / " + t[s] + " / " + l), $(".welcome .datetime .time").text(r + ":" + o + ":" + c + " " + v)
+        },
+        title: function(e) {
+            return $(".header>.title").text(e)
+        },
+        side: {
+            nav: function() {
+                this.toggle(), this.navigation()
+            },
+            toggle: function() {
+                $(".ion-ios-navicon").on("touchstart click", function(e) {
+                    e.preventDefault(), $(".sidebar").toggleClass("active"), $(".nav").removeClass("active"), $(".sidebar .sidebar-overlay").removeClass("fadeOut animated").addClass("fadeIn animated")
+                }), $(".sidebar .sidebar-overlay").on("touchstart click", function(e) {
+                    e.preventDefault(), $(".ion-ios-navicon").click(), $(this).removeClass("fadeIn").addClass("fadeOut")
+                })
+            },
+            navigation: function() {
+                $(".nav-left a").on("touchstart click", function(e) {
+                    e.preventDefault();
+                    var t = $(this).attr("href").replace("#", "");
+                    $(".sidebar").toggleClass("active"), $(".html").removeClass("visible"), "home" == t || "" == t || null == t ? $(".html.welcome").addClass("visible") : $(".html." + t).addClass("visible"), App.title($(this).text())
+                })
+            }
+        },
+        navigation: function() {
+            $(".nav .mask").on("touchstart click", function(e) {
+                e.preventDefault(), $(this).parent().toggleClass("active")
+            })
+        },
+        hyperlinks: function() {
+            $(".nav .nav-item").on("click", function(e) {
+                e.preventDefault();
+                var t = $(this).attr("href").replace("#", "");
+                $(".html").removeClass("visible"), $(".html." + t).addClass("visible"), $(".nav").toggleClass("active"), App.title($(this).text())
+            })
+        }
+    };
+</script>
+</body>
+</html>

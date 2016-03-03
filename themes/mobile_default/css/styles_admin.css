@@ -39,7 +39,7 @@ input, button {
 .cont {
     position: relative;
     height: 100%;
-    background-image: url("http://i.imgur.com/UP7fWfg.jpg");
+    background-image: url(../images/UP7fWfg.jpg);
     background-size: cover;
     overflow: auto;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
@@ -99,7 +99,7 @@ input, button {
 }
 .login__form {
     position: absolute;
-    top: 50%;
+    top: 30%;
     left: 0;
     width: 100%;
     height: 50%;
