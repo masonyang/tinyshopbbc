@@ -30,8 +30,8 @@
             <div class="name">{$manager['name']}</div>
         </div>
         <div class="nav-left">
-            <a href="#home"><span class="ion-ios-home-outline"></span> 桌面</a>
-            <a href="{url:/admin/goods_list}"><span class="ion-ios-list-outline"></span> 商品管理</a>
+            <a href="{url:/admin/index}"><span class="ion-ios-home-outline"></span> 桌面</a>
+            <a href="{url:/goods/goods_list}"><span class="ion-ios-list-outline"></span> 商品管理</a>
             <a href="{url:/admin/logout}"><span></span>退出</a>
             <!--<a href="#compose"><span class="ion-ios-compose-outline"></span> Compose</a>-->
             <!--<a href="#chats"><span class="ion-ios-chatboxes-outline"></span> Chats</a>-->
@@ -62,7 +62,7 @@
 
 </div>
 
-<script src='{url:js/jquery-1.11.0.js}'></script>
+<script src='{url:#js/jquery-1.11.0.js}'></script>
 <script>
     $(function(){
         App.init();
@@ -103,9 +103,9 @@
             },
             navigation: function() {
                 $(".nav-left a").on("touchstart click", function(e) {
-                    e.preventDefault();
-                    var t = $(this).attr("href").replace("#", "");
-                    $(".sidebar").toggleClass("active"), $(".html").removeClass("visible"), "home" == t || "" == t || null == t ? $(".html.welcome").addClass("visible") : $(".html." + t).addClass("visible"), App.title($(this).text())
+//                    e.preventDefault();
+//                    var t = $(this).attr("href").replace("#", "");
+//                    $(".sidebar").toggleClass("active"), $(".html").removeClass("visible"), "home" == t || "" == t || null == t ? $(".html.welcome").addClass("visible") : $(".html." + t).addClass("visible"), App.title($(this).text())
                 })
             }
         },
@@ -116,9 +116,9 @@
         },
         hyperlinks: function() {
             $(".nav .nav-item").on("click", function(e) {
-                e.preventDefault();
-                var t = $(this).attr("href").replace("#", "");
-                $(".html").removeClass("visible"), $(".html." + t).addClass("visible"), $(".nav").toggleClass("active"), App.title($(this).text())
+//                e.preventDefault();
+//                var t = $(this).attr("href").replace("#", "");
+//                $(".html").removeClass("visible"), $(".html." + t).addClass("visible"), $(".nav").toggleClass("active"), App.title($(this).text())
             })
         }
     };

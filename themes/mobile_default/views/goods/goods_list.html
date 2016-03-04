@@ -1,0 +1,24 @@
+<div class="html chats visible">
+    <div class="active-users" style="overflow-y: scroll; height:400px;">
+        {query:name=goods_category /}
+        {set:$category_name=array();$category="";}
+        {list:}
+        {set:$category_name[$item['id']]=$item['name']}
+        {set:$category.=$item['id'].':'."'".$item['name']."',"}
+        {/list}
+        {set:$category=trim($category,',');}
+        {query:name=goods id=$obj where=$where order=is_online,id deac page=1 order=id desc}
+        <div class="user clearfix rotateInDownLeft animated">
+            <div class="photo pull-left">
+                <img src={url:@$item[img]} />
+            </div>
+            <div class="desc pull-left">
+                <p class="position">{$category_name[$item['category_id']]}</p>
+                <p class="name">{echo:TString::msubstr($item['name'],0,10)}</p>
+                <p class="position">{$item['goods_no']}</p>
+            </div>
+            <div class="idle pull-right">{if:$item['is_online']==0}<span class="online"></span>{else:}<span class="offline"></span>{/if}</div>
+        </div>
+        {/query}
+    </div>
+</div>
