@@ -5,7 +5,7 @@
     <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
     <a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/order/order_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>
     <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
-    <a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>
+    <!--<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>-->
     <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
     <a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>
     <a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>
@@ -80,9 +80,9 @@
     <div class="tc"><button class="focus_button" onclick="submit_status()">保存</button></div>
 </div>
 <script type="text/javascript">
-    function batch_orders(){
-        art.dialog.open("{url:/order/batch_order}",{id:'edit_dialog',title:'批量下单',resize:true,width:900,height:450});
-    }
+//    function batch_orders(){
+//        art.dialog.open("{url:/order/batch_order}",{id:'edit_dialog',title:'批量下单',resize:true,width:900,height:450});
+//    }
     function edit(id){
         art.dialog.open("{url:/order/order_edit/id/}"+id,{id:'edit_dialog',title:'订单编辑',resize:false,width:900,height:450});
     }
