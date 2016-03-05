@@ -192,6 +192,7 @@ class GoodsController extends Controller
 			Log::op($this->manager['id'],"删除商品类型","管理员[".$this->manager['name']."]:删除了商品类型 ".$str);
 
             $params = array();
+            $params['id'] = $id;
             syncGoodsType::getInstance()->setParams($params,'del')->sync();
 
 			$this->redirect('goods_type_list');
@@ -272,6 +273,7 @@ class GoodsController extends Controller
 			Log::op($this->manager['id'],"删除商品规格","管理员[".$this->manager['name']."]:删除了规格 ".$str);
 
             $params = array();
+            $params['id'] = $id;
             syncSpec::getInstance()->setParams($params,'del')->sync();
 
 			$this->redirect('goods_spec_list');
@@ -372,6 +374,7 @@ class GoodsController extends Controller
         		$cache->delete("_GoodsCategory");
 
                 $params = array();
+                $params['id'] = $id;
                 syncCategory::getInstance()->setParams($params,'del')->sync();
 
 				$this->redirect("goods_category_list");
@@ -562,6 +565,7 @@ class GoodsController extends Controller
 		Log::op($this->manager['id'],"删除商品","管理员[".$this->manager['name']."]:删除了商品 ".$str);
 
         $params = array();
+        $params['id'] = $id;
         syncGoods::getInstance()->setParams($params,'del')->sync();
 
 		$msg = array('success',"成功删除商品 ".$str);
@@ -569,14 +573,15 @@ class GoodsController extends Controller
 	}
 	function goods_list(){
 
-		$condition = Req::args("condition");
-		$condition_str =  Common::str2where($condition);
-		if($condition_str){
-			$where = $condition_str;
-		}else{
-			$where = "1=1";
-		}
-		$this->assign("condition",$condition);
+        $condition = Req::args("condition");
+        $condition_str =  Common::str2where($condition);
+        if($condition_str){
+            $where = $condition_str;
+        }else{
+            $where = "1=1";
+        }
+        $this->assign("condition",$condition);
+
 		$this->assign("where",$where);
 		$this->redirect();
 	}
@@ -589,4 +594,68 @@ class GoodsController extends Controller
 		$this->layout = '';
 		$this->redirect();
 	}
+
+    function goods_select()
+    {
+        $goods = Req::args("goods");
+        if(empty($goods)){
+            $this->redirect("goods_list",false);exit;
+        }
+
+        $where = "1=1";
+        if($goods && $goods!=''){
+             $where = " p.pro_no like '{$goods}%'";
+        }
+
+
+        $productsModel = new Model('products as p');
+        $products = $productsModel->fields('p.goods_id as goods_id')->join('left join goods as g on p.goods_id=g.id')->where($where)->findAll();
+
+        $goodsids = array(0);
+        if($products){
+            foreach($products as $value){
+                $goodsids[] = $value['goods_id'];
+                $goodsids = array_unique($goodsids);
+            }
+        }else{
+            $goodsids[] = $goods;
+        }
+
+        $where = 'id in ('.implode(',',$goodsids).')';
+        $this->redirect("goods_list",false,array('searchwhere'=>$where,'search'=>$goods));
+    }
+
+    function save_goods_mobile()
+    {
+
+        //todo
+        $id = intval(Req::post('goodsid'));
+        $goodsname = trim(Req::post('goodsname'));
+        $isonline = intval(Req::post('isonline'));
+
+        if(empty($id)){
+            echo json_encode(array('res'=>'success'));
+            exit;
+        }
+
+        $data = array('is_online'=>$isonline);
+
+        if(!empty($goodsname)){
+            $data['name'] = $goodsname;
+        }
+
+        $model = new Model('goods');
+        $model->data($data)->where("id = ".$id)->update();
+
+        Log::op($this->manager['id'],"总店后台(手机端)修改商品","管理员[".$this->manager['name']."]:修改了商品 ".$goodsname);
+
+        $params = array();
+        $params['id'] = $id;
+        $params['name'] = $goodsname;
+        $params['is_online'] = $isonline;
+        syncGoods::getInstance()->setParams($params,'update')->sync();
+
+        echo json_encode(array('res'=>'success'));
+    }
+
 }

@@ -1,5 +1,17 @@
+<div class="compose">
+    <div class="forms">
+        <form action="{url:/goods/goods_select}" method="post">
+            <div class="group clearfix">
+                <button class="ion-ios-search pull-right"></button>
+                <input class="pull-right" name="goods" id="goods-search" value="{$search}" placeholder="请输入货号..." type="text">
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="html chats visible">
-    <div class="active-users" style="overflow-y: scroll; height:400px;">
+
+    <div class="active-users" style="overflow-y: scroll; height:300px;">
         {query:name=goods_category /}
         {set:$category_name=array();$category="";}
         {list:}
@@ -7,8 +19,13 @@
         {set:$category.=$item['id'].':'."'".$item['name']."',"}
         {/list}
         {set:$category=trim($category,',');}
-        {query:name=goods id=$obj where=$where order=is_online,id deac page=1 order=id desc}
-        <div class="user clearfix rotateInDownLeft animated">
+        {if: isset($searchwhere)}
+            {set:$_where=$searchwhere;}
+        {else:}
+            {set:$_where=$where;}
+        {/if}
+        {query:name=goods id=$obj where=$_where order=is_online,id deac page=1 order=id desc}
+        <div class="user clearfix {if:$item[id]%2 == 0}rotateInDownLeft{else:}rotateInDownRight{/if} animated" isonline="{$item['is_online']}" goodsname="{$item['name']}" goodsid="{$item['id']}" goodsno="{$item['goods_no']}" >
             <div class="photo pull-left">
                 <img src={url:@$item[img]} />
             </div>
@@ -22,3 +39,82 @@
         {/query}
     </div>
 </div>
+
+
+<div class="html compose">
+
+    <div class="forms">
+
+        <div class="group clearfix slideInRight animated">
+            <label class="pull-left" for="compose-time">商品名</label>
+            <input class="pull-right" id="compose-time" type="text">
+        </div>
+        <div class="group clearfix slideInLeft animated">
+            <label class="pull-left" for="compose-date">货号</label>
+            <span class="pull-right" id="compose-date"></span>
+            <input type="hidden" id="goodsid" value="}">
+        </div>
+        <div class="group clearfix slideInRight animated">
+            <div class="title pull-left"><label for="gear-sound">上下架</label></div>
+            <div class="pull-right"><input id="gear-sound" class="on-off" isonline="0" type="checkbox"><label for="gear-sound"></label></div>
+        </div>
+
+        <div class="action flipInY animated">
+            <button class="btn">保存</button>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    $('.user').click(function(){
+        var goodsid = $(this).attr('goodsid');
+        var goodsno = $(this).attr('goodsno');
+        var goodsname = $(this).attr('goodsname');
+        var isonline = $(this).attr('isonline');
+
+        var checked = false;
+
+        if(isonline == 0){
+            checked = true;
+        }
+
+        $('#compose-time').val(goodsname);
+        $('#compose-date').html(goodsno);
+        $('#gear-sound').attr('checked',checked);
+        $('#gear-sound').attr('isonline',isonline);
+        $('#goodsid').val(goodsid);
+
+        $('.chats').removeClass('visible');
+        $('.compose').addClass('visible');
+    });
+
+    $('#gear-sound').change(function(){
+        if($(this).attr('isonline') == 1){
+            $(this).attr('isonline',0);
+        }else{
+            $(this).attr('isonline',1);
+        }
+
+    });
+
+    $('.btn').click(function(){
+
+        var goodsname = $('#compose-time').val();
+        var goodsid = $('#goodsid').val();
+        var isonline = $('#gear-sound').attr('isonline');
+
+        var url = '{url:/goods/save_goods_mobile}';
+        $.post(url,{goodsname:goodsname,goodsid:goodsid,isonline:isonline},function(data){
+            if(data.res == 'success'){
+                {if: $search}
+                    var reloadUrl = '{url:/goods/goods_select}&goods={$search}';
+                {else:}
+                    var reloadUrl = '{url:/goods/goods_list}';
+                {/if}
+                    window.location.href = reloadUrl;
+            }
+        },'json');
+
+    });
+</script>

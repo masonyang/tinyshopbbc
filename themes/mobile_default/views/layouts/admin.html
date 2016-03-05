@@ -10,6 +10,7 @@
     <link rel='stylesheet prefetch' href='http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css'>
     <link rel='stylesheet prefetch' href='{url:#css/animate.min.css}'>
     <link rel='stylesheet prefetch' href='{url:#css/styles_admin_index.css}'>
+    <script src='{url:#js/jquery-1.11.0.js}'></script>
     <!--[if IE]>
     <script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
     <![endif]-->
@@ -62,7 +63,7 @@
 
 </div>
 
-<script src='{url:#js/jquery-1.11.0.js}'></script>
+
 <script>
     $(function(){
         App.init();
@@ -73,7 +74,7 @@
         },
         datetime: function() {
             var e = new Array("周日", "周一", "周二", "周三", "周四", "周五", "周六"),
-                    t = new Array("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"),
+                    t = new Array("01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"),
                     a = new Date,
                     i = a.getYear();
             1e3 > i && (i += 1900);
