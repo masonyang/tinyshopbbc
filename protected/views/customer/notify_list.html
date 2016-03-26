@@ -20,7 +20,7 @@ onclick="tools_reload()"> 刷新</a></div>
         <th style="width:120px">是否通知</th>
 
     </tr>
-    {query:name=notify as n join= left join goods as go on n.goods_id eq go.id  order=notify_status fields=name,n.id,email,mobile,store_nums,notify_status id=$obj  page=1 desc }
+    {query:name=notify as n domain=$domain join= left join goods as go on n.goods_id eq go.id  order=notify_status fields=name,n.id,email,mobile,store_nums,notify_status id=$obj  page=1 desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-remove-2" href="{url:/customer/notify_del/id/$item[id]}"> 删除</a></li>

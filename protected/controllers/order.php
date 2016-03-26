@@ -8,7 +8,7 @@
 class OrderController extends Controller
 {
 	public $layout='admin';
-	private $top = null;
+	private $domain = null;
 	private $manager = null;
 	private $parse_returns_status = array(0=>'<b class="red">等待审核</b>',1=>'<b class="red">等待回寄货品</b>',2=>'<b class="red">拒绝</b>',3=>'货品回寄中',4=>'已结束');
 	public $needRightActions = array('*'=>true);
@@ -30,6 +30,15 @@ class OrderController extends Controller
 
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
+
+        $branchStore = null;
+        if(isset($_COOKIE['branchStore'])){
+            $branchStore = ($_COOKIE['branchStore']== 'all') ? null :$_COOKIE['branchStore'] ;
+        }
+
+        $this->domain = $branchStore;
+        $this->assign('domain',$branchStore);
+
 	}
 	public function noRight(){
 		$this->layout = '';
@@ -60,7 +69,7 @@ class OrderController extends Controller
 	}
 	public function doc_refund_save(){
 		$pay_status = Req::args("pay_status");
-		$model = new Model("doc_refund");
+		$model = new Model("doc_refund",$this->domain);
 		$id = Req::args("id");
 		$data = array('pay_status'=>$pay_status,'handling_idea'=>Req::args("handling_idea"),'handling_time'=>date('Y-m-d H:i:s'),'admin_id'=>$this->manager['id']);
 		if($pay_status==2){
@@ -105,7 +114,7 @@ class OrderController extends Controller
 		$handling_idea = Req::args('handling_idea');
 		$info = array('status'=>'fail','msg'=>'备注信息不能为空!');
 		if($handling_idea){
-			$model = new Model('doc_returns');
+			$model = new Model('doc_returns',$this->domain);
 			$model->data(array('handling_idea'=>$handling_idea,'status'=>4))->where("id=$id")->update();
 			$info = array('status'=>'success','msg'=>'');
 		}
@@ -129,7 +138,7 @@ class OrderController extends Controller
 	}
 	public function doc_returns_save(){
 		$status = Req::args("status");
-		$model = new Model("doc_returns");
+		$model = new Model("doc_returns",$this->domain);
 		$id = Req::args("id");
 		$data = array('status'=>$status,'handling_idea'=>Req::args("handling_idea"),'admin_id'=>$this->manager['id']);
 		$model->data($data)->where("id=$id")->update();
@@ -163,10 +172,10 @@ class OrderController extends Controller
         //订单所有产品的批发价之和  == 分销商预存款金额 比较
 
         //同步发货信息
-        $model = new Model("doc_invoice");
+        $model = new Model("doc_invoice",$this->domain);
         $order_info = $model->table("order")->where("id=$order_id")->find();
 
-        $orderGoodsModelObj = new Model('order_goods');
+        $orderGoodsModelObj = new Model('order_goods',$this->domain);
         $managerObj = new Model('manager');//去分店 manager表中的数据
         $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
 
@@ -294,14 +303,16 @@ class OrderController extends Controller
 		foreach ($items as $item) {
 			$payment[$item['id']] = $item['pay_name'];
 		}
+
 		$this->assign("payment",$payment);
 		$this->redirect();
 	}
+
 	public function order_edit()
 	{
 		$this->layout = "blank";
 		$id = Req::args("id");
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$order = $model->where("id=$id")->find();
 		if($order){
 			if($order['status']==1 || $order['status'] == 2){
@@ -314,7 +325,7 @@ class OrderController extends Controller
 	{
 		$this->layout = "blank";
 		$id = Req::args("id");
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$order = $model->where("id=$id")->find();
 		if($order){
 			$this->assign("id",$id);
@@ -326,7 +337,7 @@ class OrderController extends Controller
 	{
 		$this->layout = "blank";
 		$id = Req::args("id");
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$order = $model->where("id=$id")->find();
 		if($order){
 			if($order['status']==3){
@@ -340,7 +351,7 @@ class OrderController extends Controller
 		$id = Filter::int(Req::args("id"));
 		$status = Req::args("status");
 		$admin_remark = Req::args("remark");
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$order = $model->where("id=$id")->find();
 		$flag = false;
 		$info = array();
@@ -360,10 +371,10 @@ class OrderController extends Controller
 							Order::updateStatus($order['order_no']);
 						}
 						//订单完成
-						$model_tem = new Model('order');
+						$model_tem = new Model('order',$this->domain);
 						$model_tem->where("id=$id")->data(array('delivery_status'=>2,'status'=>4,'completion_time'=>date('Y-m-d H:i:s')))->update();
 						//允许评价
-						$model_tem = new Model('order as od');
+						$model_tem = new Model('order as od',$this->domain);
 			            $products = $model_tem->join('left join order_goods as og on od.id=og.order_id')->where('od.id='.$id)->findAll();
 			            foreach ($products as $product) {
 			                $data = array('goods_id'=>$product['goods_id'],'user_id'=>$order['user_id'],'order_no'=>$product['order_no'],'buy_time'=>$product['create_time']);
@@ -397,7 +408,7 @@ class OrderController extends Controller
 	}
 	//订单编辑
 	public function order_save(){
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$id = Req::args('id');
 		$order = $model->where("id=".$id)->find();
 		if($order){
@@ -422,6 +433,9 @@ class OrderController extends Controller
 	}
 
 	public function order_del(){
+        $this->redirect("order_list",false);
+        exit;
+
 		$id =  Req::args('id');
 		//删除
 		if(is_array($id)){
@@ -429,7 +443,7 @@ class OrderController extends Controller
 		}else{
 			$ids = $id;
 		}
-		$model = new Model("order");
+		$model = new Model("order",$this->domain);
 		$orders = $model->where("id in ($ids)")->findAll();
 		//删除订单信息
 		$flag = $model->where("id in ($ids)")->delete();
@@ -471,7 +485,7 @@ class OrderController extends Controller
 		return $info;
 	}
 	public function ship_validator(){
-		$model = new Model('ship');
+		$model = new Model('ship',$this->domain);
 		if(Req::args("is_default")==1){
 
 			$model->data(array('is_default'=>0))->update();
@@ -514,8 +528,11 @@ class OrderController extends Controller
 			$model = new Model();
 			$template = $model->table("express_template")->where($template_where)->find();
 			$ship = $model->table("ship")->where($ship_where)->find();
-			$order = $model->table("order")->where("id=$id")->find();
-			$order_product = $model->table('order_goods')->where("order_id = $id")->findAll();
+
+            $orderModel = new MOdel('order',$this->domain);
+			$order = $orderModel->where("id=$id")->find();
+
+			$order_product = $orderModel->where("order_id = $id")->findAll();
 			$total_weight = 0;
 			$total_num = 0;
 			foreach ($order_product as $key => $value) {

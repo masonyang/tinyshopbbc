@@ -383,6 +383,8 @@ class PaymentController extends Controller
         unset($callbackData['payment_id']);
         unset($callbackData['tiny_token_redirect']);
         $return = $paymentPlugin->callback($callbackData,$payment_id,$money,$message,$orderNo);
+
+
         //支付成功
         if($return == 1)
         {
@@ -422,7 +424,12 @@ class PaymentController extends Controller
                     $order_id = Order::updateStatus($orderNo,$payment_id,$callbackData);
                     if($order_id)
                     {
-                        $this->redirect("/simple/order_completed/order_id/".$order_id);
+                        if(ControllerExt::$isMobile){
+                            $this->redirect("/ucenter/order/status/3");
+                        }else{
+                            $this->redirect("/simple/order_completed/order_id/".$order_id);
+                        }
+
                         exit;
                     }
                     $msg = array('type'=>'fail','msg'=>'订单修改失败！');

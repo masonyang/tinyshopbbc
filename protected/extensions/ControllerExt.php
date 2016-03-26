@@ -8,6 +8,7 @@ class ControllerExt implements Extension
     {
         //测试平板或者手机端主题
         $clientType = Chips::clientType();
+//        $clientType='tablet';
         if($clientType=='tablet' || $clientType=='mobile'){
             self::$isMobile = true;
             //$config_path = APP_CODE_ROOT.'config/config.php';

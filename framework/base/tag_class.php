@@ -149,6 +149,7 @@ class Tag
 						if($k != 'name' && $k != 'id' && $k != 'items' && $k != 'issalve' && $k != 'domain') $tem .= $id.'->'.$k.' = "'.str_replace($old_char,$new_char,$v).'";';
 					}
 					$tem .= $items.' = '.$id.'->find();';
+
 					if(!isset($attrs['key'])) $attrs['key'] = '$key';
 					else $attrs['key'] = $attrs['key'];
 					if(!isset($attrs['item'])) $attrs['item'] = '$item';

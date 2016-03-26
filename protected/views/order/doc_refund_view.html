@@ -1,6 +1,6 @@
 {echo:JS::import("form")}
 <div style="overflow: auto;width:900px;height: 420px;">
-	{query:name=doc_refund as dr fields=dr.*,us.name as uname, ma.name as mname join=left join user as us on dr.user_id eq us.id left join manager as ma on dr.admin_id eq ma.id where=dr.id eq $id /}
+	{query:name=doc_refund as dr domain=$domain fields=dr.*,us.name as uname, ma.name as mname join=left join user as us on dr.user_id eq us.id left join manager as ma on dr.admin_id eq ma.id where=dr.id eq $id /}
 	{set:$item = $items[0];}
 		<h3 class="lineD ">退款单详情：</h3>
 
@@ -19,7 +19,7 @@
 		<tr><td colspan=4>{$item['handling_idea']}</td></tr>
 		</table>
 
-		{query:name= doc_refund as dr fields=od.*,ex.name as exname,py.pay_name as payname join= left join order as od on dr.order_id eq od.id left join express as ex on od.express eq ex.express_company_id left join payment as py on od.payment eq py.id where=dr.id eq $id}
+		{query:name= doc_refund as dr domain=$domain fields=od.*,ex.name as exname,py.pay_name as payname join= left join order as od on dr.order_id eq od.id left join express as ex on od.express eq ex.express_company_id left join payment as py on od.payment eq py.id where=dr.id eq $id}
 		{set:$amount = $item['order_amount'];}
 		<h3 class="lineD mt10">订单信息：</h3>
 		<table class="default">
@@ -40,7 +40,7 @@
 		<h3 class="lineD mt10">所购商品详情：</h3>
 	<table class="default" id="attr_values">
 		<tr><td style="width:120px;">货号</td><td>商品名</td><td style="width:60px;">规格</td><td style="width:60px;">价格</td><td style="width:40px;">数量</td><td style="width:60px;">小计</td></tr>
-		{query:name=doc_refund as dr fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,dr.id join= left join order_goods as od on dr.order_id eq od.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=dr.id eq $id}
+		{query:name=doc_refund as dr domain=$domain fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,dr.id join= left join order_goods as od on dr.order_id eq od.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=dr.id eq $id}
 		{set:$spec = unserialize($item['spec']);}
 		<tr><td>{$item['pro_no']}</td><td>{$item['name']}</td><td>
 			{if:is_array($spec)}

@@ -357,7 +357,13 @@ class ContentController extends Controller
 			$model->data(array('sort'=>$sort))->where("id=$id")->update();
 		}
 
+        $tags = $model->where('id='.$id)->find();
         $params = array();
+        $params['id'] = $id;
+        $params['name'] = $tags['name'];
+        $params['num'] = $tags['num'];
+        $params['sort'] = $tags['sort'];
+        $params['is_hot'] = $tags['is_hot'];
         syncTag::getInstance()->setParams($params,'update')->sync();
 
 		echo JSON::encode(array('status'=>'success'));

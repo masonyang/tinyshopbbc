@@ -42,6 +42,7 @@ class pay_alipaymobile extends PaymentPlugin{
     //同步处理
     public function callback($callbackData,&$paymentId,&$money,&$message,&$orderNo)
     {
+
         //除去待签名参数数组中的空值和签名参数
         $filter_param = $this->filterParam($callbackData);
 
@@ -65,7 +66,7 @@ class pay_alipaymobile extends PaymentPlugin{
             $orderNo = $callbackData['out_trade_no'];
             $money   = $callbackData['total_fee'];
 
-            if($callbackData['trade_status'] == 'TRADE_FINISHED' || $callbackData['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
+            if($callbackData['trade_status'] == 'TRADE_FINISHED' || $callbackData['trade_status'] == 'TRADE_SUCCESS')
             {
                 return true;
             }
@@ -99,7 +100,7 @@ class pay_alipaymobile extends PaymentPlugin{
             $orderNo = $callbackData['out_trade_no'];
             $money   = $callbackData['total_fee'];
 
-            if($callbackData['trade_status'] == 'TRADE_FINISHED' || $callbackData['trade_status'] == 'WAIT_SELLER_SEND_GOODS')
+            if($callbackData['trade_status'] == 'TRADE_FINISHED' || $callbackData['trade_status'] == 'TRADE_SUCCESS')
             {
                 return true;
             }
@@ -121,7 +122,7 @@ class pay_alipaymobile extends PaymentPlugin{
         $return['notify_url'] = $this->asyncCallbackUrl;
         $return['return_url'] = $this->callbackUrl;
         $return['out_trade_no'] = $payment['M_OrderNO'];
-        $return['subject'] = $payment['R_Name'];
+        $return['subject'] = $payment['R_Name']."(订单号:".$payment['M_OrderNO'].")";
         $return['total_fee'] = number_format($payment['M_Amount'], 2, '.', '');
         $return['show_url'] = 1;//商品展示地址
         $return['_input_charset'] = 'utf-8';
@@ -207,7 +208,7 @@ class pay_alipaymobile extends PaymentPlugin{
      */
     function rsaSign($data, $private_key_path) {
         $priKey = file_get_contents($private_key_path);
-        $res = openssl_get_privatekey($priKey);
+        $res = openssl_pkey_get_private($priKey);
         openssl_sign($data, $sign, $res);
         openssl_free_key($res);
         //base64编码
@@ -224,7 +225,7 @@ class pay_alipaymobile extends PaymentPlugin{
      */
     function rsaVerify($data, $ali_public_key_path, $sign)  {
         $pubKey = file_get_contents($ali_public_key_path);
-        $res = openssl_get_publickey($pubKey);
+        $res = openssl_pkey_get_public($pubKey);
         $result = (bool)openssl_verify($data, base64_decode($sign), $res);
         openssl_free_key($res);
         return $result;
@@ -238,7 +239,7 @@ class pay_alipaymobile extends PaymentPlugin{
      */
     function rsaDecrypt($content, $private_key_path) {
         $priKey = file_get_contents($private_key_path);
-        $res = openssl_get_privatekey($priKey);
+        $res = openssl_pkey_get_private($priKey);
         //用base64将内容还原成二进制
         $content = base64_decode($content);
         //把需要解密的内容，按128位拆开解密
@@ -302,7 +303,7 @@ class pay_alipaymobile extends PaymentPlugin{
 
     private function dataPath()
     {
-        return dirname(__FILE__).'../../../data/cert/alipaymobile/';
+        return dirname(__FILE__).'/../../../data/cert/alipaymobile/';
     }
 
     private function cacertUrl()

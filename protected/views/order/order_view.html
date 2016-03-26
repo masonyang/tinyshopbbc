@@ -3,7 +3,7 @@
 	<h3 class="lineD">商品信息：</h3>
 	<table class="default" id="attr_values">
 		<tr><td width="40"></td><td width="120">货号</td><td>商品名</td><td width="140">规格</td><td width="60">价格</td><td width="40">数量</td><td width="60">商品促销</td><td width="60">小计</td></tr>
-		{query:name=order_goods as od fields=go.img,go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,od.prom_goods join= left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=order_id eq $id}
+		{query:name=order_goods as od domain=$domain fields=go.img,go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,od.prom_goods join= left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=order_id eq $id}
 		{set:$spec = unserialize($item['spec']);}
 		<tr><td><img src="{echo:Common::thumb($item['img'],100,100);}" width="40"></td><td>{$item['pro_no']}</td><td>{$item['name']}</td><td>
 			{if:is_array($spec)}
@@ -16,7 +16,7 @@
 	</table>
 	<h3 class="lineD mt10">购买人信息：</h3>
 	<table class="default">
-		{query:name=order as o fields=cu.real_name,us.name,us.email,cu.phone,cu.mobile,cu.addr join=left join customer as cu on o.user_id eq cu.user_id left join user as us on o.user_id eq us.id  where=o.id eq $id}
+		{query:name=order as o domain=$domain fields=cu.real_name,us.name,us.email,cu.phone,cu.mobile,cu.addr join=left join customer as cu on o.user_id eq cu.user_id left join user as us on o.user_id eq us.id  where=o.id eq $id}
 		<tr><th width="100">用户名：</th><td>{$item['name']}</td><th width="100">姓名：</th><td>{$item['real_name']}</td></tr>
 		<tr><th>手机：</th><td>{$item['mobile']}</td><th>电话：</th><td>{$item['phone']}</td></tr>
 		<tr><th>邮箱：</th><td>{$item['email']}</td><th> 地址：</th><td>{$item['addr']}</td></tr>
@@ -24,7 +24,7 @@
 	</table>
 
 
-		{query:name=order as od fields=od.*,ex.name as exname,py.pay_name as payname join=left join express as ex on od.express eq ex.express_company_id left join payment as py on od.payment eq py.id where=od.id eq $id}
+		{query:name=order as od domain=$domain fields=od.*,ex.name as exname,py.pay_name as payname join=left join express as ex on od.express eq ex.express_company_id left join payment as py on od.payment eq py.id where=od.id eq $id}
 		{set:$amount = $item['order_amount'];}
 		<h3 class="lineD mt10">订单信息：</h3>
 		<table class="default">

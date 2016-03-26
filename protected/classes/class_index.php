@@ -1,5 +1,6 @@
 <?php return array(
 "Cart"=>"Cart.php",
+"SelectBranch"=>"SelectBranch.php",
 "Category"=>"Category.php",
 "ClassConfig"=>"ClassConfig.php",
 "Common"=>"Common.php",

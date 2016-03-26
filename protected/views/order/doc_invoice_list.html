@@ -20,7 +20,7 @@
         <th style="width:80px">收货人电话</th>
         <th style="width:80px">创建时间</th>
     </tr>
-    {query:name=doc_invoice as di fields=di.*,ec.name as ecname join=left join express_company as ec on di.express_company_id eq ec.id where=$where id=$obj page=1 order=id desc}
+    {query:name=doc_invoice as di domain=$domain fields=di.*,ec.name as ecname join=left join express_company as ec on di.express_company_id eq ec.id where=$where id=$obj page=1 order=id desc}
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td style="width:70px"><a href="javascript:view({$item['id']})" class=" icon-eye"> 查看</a></td>
             <td style="width:120px">{$item['invoice_no']}</td>

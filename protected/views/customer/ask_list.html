@@ -20,7 +20,7 @@
         <th style="width:140px">回复时间</th>
 
     </tr>
-    {query:name=ask as a fields= a.*,a.id as aid join= left join user as u on a.user_id eq u.id id=$obj where= $where page=1 order= id desc }
+    {query:name=ask as a domain=$domain fields= a.*,a.id as aid join= left join user as u on a.user_id eq u.id id=$obj where= $where page=1 order= id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['aid']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-pencil" href="{url:/customer/ask_edit/id/$item[aid]}"> 回复</a></li>

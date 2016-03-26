@@ -26,6 +26,11 @@ class Config
         else return null;
     }
     
+    public function getAll()
+    {
+    	return self::$system;
+    }
+
     public function set($key,$value)
     {
 		if(!isset(self::$system[$key]) || self::$system[$key] != $value)

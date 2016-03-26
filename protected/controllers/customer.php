@@ -8,6 +8,7 @@
 class CustomerController extends Controller
 {
 	public $layout='admin';
+    private $domain = null;
 	private $top = null;
 	public $needRightActions = array('*'=>true);
 	public function init()
@@ -27,6 +28,14 @@ class CustomerController extends Controller
 
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
+
+        $branchStore = null;
+        if(isset($_COOKIE['branchStore'])){
+            $branchStore = ($_COOKIE['branchStore']== 'all') ? null :$_COOKIE['branchStore'] ;
+        }
+
+        $this->domain = $branchStore;
+        $this->assign('domain',$branchStore);
 	}
 	public function noRight()
 	{
@@ -40,7 +49,7 @@ class CustomerController extends Controller
 		$type = Filter::int(Req::args('type'));
 		$amount = Filter::float(Req::args('amount'));
 		//事件类型: 0:订单支付 1:用户充值 2:管理员充值 3:提现 4:退款到余额
-		$model = new Model("customer");
+		$model = new Model("customer",$this->domain);
 		$obj = $model->where("user_id=$user_id")->find();
 		$info = array('status'=>'fail');
 		$range = 1000000000-$obj['balance'];
@@ -84,7 +93,7 @@ class CustomerController extends Controller
 		$this->layout = "blank";
 		$id =Filter::int(Req::args('id'));
 		if($id){
-			$model = new Model('withdraw as wd');
+			$model = new Model('withdraw as wd',$this->domain);
 			$withdraw = $model->fields("wd.*,us.name as uname,cu.balance")->join("left join user as us on wd.user_id = us.id left join customer as cu on wd.user_id = cu.user_id")->where("wd.id=$id")->find();
 			$this->assign("withdraw",$withdraw);
 			$this->redirect();
@@ -96,7 +105,7 @@ class CustomerController extends Controller
 		$id = Filter::int(Req::args('id'));
 		$status = intval(Req::args('status'));
 		$re_note = Filter::text(Req::args('re_note'));
-		$model = new Model('withdraw as wd');
+		$model = new Model('withdraw as wd',$this->domain);
 		$obj = $model->fields("wd.*,cu.balance")->join("left join customer as cu on wd.user_id = cu.user_id")->where("wd.id=$id and wd.status=0")->find();
 		if($obj){
 			if($obj['amount']<=$obj['balance']){
@@ -121,7 +130,7 @@ class CustomerController extends Controller
 		$condition = Req::args("condition");
 		$fields = Req::args("fields");
 		$condition =  Common::str2where($condition);
-		$notify_model = new Model("notify as n");
+		$notify_model = new Model("notify as n",$this->domain);
 		if($condition){
 			$items = $notify_model->fields("n.*,go.name as goods_name,u.name as user_name")->join("left join user as u on n.user_id = u.id left join goods as go on n.goods_id = go.id")->where($condition)->findAll();
 			if($items){
@@ -156,7 +165,7 @@ class CustomerController extends Controller
 	public function send_notify()
 	{
 		$condition = Req::args("condition");
-		$notify_model = new Model("notify as n");
+		$notify_model = new Model("notify as n",$this->domain);
 		$condition = Common::str2where($condition);
 		if($condition!=null){
 			$items = $notify_model->fields("n.*,go.name as goods_name,u.name as user_name")->join("left join user as u on n.user_id = u.id left join goods as go on n.goods_id = go.id")->where($condition)->findAll();
@@ -194,13 +203,13 @@ class CustomerController extends Controller
 		Req::post("time",date('Y-m-d H:i:s'));
 		$has_user = true;
 		if($condition!=''){
-			$users = $model->table("customer")->where($condition)->find();
+			$users = $model->table("customer",$this->domain)->where($condition)->find();
 			if($users) $has_user = true;
 			else $has_user = false;
 		}
 		if($has_user){
-			$last_id = $model->table("message")->insert();
-			$model->table("customer")->data(array('message_ids'=>"concat_ws (',',`message_ids`,'$last_id')"));
+			$last_id = $model->table("message",$this->domain)->insert();
+			$model->table("customer",$this->domain)->data(array('message_ids'=>"concat_ws (',',`message_ids`,'$last_id')"));
 			if($condition!='') $model->where($condition)->update();
 			else $model->update();
 			$this->redirect("message_list");
@@ -212,7 +221,7 @@ class CustomerController extends Controller
 	}
 	public function message_edit()
 	{
-		$model = new Model('grade');
+		$model = new Model('grade',$this->domain);
 		$rows = $model->findAll();
 		$grade = '';
 		foreach ($rows as $row) {
@@ -226,7 +235,7 @@ class CustomerController extends Controller
 	{
 		$id = intval(Req::args("id"));
 		if($id){
-			$model = new Model("ask");
+			$model = new Model("ask",$this->domain);
 			$obj = $model->where("id=$id")->find();
 			if($obj){
 				$goods = $model->table("goods")->fields("name")->where("id=".$obj['goods_id'])->find();
@@ -297,7 +306,7 @@ class CustomerController extends Controller
 
 		$customer = Req::args();
 		if($id){
-			$model = new Model("customer as c");
+			$model = new Model("customer as c",$this->domain);
 			$customer = $model->join("user as u on c.user_id = u.id")->where("c.user_id=".$id)->find();
 		}
 		$this->redirect('customer_edit',false,$customer);
@@ -311,7 +320,7 @@ class CustomerController extends Controller
 		else{
 			$cond = " = $id";
 		}
-		$model = new Model();
+		$model = new Model('user',$this->domain);
 		$users = $model->table("user")->where("id $cond")->findAll();
 		$model->table("customer")->where("user_id $cond")->delete();
 		$model->table("user")->where("id $cond")->delete();
@@ -334,7 +343,7 @@ class CustomerController extends Controller
 		$birthday = Req::post("birthday");
 		$userModel = new Model("user");
 
-		$customerModel = new Model("customer");
+		$customerModel = new Model("customer",$this->domain);
 		if($id){
 			$user = $userModel->where("id=$id")->find();
 			if($user){
@@ -368,11 +377,19 @@ class CustomerController extends Controller
 		$repassword = Req::post("repassword");
 		$info = array('status'=>'fail');
 		if($id && $password && $password == $repassword){
-			$model = new Model("user");
+			$model = new Model("user",$this->domain);
 			$validcode = CHash::random(8);
 			$flag = $model->where("id=$id")->data(array('password'=>CHash::md5($password,$validcode),'validcode'=>$validcode))->update();
 			if($flag)$info = array('status'=>'success');
 		}
 		echo JSON::encode($info);
 	}
+
+    public function customer_view()
+    {
+        $this->layout = "blank";
+        $id = Filter::int(Req::args('id'));
+        $this->assign("id",$id);
+        $this->redirect();
+    }
 }

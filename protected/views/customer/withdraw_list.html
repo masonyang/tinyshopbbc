@@ -19,7 +19,7 @@
         <th >账号 </th>
         <th style="width:60px">状态</th>    
     </tr>
-    {query:name=withdraw as wd fields=wd.*,us.name as uname join= left join user as us on wd.user_id eq us.id where= $where id=$obj page=1 desc }
+    {query:name=withdraw as wd domain=$domain fields=wd.*,us.name as uname join= left join user as us on wd.user_id eq us.id where= $where id=$obj page=1 desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 {if:$item['status']==0}

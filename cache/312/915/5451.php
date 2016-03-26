@@ -1,1 +1,0 @@
-86400      a:2:{s:11:"primary_key";s:2:"id";s:6:"fields";a:8:{s:2:"id";s:7:"int(11)";s:4:"name";s:11:"varchar(20)";s:5:"roles";s:11:"varchar(20)";s:8:"password";s:11:"varchar(32)";s:9:"validcode";s:11:"varchar(10)";s:7:"last_ip";s:11:"varchar(40)";s:10:"last_login";s:8:"datetime";s:7:"is_lock";s:6:"int(1)";}}

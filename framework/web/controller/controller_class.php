@@ -74,11 +74,12 @@ class Controller extends Object
             $this->setDatas($data);
         }
 
+        SelectBranch::getInstance($this)->showSelect();
+
 		$serverConfig = Tiny::getServerConfig();
-		if('headstore' == $serverConfig['menu']){
+		if('headstore' == $serverConfig['menu']){//总店没有前台，如果访问以下url 跳转到后台登陆页面
 			$req = Req::args();
 			if(in_array($req['con'],array('index','simple','ucenter')) || empty($req)){
-
                 if(('simple' == $req['con']) && ('captcha' == $req['act'])){
 
                 }else{
@@ -86,7 +87,35 @@ class Controller extends Object
                     return false;
                 }
 			}
-		}
+		}elseif('branchstore' == $serverConfig['menu']){//分店前台没有pc端只有手机端，如果访问以下url 跳转到请在手机浏览器或下载手机客户端访问
+            $req = Req::args();
+            $managerModel = new Model('manager');
+            $manager = $managerModel->where('id=1')->find();
+
+            if($manager['is_lock'] == 1){
+                header("Content-type: text/html; charset=UTF-8");
+                echo "<h3 style='text-align: center;'>你访问的网站已关闭！</h3>";
+                return false;
+            }
+
+            if(in_array($req['con'],array('index','simple','ucenter')) || empty($req)){
+
+                $clientType = Chips::clientType();
+
+                if($clientType == 'desktop'){
+                    if(('simple' == $req['con']) && ('captcha' == $req['act'])){
+
+                    }else{
+                        header("Content-type: text/html; charset=UTF-8");
+                        echo "<h3 style='text-align: center;'>请在手机浏览器或下载手机客户端访问！</h3>";
+                        return false;
+                    }
+                }
+
+            }
+
+        }
+
 
         $this->init();
         $id = Req::args('act');
@@ -453,6 +482,7 @@ class Controller extends Object
                     }
 
                 }
+//                echo $tem;exit;
                 $tem.= "\n".Crypt::decode('9d6ecd87a9NzI0NDAwMjI3MDYyZWZmNDJhMT5iY2M0MTQyYmYyMjg8JyotUGx3YntlYiBneyBdamd5UmBzZC0pOw');
                 $file->write($tem);
                 unset($file);

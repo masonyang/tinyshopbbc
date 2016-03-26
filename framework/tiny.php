@@ -29,7 +29,10 @@ define('CACHE',false);
 define('ERROR_HANDLER',true);
 //框架异常处理
 define('EXCEPTION_HANDLER',true);
+//job开发路径
+define('APP_JOB_ROOT',APP_ROOT.'jobs'.DIRECTORY_SEPARATOR);
 
+//
  /**
   * Tiny框架主类文件
   *
@@ -478,6 +481,15 @@ class Tiny
                         include($fileName);
                         return true;
                     }
+                }elseif(strrchr($className,'Job')=='Job'){
+                    $path = substr($className, 0,-3);
+                    $path = str_replace('_', '/', $path);
+
+                    $fileName = APP_JOB_ROOT.$path.'.php';
+                    if(is_file($fileName)){
+                        include($fileName);
+                        return true;
+                    }
                 }else{
                     self::loadExtendsClass($className);
                 }
@@ -672,7 +684,7 @@ class Tiny
 
 	public static function getServerName()
 	{
-		$serverName = $_SERVER['SERVER_NAME'];
+		$serverName = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
 		
 		if(!isset($serverName)){
 			return false;

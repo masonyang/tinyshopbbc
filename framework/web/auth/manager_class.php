@@ -31,7 +31,7 @@ class Manager extends Object
 			$model = new Model('manager');
 			$name = Filter::sql($name);
 			$user = $model->where("name='".$name."'")->find();
-			if(!empty($user))
+			if(!empty($user) && ($user['is_lock'] != 1))
 			{
 				$key = md5($user['validcode']);
 				$password = substr($key,0,16).$password.substr($key,16,16);

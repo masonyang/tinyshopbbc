@@ -1,0 +1,91 @@
+{echo:JS::import('form');}
+
+<div id="obj_form" class="form2">
+    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and where=c.user_id eq $id item=$dist }
+    <dl class="lineD">
+        <dt><b class="red">*</b> 用户名：</dt>
+        <dd>
+            <label>{$dist['name']}</label>
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt><b class="red">*</b>EMail：</dt>
+        <dd>
+            <label>{$dist['email']}</label>
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>时间：</dt>
+        <dd>
+            <label><b>最后一次登录：</b>{$dist['login_time']}</label>&nbsp;&nbsp;&nbsp;&nbsp;<label><b>注册：</b>{$dist['reg_time']}</label>
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt><b class="red">*</b>真实姓名：</dt>
+        <dd>
+            {$dist['real_name']}
+        </dd>
+    </dl><dl class="lineD">
+    <dt>性别：</dt>
+    <dd>
+        {if: $dist['sex']==1}男{else:}女{/if}
+    </dd>
+</dl><dl class="lineD">
+    <dt>出生日期：</dt>
+    <dd>
+        {echo: date('Y/m/d H:i:s',$dist['birthday'])}
+    </dd>
+</dl><dl class="lineD">
+    <dt>地区：</dt>
+    <dd >
+        <div id="area">
+            <select id="province"  name="province" province="{$dist['province']|0}" disabled><option value="0">==省份/直辖市==</option></select>
+            <select id="city" name="city" city="{$dist['city']|0}" disabled><option value="0">==市==</option></select>
+            <select id="county" name="county" county="{$dist['county']|0}" disabled><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="test" type="text" style="visibility:hidden;width:0;" value="{$dist['province']},{$dist['city']},{$dist['county']}" alt="请选择完整地区信息！"><label></label></div>
+    </dd>
+</dl>
+    <dl class="lineD">
+        <dt>详细地址：</dt>
+        <dd>
+            {$dist['addr']}
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>固话：</dt>
+        <dd>
+            {$dist['phone']}
+        </dd>
+    </dl><dl class="lineD">
+    <dt>手机：</dt>
+    <dd>
+        {$dist['mobile']}
+    </dd>
+</dl><dl class="lineD">
+    <dt>积分：</dt>
+    <dd>
+        {$dist['point']|0}
+    </dd>
+</dl>
+    {/query}
+</div>
+
+<script type="text/javascript">
+    var province = $('#province').attr('province');
+    var city = $('#city').attr('city');
+    var county = $('#county').attr('county');
+    $("#area").Linkage({ url:"{url:/ajax/area_data}",selected:[province,city,county],callback:function(data){
+        var text = new Array();
+        var value = new Array();
+        for(i in data[0]){
+            if(data[0][i]!=0){
+                text.push(data[1][i]);
+                value.push(data[0][i]);
+            }
+        }
+        $("#test").val(value.join(','));
+        FireEvent(document.getElementById("test"),"change");
+    }});
+
+
+
+</script>

@@ -61,7 +61,13 @@ class Action extends BaseAction
                 {
                     if($data!==false)
                     {
-                        DataSync::getInstance()->service($modelName,Req::args(),'add');
+                        $p = Req::args();
+                        if(isset($p['id'])){
+                            $action = 'update';
+                        }else{
+                            $action = 'add';
+                        }
+                        DataSync::service($modelName,Req::args(),$action);
                         $controller->redirect($modelName.'_list');
                     }
                     else
@@ -72,7 +78,7 @@ class Action extends BaseAction
                 }
                 case 'del':
                 {
-                    DataSync::getInstance()->service($modelName,Req::args(),'del');
+                    DataSync::service($modelName,Req::args(),'del');
                     $controller->redirect($modelName.'_list');
                     break;
                 }
@@ -80,7 +86,7 @@ class Action extends BaseAction
                 {
                 	$data = isset($data)?$data:array();
                     if(isset($data)){
-                        DataSync::getInstance()->service($modelName,Req::args(),'update');
+                        DataSync::service($modelName,Req::args(),'update');
                     }else{
                         $data = array();
                     }

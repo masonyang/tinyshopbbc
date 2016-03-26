@@ -1,1 +1,0 @@
-86400      a:2:{s:11:"primary_key";s:2:"id";s:6:"fields";a:10:{s:2:"id";s:10:"bigint(20)";s:8:"question";s:12:"varchar(255)";s:7:"user_id";s:10:"bigint(20)";s:8:"goods_id";s:10:"bigint(20)";s:8:"admin_id";s:10:"bigint(20)";s:7:"content";s:12:"varchar(255)";s:8:"ask_time";s:8:"datetime";s:10:"reply_time";s:8:"datetime";s:4:"type";s:6:"int(3)";s:6:"status";s:10:"tinyint(1)";}}

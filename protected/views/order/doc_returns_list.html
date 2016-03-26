@@ -20,7 +20,7 @@
         <th style="width:80px;">状态</th>
         <th width="160">申请日期</th>        
     </tr>
-    {query:name=doc_returns as dr where=$where id=$obj page=1}
+    {query:name=doc_returns as dr domain=$domain where=$where id=$obj page=1}
         <tr><td width="30"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a href="javascript:view({$item['id']})" class=" icon-eye"> 查看</a></li>

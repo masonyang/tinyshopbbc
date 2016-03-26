@@ -35,6 +35,7 @@ class SimpleController extends Controller{
     }
 
     public function reg_act(){
+
         if($this->getModule()->checkToken('reg')){
             $email = Filter::sql(Req::post('email'));
             $passWord = Req::post('password');
@@ -111,7 +112,12 @@ class SimpleController extends Controller{
                             }
                             $mail_host = 'http://mail.'.preg_replace('/.+@/i', '', $email);
                             $args = array("user_status"=>$user_status,"mail_host"=>$mail_host,'user_name'=>$email);
-                            $this->redirect("reg_result",true,$args);
+
+                            if(ControllerExt::$isMobile){
+                                $this->redirect("ucenter/index",false,array());
+                            }else{
+                                $this->redirect("reg_result",true,$args);
+                            }
                         }
                         else{
                             $info = array('field'=>'email','msg'=>'此用户已经被注册！');

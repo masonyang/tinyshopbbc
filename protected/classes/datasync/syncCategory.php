@@ -24,7 +24,7 @@ class syncCategory extends DataSync
 
     public function sync()
     {
-        if($this->syncDirect == 'hb'){
+        if($this->syncDirect == 'headtobranch'){
             $distrInfo = $this->getDistrInfos();
             if($distrInfo['catInfo']){
                 foreach($distrInfo['catInfo'] as $k=>$val){

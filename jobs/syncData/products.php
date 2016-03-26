@@ -5,8 +5,7 @@
  * Date: 28/2/16
  * Time: 下午2:37
  */
-
-class products extends syncdata
+class syncdata_productsJob extends billJob
 {
 
 } 

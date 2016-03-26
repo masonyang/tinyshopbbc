@@ -13,7 +13,7 @@
 </div>
 <div class="mt10" style="padding:10px 100px;">
     <table class="default mt10 p10">
-        <tr> <td style="width:200px;">订单编号：</td><td><i class="icon-order-{$order['type']}"></i>{$order['order_no']} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{url:/ucenter/order_detail/id/$order[id]}" target="_blank"> 查看订单</a></td> </tr>
+        <tr> <td style="width:200px;">订单编号：</td><td>{$order['order_no']} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{url:/ucenter/order_detail/id/$order[id]}" target="_blank"> 查看订单</a></td> </tr>
         <tr> <td style="width:200px;">订单金额：</td><td class="red">{$currency_symbol}{$order['order_amount']}</td> </tr>
         <tr> <td style="width:200px;">支付方式：</td><td id="pay_name">{$order['payname']}</td> </tr>
     </table>

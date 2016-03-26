@@ -35,7 +35,7 @@
                     <div class="title font-medium ndg-binding">&nbsp;&nbsp;{$item['name']}</div>
                     <div>
                         <div class="doc-left font-medium">
-                            &nbsp;&nbsp;<span class="salePrice ng-binding">{$currency_symbol}{$item['sell_price']}</span>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<span class="salePrice ng-binding">{$currency_symbol}{if: $item['branchstore_sell_price']} {$item['branchstore_sell_price']} {else} {$item['sell_price']} {/if}</span>&nbsp;&nbsp;
                         </div>
 
                     </div>

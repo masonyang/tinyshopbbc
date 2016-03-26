@@ -58,8 +58,8 @@ return array(
 					'<select name="brand_id">',
 					'<input name="name" type="text" pattern="required" value="<?php echo isset($name)?$name:"";?>" style="width:400px;" alt="不能为空">',
         			'<input name="tag_ids" type="text"  value="<?php echo isset($tag_ids)?$tag_ids:"";?>" style="width:400px;">',
-        			'<input name="goods_no" id="goods_no" type="text" pattern="\w{3,}" alt="请输入3个以上的字符(不能为中文)" value="<?php echo isset($goods_no)?$goods_no:"";?>" >',
-        			'<input  type="text" pattern="\w{3,}" name="pro_no" alt="请输入3个以上的字符(不能为中文)" value="<?php echo isset($goods_no)?$goods_no:"";?>"/>',
+        			'<input name="goods_no" id="goods_no" type="text" pattern="required" alt="请输入3个以上的字符(不能为中文)" value="<?php echo isset($goods_no)?$goods_no:"";?>" >',
+        			'<input  type="text" pattern="required" name="pro_no" alt="请输入3个以上的字符(不能为中文)" value="<?php echo isset($goods_no)?$goods_no:"";?>"/>',
         			'<input class="small" pattern="int" type="text" name="store_nums" value="<?php echo isset($store_nums)?$store_nums:"";?>" alt="必需为整数" />',
         			'<input class="small" type="text" pattern="int" name="warning_line" value="<?php echo isset($warning_line)?$warning_line:2;?>" alt="必需为整数"/>',
         			'<input class="small" type="text" pattern="int" name="weight" value="<?php echo isset($weight)?$weight:0;?>" alt="必需为整数"/>',
@@ -82,13 +82,16 @@ return array(
           			'<input class="small" name="sort" id="sort" type="text" pattern="int" empty="" value="<?php echo isset($sort)?$sort:1;?>"></td>',
           			'<input class="small" name="unit" pattern="required" type="text" value="<?php echo isset($unit)?$unit:\'件\';?>"></td>',
           			'<input type="checkbox" checked="checked" value=',
+                    '<input  type="text" pattern="required" name="pro_no" alt="请输入3个以上的字符(不能为中文)" value="<?php echo isset($pro_no)?$pro_no:"";?>"/>',
+                    '<input class="small" type="text" pattern="float" name="sell_price" value="<?php echo isset($sell_price)?$sell_price:"";?>" alt="整数或保留小数点后两位精确度的数" />',
+                    '<input class="small" pattern="float" type="text" name="trade_price" value="<?php echo isset($trade_price)?$trade_price:"";?>" alt="整数或保留小数点后两位精确度的数"/>',
 				),
 
 				'replace'=>array(
 					'<select name="category_id" disabled id="category_id" pattern="[1-9]\d*" alt="选择分类，若无分类请先创建。">',
 					'<select name="type_id" disabled id="type_id">',
 					'<select name="brand_id" disabled>',
-					'<label><?php echo isset($name)?$name:"";?></label>
+					'<label><?php echo isset($name)?$name:"";?></label><input name="name" type="hidden" value="<?php echo isset($name)?$name:"";?>" />
             <label></label>
           </dd>
         </dl><dl class="lineD">
@@ -101,17 +104,17 @@ return array(
             <label></label>
           </dd>
         </dl>',
-        			'<label><?php echo isset($tag_ids)?$tag_ids:"暂无";?></label>',
+        			'<label><?php echo isset($tag_ids)?$tag_ids:"暂无";?><input type="hidden" name="tag_ids" value="<?php echo isset($tag_ids)?$tag_ids:"";?>"></label>',
         			'<label><?php echo isset($goods_no)?$goods_no:"";?></label>',
         			'<label><?php echo isset($goods_no)?$goods_no:"";?></label>',
-        			'<label><?php echo isset($store_nums)?$store_nums:"";?></label>',
-        			'<label><?php echo isset($warning_line)?$warning_line:2;?></label>',
-        			'<label><?php echo isset($weight)?$weight:0;?></label>',
-        			'<label><?php echo isset($seo_title)?$seo_title:"";?></label>',
-        			'<label><?php echo isset($seo_keywords)?$seo_keywords:"";?></label>',
-        			'<label><?php echo isset($seo_description)?$seo_description:"";?></label>',
-        			'<label><?php echo isset($sale_protection)?$sale_protection:"";?></label>',
-        			'<label><?php echo isset($content)?$content:"";?></label>',
+        			'<label><?php echo isset($store_nums)?$store_nums:"";?><input type="hidden" name="store_nums" value="<?php echo isset($store_nums)?$store_nums:"";?>"></label>',
+        			'<label><?php echo isset($warning_line)?$warning_line:2;?><input type="hidden" name="warning_line" value="<?php echo isset($warning_line)?$warning_line:"";?>"></label>',
+        			'<label><?php echo isset($weight)?$weight:0;?><input type="hidden" name="weight" value="<?php echo isset($weight)?$weight:"";?>"></label>',
+        			'<label><?php echo isset($seo_title)?$seo_title:"";?><input type="hidden" name="store_nums" value="<?php echo isset($store_nums)?$store_nums:"";?>"></label>',
+        			'<label><?php echo isset($seo_keywords)?$seo_keywords:"";?><input type="hidden" name="store_nums" value="<?php echo isset($store_nums)?$store_nums:"";?>"></label>',
+        			'<label><?php echo isset($seo_description)?$seo_description:"";?><input type="hidden" name="seo_description" value="<?php echo isset($seo_description)?$seo_description:"";?>"></label>',
+        			'<label><?php echo isset($sale_protection)?$sale_protection:"";?><input type="hidden" name="sale_protection" value="<?php echo isset($sale_protection)?$sale_protection:"";?>"></label>',
+        			'<label><?php echo isset($content)?$content:"";?><input type="hidden" name="content" value="<?php echo isset($content)?$content:"";?>"></label>',
         			'<select disabled name="attr[<?php echo isset($item[\'id\'])?$item[\'id\']:"";?>]">',
         			'<label><?php echo isset($attrs[$item[\'id\']])?$attrs[$item[\'id\']]:"";?></label>',
         			'',
@@ -126,6 +129,9 @@ return array(
         			'<?php echo isset($sort)?$sort:1;?>',
         			'<?php echo isset($unit)?$unit:\'件\';?>',
         			'<input type="checkbox" disabled checked="checked" value=',
+                    '<?php echo isset($pro_no)?$pro_no:"";?><input type="hidden" name="pro_no" value="<?php echo isset($pro_no)?$pro_no:"";?>">',
+                    '<?php echo isset($sell_price)?$sell_price:"";?><input type="hidden" name="sell_price" value="<?php echo isset($sell_price)?$sell_price:"";?>">',
+                    '<?php echo isset($trade_price)?$trade_price:"";?><input type="hidden" name="trade_price" value="<?php echo isset($trade_price)?$trade_price:"";?>">',
 				),
 			),
 		),
@@ -148,6 +154,11 @@ return array(
 			    '<a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:\'<?php echo urldecode(Url::urlFormat("/customer/customer_del"));?>\',msg:\'删除后无法恢复，你真的删除吗？\'})" title="删除"> 删除</a>',
     '<a href=\'<?php echo urldecode(Url::urlFormat("/customer/customer_edit"));?>\' class="icon-plus" > 添加</a>',
     '<a class="icon-delicious" href="<?php echo urldecode(Url::urlFormat("/customer/customer_list"));?>"> 全部用户</a>',
+    '<li><a class="icon-coin" href="javascript:balance_op(<?php echo isset($item[\'user_id\'])?$item[\'user_id\']:"";?>,2);"> 充值</a></li>',
+                '<li><a class="icon-credit" href="javascript:balance_op(<?php echo isset($item[\'user_id\'])?$item[\'user_id\']:"";?>,4);"> 退款</a></li>',
+                '<li><a class="icon-pencil" href="<?php echo urldecode(Url::urlFormat("/customer/customer_edit/id/$item[id]"));?>"> 编辑</a></li>',
+                '<li><a class="icon-remove-2" href="javascript:confirm_action(\'<?php echo urldecode(Url::urlFormat("/customer/customer_del/id/$item[id]"));?>\')"> 删除</a></li>',
+
 
 			),
 		),

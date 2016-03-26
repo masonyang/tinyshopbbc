@@ -21,7 +21,7 @@
         <th width="80">付款时间</th>
         
     </tr>
-    {query:name=doc_receiving as dr fields= dr.id,dr.doc_type,py.pay_name,dr.amount,us.name,od.order_no,dr.create_time,dr.payment_time,dr.pay_status as pay_status join= left join user as us on dr.user_id eq us.id left join payment as py on dr.payment_id eq py.id left join order as od on dr.order_id eq od.id where=$where id=$obj page=1 order=dr.id desc}
+    {query:name=doc_receiving as dr domain=$domain fields= dr.id,dr.doc_type,py.pay_name,dr.amount,us.name,od.order_no,dr.create_time,dr.payment_time,dr.pay_status as pay_status join= left join user as us on dr.user_id eq us.id left join payment as py on dr.payment_id eq py.id left join order as od on dr.order_id eq od.id where=$where id=$obj page=1 order=dr.id desc}
         <tr><td width="30"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td width="70"><a href="javascript:view({$item['id']})" class=" icon-eye"> 查看</a></td>
             <td width="100">{$item['doc_type']|'充值'|'订单支付'}</td>

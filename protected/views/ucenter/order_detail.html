@@ -6,7 +6,7 @@
 			<h1 class="title"><span>我的订单：</span></h1>
 			<div class="mt10">
 				<div class="box list-item order-status">
-					<div class="title"><b>订单号：</b><i class="icon-order-{$order['type']}"></i>{$order['order_no']}<b>下单日期：</b>{$order['create_time']} <b>状态：</b>
+					<div class="title"><b>订单号：</b>{$order['order_no']}<b>下单日期：</b>{$order['create_time']} <b>状态：</b>
 						{echo:$this->order_status($order)}</div>
 					<p>{$order['create_time']}&nbsp;&nbsp;<span class="black">订单创建</span></p>
                     {if:$order['pay_status']>0}

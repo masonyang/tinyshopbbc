@@ -7,7 +7,7 @@
  */
 /**
  * 用户类
- * 
+ * www.tinyshop.com
  * @author Tiny
  * @class User
  */
@@ -15,7 +15,7 @@ class User extends Object
 {
 	private $status;
     /**
-     * 构造方法 
+     * 构造方法
      * @access public
      * @param mixed $name
      * @param mixed $password

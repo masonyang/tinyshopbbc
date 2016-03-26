@@ -18,7 +18,7 @@ class JS
         'dialog'=>'artdialog/artDialog.js',
         'dialogtools'=>'artdialog/plugins/iframeTools.js',
         'dialogjquery'=>'artdialog/jquery.artDialog.js',
-        'jquery'=>'jquery.min.js',
+        'jquery'=>array('js'=>array('jquery.min.js','jquery.cookie.js')),
         'date'=>'My97DatePicker/WdatePicker.js',
         'editor'=>array('js'=>array('editor/kindeditor-min.js','editor/lang/zh_CN.js')),
 		'highcharts'=>array('js'=>array('highcharts/highcharts.js','highcharts/highcharts-more.js','highcharts/modules/exporting.js')),

@@ -87,6 +87,9 @@ class Cart{
 				$prom = new Prom();
 				$items= $model->fields("pr.*,go.img,go.name,go.prom_id,go.point")->join("left join goods as go on pr.goods_id = go.id ")->where("pr.id in($ids)")->findAll();
 				foreach ($items as $item) {
+
+                    $item['sell_price'] = $item['branchstore_sell_price'] ? $item['branchstore_sell_price'] : $item['sell_price'];
+
 					$num = $this->items[$item['id']];
 					if($num > $item['store_nums']){
 						$num = $item['store_nums'];
@@ -99,6 +102,7 @@ class Cart{
 						$item['goods_nums']=$num;
 						$prom_goods = $prom->prom_goods($item);
 						$amount = sprintf("%01.2f",$prom_goods['real_price']*$num);
+
 						$sell_total = $item['sell_price']*$num;
 						$products[$item['id']] = array('id'=>$item['id'],'goods_id'=>$item['goods_id'],'name'=>$item['name'],'img'=>$item['img'],'num'=>$num,'store_nums'=>$item['store_nums'],'price'=>$item['sell_price'],'prom_id'=>$item['prom_id'],'real_price'=>$prom_goods['real_price'],'trade_price'=>$item['trade_price'],'sell_price'=>$item['sell_price'],'spec'=>unserialize($item['spec']),'amount'=>$amount,'prom'=>$prom_goods['note'],'weight'=>$item['weight'],'point'=>$item['point'],'sell_total'=>$sell_total,"prom_goods"=>$prom_goods);
 					}

@@ -7,6 +7,7 @@
 	<form name="config_form" method="post" action="{url:/admin/config/group/globals}">
         {if:isset($manager['id'])}<input type="hidden" name="id" value="{$manager['id']}">{/if}
         <input type="hidden" name="site_url" value="{$manager['site_url']}">
+        <input type="hidden" name="distributor_id" value="{$manager['distributor_id']}">
 
 	 <dl class="lineD">
       <dt>授权分类：</dt>

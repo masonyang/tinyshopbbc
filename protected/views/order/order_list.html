@@ -1,33 +1,33 @@
 {echo:JS::import('dialog?skin=brief');}
 {echo:JS::import('dialogtools');}
 <form action="" method="post">
-<div class="tools_bar clearfix">
-    <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
-    <a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/order/order_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>
-    <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
-    <!--<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>-->
-    <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
-    <a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>
-    <a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+        <!--<a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/order/order_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>-->
+        <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
+        <!--<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>-->
+        <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
+        <a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>
+        <a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>
 
-    <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
-</div>
-<table class="default" >
-    <tr>
-        <th style="width:50px">选择</th>
-        <th style="width:70px">操作</th>
-        <th style="width:100px">订单号</th>
-        <th style="width:70px">商品总额 </th>
-        <th style="width:70px">会员账号</th>
-        <th style="width:70px">收货人</th>
-        <th style="width:80px">收货人电话</th>
-        <th style="width:80px">支付方式</th>
-        <th style="width:50px">支付状态</th>
-        <th style="width:50px">配送状态</th>
-        <th style="width:50px">订单状态</th>
-        <th style="width: 60px">打印</th>
-    </tr>
-    {query:name=order as od fields=od.*,us.name as uname,us.status as ustatus join= left join user as us on od.user_id eq us.id where=$where id=$obj page=1 order= id desc }
+        <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:50px">选择</th>
+            <th style="width:70px">操作</th>
+            <th style="width:100px">订单号</th>
+            <th style="width:70px">商品总额 </th>
+            <th style="width:70px">会员账号</th>
+            <th style="width:70px">收货人</th>
+            <th style="width:80px">收货人电话</th>
+            <th style="width:80px">支付方式</th>
+            <th style="width:50px">支付状态</th>
+            <th style="width:50px">配送状态</th>
+            <th style="width:50px">订单状态</th>
+            <th style="width: 60px">打印</th>
+        </tr>
+        {query:name=order as od domain=$domain fields=od.*,us.name as uname,us.status as ustatus join= left join user as us on od.user_id eq us.id where=$where id=$obj page=1 order= id desc }
         <tr><td style="width:50px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['id']})"> 查看</a></li>
@@ -49,40 +49,40 @@
                 {/if}
                 <li><a class="icon-attachment"  href="javascript:;" onclick="change_status({$item['id']},null,'note')"> 备注</a></li></ul></div></div> </td>
             <td style="width:100px">{$item['order_no']}</td><td style="width:70px">{$item['order_amount']}</td><td style="width:70px">{$item['uname']}</td><td style="width:70px">{$item['accept_name']}</td><td style="width:80px">{$item['mobile']}</td><td style="width:80px">{$payment[$item['payment']]}</td><td style="width:50px">{$pay_status[$item['pay_status']]}</td>
-        <td style="width:50px">{$delivery_status[$item['delivery_status']]}</td>
-        <td style="width:50px" id="status_{$item['id']}">{$status[$item['status']]}</td>
-        <td style="width:60px" class="btn_min">
-            <div class="operat hidden">
-                <a class="icon-print action bottom" href="javascript:;"> 打印</a>
-                <div class="menu_select">
-                    <ul>
-                        <li><a class="icon-print" href="{url:/order/print_order/id/$item[id]}" target="order"> 订单</a></li>
-                        <li><a class="icon-print" href="{url:/order/print_product/id/$item[id]}" target="product" > 购物单</a></li>
-                        <li><a class="icon-print" href="{url:/order/print_picking/id/$item[id]}" target="picking"> 配送单</a></li>
-                        <li><a class="icon-print" href="{url:/order/print_express/id/$item[id]}" target="express"> 快递单</a></li>
+            <td style="width:50px">{$delivery_status[$item['delivery_status']]}</td>
+            <td style="width:50px" id="status_{$item['id']}">{$status[$item['status']]}</td>
+            <td style="width:60px" class="btn_min">
+                <div class="operat hidden">
+                    <a class="icon-print action bottom" href="javascript:;"> 打印</a>
+                    <div class="menu_select">
+                        <ul>
+                            <li><a class="icon-print" href="{url:/order/print_order/id/$item[id]}" target="order"> 订单</a></li>
+                            <li><a class="icon-print" href="{url:/order/print_product/id/$item[id]}" target="product" > 购物单</a></li>
+                            <li><a class="icon-print" href="{url:/order/print_picking/id/$item[id]}" target="picking"> 配送单</a></li>
+                            <li><a class="icon-print" href="{url:/order/print_express/id/$item[id]}" target="express"> 快递单</a></li>
 
-                    </ul>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </td></tr>
-    {/query}
-</table>
+            </td></tr>
+        {/query}
+    </table>
 </form>
 <div class="page_nav">
-{echo:$obj->pageBar()}
+    {echo:$obj->pageBar()}
 </div>
 <div id="status_dialog" style="display: none; position: relative;" class="form2">
     <h3 id="order_title">备注信息：</h3>
-        <input type="hidden" name="id" id="order_id" value="">
-        <input type="hidden" name="status" id="order_status" value="">
-        <input type="hidden" name="op" id="order_op" value="">
-        <textarea id="order_remark" name="remark"></textarea>
+    <input type="hidden" name="id" id="order_id" value="">
+    <input type="hidden" name="status" id="order_status" value="">
+    <input type="hidden" name="op" id="order_op" value="">
+    <textarea id="order_remark" name="remark"></textarea>
     <div class="tc"><button class="focus_button" onclick="submit_status()">保存</button></div>
 </div>
 <script type="text/javascript">
-//    function batch_orders(){
-//        art.dialog.open("{url:/order/batch_order}",{id:'edit_dialog',title:'批量下单',resize:true,width:900,height:450});
-//    }
+    //    function batch_orders(){
+    //        art.dialog.open("{url:/order/batch_order}",{id:'edit_dialog',title:'批量下单',resize:true,width:900,height:450});
+    //    }
     function edit(id){
         art.dialog.open("{url:/order/order_edit/id/}"+id,{id:'edit_dialog',title:'订单编辑',resize:false,width:900,height:450});
     }
@@ -143,10 +143,10 @@
     }
     {set:$payment=""}
     {query:name=payment}
-        {set:$payment.=$item['id'].':'."'".$item['pay_name']."',"}
+    {set:$payment.=$item['id'].':'."'".$item['pay_name']."',"}
     {/query}
     {set:$payment=trim($payment,',');}
-$("#condition").on("click",function(){
-  $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/order/order_list}',method:'get'});},data:{order_no:{name:'订单编号'},type:{name:'订单类型',values:{0:'普通订单',1:'团购订单',2:'限时抢购',3:'捆绑促销'}},pay_status:{name:'支付状态',values:{0:'未付款', 1:'已付款', 2:'申请退款', 3:'已退款'}},delivery_status:{name:'发货状态',values:{0:'未发货',1:'已发货', 2:'已签收', 3:'申请换货', 4:'已换货'}},'od.status':{name:'订单状态',values:{2:'等待审核',3:'已审核',4:'完成',5:'取消',6:'废除'}},payment:{name:'支付方式',values:{{$payment}}}}});
-})
+    $("#condition").on("click",function(){
+        $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/order/order_list}',method:'get'});},data:{order_no:{name:'订单编号'},type:{name:'订单类型',values:{0:'普通订单',1:'团购订单',2:'限时抢购',3:'捆绑促销'}},pay_status:{name:'支付状态',values:{0:'未付款', 1:'已付款', 2:'申请退款', 3:'已退款'}},delivery_status:{name:'发货状态',values:{0:'未发货',1:'已发货', 2:'已签收', 3:'申请换货', 4:'已换货'}},'od.status':{name:'订单状态',values:{2:'等待审核',3:'已审核',4:'完成',5:'取消',6:'废除'}},payment:{name:'支付方式',values:{{$payment}}}}});
+    })
 </script>

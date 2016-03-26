@@ -21,7 +21,7 @@
         <th style="width:100px">评分</th>
 
     </tr>
-    {query:name=review as a fields= a.*,u.name as name,g.name as gname,g.id as gid,a.id as aid join= left join user as u on a.user_id eq u.id left join goods as g on a.goods_id eq g.id id=$obj where= $where page=1 desc order=a.id desc }
+    {query:name=review as a domain=$domain fields= a.*,u.name as name,g.name as gname,g.id as gid,a.id as aid join= left join user as u on a.user_id eq u.id left join goods as g on a.goods_id eq g.id id=$obj where= $where page=1 desc order=a.id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['aid']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-remove-2" href="javascript:confirm_action('{url:/customer/review_del/id/$item[aid]}')"> 删除</a></li>

@@ -361,6 +361,9 @@ class OpenShop
 	public function done()
 	{
         $this->opendb->close();
+
+        $this->result['res'] = true;
+
 		return $this->result;
 	}
 }

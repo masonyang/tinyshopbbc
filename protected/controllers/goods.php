@@ -28,6 +28,9 @@ class GoodsController extends Controller
 		$this->manager = $this->safebox->get('manager');
 		$this->assign('manager',$this->safebox->get('manager'));
 
+        $serverName = Tiny::getServerName();
+        $this->assign("domain",$serverName['top']);
+
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
 	}
@@ -107,14 +110,34 @@ class GoodsController extends Controller
 			$attr_ids = rtrim($attr_ids,',');
 			$goods_attr->where('type_id = '.$lastid.' and id not in('.$attr_ids.')')->delete();
 
+            $mgadel = 'type_id = '.$lastid.' and id not in('.$attr_ids.')';
+
 			foreach ($attr_id as $k=>$v) {
 				if($v=='0'){
 					$attr_last_id = $goods_attr->data(array('name'=>$attr_name[$k],'type_id'=>$lastid,'show_type'=>$attr_type[$k],'sort'=>$k))->insert();
-					$this->update_attr_value($attr_value_model,$attr_last_id,$attr_value[$k]);
+
+                    $gainsert[] = array('name'=>$attr_name[$k],'type_id'=>$lastid,'show_type'=>$attr_type[$k],'sort'=>$k);
+
+					$avdata = $this->update_attr_value($attr_value_model,$attr_last_id,$attr_value[$k]);
+
+                    $mavdel = $avdata['del'];
+
+                    $avupdate = $avdata['update'];
+
+                    $avinsert = $avdata['add'];
 				}
 				else{
 					$goods_attr->data(array('name'=>$attr_name[$k],'type_id'=>$lastid,'show_type'=>$attr_type[$k],'sort'=>$k))->where('id='.$attr_id[$k])->update();
-					$this->update_attr_value($attr_value_model,$attr_id[$k],$attr_value[$k]);
+
+                    $gaupdate[$attr_id[$k]] = array('name'=>$attr_name[$k],'type_id'=>$lastid,'show_type'=>$attr_type[$k],'sort'=>$k);
+
+                    $avdata = $this->update_attr_value($attr_value_model,$attr_id[$k],$attr_value[$k]);
+
+                    $mavdel = $avdata['del'];
+
+                    $avupdate = $avdata['update'];
+
+                    $avinsert = $avdata['add'];
 				}
 			}
 			$goods_attrs = $goods_attr->where('type_id='.$lastid)->order("sort")->findAll();
@@ -123,16 +146,43 @@ class GoodsController extends Controller
 				$goods_attrs[$key] = $row;
 			}
 			$goods_type->data(array('attr'=>serialize($goods_attrs)))->where('id='.$lastid)->update();
+
+            $gadel = '';
+            $avdel = '';
 		}else{
 
-			$dbinfo = DBFactory::getDbInfo();
-			$table_pre = $dbinfo['tablePre'];
-			$attr_value_model->where("attr_id  in (select id from {$table_pre}goods_attr where type_id = ".$lastid.")")->delete();
+            $attrvals = $model->table('attr_value')->where("attr_id in (select id from tiny_goods_attr where type_id = ".$lastid.")")->findAll();
+
+            $attr_value_ids = array();
+            foreach($attrvals as $val){
+                $attr_value_ids[] = $val['id'];
+            }
+
+            $avdel = 'id in ('.implode(',',$attr_value_ids).')';
+            $gadel = 'type_id = '.$lastid;
+            $mgadel = '';
+            $gaupdate = array();
+            $gainsert = array();
+
+			$attr_value_model->where("attr_id  in (select id from tiny_goods_attr where type_id = ".$lastid.")")->delete();
 			$goods_attr->where('type_id = '.$lastid)->delete();
+
 
 		}
 
-        $params = array();
+        $gtModel = new Model('goods_type',null,'master');
+        $params = $gtModel->where('id='.$lastid)->find();
+        $params['attr_value'] = array(
+            'del'=>array($mavdel,$avdel),
+            'update'=>$avupdate,
+            'add'=>$avinsert,
+        );
+        $params['goods_attr'] = array(
+            'del'=>array($mgadel,$gadel),
+            'update'=>$gaupdate,
+            'add'=>$gainsert,
+        );
+
         syncGoodsType::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect('goods_type_list');
@@ -148,10 +198,12 @@ class GoodsController extends Controller
 				if($value_array[0]==0){
 					$new_id = $attr_value_model->data(array('attr_id'=>$attr_id,'name'=>$value_array[1],'sort'=>$key))->insert();
 					$value_ids .= $new_id.',';
+                    $add[] = array('attr_id'=>$attr_id,'name'=>$value_array[1],'sort'=>$key);
 				}
 				else{
 					$attr_value_model->data(array('attr_id'=>$attr_id,'name'=>$value_array[1],'sort'=>$key))->where('id='.$value_array[0])->update();
 					$value_ids .= $value_array[0].',';
+                    $update[$value_array[0]] = array('attr_id'=>$attr_id,'name'=>$value_array[1],'sort'=>$key);
 				}
 			}
 
@@ -161,6 +213,16 @@ class GoodsController extends Controller
 			$attr_value_model->where('attr_id = '.$attr_id)->delete();
 		else
 			$attr_value_model->where('attr_id = '.$attr_id.' and id not in('.$value_ids.')')->delete();
+
+        return array(
+            'del'=>array(
+                'value_ids'=>$value_ids,
+                'use_value_ids_sql'=>'attr_id = '.$attr_id.' and id not in('.$value_ids.')',
+                'use_no_value_ids_sql'=>'attr_id = '.$attr_id,
+            ),
+            'add'=>$add,
+            'update'=>$update,
+        );
 	}
 	function attr_values(){
 		$this->layout='';
@@ -168,32 +230,55 @@ class GoodsController extends Controller
 	}
 	function goods_type_del(){
 		$id = Req::args('id');
-		$dbinfo = DBFactory::getDbInfo();
-		$table_pre = $dbinfo['tablePre'];
 		if($id){
 			$model = new Model();
 			if(is_array($id)){
 				$ids = implode(',',$id);
+
+                $attrvals = $model->table('attr_value')->where("attr_id in (select id from tiny_goods_attr where type_id in ({$ids}))")->findAll();
+
+                $attr_value_ids = array();
+                foreach($attrvals as $val){
+                    $attr_value_ids[] = $val['id'];
+                }
+
+                $params = array();
+                $params['id'] = $ids;
+                $params['attr_value'] = array('id'=>implode(',',$attr_value_ids));
+                $params['goods_attr'] = array('type_id'=>$ids);
+
 				$goods_types = $model->table('goods_type')->where('id in('.$ids.')')->findAll();
 				$model->table('goods_type')->where('id in('.$ids.')')->delete();
-				$model->table('attr_value')->where("attr_id in (select id from {$table_pre}goods_attr where type_id in ({$ids}))")->delete();
+				$model->table('attr_value')->where("attr_id in (select id from tiny_goods_attr where type_id in ({$ids}))")->delete();
 				$model->table('goods_attr')->where('type_id in('.$ids.')')->delete();
 			}
 			else{
+                $attrvals = $model->table('attr_value')->where("attr_id in (select id from tiny_goods_attr where type_id ={$id})")->findAll();
+
+                $attr_value_ids = array();
+                foreach($attrvals as $val){
+                    $attr_value_ids[] = $val['id'];
+                }
+
+                $params = array();
+                $params['id'] = $id;
+                $params['attr_value'] = array('id'=>implode(',',$attr_value_ids));
+                $params['goods_attr'] = array('type_id'=>$id);
+
 				$goods_types = $model->table('goods_type')->where('id in('.$id.')')->findAll();
 				$model->table('goods_type')->where('id='.$id)->delete();
-				$model->table('attr_value')->where("attr_id in (select id from {$table_pre}goods_attr where type_id ={$id})")->delete();
+				$model->table('attr_value')->where("attr_id in (select id from tiny_goods_attr where type_id ={$id})")->delete();
 				$model->table('goods_attr')->where('type_id ='.$id)->delete();
+
 			}
+
+            syncGoodsType::getInstance()->setParams($params,'del')->sync();
+
 			$str = '';
 			foreach ($goods_types as $key => $value) {
 				$str .= $value['name'].'、';
 			}
 			Log::op($this->manager['id'],"删除商品类型","管理员[".$this->manager['name']."]:删除了商品类型 ".$str);
-
-            $params = array();
-            $params['id'] = $id;
-            syncGoodsType::getInstance()->setParams($params,'del')->sync();
 
 			$this->redirect('goods_type_list');
 		}else{
@@ -231,11 +316,17 @@ class GoodsController extends Controller
 			}
 			$value_ids = rtrim($value_ids,',');
 			$spec_value->where('spec_id = '.$lastid.' and id not in('.$value_ids.')')->delete();
+            $mdel = 'spec_id = '.$lastid.' and id not in('.$value_ids.')';
 			foreach ($value_id as $k=>$v) {
 				if($v=='0'){
 					$spec_value->data(array('name'=>$value[$k],'spec_id'=>$lastid,'sort'=>$k,'img'=>is_array($img)?$img[$k]:''))->insert();
+                    $add[] = array('name'=>$value[$k],'spec_id'=>$lastid,'sort'=>$k,'img'=>is_array($img)?$img[$k]:'');
 				}
-				else $spec_value->data(array('name'=>$value[$k],'spec_id'=>$lastid,'sort'=>$k,'img'=>is_array($img)?$img[$k]:''))->where('id='.$value_id[$k])->update();
+				else
+                {
+                    $spec_value->data(array('name'=>$value[$k],'spec_id'=>$lastid,'sort'=>$k,'img'=>is_array($img)?$img[$k]:''))->where('id='.$value_id[$k])->update();
+                    $update[$value_id[$k]] = array('name'=>$value[$k],'spec_id'=>$lastid,'sort'=>$k,'img'=>is_array($img)?$img[$k]:'');
+                }
 
 			}
 			$spec_values = $spec_value->where('spec_id = '.$lastid)->findAll();
@@ -243,9 +334,16 @@ class GoodsController extends Controller
 		}
 		else{
 			$spec_value->where('spec_id = '.$lastid)->delete();
+            $del = 'spec_id = '.$lastid;
 		}
 
-        $params = array();
+        $specValueModel = new Model('goods_spec',null,'master');
+        $params = $specValueModel->where('id='.$lastid)->find();
+        $params['spec_value'] = array(
+            'add'=>$add,
+            'update'=>$update,
+            'del'=>array($mdel,$del),
+        );
         syncSpec::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect('goods_spec_list');
@@ -274,6 +372,7 @@ class GoodsController extends Controller
 
             $params = array();
             $params['id'] = $id;
+            $params['spec_value'] = $id;
             syncSpec::getInstance()->setParams($params,'del')->sync();
 
 			$this->redirect('goods_spec_list');
@@ -285,7 +384,7 @@ class GoodsController extends Controller
 
 	//商品分类
 	function goods_category_save(){
-		$goods_category = new Model("goods_category");
+		$goods_category = new Model("goods_category",null,"master");
 		$name = Req::args("name");
 		$alias = Req::args("alias");
 		$parent_id = Req::args("parent_id");
@@ -324,7 +423,7 @@ class GoodsController extends Controller
 					$goods_category->data(array('parent_id'=>$parent_id,'id'=>$id,'sort'=>$sort,'name'=>$name,'alias'=>$alias,'type_id'=>$type_id,'seo_title'=>$seo_title,'seo_keywords'=>$seo_keywords,'seo_description'=>$seo_description,'img'=>$img,'imgs'=>serialize($imgs)))->update();
 					Log::op($this->manager['id'],"更新商品分类","管理员[".$this->manager['name']."]:更新了商品分类 ".Req::args('name'));
 
-                    $params = array();
+                    $params = $goods_category->where('id='.$id)->find();
                     syncCategory::getInstance()->setParams($params,'update')->sync();
 
                     $this->redirect("goods_category_list");
@@ -342,7 +441,7 @@ class GoodsController extends Controller
 
 				Log::op($this->manager['id'],"添加商品分类","管理员[".$this->manager['name']."]:添加商品分类 ".Req::args('name'));
 
-                $params = array();
+                $params = $goods_category->where('id='.$lastid)->find();
                 syncCategory::getInstance()->setParams($params,'add')->sync();
 
                 $this->redirect("goods_category_list");
@@ -383,6 +482,8 @@ class GoodsController extends Controller
 	}
 
 	function goods_save(){
+//        echo "<pre>";
+//        print_r(Req::args());exit;
 		$spec_items = Req::args('spec_items');
 		$spec_item = Req::args('spec_item');
 		$items = explode(",", $spec_items);
@@ -392,10 +493,15 @@ class GoodsController extends Controller
 		$store_nums = Req::args("store_nums");
 		$warning_line = Req::args("warning_line");
 		$weight = Req::args("weight");
-		$sell_price = Req::args("sell_price");
-        $trade_price = Req::args("trade_price");
+//goods_no] => 2323-2321
+        // pro_no] => 2323-11
 		$market_price = Req::args("market_price");
 		$cost_price = Req::args("cost_price");
+
+		$branchstore_goods_name = Req::args("branchstore_goods_name");//分店自定义商品名称
+		$branchstore_sell_price = Req::args("branchstore_sell_price");//分店自定义销售价
+		$trade_price = Req::args("trade_price");//批发价
+		$sell_price = Req::args("sell_price");//销售价
 
 		//values的笛卡尔积
 		$values_dcr = array();
@@ -473,7 +579,8 @@ class GoodsController extends Controller
 			$result = $products->where("goods_id = ".$goods_id." and specs_key = '$key'")->find();
 
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'trade_price'=>$trade_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
-			$g_store_nums += $data['store_nums'];
+			$data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+            $g_store_nums += $data['store_nums'];
 			if($g_warning_line==0) $g_warning_line = $data['warning_line'];
 			else if($g_warning_line>$data['warning_line']) $g_warning_line = $data['warning_line'];
 			if($g_weight==0) $g_weight = $data['weight'];
@@ -487,8 +594,10 @@ class GoodsController extends Controller
 
 			if(!$result){
 				$products->data($data)->insert();
+                $padd[] = $data;
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id." and specs_key='$key'")->update();
+                $pupdate["goods_id=".$goods_id." and specs_key='$key'"] = $data;
 			}
 			$k++;
 		}
@@ -501,21 +610,27 @@ class GoodsController extends Controller
 			$g_market_price = $market_price;
             $g_trade_price = $trade_price;
 			$g_cost_price = $cost_price;
+            $g_branchstore_sell_price = $branchstore_sell_price;
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
-			$result = $products->where("goods_id = ".$goods_id)->find();
+			$data['branchstore_sell_price'] = $g_branchstore_sell_price;
+            $result = $products->where("goods_id = ".$goods_id)->find();
 			if(!$result){
 				$products->data($data)->insert();
+                $padd[] = $data;
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id)->update();
+                $pupdate["goods_id=".$goods_id] = $data;
 			}
 		}
 		//更新商品相关货品的部分信息
-		$goods->data(array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'trade_price'=>$g_trade_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price))->where("id=".$goods_id)->update();
+		$goods->data(array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'trade_price'=>$g_trade_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price,'branchstore_sell_price'=>$g_branchstore_sell_price))->where("id=".$goods_id)->update();
 
 		$keys = array_keys($values_dcr);
 		$keys = implode("','", $keys);
 		//清理多余的货品
 		$products->where("goods_id=".$goods_id." and specs_key not in('$keys')")->delete();
+
+        $pdel = "goods_id=".$goods_id." and specs_key not in('$keys')";
 
 		//规格与属性表添加部分
 		$spec_attr = new Model("spec_attr");
@@ -533,10 +648,24 @@ class GoodsController extends Controller
 		$value_str = rtrim($value_str,',');
 		//更新商品键值对表
 		$spec_attr->where("goods_id = ".$goods_id)->delete();
-		$dbinfo = DBFactory::getDbInfo();
-		$spec_attr->query("insert into {$dbinfo['tablePre']}spec_attr values $value_str");
 
-        $params = array();
+        $sadel = "goods_id = ".$goods_id;
+
+		$spec_attr->query("insert into tiny_spec_attr values $value_str");
+        $saadd = "insert into tiny_spec_attr values $value_str";
+
+        $goodsModel = new Model('goods',null,'master');
+        $params = $goodsModel->where('id='.$goods_id)->find();
+        $params['products'] = array(
+            'add'=>$padd,
+            'update'=>$pupdate,
+            'del'=>$pdel,
+        );
+        $params['spec_attr'] = array(
+            'del'=>$sadel,
+            'add'=>$saadd,
+        );
+
         syncGoods::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect("goods_list");
@@ -566,13 +695,14 @@ class GoodsController extends Controller
 
         $params = array();
         $params['id'] = $id;
+        $params['products'] = $id;
+        $params['spec_attr'] = $id;
         syncGoods::getInstance()->setParams($params,'del')->sync();
 
 		$msg = array('success',"成功删除商品 ".$str);
 		$this->redirect("goods_list",false,array('msg'=> $msg));
 	}
 	function goods_list(){
-
         $condition = Req::args("condition");
         $condition_str =  Common::str2where($condition);
         if($condition_str){

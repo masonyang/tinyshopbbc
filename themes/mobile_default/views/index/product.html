@@ -4,7 +4,9 @@
             <div class="swiper-wrapper">
                 <div class="swiper-slide"> <img src="{echo:Common::thumb($goods['img'],200)}" width="100%"/> </div>
                 {list:items=unserialize($goods['imgs']) item=$img}
-                <div class="swiper-slide"> <img src="{echo:Common::thumb($img,200)}" width="100%"/> </div>
+                {if: $goods['img']!=$img}
+                    <div class="swiper-slide"> <img src="{echo:Common::thumb($img,200)}" width="100%"/> </div>
+                {/if}
                 {/list}
             </div>
         </div>
@@ -26,7 +28,7 @@
             <div class="ng-binding">{$goods['name']}<span style="float:right;color:red" class="ng-binding"></span></div>
 
             <div>
-                销售价：<span class="ng-binding ng-hide" style=" font-size: 1.6rem;">{$currency_symbol}{$goods['sell_price']}</span>
+                销售价：<span class="ng-binding ng-hide" style=" font-size: 1.6rem;">{$currency_symbol}{if: $goods['branchstore_sell_price']} {$goods['branchstore_sell_price']} {else} {$goods['sell_price']} {/if}</span>
             </div>
 
             <div>
@@ -63,14 +65,14 @@
             {list: items=$skumap key=$key item=$product}
                 <dd class="font-medium pselect">
                     <ul>
-                        <li class="tit">货号:{$product['pro_no']} <br/>({$product['guige']})</li>
+                        <li class="tit">货号:{$product['pro_no']} &nbsp;({$product['guige']})</li>
                         <li>
                             <div class="col col-1">销售价</div>
                             <div class="col col-2">库存</div>
                             <div class="col col-3">数量</div>
                         </li>
                         <li>
-                            <div class="col col-1">{$product['sell_price']}</div>
+                            <div class="col col-1">{if: $product['branchstore_sell_price']} {$product['branchstore_sell_price']} {else} {$product['sell_price']} {/if}</div>
                             <div class="col col-2">{$product['store_nums']}</div>
                             <div class="col col-3">
                                 <input type="text" class="spinnerExample batchnum" id="{$product['id']}" name="batchnum[{$product['id']}]"/>
@@ -88,7 +90,7 @@
                         <div class="col col-3">数量</div>
                     </li>
                     <li>
-                        <div class="col col-1">{$goods['sale_price']}</div>
+                        <div class="col col-1">{if: $goods['branchstore_sell_price']} {$goods['branchstore_sell_price']} {else} {$goods['sell_price']} {/if}</div>
                         <div class="col col-2">{$goods['store_nums']}</div>
                         <div class="col col-3"><input type="text" class="spinnerExample batchnum" id="{$goods['id']}" name="batchnum[{$goods['id']}]" mprice="{$goods['sale_price']}"/></div>
                     </li>

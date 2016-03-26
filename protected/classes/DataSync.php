@@ -27,9 +27,9 @@ class DataSync
 
     protected $params = array();
 
-    protected $domain = '';
+    protected $domain = '111';
 
-    protected $syncMapper = array(
+    protected static $syncMapper = array(
         'payment'=>'syncPayment',
         'brand'=>'syncBrand',
         'tags'=>'syncTag',
@@ -43,27 +43,40 @@ class DataSync
 
     public static function getInstance()
     {
+
         if(null === self::$instance){
-            self::$instance = new self();
+            self::$instance = new static();
         }
 
         return self::$instance;
     }
 
-    protected function __construct()
-    {
-        $this->syncDirect();
-    }
 
     //设置接手参数
     public function setParams($params = array(),$action = 'add',$action_type = 'normal')
     {
+        $this->syncDirect();
+
         $this->syncAction = $action;
 
         $this->action_type = $action_type;
 
         $this->params = $params;
-        return $this;
+
+        return self::$instance;
+    }
+
+
+    protected function getDomain()
+    {
+        if($this->syncDirect == 'branchtohead'){
+            return $this->domain;
+        }else{
+            $model = new Model('distributor','zd','master');
+            $distrInfo = $model->where('distributor_id='.$this->params['distributor_id'])->find();
+            return $distrInfo['site_url'];
+        }
+
     }
 
 
@@ -79,7 +92,9 @@ class DataSync
         $data['distributor_id'] = ($this->params['distributor_id']) ? $this->params['distributor_id'] :0;
         $data['level'] = 0;//0:普通 1:中 2:高
         $data['action_type'] = $this->action_type;
-        $data['content'] = serialize($this->params);
+        $data['content'] = base64_encode(serialize($this->params));
+        $data['inserttime'] = time();
+        $data['domain'] = $this->getDomain();
         $model = new Model($tablename,$this->domain,'master');
         $model->data($data)->add();
     }
@@ -88,7 +103,6 @@ class DataSync
     {
         $serverName = Tiny::getServerName();
         $mapper = Config::getInstance('mapper')->get($serverName['top']);
-
         $this->domain = $serverName['top'];
         $this->syncDirect = ($mapper['menu'] == 'headstore') ? 'headtobranch' : 'branchtohead';
     }
@@ -107,9 +121,10 @@ class DataSync
     }
 
     //数据同步service机制
-    public function service($type = '',$action = '',$data = array())
+    public static function service($type = '',$data = array(),$action = '')
     {
-        $className = $this->syncMapper[$type] ? $this->syncMapper[$type] : false;
+
+        $className = self::$syncMapper[$type] ? self::$syncMapper[$type] : false;
 
         if($className){
 

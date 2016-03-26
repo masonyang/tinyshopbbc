@@ -23,9 +23,10 @@ class AdminController extends Controller
 		$nav_act = preg_replace("/(_edit)$/", "_list", $nav_act);
 		$this->assign('nav_link','/'.Req::get('con').'/'.$nav_act);
 		$this->assign('node_index',$menu->currentNode());
-		$this->safebox = Safebox::getInstance();
-		$this->manager = $this->safebox->get('manager');
-		$this->assign('manager',$this->safebox->get('manager'));
+
+        $this->safebox = Safebox::getInstance();
+        $this->manager = $this->safebox->get('manager');
+		$this->assign('manager',$this->manager);
 		$serverName = Tiny::getServerName();
 		$domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
 		$this->assign("domain",$domain);
@@ -904,22 +905,31 @@ class AdminController extends Controller
 		{
             if('globals' == $group){
                 $params = array();
-                $params['province'] = Req::args('province');
-                $params['city'] = Req::args('city');
-                $params['county'] = Req::args('county');
-                $params['addr'] = Req::args('addr');
-                $params['phone'] = Req::args('phone');
-                $params['mobile'] = Req::args('mobile');
-                $params['site_ios_url'] = Req::args('site_ios_url');
-                $params['site_android_url'] = Req::args('site_android_url');
-                $params['zip'] = Req::args('zip');
-                $params['site_keyword'] = Req::args('site_keyword');
-                $params['site_description'] = Req::args('site_description');
-                //$params['deposit'] = Req::args('deposit');
-                $params['site_url'] = Req::args('site_url');
-                $params['distributor_id'] = Req::args('id');
+                $params['province'] = Req::args('province');// sync
+                $params['city'] = Req::args('city');//sync
+                $params['county'] = Req::args('county');//sync
+                $params['addr'] = Req::args('addr');//sync
+                $params['phone'] = Req::args('phone');//sync
+                $params['mobile'] = Req::args('mobile');//sync
+                $params['site_ios_url'] = Req::args('site_ios_url');//sync
+                $params['site_android_url'] = Req::args('site_android_url');//sync
+                $params['zip'] = Req::args('zip');//sync
+                $params['site_keyword'] = Req::args('site_keyword');//sync
+                $params['site_description'] = Req::args('site_description');//sync
+                $params['site_url'] = Req::args('site_url');//sync
+                $params['distributor_id'] = Req::args('distributor_id');//sync
+
+                $data = $params;
+                unset($data['distributor_id']);
+                unset($data['site_url']);
+                $localManger = new Model('manager');
+                $localManger->data($data)->where('id='.Req::args('id'))->update();
                 //同步分销商信息到总店
-                syncDistributorInfo::getInstance()->setParams($params)->sync();
+                syncDistributorInfo::getInstance()->setParams($params,'update')->sync();
+
+                $user = $localManger->where('id='.Req::args('id'))->find();
+                $this->safebox->set('manager',$user);
+
             }else{
                 $config = Config::getInstance();
                 $configService = new ConfigService($config);
@@ -941,6 +951,15 @@ class AdminController extends Controller
 		//$this->assign('data',$config->get($group));
 		$this->redirect('config_'.$group.'_branchstore',false);
 	}
+
+    function config_globals_branchstore()
+    {
+        $localManger = new Model('manager');
+        $user = $localManger->where('id='.$this->manager['id'])->find();
+        $this->safebox->set('manager',$user);
+        $this->manager = $this->safebox->get('manager');
+        $this->redirect();
+    }
 
 	//图库文件
 	function photoshop()

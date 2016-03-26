@@ -29,13 +29,13 @@
     {list:}
         {set:$grade_name[$item['id']]=$item['name']}
     {/list}
-    {query:name=customer as c,user as u where=c.user_id eq u.id and $where id=$obj page=1 desc }
+    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and $where id=$obj page=1 desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-coin" href="javascript:customer_view({$item['user_id']});"> 查看</a></li>
                 <li><a class="icon-coin" href="javascript:balance_op({$item['user_id']},2);"> 充值</a></li>
-                <li><a class="icon-credit" href="javascript:balance_op({$item['user_id']},4);"> 退款</a></li>
+                <!--<li><a class="icon-credit" href="javascript:balance_op({$item['user_id']},4);"> 退款</a></li>-->
                 <li><a class="icon-pencil" href="{url:/customer/customer_edit/id/$item[id]}"> 编辑</a></li>
-                <li><a class="icon-remove-2" href="javascript:confirm_action('{url:/customer/customer_del/id/$item[id]}')"> 删除</a></li>
             </ul></div></div> </td>
         <td style="width:100px">{$item['name']}</td><td style="width:100px">{$item['real_name']}</td><td style="width:60px">{$item['point']}</td><td style="width:130px">{$item['mobile']}</td><td >{$item['email']}</td><td style="width:100px">{$item['reg_time']}</td><td style="width:60px">{echo:$item['status']==0?"未激活":($item['status']==1?"正常":"锁定");}</td><td style="width:80px">{$grade_name[$item['group_id']]|'默认会员'}</td>
         <td style="width:80px">{$item['balance']}</td></tr>
@@ -63,6 +63,11 @@
 </div>
 
 <script type="text/javascript">
+
+    function customer_view(id){
+        art.dialog.open("{url:/customer/customer_view/id/}"+id,{id:'view_dialog',title:'查看',resize:false,width:900,height:450});
+    }
+
     function balance_op(user_id,type){
         $("#user_id").val(user_id);
         $("#type").val(type);

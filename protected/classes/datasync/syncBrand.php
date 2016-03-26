@@ -24,7 +24,7 @@ class syncBrand extends DataSync
 
     public function sync()
     {
-        if($this->syncDirect == 'hb'){
+        if($this->syncDirect == 'headtobranch'){
             $distrInfo = $this->getDistrInfos();
             foreach($distrInfo['distrInfos'] as $k=>$val){
                 $this->vaildParams();

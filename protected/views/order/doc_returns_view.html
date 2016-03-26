@@ -1,6 +1,6 @@
 {echo:JS::import("form")}
 <div style="overflow: auto;width:900px;height: 415px;">
-		{query:name=doc_returns where=id eq $id /}
+		{query:name=doc_returns domain=$domain where=id eq $id /}
 		{set:$returns = $items[0]; $area_ids=array($returns['province']|0,$returns['city']|0,$returns['county']|0);$area_ids = implode(',',$area_ids);$areas=array();}
 		{query:name=area where=id in ($area_ids)}
 		{set:$areas[$item['id']]=$item['name']}
@@ -18,7 +18,7 @@
 	<h3 class="lineD mt10">所购商品详情：</h3>
 	<table class="default" id="attr_values">
 		<tr><td style="width:120px;">货号</td><td>商品名</td><td style="width:180px;">规格</td><td style="width:60px;">价格</td><td style="width:40px;">数量</td><td style="width:60px;">小计</td></tr>
-		{query:name=doc_returns as di fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums join= left join order_goods as od on od.order_id eq di.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=di.id eq $id}
+		{query:name=doc_returns as di domain=$domain fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums join= left join order_goods as od on od.order_id eq di.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=di.id eq $id}
 		{set:$spec = unserialize($item['spec']);}
 		<tr><td>{$item['pro_no']}</td><td>{$item['name']}</td><td>
 			{if:is_array($spec)}

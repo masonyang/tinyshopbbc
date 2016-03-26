@@ -133,7 +133,6 @@ class DistributorController extends Controller
 		$data['disabled'] = $disabled;
 		$data['catids'] = implode(',',$catids);
 
-
 //        $data['distributor_name'] = '测试分销商';
 //        $data['validcode'] = 'h10Y!2P8';
 //        $data['distributor_password'] = 'b74893a3b2d0e1f078e8212aa2e7fcb1';
@@ -151,24 +150,19 @@ class DistributorController extends Controller
 		$distributorModel = new Model("distributor");
 		
 		if($id){
+			
+			$distrModel = new Model('distributor',null,'master');
+        	$distrInfo = $distrModel->fields('catids')->where('distributor_id='.$id)->find();
+
 			$distributorModel->data($data)->where("distributor_id=$id")->update();
 
+            $data['distributor_id'] = $id;
+            $data['before_catids'] = $distrInfo['catids'];
             //同步分销商信息到分店
-            syncDistributorInfo::getInstance()->setParams($data)->sync();
-            //同步商品分类
-            syncBrand::getInstance()->setParams($data)->sync();
-            //同步商品
-            syncGoods::getInstance()->setParams($data)->sync();
-            //同步货品
-            syncProducts::getInstance()->setParams($data)->sync();
-            //同步规格
-            syncSpec::getInstance()->setParams($data)->sync();
-            //同步商品类型
-            syncGoodsType::getInstance()->setParams($data)->sync();
-            //同步品牌
-            syncBrand::getInstance()->setParams($data)->sync();
-            //同步标签
-            syncTag::getInstance()->setParams($data)->sync();
+            syncDistributorInfo::getInstance()->setParams($data,'update')->sync();
+//            //同步商品分类
+//            syncBrand::getInstance()->setParams($data,'update')->sync();
+
 		}else{
 			$data['distributor_name'] = $distributor_name;
 			$validcode = CHash::random(8);

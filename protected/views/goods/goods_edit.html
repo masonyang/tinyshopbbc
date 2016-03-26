@@ -100,7 +100,7 @@
         商品编号：
     </dt>
     <dd>
-        <input name="goods_no" id="goods_no" type="text" pattern="\w{3,}" alt="请输入3个以上的字符(不能为中文)" value="{$goods_no}" >
+        <input name="goods_no" id="goods_no" type="text" pattern="required" alt="请输入3个以上的字符(不能为中文)" value="{$goods_no}" >
         <label></label>
     </dd>
 </dl>
@@ -177,7 +177,7 @@
                 货号：
             </td>
             <td>
-                <input  type="text" pattern="\w{3,}" name="pro_no" alt="请输入3个以上的字符(不能为中文)" value="{$goods_no}"/>
+                <input  type="text" pattern="required" name="pro_no" alt="请输入3个以上的字符(不能为中文)" value="{$pro_no}"/>
                 <label></label>
             </td>
         </tr>
@@ -211,10 +211,22 @@
                 <label></label>
             </td>
         </tr>
+        {if: $domain != 'zd'}
         <tr>
             <td class="tr">
                 <b class="red">*</b>
-                零售价：
+                自定义销售价：
+            </td>
+            <td>
+                <input class="small" pattern="float" type="text" name="branchstore_sell_price" value="{$branchstore_sell_price}" alt="整数或保留小数点后两位精确度的数"/>
+                <label></label>
+            </td>
+        </tr>
+        {/if}
+        <tr>
+            <td class="tr">
+                <b class="red">*</b>
+                销售价：
             </td>
             <td>
                 <input class="small" type="text" pattern="float" name="sell_price" value="{$sell_price}" alt="整数或保留小数点后两位精确度的数" />
@@ -369,19 +381,19 @@ var products_info = new Array();
         uploadFile();
         return false;
     });
-    $("#goods_no").on("change",function(){
-        var that = $(this);
-        if(that.val()){
-            var old_val = $("input[name='pro_no']").val();
-            $("input[name='pro_no']").val(that.val());
-            $("input[name='pro_no[]']").each(function(i){
-                var current_value = $(this).val();
-                var temp = old_val+'_'+(i+1);
-                if(current_value=='' || current_value==temp) $(this).val(that.val()+'_'+(i+1));
-            });
-        }
-
-    })
+//    $("#goods_no").on("change",function(){
+//        var that = $(this);
+//        if(that.val()){
+//            var old_val = $("input[name='pro_no']").val();
+//            $("input[name='pro_no']").val(that.val());
+//            $("input[name='pro_no[]']").each(function(i){
+//                var current_value = $(this).val();
+//                var temp = old_val+'_'+(i+1);
+//                if(current_value=='' || current_value==temp) $(this).val(that.val()+'_'+(i+1));
+//            });
+//        }
+//
+//    })
     function uploadFile(){
         art.dialog.open('{url:/admin/photoshop}',{id:'upimg_dialog',lock:true,opacity:0.1,title:'选择图片',width:613,height:380});
     }
@@ -455,7 +467,13 @@ var products_info = new Array();
         }
         spec_items = spec_items.slice(0,-1);
 
-        str_ths += '<th><input name="spec_items" type="hidden" value="'+spec_items+'"/>库存</th><th>预警线</th><th>零售价</th><th>批发价</th><th>重量(g)</th><th>操作</th></tr>';
+        var branchstore_sell_price_title = '';
+
+        {if: $domain != 'zd'}
+            branchstore_sell_price_title = '<th>自定义销售价</th>';
+        {/if}
+
+        str_ths += '<th><input name="spec_items" type="hidden" value="'+spec_items+'"/>库存</th><th>预警线</th><th>零售价</th>'+branchstore_sell_price_title+'<th>批发价</th><th>重量(g)</th><th>操作</th></tr>';
         var str_tds = '';
         specs = descartes(spec_array);
         var pro_no_per = $("#goods_no").val();
@@ -466,6 +484,10 @@ var products_info = new Array();
         var market_price = $("input[name='market_price']").val();
         var cost_price = $("input[name='cost_price']").val();
         var weight = $("input[name='weight']").val();
+        var branchstore_sell_price = 0;
+        {if: $domain != 'zd'}
+            branchstore_sell_price = $("input[name='branchstore_sell_price']").val();
+        {/if}
         for(i in specs){
             var spec_item = '';
             str_tds += '<tr class="min_inputs"><td><input type="text" pattern="required" name="pro_no[]"  value="'+(pro_no_per==''?'':pro_no_per+'_'+(parseInt(i)+1))+'" style="width:160px"></td>';
@@ -492,9 +514,16 @@ var products_info = new Array();
                 market_price = s_item['market_price']!=undefined?s_item['market_price']:'';
                 cost_price = s_item['cost_price']!=undefined?s_item['cost_price']:'';
                 weight = s_item['weight']!=undefined?s_item['weight']:'';
-
+                {if: $domain != 'zd'}
+                branchstore_sell_price = s_item['branchstore_sell_price']!=undefined?s_item['branchstore_sell_price']:'';
+                {/if}
             }
-            str_tds += '<td><input name="spec_item[]" type="hidden" value="'+spec_item+'"/><input type="text" pattern="int" class="small" name="store_nums[]" value="'+store_nums+'"></td><td><input  pattern="int" class="small" type="text" name="warning_line[]" value="'+warning_line+'"></td><td><input class="small" pattern="float" type="text" name="sell_price[]" value="'+sell_price+'"></td><td><input class="small" pattern="float" type="text" name="trade_price[]" value="'+trade_price+'"></td><input class="small" type="hidden" name="market_price[]" value="'+market_price+'"><input class="small" type="hidden" name="cost_price[]" value="'+cost_price+'"><td><input class="small" pattern="int" type="text" name="weight[]" value="'+weight+'"></td><td><a href="javascript:;" class="icon-close" onclick="spec_del(this)" ></a></td></tr>';
+
+            var branchstore_sell_price_desc = '';
+            {if: $domain != 'zd'}
+                branchstore_sell_price_desc = '<td><input class="small" pattern="float" type="text" name="branchstore_sell_price[]" value="'+branchstore_sell_price+'"></td>';
+            {/if}
+            str_tds += '<td><input name="spec_item[]" type="hidden" value="'+spec_item+'"/><input type="text" pattern="int" class="small" name="store_nums[]" value="'+store_nums+'"></td><td><input  pattern="int" class="small" type="text" name="warning_line[]" value="'+warning_line+'"></td><td><input class="small" pattern="float" type="text" name="sell_price[]" value="'+sell_price+'"></td>'+branchstore_sell_price_desc+'<td><input class="small" pattern="float" type="text" name="trade_price[]" value="'+trade_price+'"></td><input class="small" type="hidden" name="market_price[]" value="'+market_price+'"><input class="small" type="hidden" name="cost_price[]" value="'+cost_price+'"><td><input class="small" pattern="int" type="text" name="weight[]" value="'+weight+'"></td><td><a href="javascript:;" class="icon-close" onclick="spec_del(this)" ></a></td></tr>';
         }
         $("#spec_list").css({display:''});
 

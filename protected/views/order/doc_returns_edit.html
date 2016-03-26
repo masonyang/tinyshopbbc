@@ -5,7 +5,7 @@
 	<h3 class="lineD mt10">所购商品：</h3>
 	<table class="default" id="attr_values">
 		<tr><td widtd="120">货号</td><td>商品名</td><td>规格</td><td widtd="60">价格</td><td widtd="40">数量</td><td widtd="60">小计</td></tr>
-		{query:name=doc_returns as di fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums join= left join order_goods as od on od.order_id eq di.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=di.id eq $id}
+		{query:name=doc_returns as di domain=$domain fields=go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums join= left join order_goods as od on od.order_id eq di.order_id left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=di.id eq $id}
 		{set:$spec = unserialize($item['spec']);}
 		<tr><td>{$item['pro_no']}</td><td>{$item['name']}</td><td>
 			{if:is_array($spec)}
@@ -16,7 +16,7 @@
 		</td><td>{$item['goods_price']}</td><td>{$item['goods_nums']}</td><td class="golden">{echo:sprintf("%.2f",($item['goods_price']*$item['goods_nums']))}</td></tr>
 		{/query}
 	</table>
-	{query:name=doc_returns as dr fields=dr.*,us.name as uname, ma.name as mname,od.real_amount,od.real_freight,od.handling_fee,od.taxes,od.adjust_amount,od.order_amount,od.order_amount,od.discount_amount join=left join user as us on dr.user_id eq us.id left join manager as ma on dr.admin_id eq ma.id left join order as od on dr.order_no eq od.order_no where=dr.id eq $id /}
+	{query:name=doc_returns as dr domain=$domain fields=dr.*,us.name as uname, ma.name as mname,od.real_amount,od.real_freight,od.handling_fee,od.taxes,od.adjust_amount,od.order_amount,od.order_amount,od.discount_amount join=left join user as us on dr.user_id eq us.id left join manager as ma on dr.admin_id eq ma.id left join order as od on dr.order_no eq od.order_no where=dr.id eq $id /}
 	{set:$item = $items[0];}
 		<h3 class="lineD  mt10">售后单详情：</h3>
 		<form class="form2" action="{url:/order/doc_returns_save}" method="post">

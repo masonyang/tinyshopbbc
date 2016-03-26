@@ -17,7 +17,7 @@
     </div>
     <div id="wrap">
         <div class="ng-hide">
-            <form action="{url:/simple/reg_act}" class="ng-pristine ng-invalid ng-invalid-required ng-valid-email">
+            <form action="{url:/simple/reg_act}" method="post" class="ng-pristine ng-invalid ng-invalid-required ng-valid-email">
                 <ul class="fm-list">
                     <li>
                         <div class="field-tt">电子邮箱：</div>
@@ -40,6 +40,7 @@
                         <label><a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/random/}'+Math.random()">换一张</a></label>
                     </li>
                 </ul>
+                {token:key=reg}
                 <input class="btn-com space m-top" type="submit" value="注册">
             </form>
         </div>

@@ -35,14 +35,31 @@ class syncDistributorInfo extends DataSync
 
     public function sync()
     {
-        if($this->syncDirect == 'hb'){
+        if($this->syncDirect == 'headtobranch'){
             $this->vaildParams();
+            
+            //$this->syncRelevantInfo();// 分销商信息变更时候,检查下 他的商品分类有没有变化
+            unset($this->params['before_catids']);
             parent::sync();
-        }elseif($this->syncDirect == 'bh'){
+        }elseif($this->syncDirect == 'branchtohead'){
             $this->vaildParams();
-            $this->params['distributor_id'] = 0;
+            //$this->params['distributor_id'] = 0;
             parent::sync();
         }
 
     }
+
+    private function syncRelevantInfo()
+    {
+        if('update' != $this->syncAction){
+            return true;
+        }
+
+        syncCategory::getInstance()->setParams($data,'update')->sync();//检查 分销商的授权分类 是否有变更 有的话 同步 add or update
+        syncGoods::getInstance()->setParams($data,'update')->sync();// 如果授权分类有变更 触发变更授权分类下的商品 add or update
+        syncGoodsType::getInstance()->setParams($data,'update')->sync();
+        syncSpec::getInstance()->set($data,'update')->sync();
+
+    }
+    
 } 

@@ -1,1 +1,0 @@
-86400      a:2:{s:11:"primary_key";s:2:"id";s:6:"fields";a:9:{s:2:"id";s:10:"bigint(20)";s:5:"title";s:12:"varchar(100)";s:6:"key_id";s:11:"varchar(50)";s:5:"style";s:11:"varchar(20)";s:11:"template_id";s:11:"varchar(64)";s:8:"template";s:4:"text";s:7:"tousers";s:12:"varchar(255)";s:6:"status";s:6:"int(1)";s:4:"note";s:4:"text";}}

@@ -17,7 +17,7 @@
 	<div class="nav_sub">
 			    	您好,{$manager['name']} &nbsp; | <a href="{url:/index/index}" target="_blank">返回前台</a> | <a href="{url:/admin/logout}">退出</a>
 	</div>
-    <div id="Logo"><a href=""><img src="{url:@static/images/logo_min.png}" width=192 height=46></a></div>
+    <div id="Logo"><a href="{url:/admin/index}"><img src="{url:@static/images/logo_min.png}" width=192 height=46></a></div>
 	<ul id="main_nav" class="clearfix">
 	{list:items = $mainMenu}
 		<li {if:$key==$menu_index['menu']}class="active"{/if}><a href="{url:$item[link]}"  >{$item['name']}</a></li>
@@ -27,6 +27,7 @@
 <div id="mainContent">
 	<div id="sidebar" >
 		<ul class="menu" style="margin-top:15px;">
+            {$selectbranch}
 		{list:items=$subMenu}
 			<li class="submenu">
 			<ul><li class="sub-index"><b><a href="javascript:;">{$item['name']}</a></b></li>

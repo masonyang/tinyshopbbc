@@ -35,6 +35,10 @@ class DbCache implements ICache
      */
     public function set($key,$content,$delay=30)
     {
+        if(!CACHE){
+            return true;
+        }
+
         $key = $this->key($key);
         if(is_object($content) || is_array($content))
         {

@@ -144,7 +144,6 @@ class Query
             $pagesize = isset($this->pagesize)?intval($this->pagesize):10;
             $pagelength = isset($this->pagelength)?intval($this->pagelength):10;
             $pagename = isset($this->pagename)?$this->pagename:'p';
-
             $items = $this->dbo[$this->md5key]->doSql($pageSql);
             $total = 0;
             if(is_array($items))$total = $items[0]['total'];
