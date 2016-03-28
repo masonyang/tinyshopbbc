@@ -83,12 +83,12 @@ class OpenShop
 		$this->dbname = $params['site_url'];
         $this->categorys = $params['catids'];
         $this->config = array(
-            'host'=>'localhost:3306',
-            'user'=>'root',
-            'password'=>'Zhangweilong',
-//            'host'=>'114.55.11.208:3306',
-//            'user'=>'qqc',
-//            'password'=>'qqc-2016-mysql',
+//            'host'=>'localhost:3306',
+//            'user'=>'root',
+//            'password'=>'Zhangweilong',
+            'host'=>'114.55.11.208:3306',
+            'user'=>'qqc',
+            'password'=>'qqc-2016-mysql',
         );
 		$this->distrMainInfo = $params;
 	}
