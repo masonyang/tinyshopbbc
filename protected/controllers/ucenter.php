@@ -497,10 +497,10 @@ class UcenterController extends Controller
                     $status = 1;
                 break;
             }
-            $this->assign("where","status in(".$_status.")");
+            $this->assign("where","status in(".$_status.") and user_id=".$this->user['id']);
             $this->assign("status",$status);
         }else{
-            $this->assign("where","status in (1,2)");
+            $this->assign("where","status in (1,2) and user_id=".$this->user['id']);
             $this->assign("status",1);
         }
         $this->redirect();
