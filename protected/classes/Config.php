@@ -12,6 +12,14 @@ class Config
 
 	public static function getInstance($file = 'system')
 	{
+        if($file == 'config' || $file == 'mapper'){
+            $serverName = Tiny::getServerName();
+
+            $env = Tiny::getEnv($serverName['domain']);
+
+            $file = $file.'_'.$env;
+        }
+
 		$md5file = md5($file);
 		self::$fileName = APP_CODE_ROOT.'config/'.$file.'.php';
 		self::$system = require(self::$fileName);

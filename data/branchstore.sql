@@ -595,7 +595,7 @@ CREATE TABLE `tiny_sync_queue` (
   `action_type` enum('normal', 'openshop') DEFAULT 'normal',
   `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商预存款日志表';
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='数据同步队列表';
 DROP TABLE IF EXISTS `tiny_distributor_depost`;
 CREATE TABLE `tiny_distributor_depost` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',

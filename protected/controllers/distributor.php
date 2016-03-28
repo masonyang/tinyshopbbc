@@ -65,7 +65,12 @@ class DistributorController extends Controller
         $distrObj = new Model('distributor');
         $distrInfos = $distrObj->where('disabled = 0')->findAll();
 
-        $mapper = @require(APP_CODE_ROOT.'config/mapper.php');
+        $serverName = Tiny::getServerName();
+
+        $env = Tiny::getEnv($serverName['domain']);
+
+        $mapper = @require(APP_CODE_ROOT.'config/mapper_'.$env.'.php');
+
         $mappers = array_keys($mapper);
         unset($mapper);
 
@@ -178,6 +183,9 @@ class DistributorController extends Controller
 			OpenShop::getInstance()->createTables(); //ok
 			OpenShop::getInstance()->syncDistributorInfo();//ok
 			OpenShop::getInstance()->syncGoods();
+
+            $this->redirect("distributor_list",$return);
+
 			$msg = OpenShop::getInstance()->done();
 				if(false == $msg['res']){
 					$this->msg = array("error",$msg['msg']);

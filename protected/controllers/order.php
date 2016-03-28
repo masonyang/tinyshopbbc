@@ -341,7 +341,18 @@ class OrderController extends Controller
 		$order = $model->where("id=$id")->find();
 		if($order){
 			if($order['status']==3){
-				$this->assign("id",$id);
+
+                $expressModel = new Model('express');
+                $ex = $expressModel->fields('name as exname')->where('express_company_id='.$order['express'])->find();
+
+                $order['exname'] = $ex['exname'];
+
+                $paymentModel = new Model('payment');
+                $py = $paymentModel->fields('pay_name as payname')->where('id='.$order['payment'])->find();
+                $order['payname'] = $py['payname'];
+
+                $this->assign("orderInfo",$order);
+                $this->assign("id",$id);
 				$this->redirect();
 			}
 		}

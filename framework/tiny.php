@@ -154,7 +154,8 @@ class Tiny
     {
 		$serverName = self::getServerName();
 
-		$fileName = APP_CODE_ROOT.'config/mapper.php';
+        $env = self::getEnv($serverName['domain']);
+		$fileName = APP_CODE_ROOT.'config/mapper_'.$env.'.php';
 		$_mappers = require($fileName);
 
         if($_mappers[$serverName['top']]){
@@ -702,7 +703,7 @@ class Tiny
 		if(!$serverName){
 			return false;
 		}
-		
+
 		$mapper = Config::getInstance('mapper')->get($serverName['top']);
 
 		if(!$mapper){
@@ -711,4 +712,22 @@ class Tiny
 
 		return $mapper;
 	}
+
+    public static function getEnv($domain)
+    {
+
+        switch($domain){
+            case 'nst1688':
+                $evn = 'nst1688';
+            break;
+            case 'qqcapp':
+                $evn = 'qqcapp';
+            break;
+            default:
+                $evn = 'local';
+            break;
+        }
+
+        return $evn;
+    }
 }

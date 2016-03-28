@@ -70,7 +70,7 @@
                                     <div class="title font-medium">{$item['name']}</div>
                                     <div>
                                         <span class="spanSale font-medium"></span>
-                                        <span class="salePrice font-medium">{$currency_symbol}{if: $item['branchstore_sell_price']} {$item['branchstore_sell_price']} {else} {$item['sell_price']} {/if}</span>
+                                        <span class="salePrice font-medium">{$currency_symbol}{if: $item['branchstore_sell_price']} {$item['branchstore_sell_price']} {else:} {$item['sell_price']} {/if}</span>
                                     </div>
                                 </div>
                             </a>
