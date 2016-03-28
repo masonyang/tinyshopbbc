@@ -6,9 +6,15 @@ define("APP_ROOT",dirname(__file__).DIRECTORY_SEPARATOR);
 include("framework/tiny.php");
 
 //加载配制文件
-$configPath = "protected/config/config.php";
+$serverName = Tiny::getServerName();
+
+$env = Tiny::getEnv($serverName['domain']);
+
+$configPath = "protected/config/config_".$env.".php";
+
 $config = is_file($configPath)?include($configPath):null;
 //运行应用程序
 
 Tiny::createWebApp($config)->run();
+
 ?>
