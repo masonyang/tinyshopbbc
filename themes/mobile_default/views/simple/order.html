@@ -12,6 +12,7 @@
             <table width="100%">
                 <tbody>
                 {set:$address_default=0;}
+                {if: $address}
                 {list:items=$address}
                 <tr style="font-size: 1.3rem;">
                     <td rowspan="2" width="15%">
@@ -28,6 +29,13 @@
                     <input type="hidden" name="address_id" value="{$item['id']}" />
                 </tr>
                 {/list}
+                {else:}
+                <tr style="font-size: 1.1rem;">
+                    <td>
+                    <span style="color: red;">您还没添加收货地址,请先去 "用户中心 -> 收货地址" 添加</span>
+                    </td>
+                </tr>
+                {/if}
                 </tbody>
             </table>
         </dd>
