@@ -14,6 +14,7 @@ class syncDistributorInfo extends DataSync
     protected $vailRule = array(
         'distributor_name'=>'',
         'distributor_password'=>'',
+        'password'=>'',
         'distributor_id'=>'',
         'email'=>'',
         'province'=>'',

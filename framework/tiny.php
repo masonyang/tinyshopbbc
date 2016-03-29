@@ -60,6 +60,17 @@ class Tiny
     //
     private static $_classes_index = array();
 
+    public static $allowIps = array(
+        '127.0.0.1' => 'local',
+        '120.27.128.223' => 'qqcapp',
+        '10.46.74.113' => 'qqcapp',
+        '114.55.31.209' => 'qqcapp',
+        '10.24.29.245' => 'qqcapp',
+        '114.55.56.107' => 'qqcapp',
+        '10.24.35.30' => 'qqcapp',
+        '101.200.188.77' => 'nst1688',
+        '10.44.140.108' => 'nst1688',
+    );
     /**
      * 取得当前框架的版本号
      * @access public
@@ -685,15 +696,29 @@ class Tiny
 
 	public static function getServerName()
 	{
-		$serverName = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
-		
-		if(!isset($serverName)){
-			return false;
-		}
+        if(isset($_SERVER['HTTP_HOST'])){
+            $serverName = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
 
-		list($top,$domain,$ext) = explode('.',$serverName);
+            if(!isset($serverName)){
+                return false;
+            }
 
-		return array('top'=>$top,'domain'=>$domain,'ext'=>$ext);
+            list($top,$domain,$ext) = explode('.',$serverName);
+
+            return array('top'=>$top,'domain'=>$domain,'ext'=>$ext);
+        }else{
+            $ip = Chips::getLocalIp();
+
+            $allowips = array_keys(self::$allowIps);
+
+            if(in_array($ip,$allowips)){
+                $domain = self::$allowIps[$ip];
+                return array('top'=>'','domain'=>$domain,'ext'=>'');
+            }
+
+            return false;
+        }
+
 	}
 
 	public static function getServerConfig()

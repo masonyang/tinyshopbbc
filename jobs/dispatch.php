@@ -26,6 +26,7 @@ class dispatchJob extends syncdataJob
 		$distrInfo = branchToHeadJob::getInstance()->getDistributor();
 		if(!$distrInfo){
 			$this->outMsg = 'no data';
+            return false;
 		}	
 		$this->outMsg = implode(' ',$distrInfo);
 	}
@@ -37,6 +38,7 @@ class dispatchJob extends syncdataJob
 
 		if(!$lists){
 			$this->outMsg = 'no data';
+            return false;
 		}
 
         $disIds = array();

@@ -16,6 +16,7 @@ class workerJob extends syncdataJob
 		$this->limit = $this->getOption('limit');
 
 		$this->db = $this->getOption('db');
+
 	}
 
 	protected function __run()

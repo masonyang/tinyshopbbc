@@ -204,7 +204,13 @@ class DistributorController extends Controller
 		if($id && $password && $password == $repassword){
 			$model = new Model("distributor");
 			$validcode = CHash::random(8);
-			$flag = $model->where("distributor_id=$id")->data(array('distributor_password'=>CHash::md5($password,$validcode),'validcode'=>$validcode))->update();
+            $distributor_password = CHash::md5($password,$validcode);
+			$flag = $model->where("distributor_id=$id")->data(array('distributor_password'=>$distributor_password,'validcode'=>$validcode))->update();
+
+            $data['distributor_id'] = $id;
+            $data['password'] = $distributor_password;
+            $data['validcode'] = $validcode;
+            syncDistributorInfo::getInstance()->setParams($data,'update')->sync();
 			if($flag)$info = array('status'=>'success');
 		}
 		echo JSON::encode($info);
