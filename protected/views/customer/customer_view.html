@@ -1,7 +1,7 @@
 {echo:JS::import('form');}
 
 <div id="obj_form" class="form2">
-    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and where=c.user_id eq $id item=$dist }
+    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and c.user_id eq $id item=$dist }
     <dl class="lineD">
         <dt><b class="red">*</b> 用户名：</dt>
         <dd>

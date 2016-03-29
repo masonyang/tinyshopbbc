@@ -65,7 +65,7 @@
             {list: items=$skumap key=$key item=$product}
                 <dd class="font-medium pselect">
                     <ul>
-                        <li class="tit">货号:{$product['pro_no']} &nbsp;({$product['guige']})</li>
+                        <li class="tit">货号:{$product['pro_no']} &nbsp;{if: $product['guige']}({$product['guige']}){/if}</li>
                         <li>
                             <div class="col col-1">销售价</div>
                             <div class="col col-2">库存</div>

@@ -98,9 +98,9 @@ class Controller extends Object
                 return false;
             }
 
-            if(in_array($req['con'],array('index','simple','ucenter')) || empty($req)){
+            $clientType = Chips::clientType();
 
-                $clientType = Chips::clientType();
+            if(in_array($req['con'],array('index','simple','ucenter')) || empty($req)){
 
                 if($clientType == 'desktop'){
                     if(('simple' == $req['con']) && ('captcha' == $req['act'])){
@@ -112,7 +112,12 @@ class Controller extends Object
                     }
                 }
 
+            }elseif(($clientType != 'desktop') && (in_array($req['con'],array('admin')))){
+                header("Content-type: text/html; charset=UTF-8");
+                echo "<h3 style='text-align: center;'>请在电脑上登陆后台进行操作！</h3>";
+                return false;
             }
+
 
         }
 

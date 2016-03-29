@@ -376,7 +376,7 @@ class IndexController extends Controller{
 
             $skumap = array();
             $productsModel = new Model("products");
-            $products = $productsModel->fields("sell_price,market_price,store_nums,specs_key,pro_no,id")->where("goods_id = $id")->findAll();
+            $products = $productsModel->fields("branchstore_sell_price,sell_price,market_price,store_nums,specs_key,pro_no,id")->where("goods_id = $id")->findAll();
             if($products){
                 foreach ($products as $product) {
                     $skumap[$product['specs_key']] = $product;
@@ -460,7 +460,15 @@ class IndexController extends Controller{
 
                 foreach($skumap as $k=>$sk){
                     $specs_key = explode(';',$sk['specs_key']);
-                    $skumap[$k]['guige'] = $sku[$specs_key[1]].','.$sku[$specs_key[2]];
+                    if($sku[$specs_key[1]] && $sku[$specs_key[1]]){
+                        $skumap[$k]['guige'] = $sku[$specs_key[1]].','.$sku[$specs_key[2]];
+                    }elseif($sku[$specs_key[1]]){
+                        $skumap[$k]['guige'] = $sku[$specs_key[1]];
+                    }elseif($sku[$specs_key[2]]){
+                        $skumap[$k]['guige'] = $sku[$specs_key[2]];
+                    }
+
+
                 }
 
             }

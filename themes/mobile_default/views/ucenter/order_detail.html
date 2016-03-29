@@ -13,7 +13,7 @@
             <p class="StatusName ng-binding" style="color:#ff6a00;">
                 <span class="red">
                 {if: $order['status'] == '1'}
-                等待付款 <a href="javascript:void(0);" class="dopay">去支付</a>
+                等待付款 &nbsp;&nbsp;<button class="Submit dopay" style="background: #ffb03f;">去支付</button>
                     <form action="{url:/payment/dopay}" method="post" class="formdopay">
                         <input type="hidden" name="payment_id" value="{$order['payment']}">
                         <input type="hidden" name="order_id" value="{$order['id']}">
@@ -26,7 +26,7 @@
                 {if: $payment_info[class_name]=='received'}
                 等待审核
                 {else:}
-                等待付款 <a href="javascript:void(0);" class="dopay">去支付</a>
+                等待付款 &nbsp;&nbsp;<button class="Submit dopay" style="background: #ffb03f;">去支付</button>
                     <form action="{url:/payment/dopay}" method="post" class="formdopay">
                         <input type="hidden" name="payment_id" value="{$order['payment']}">
                         <input type="hidden" name="order_id" value="{$order['id']}">

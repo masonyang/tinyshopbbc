@@ -100,7 +100,7 @@ return array(
             自定义商品名称：
           </dt>
           <dd>
-            <input name="branchstore_goods_name" type="text" pattern="required" value="<?php echo isset($branchstore_goods_name)?$branchstore_goods_name:"";?>" style="width:400px;" alt="不能为空">
+            <input name="branchstore_goods_name" type="text" value="<?php echo isset($branchstore_goods_name)?$branchstore_goods_name:"";?>" style="width:400px;">
             <label></label>
           </dd>
         </dl>',

@@ -39,7 +39,7 @@
                 {if:$item['delivery_status'] == 0}
                 <li><a class="icon-truck" href="javascript:;" onclick="send({$item['id']})"> 发货</a></li>
                 {/if}
-                <li><a class="icon-switch"  href="javascript:;" onclick="change_status({$item['id']},4,null)"> 完成</a></li>
+                <li><a class="icon-switch"  href="javascript:;" onclick="finish_status({$item['id']},4,null)"> 完成</a></li>
                 {/if}
                 {if:$item['status'] <= 4}
                 <li><a class="icon-remove" href="javascript:;" onclick="change_status({$item['id']},6,null)"> 作废</a></li>
@@ -96,6 +96,23 @@
         art.dialog({id:'send_dialog'}).close();
         tools_reload();
     }
+
+    function finish_status(id,status){
+
+        if(confirm('请要将该订单置为已完成?')){
+            $.post('{url:/order/order_status}',{id:id,status:status,op:op,remark:remark},function(data){
+                if(data['status']=='success'){
+                    $("#status_"+id).html('已完成');
+                    art.dialog.tips("<p class='"+data['status']+"'>"+data['msg']+"成功！</p>");
+                }else{
+                    art.dialog.tips("<p class='"+data['status']+"'>"+data['msg']+"失败！</p>");
+                }
+                setTimeout("tools_reload()",2000);
+            },'json');
+        }
+
+    }
+
     function change_status(id,status,op){
         var title = '';
         if(status==null){
@@ -103,7 +120,6 @@
             else if(op=='note') title = '备注订单';
         }else{
             if(status == 3) title = '审核订单';
-            else if(status == 4) title = '完成订单';
             else if(status == 6) title = '作废订单';
         }
         $("#order_id").val(id);
