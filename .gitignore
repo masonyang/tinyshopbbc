@@ -4,6 +4,7 @@ themes-sass/
 installcomplete/
 cache/
 runtime/
+.idea/
 
 .tags
 .tags_sorted_by_file
