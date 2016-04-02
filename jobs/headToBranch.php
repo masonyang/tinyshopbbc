@@ -41,10 +41,10 @@ class headToBranchJob
         return self::$instance;
     }
     
-    protected function __construct()
+    public function __construct()
     {
         //实例化 总店分销商表的 model
-        $this->headMasterModel = new Model('sync_queue','zd','master');
+        //$this->headMasterModel = new Model('sync_queue','zd','master');
     }
 
     public function getList()

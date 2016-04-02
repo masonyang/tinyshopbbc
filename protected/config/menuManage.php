@@ -326,6 +326,11 @@
         'name' => '信息模板',
         'parent' => 'config',
       ),
+      '/admin/image_manage' =>
+      array (
+         'name' => '图片库管理',
+         'parent' => 'config',
+      ),
       '/admin/msg_template_edit' => 
       array (
         'name' => '信息模板编辑',

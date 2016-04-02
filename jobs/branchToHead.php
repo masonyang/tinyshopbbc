@@ -47,7 +47,7 @@ class branchToHeadJob
         return self::$instance;
     }
     
-    protected function __construct()
+    public function __construct()
     {
         //实例化 总店分销商表的 model
 

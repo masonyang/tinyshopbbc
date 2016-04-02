@@ -1056,4 +1056,22 @@ class AdminController extends Controller
         echo JSON::encode($info);
     }
 
+    public function image_manage()
+    {
+        $this->redirect("image_manage");
+    }
+
+    public function image_del()
+    {
+        $id = intval(Req::post("id"));
+
+        if($id > 0){
+            $gallery = new Model('gallery');
+           $gallery->where("`id`=".$id)->delete();
+        }
+
+        $info = array('status'=>'success','msg'=>'删除成功');
+        echo JSON::encode($info);
+    }
+
 }

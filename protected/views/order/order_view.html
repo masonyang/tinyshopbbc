@@ -24,45 +24,43 @@
     </table>
 
 
-    {query:name=order as od domain=$domain fields=od.*,ex.name as exname,py.pay_name as payname join=left join express as ex on od.express eq ex.express_company_id left join payment as py on od.payment eq py.id where=od.id eq $id}
-    {set:$amount = $item['order_amount'];}
+    {set:$amount = $orderInfo['order_amount'];}
     <h3 class="lineD mt10">订单信息：</h3>
     <table class="default">
-        <tr><th width="100">订单编号：</th><td>{$item['order_no']}</td><th width="100">下单时间：</th><td>{$item['create_time']}</td></tr>
-        <tr><th>支付方式：</th><td>{$item['payname']}</td><th>支付手续费：</th><td class="golden">{$item['handling_fee']}</td></tr>
-        <tr><th>配送方式：</th><td>{$item['exname']}</td><th>配送费用：</th><td class="golden">{$item['payable_freight']}</td></tr>
-        <tr><th>实际配送费用：</th><td class="golden">{$item['real_freight']}</td><th>代金券：</th><td class="golden">{if:$item['voucher_id']}{set:$voucher=unserialize($item['voucher'])}{$voucher['value']}{else:}-{/if}</td></tr>
-        <tr><th>应付商品总金额：</th><td class="golden">{$item['payable_amount']}</td><th>实付商品总金额：</th><td class="golden">{$item['real_amount']}</td></tr>
-        {if:$item['is_invoice']==1}
-        {set:$invoice = explode(':',$item['invoice_title'])}
+        <tr><th width="100">订单编号：</th><td>{$orderInfo['order_no']}</td><th width="100">下单时间：</th><td>{$orderInfo['create_time']}</td></tr>
+        <tr><th>支付方式：</th><td>{$orderInfo['payname']}</td><th>支付手续费：</th><td class="golden">{$orderInfo['handling_fee']}</td></tr>
+        <tr><th>配送方式：</th><td>{$orderInfo['exname']}</td><th>配送费用：</th><td class="golden">{$orderInfo['payable_freight']}</td></tr>
+        <tr><th>实际配送费用：</th><td class="golden">{$orderInfo['real_freight']}</td></tr>
+        <tr><th>应付商品总金额：</th><td class="golden">{$orderInfo['payable_amount']}</td><th>实付商品总金额：</th><td class="golden">{$orderInfo['real_amount']}</td></tr>
+        {if:$orderInfo['is_invoice']==1}
+        {set:$invoice = explode(':',$orderInfo['invoice_title'])}
         <tr><th>发票类型：</th><td ><b>{if:$invoice[0]==1}单位{else:}个人{/if}</b></td><th>发票抬头：</th><td ><b>{$invoice[1]}</b></td></tr>
         {/if}
-        <tr><th>发票税金：</th><td class="golden">{$item['taxes']}</td><th>活动优惠金额：</th><td class="golden">{$item['discount_amount']}</td></tr>
+        <tr><th>发票税金：</th><td class="golden">{$item['taxes']}</td><th>活动优惠金额：</th><td class="golden">{$orderInfo['discount_amount']}</td></tr>
         <tr><th>原订单总金额：</th><td colspan=3  class="golden">{echo:sprintf("%.2f",$amount)} 注：记订单在未调价之前的总金额</td></tr>
-        <tr><th>订单折扣或涨价：</th><td colspan=3 >{$item['adjust_amount']|0}</td></tr>
-        <tr><th>调整后订单总金额：</th><td colspan=3   ><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$item['order_amount']} </span> 注：总金额不会小于0元</td></tr>
-        <tr><th>调价原因：</th><td colspan=3>{$item['adjust_note']}</td></tr>
-        <tr><th>用户备注：</th><td colspan=3>{$item['user_remark']}</td></tr>
-        <tr><th>管理人员备注：</th><td colspan=3>{$item['admin_remark']}</td></tr>
+        <tr><th>订单折扣或涨价：</th><td colspan=3 >{$orderInfo['adjust_amount']|0}</td></tr>
+        <tr><th>调整后订单总金额：</th><td colspan=3   ><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$orderInfo['order_amount']} </span> 注：总金额不会小于0元</td></tr>
+        <tr><th>调价原因：</th><td colspan=3>{$orderInfo['adjust_note']}</td></tr>
+        <tr><th>用户备注：</th><td colspan=3>{$orderInfo['user_remark']}</td></tr>
+        <tr><th>管理人员备注：</th><td colspan=3>{$orderInfo['admin_remark']}</td></tr>
     </table>
 
     <h3 class="lineD mt10">收货人信息：</h3>
     <table class="default">
-        <tr><th width="100"><b class="red">*</b>收货人姓名：</th><td>{$item['accept_name']}</td><th width="100"><b class="red">*</b>联系手机：</th><td>{$item['mobile']}</td></tr>
-        <tr><th>联系电话：</th><td>{$item['phone']}</td><th>邮编：</th><td>{$item['zip']}</td></tr>
-        <tr><th>收货地区：</th><td colspan=3><select id="province"  name="province" >
+        <tr><th width="100"><b class="red">*</b>收货人姓名：</th><td>{$orderInfo['accept_name']}</td><th width="100"><b class="red">*</b>联系手机：</th><td>{$orderInfo['mobile']}</td></tr>
+        <tr><th>联系电话：</th><td>{$orderInfo['phone']}</td><th>邮编：</th><td>{$orderInfo['zip']}</td></tr>
+        <tr><th>收货地区：</th><td colspan=3><select id="province"  name="province" disabled >
             <option value="0">==省份/直辖市==</option>
         </select>
-            <select id="city" name="city"><option value="0">==市==</option></select>
-            <select id="county" name="county"><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="area" type="text" style="visibility:hidden;width:0;" value="{$item['province']},{$item['city']},{$item['county']}" alt="请选择完整地区信息！"><label></label></td></tr>
-        <tr><th><b class="red">*</b>收货地址：</th><td colspan=3>{$item['addr']}</td></tr>
+            <select id="city" name="city" disabled><option value="0">==市==</option></select>
+            <select id="county" name="county" disabled><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="area" type="text" style="visibility:hidden;width:0;" value="{$orderInfo['province']},{$orderInfo['city']},{$orderInfo['county']}" alt="请选择完整地区信息！"><label></label></td></tr>
+        <tr><th><b class="red">*</b>收货地址：</th><td colspan=3>{$orderInfo['addr']}</td></tr>
     </table>
-    {/query}
 
 </div>
 
 <script type="text/javascript">
-    $("#areas").Linkage({ url:"{url:/ajax/area_data}",selected:[{$item['province']},{$item['city']},{$item['county']}],callback:function(data){
+    $("#areas").Linkage({ url:"{url:/ajax/area_data}",selected:[{$orderInfo['province']},{$orderInfo['city']},{$orderInfo['county']}],callback:function(data){
         var text = new Array();
         var value = new Array();
         for(i in data[0]){

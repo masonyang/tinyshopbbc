@@ -20,8 +20,8 @@
             <form action="{url:/simple/reg_act}" method="post" class="ng-pristine ng-invalid ng-invalid-required ng-valid-email">
                 <ul class="fm-list">
                     <li>
-                        <div class="field-tt">电子邮箱：</div>
-                        <input type="text" class="field-ipt ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" placeholder="请填写常用的邮箱" id="email" name="email"><label id="emailerror" style="color: red;"></label>
+                        <div class="field-tt">手机号：</div>
+                        <input type="text" class="field-ipt ng-pristine ng-untouched ng-valid-email ng-invalid ng-invalid-required" placeholder="请填写常用的手机号" id="mobile" name="mobile"><label id="mobileerror" style="color: red;"></label>
                     </li>
                     <li>
                         <div class="field-tt">设置密码：</div>
@@ -48,12 +48,12 @@
 
 </article>
 <script>
-    $("input[name='email']").on("change",function(event){
-        $("input[name='email']").on("change",function(event){
-            $.post("{url:/ajax/email/email/}"+$(this).val(),function(data){
+    $("input[name='mobile']").on("change",function(event){
+        $("input[name='mobile']").on("change",function(event){
+            $.post("{url:/ajax/mobile/mobile/}"+$(this).val(),function(data){
                 var msg = '合法用户';
                 if(data['status']) msg = '用户不存在';
-                $('#emailerror').html(msg);
+                $('#mobileerror').html(msg);
             },'json');
         });
     })

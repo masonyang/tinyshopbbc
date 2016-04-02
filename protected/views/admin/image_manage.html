@@ -1,0 +1,37 @@
+    <h2>图片管理</h2>
+    {echo:JS::import('jquery')}
+    {echo:JS::import('form')}
+    {echo:JS::import('dialog?skin=brief');}
+    {echo:JS::import('dialogtools');}
+<div style="width:100%;" class="tab">
+    {set:$type=Req::args('type')==null?0:intval(Req::args('type'));}
+    <div class="tab-body form2">
+        <div>
+            <ul class="gallery clearfix">
+                {query:name=gallery id=$obj page=1 where=type eq $type}
+                <li>
+                    <img height="100" width="100" src="{url:@$item[img]}" data-src="{$item['img']}">
+                    <a class="icon-close" href="javascript:;" val="{$item['id']}" onclick="delImg(this)"></a>
+                </li>
+                {/query}
+            </ul>
+            <div class="page_nav">
+                {echo:$obj->pageBar()}
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    //删除添加的图片
+    function delImg(id){
+        $.post("{url:/admin/image_del}", {id: $(id).attr('val')},function(data){
+            window.location.reload();
+        },"json");
+    }
+</script>
+    <style>
+        ul.gallery{
+            width: 980px;
+        }
+    </style>

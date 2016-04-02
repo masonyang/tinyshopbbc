@@ -16,18 +16,10 @@
         <th style="width:70px">联系方式 </th>
 		<th style="width:70px">网店地址 </th>
         <th style="width:70px">预存款</th>
-        <th style="width:70px">会员总数</th>
-        <th style="width:80px">订单总数</th>
-        <th style="width:80px">已授权分类</th>
+        <!--<th style="width:70px">会员总数</th>-->
+        <!--<th style="width:80px">订单总数</th>-->
+        <!--<th style="width:80px">已授权分类</th>-->
     </tr>
-		{query:name=goods_category order=path/}
-		{set:$goods_category=Common::treeArray($items)}
-		{list:items=$goods_category}
-		{if:!isset($path) || strpos($item['path'],$path)===false}
-		{set:$num = count(explode(',',$item['path']))-3;}
-			{set:$categorys[$item['id']] = $item['name'];}
-		{/if}
-		{/list}
 
     {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids where=$where id=$obj page=1 order= distributor_id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['distributor_id']}"></td>
@@ -41,14 +33,8 @@
 			<td style="width:70px">{$item['mobile']}</td>
 			<td style="width:70px">{$item['site_url']}{$domain}</td>
 			<td style="width:70px">{$item['deposit']}</td>
-			<td style="width:80px">{$item['member_count']}</td>
-			<td style="width:50px">{$item['order_count']}</td>
-			<td style="width:50px">
-				{set:$_catids = explode(',',$item['catids']);}
-				{list:items=$_catids}
-					{$categorys[$_catids[$key]]},
-				{/list}
-			</td>
+			<!--<td style="width:80px">{$item['member_count']}</td>-->
+			<!--<td style="width:50px">{$item['order_count']}</td>-->
 		</tr>
     {/query}
 </table>

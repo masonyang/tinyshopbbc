@@ -22,6 +22,7 @@ class Config
 
 		$md5file = md5($file);
 		self::$fileName = APP_CODE_ROOT.'config/'.$file.'.php';
+
 		self::$system = require(self::$fileName);
 		if(!is_array(self::$system)) self::$system = array();
 		self::$obj[$md5file] = new self();

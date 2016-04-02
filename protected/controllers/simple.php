@@ -37,7 +37,7 @@ class SimpleController extends Controller{
     public function reg_act(){
 
         if($this->getModule()->checkToken('reg')){
-            $email = Filter::sql(Req::post('email'));
+            $mobile = Filter::sql(Req::post('mobile'));
             $passWord = Req::post('password');
             $rePassWord = Req::post('repassword');
             $this->safebox = Safebox::getInstance();
@@ -48,7 +48,6 @@ class SimpleController extends Controller{
                 $sms = SMS::getInstance();
                 if($sms->getStatus()) $smsCheck = true;
             }
-            $mobile = '';
             $checkFlag = false;
             if($smsCheck){
                 $mobile_code = Req::args('mobile_code');
@@ -64,58 +63,60 @@ class SimpleController extends Controller{
                 $info = array('field'=>'verifyCode','msg'=>'验证码错误!');
             }
             if($checkFlag){
-                if(!Validator::email($email)){
-                    $info = array('field'=>'email','msg'=>'邮箱不能为空！');
+                if(!Validator::mobi($mobile)){
+                    $info = array('field'=>'mobile','msg'=>'手机号不能为空！');
                 }elseif(strlen($passWord)<6){
                     $info = array('field'=>'password','msg'=>'密码长度必需大于6位！');
                 }else{
                     if($passWord == $rePassWord){
-                        $model = $this->model->table("user");
-                        $obj = $model->where("email='$email'")->find();
+                        $model = $this->model->table("customer");
+                        $obj = $model->where("mobile='$mobile'")->find();
                         if($obj==null){
                             $config = Config::getInstance();
                             $config_other = $config->get("other");
                             $user_status = 1;
-                            if(isset($config_other['other_verification_eamil']) && $config_other['other_verification_eamil'] ==1){
-                                $user_status = 0;
-
-                            }
+//                            if(isset($config_other['other_verification_eamil']) && $config_other['other_verification_eamil'] ==1){
+//                                $user_status = 0;
+//
+//                            }
                             $validcode = CHash::random(8);
 
-                            $last_id = $model->data(array('email'=>$email,'name'=>$email,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status))->insert();
+                            $last_id = $model->data(array('name'=>$mobile,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status))->insert();
                             $time = date('Y-m-d H:i:s');
                                 $model->table("customer")->data(array('user_id'=>$last_id ,'reg_time'=>$time,'login_time'=>$time,'mobile'=>$mobile))->insert();
                             if($user_status==1){
                                 //记录登录信息
-                                $obj = $model->table("user as us")->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("us.email='$email'")->find();
+                                $obj = $model->table("user as us")->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$mobile'")->find();
                                 $this->safebox->set('user',$obj,1800);
                             }else{
-                                $email_code = Crypt::encode($email);
-                                $valid_code = md5($validcode);
-                                $str_code = urlencode($valid_code.$email_code);
-                                $activation_url = Url::fullUrlFormat("/simple/activation_user/code/$str_code");
-                                $msg_content = '';
-                                $site_url = Url::fullUrlFormat('/');
-                                $msg_title = '账户激活--'.$this->site_name;
-
-                                $msg_template_model = new Model("msg_template");
-                                $msg_template = $msg_template_model->where('id=4')->find();
-                                if($msg_template){
-                                    $msg_content = str_replace(array('{$site_name}','{$activation_url}','{$site_url}','{$current_time}'), array($this->site_name,$activation_url,$site_url,date('Y-m-d H:i:s')), $msg_template['content']);
-                                    $msg_title = $msg_template['title'];
-                                    $mail = new Mail();
-                                    $flag = $mail->send_email($email,$msg_title,$msg_content);
-                                    if(!$flag){
-                                        $this->redirect("/index/msg",true,array('type'=>"fail","msg"=>'邮件发送失败',"content"=>"后台还没有成功配制邮件信息!"));
-                                    }
-                                }
+//                                $mobile_code = Crypt::encode($mobile);
+//                                $valid_code = md5($validcode);
+//                                $str_code = urlencode($valid_code.$mobile_code);
+//                                $activation_url = Url::fullUrlFormat("/simple/activation_user/code/$str_code");
+//                                $msg_content = '';
+//                                $site_url = Url::fullUrlFormat('/');
+//                                $msg_title = '账户激活--'.$this->site_name;
+//
+//                                $msg_template_model = new Model("msg_template");
+//                                $msg_template = $msg_template_model->where('id=4')->find();
+//                                if($msg_template){
+//                                    $msg_content = str_replace(array('{$site_name}','{$activation_url}','{$site_url}','{$current_time}'), array($this->site_name,$activation_url,$site_url,date('Y-m-d H:i:s')), $msg_template['content']);
+//                                    $msg_title = $msg_template['title'];
+//                                    $mail = new Mail();
+//                                    $flag = $mail->send_email($email,$msg_title,$msg_content);
+//                                    if(!$flag){
+//                                        $this->redirect("/index/msg",true,array('type'=>"fail","msg"=>'邮件发送失败',"content"=>"后台还没有成功配制邮件信息!"));
+//                                    }
+//                                }
                             }
-                            $mail_host = 'http://mail.'.preg_replace('/.+@/i', '', $email);
-                            $args = array("user_status"=>$user_status,"mail_host"=>$mail_host,'user_name'=>$email);
+
 
                             if(ControllerExt::$isMobile){
                                 $this->redirect("ucenter/index",false,array());
                             }else{
+                                $email = '';
+                                $mail_host = 'http://mail.'.preg_replace('/.+@/i', '', $email);
+                                $args = array("user_status"=>$user_status,"mail_host"=>$mail_host,'user_name'=>$email);
                                 $this->redirect("reg_result",true,$args);
                             }
                         }
@@ -181,12 +182,12 @@ class SimpleController extends Controller{
     public function login_act(){
         $redirectURL = Req::args("redirectURL");
         $this->assign("redirectURL",$redirectURL);
-        $email = Filter::sql(Req::post('email'));
+        $mobile = Filter::sql(Req::post('mobile'));
         $passWord = Req::post('password');
         $autologin = Req::args("autologin");
         if($autologin==null)$autologin = 0;
         $model = $this->model->table("user as us");
-        $obj = $model->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("us.email='$email'")->find();
+        $obj = $model->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$$mobile'")->find();
         if($obj){
             if($obj['status']==1){
                 if($obj['password'] == CHash::md5($passWord,$obj['validcode'])){
@@ -195,7 +196,7 @@ class SimpleController extends Controller{
                     if($autologin==1) {
                         $this->safebox->set('user',$obj,$this->cookie_time);
 
-                        $cookie->set('autologin',array('email'=>$email,'password'=>$obj['password']),$this->cookie_time);
+                        $cookie->set('autologin',array('mobile'=>$mobile,'password'=>$obj['password']),$this->cookie_time);
                     }
                     else {
                         $cookie->set('autologin',null,0);
@@ -212,13 +213,13 @@ class SimpleController extends Controller{
                     $info = array('field'=>'password','msg'=>'密码错误！');
                 }
             }else if($obj['status']==2){
-                $info = array('field'=>'email','msg'=>'账号已经锁定，请联系管理人员！');
+                $info = array('field'=>'mobile','msg'=>'账号已经锁定，请联系管理人员！');
             }else{
-                $info = array('field'=>'email','msg'=>'账号还未激活，无法登录！');
+                $info = array('field'=>'mobile','msg'=>'账号还未激活，无法登录！');
             }
 
         }else{
-            $info = array('field'=>'email','msg'=>'账号不存在！');
+            $info = array('field'=>'mobile','msg'=>'账号不存在！');
         }
         $this->assign("invalid",$info);
         $this->redirect("login",false,Req::args());

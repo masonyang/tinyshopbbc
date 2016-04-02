@@ -18,7 +18,7 @@
         <th>手机</th>
         <th width="60">是否默认 </th>
     </tr>
-    {query:name=ship domain=$domain id=$obj page=1 desc }
+    {query:name=ship id=$obj page=1 desc }
         <tr><td width="30"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td width="70" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                         <li><a href="{url:/order/ship_edit/id/$item[id]}"> 编辑</a></li>

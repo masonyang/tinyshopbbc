@@ -328,6 +328,18 @@ class OrderController extends Controller
 		$model = new Model("order",$this->domain);
 		$order = $model->where("id=$id")->find();
 		if($order){
+
+            $expressModel = new Model('express');
+            $ex = $expressModel->fields('name as exname')->where('express_company_id='.$order['express'])->find();
+
+            $order['exname'] = $ex['exname'];
+
+            $paymentModel = new Model('payment');
+            $py = $paymentModel->fields('pay_name as payname')->where('id='.$order['payment'])->find();
+            $order['payname'] = $py['payname'];
+
+            $this->assign("orderInfo",$order);
+
 			$this->assign("id",$id);
 			$this->redirect();
 
@@ -540,7 +552,7 @@ class OrderController extends Controller
 			$template = $model->table("express_template")->where($template_where)->find();
 			$ship = $model->table("ship")->where($ship_where)->find();
 
-            $orderModel = new MOdel('order',$this->domain);
+            $orderModel = new Model('order',$this->domain);
 			$order = $orderModel->where("id=$id")->find();
 
 			$order_product = $orderModel->where("order_id = $id")->findAll();
@@ -559,7 +571,8 @@ class OrderController extends Controller
 				$site = $config->get('globals');
 				$area_ids = array( $ship['province'], $ship['city'], $ship['county'],$order['province'], $order['city'], $order['county']);
 				$area_ids = implode(",", $area_ids);
-				$items = $model->table("area")->where("id in ($area_ids)")->findAll();
+                $areaModel = new Model("area");
+				$items = $areaModel->where("id in ($area_ids)")->findAll();
 				$areas = array();
 				foreach ($items as $item) {
 					$areas[$item['id']] = $item['name'];

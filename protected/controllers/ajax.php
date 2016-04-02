@@ -96,6 +96,16 @@ class AjaxController extends Controller
 		if(!$obj) $info = array('status'=>true,'msg'=>'');
 		echo JSON::encode($info);
 	}
+
+    public function mobile(){
+        $mobile = Filter::sql(Req::args('mobile'));
+        $info = array('status'=>false,'msg'=>'此手机号已经注册');
+        $model = new Model('customer');
+        $obj = $model->where("mobile='$mobile'")->find();
+        if(!$obj) $info = array('status'=>true,'msg'=>'');
+        echo JSON::encode($info);
+    }
+
 	public function verifyCode(){
 		$info = array('status'=>false,'msg'=>'验证码错误！');
 		$this->safebox = Safebox::getInstance();
