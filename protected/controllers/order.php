@@ -337,7 +337,7 @@ class OrderController extends Controller
         $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$fxmanager['deposit'].'元';
         Log::rechange($data,$distrInfo['site_url']);
 
-        Log::orderlog($order_id,'操作人:'.$manager['name'],'订单已完成发货','订单已发货','success',$order_info['site_url']);
+        Log::orderlog($order_info['outer_id'],'操作人:'.$manager['name'],'订单已完成发货','订单已发货','success',$order_info['site_url']);
 
         $orderInvoiceModel = new Model('order_invoice');
         $oi = array();

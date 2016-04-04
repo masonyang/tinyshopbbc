@@ -62,7 +62,7 @@
       <file leaf-file-name="order.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="337" column="38" selection-start="13607" selection-end="13617" vertical-scroll-proportion="0.6293578" vertical-offset="4712" max-vertical-offset="12435">
+            <state line="343" column="37" selection-start="13864" selection-end="13875" vertical-scroll-proportion="0.33211008" vertical-offset="4964" max-vertical-offset="12435">
               <folding />
             </state>
           </provider>
@@ -757,7 +757,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="337" column="38" selection-start="13607" selection-end="13617" vertical-scroll-proportion="0.6293578" vertical-offset="4712" max-vertical-offset="12435">
+        <state line="343" column="37" selection-start="13864" selection-end="13875" vertical-scroll-proportion="0.33211008" vertical-offset="4964" max-vertical-offset="12435">
           <folding />
         </state>
       </provider>
