@@ -251,10 +251,13 @@
                 规格：
             </td>
             <td>
-                <button class="button " type="button" id="open_spec">
+                {if: $domain == 'zd'}
+                <button class="button " type="button" id="open_spec" >
                     <b class="icon-plus green"></b>
                     开启规格
                 </button>
+                {/if}
+                &nbsp;&nbsp;
             </td>
         </tr>
     </table>
@@ -268,11 +271,15 @@
         $("#goods_list input").attr("disabled","disabled");
     </script>
     {set: $specs = unserialize($specs); $spec_ids='';}
-    <div style="margin:10px 0;"><button onclick="edit_spec()" type="button" class="button"><b class=" icon-pencil-2 green"></b> 编辑规格</button> <button id="close_spec_button" type="button" onclick="close_spec()" class="button"><b class="icon-close red"></b> 关闭规格</button></div><table class="default" style="width:auto"><tbody><tr><th>商品货号</th>{list:items=$specs}<th>{$item['name']}{set:$spec_ids .= $item['id'].','}</th>{/list}<th><input name="spec_items" type="hidden" value="{echo:rtrim($spec_ids,",")}">库存</th><th>预警线</th><th>零售价</th><th>批发价</th><th>重量(g)</th><th>操作</th></tr>
+    <div style="margin:10px 0;">
+
+        <button onclick="edit_spec()" type="button" class="button" {if: $domain != 'zd'} disabled {/if} ><b class=" icon-pencil-2 green"></b> 编辑规格</button> <button id="close_spec_button" type="button" onclick="close_spec()" class="button" {if: $domain != 'zd'} disabled {/if} ><b class="icon-close red"></b> 关闭规格</button></div>
+
+        <table class="default" style="width:auto"><tbody><tr><th>商品货号</th>{list:items=$specs}<th>{$item['name']}{set:$spec_ids .= $item['id'].','}</th>{/list}<th><input name="spec_items" type="hidden" value="{echo:rtrim($spec_ids,",")}">库存</th><th>预警线</th><th>零售价</th>{if: $domain != 'zd'} <th>自定义销售价</th> {/if}<th>批发价</th><th>重量(g)</th><th>操作</th></tr>
 {set:$products_info=array();}
 {query:name=products where=goods_id eq $id order=id}
 {set:$spec = unserialize($item['spec']);$spec_str = '';}
-<tr class="min_inputs"><td><input type="text" pattern="required" name="pro_no[]" value="{$item['pro_no']}" style="width:160px"></td>{list:items=$spec item=$spc}<td>{$spc['value'][2]}{set:$spec_str .= implode(":",$spc['value']).","}</td>{/list}<td>{set:$spec_item_key = trim($spec_str,',');$products_info[$spec_item_key]=array('store_nums'=>$item['store_nums'],'warning_line'=>$item['warning_line'],'sell_price'=>$item['sell_price'],'market_price'=>$item['market_price'],'cost_price'=>$item['cost_price'],'trade_price'=>$item['trade_price'],'weight'=>$item['weight']);}<input name="spec_item[]" type="hidden" value="{echo:trim($spec_str,',')}"><input type="text" pattern="int" class="small" name="store_nums[]" value="{$item['store_nums']}"></td><td><input pattern="int" class="small" type="text" name="warning_line[]" value="{$item['warning_line']}"></td><td><input class="small" pattern="float" type="text" name="sell_price[]" value="{$item['sell_price']}"></td><td><input class="small" pattern="float" type="text" name="trade_price[]" value="{$item['trade_price']}"></td><input class="small" type="hidden" name="market_price[]" value="{$item['market_price']}"><input class="small" type="hidden" name="cost_price[]" value="{$item['cost_price']}"><td><input class="small" pattern="int" type="text" name="weight[]" value="{$item['weight']}"></td><td><a href="javascript:;" class="icon-close" onclick="spec_del(this)"></a></td></tr>
+<tr class="min_inputs"><td><input type="text" pattern="required" {if: $domain != 'zd'} disabled {/if} name="pro_no[]" value="{$item['pro_no']}" style="width:160px"></td>{list:items=$spec item=$spc}<td>{$spc['value'][2]}{set:$spec_str .= implode(":",$spc['value']).","}</td>{/list}<td>{set:$spec_item_key = trim($spec_str,',');$products_info[$spec_item_key]=array('store_nums'=>$item['store_nums'],'warning_line'=>$item['warning_line'],'sell_price'=>$item['sell_price'],'market_price'=>$item['market_price'],'cost_price'=>$item['cost_price'],'trade_price'=>$item['trade_price'],'weight'=>$item['weight']);}<input name="spec_item[]" type="hidden" value="{echo:trim($spec_str,',')}"><input type="text" pattern="int" class="small" {if: $domain != 'zd'} disabled {/if} name="store_nums[]" value="{$item['store_nums']}"></td><td><input pattern="int" class="small" type="text" {if: $domain != 'zd'} disabled {/if} name="warning_line[]" value="{$item['warning_line']}"></td><td><input class="small" pattern="float" type="text" name="sell_price[]" {if: $domain != 'zd'} disabled {/if} value="{$item['sell_price']}"></td>{if: $domain != 'zd'} <td><input class="small" pattern="float" type="text" name="branchstore_sell_price[]" value="{$item['branchstore_sell_price']}"></td> {/if}<td><input class="small" pattern="float" type="text" {if: $domain != 'zd'} disabled {/if} name="trade_price[]" value="{$item['trade_price']}"></td><input class="small" type="hidden" name="market_price[]" value="{$item['market_price']}"><input class="small" type="hidden" name="cost_price[]" value="{$item['cost_price']}"><td><input class="small" pattern="int" type="text" name="weight[]" {if: $domain != 'zd'} disabled {/if} value="{$item['weight']}"></td><td>{if: $domain == 'zd'} <a href="javascript:;" class="icon-close" onclick="spec_del(this)"></a>{else:} &nbsp;&nbsp; {/if}</td></tr>
 {/query}
 </tbody></table>
     {/if}
@@ -642,4 +649,34 @@ var products_info = new Array();
 
     }
     bindEvent();
+
+    if($("input[name='branchstore_sell_price']")){
+        $("input[name='branchstore_sell_price']").change(function(){
+            var bsell_price = $(this).val();
+            var other_tradeprice_rate = "{$other_tradeprice_rate}";
+            var trade_price = $("input[name='trade_price']").val();
+            var suggest_price = trade_price * (other_tradeprice_rate/100);
+            if(suggest_price < bsell_price){
+                alert('自定义销售价不能低于批发价的'+other_tradeprice_rate+'%');
+                return false;
+            }
+        });
+    }
+
+    if($("input[name='branchstore_sell_price[]']")){
+        $("input[name='branchstore_sell_price[]']").each(function(){
+            $(this).change(function(){
+                var bsell_price = $(this).val();
+                var other_tradeprice_rate = "{$other_tradeprice_rate}";
+                var trade_price = $("input[name='trade_price']").val();
+                var suggest_price = trade_price * (other_tradeprice_rate/100);
+                if(suggest_price < bsell_price){
+                    alert('自定义销售价不能低于批发价的'+other_tradeprice_rate+'%');
+                    return false;
+                }
+            });
+
+        });
+    }
+
 </script>

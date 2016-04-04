@@ -53,8 +53,22 @@
                                   $('#scanner_number').attr('disabled','disabled');
                                   $('#docheckauth').css('display','block');
                                   $('#docheckauth').html(tl['msg']);
+
+                                  var inputOrderId = '请输入订单号：';
+                                  if(tl['scanner_type'] == 'wait_logistics'){
+                                      var inputOrderId = '请输入物流单号：';
+                                  }
+
+                                  $('#inputOrderId').html(inputOrderId);
+
                                   if(tl['mutiScanner'] == 'true'){
                                       $('#checkscannordersMuti').css('display','block');
+                                      if(tl['orderNums'] == '40'){
+                                          $('#checkscannordersMuti-40').css('display','block');
+                                      }else{
+                                          $('#checkscannordersMuti-20').css('display','block');
+                                      }
+                                      //$('#checkscannordersMuti').css('display','block');
                                   }else{
                                       $('#checkscannordersSingle').css('display','block');
                                   }
@@ -82,6 +96,7 @@
         <dl class="lineD">
             <dt>请输入订单号：</dt>
             <dd>
+                <span id="checkscannordersMuti-20" style="display:none;">
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" pattern="required" value="" alt="订单号（必填）">
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
@@ -105,6 +120,57 @@
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
                 <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                </span>
+                <span id="checkscannordersMuti-40" style="display:none;">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" pattern="required" value="" alt="订单号（必填）">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px">
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+                <input type="text" class="orderMuti" name="order_id[]" style="width:120px" >
+
+                </span>
                 <span id="error-order" style="color:red;"></span>
             </dd>
         </dl>
@@ -115,7 +181,7 @@
 
     <div id="checkscannordersSingle" style="display:none;">
         <dl class="lineD">
-            <dt>请输入订单号：</dt>
+            <dt id="inputOrderId">请输入订单号：</dt>
             <dd>
                 <input type="text" name="order_id" id="order_id" style="width:120px" pattern="required" value="" alt="订单号（必填）" >
                 <span id="error-order-single" style="color:red;"></span>

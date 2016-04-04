@@ -31,6 +31,18 @@ class Log
 
     }
 
-
+    public static function orderlog($order_id,$user,$note,$action,$result,$domain)
+    {
+        $logdata = array(
+            'order_id'=>$order_id,
+            'user'=>$user,
+            'note'=>$note,
+            'addtime'=>date('Y-m-d H:i:s'),
+            'action'=>$action,
+            'result'=>$result,
+        );
+        $orderLogModel = new Model('order_log',$domain,'master');
+        $orderLogModel->data($logdata)->add();
+    }
 }
 ?>

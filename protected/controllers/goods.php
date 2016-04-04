@@ -11,6 +11,8 @@ class GoodsController extends Controller
 	private $top = null;
 	public $needRightActions = array('*'=>true);
 	private $manager;
+    private $other_tradeprice_rate = 0;
+
 	public function init()
 	{
 
@@ -33,6 +35,11 @@ class GoodsController extends Controller
 
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
+
+        $config = Config::getInstance()->get("other");
+
+        $this->other_tradeprice_rate = $config['other_tradeprice_rate'] ? $config['other_tradeprice_rate'] : 0;
+        $this->assign("other_tradeprice_rate",$this->other_tradeprice_rate);
 	}
 	public function noRight()
 	{
@@ -579,7 +586,13 @@ class GoodsController extends Controller
 			$result = $products->where("goods_id = ".$goods_id." and specs_key = '$key'")->find();
 
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'trade_price'=>$trade_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
-			$data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+            $suggest_price = $trade_price[$k] * ($this->other_tradeprice_rate/100);
+            if($suggest_price >= $branchstore_sell_price[$k]){
+                $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+            }else{
+                $data['branchstore_sell_price'] = $trade_price[$k];
+            }
+
             $g_store_nums += $data['store_nums'];
 			if($g_warning_line==0) $g_warning_line = $data['warning_line'];
 			else if($g_warning_line>$data['warning_line']) $g_warning_line = $data['warning_line'];
@@ -612,7 +625,14 @@ class GoodsController extends Controller
 			$g_cost_price = $cost_price;
             $g_branchstore_sell_price = $branchstore_sell_price;
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
-			$data['branchstore_sell_price'] = $g_branchstore_sell_price;
+
+            $suggest_price = $g_trade_price * ($this->other_tradeprice_rate/100);
+            if($suggest_price >= $g_branchstore_sell_price){
+                $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+            }else{
+                $data['branchstore_sell_price'] = $g_trade_price;
+            }
+
             $result = $products->where("goods_id = ".$goods_id)->find();
 			if(!$result){
 				$products->data($data)->insert();

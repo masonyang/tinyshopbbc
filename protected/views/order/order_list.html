@@ -1,16 +1,26 @@
 {echo:JS::import('dialog?skin=brief');}
 {echo:JS::import('dialogtools');}
 <form action="" method="post">
-    <div class="tools_bar clearfix">
+    <div class="tools_bar clearfix" style="height: auto;">
         <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
         <!--<a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/order/order_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>-->
         <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
         <!--<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>-->
         <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
-        <a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>
-        <a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>
-
+        <!--<a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>-->
+        <!--<a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>-->
         <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+        {if: $local_domain == 'zd'}
+        <div class="tools_bar clearfix" style="height: auto;">
+            <a href="{url:/order/order_list/status/1}"> 未审核</a>
+            <a href="{url:/order/order_list/status/2}"> 未支付</a>
+            <a href="{url:/order/order_list/status/3}"> 已支付</a>
+            <a href="{url:/order/order_list/status/4}"> 已发货</a>
+            <a href="{url:/order/order_list/status/5}"> 已取消</a>
+            <a href="{url:/order/order_list/status/6}"> 已完成</a>
+        </div>
+        {/if}
+
     </div>
     <table class="default" >
         <tr>
@@ -26,8 +36,11 @@
             <th style="width:50px">配送状态</th>
             <th style="width:50px">订单状态</th>
             <th style="width: 60px">打印</th>
+            {if: $local_domain == 'zd'}
+                <th style="width: 60px">分销商店铺</th>
+            {/if}
         </tr>
-        {query:name=order as od domain=$domain fields=od.*,us.name as uname,us.status as ustatus join= left join user as us on od.user_id eq us.id where=$where id=$obj page=1 order= id desc }
+        {query:name=order fields=* where=$where id=$obj page=1 order= $orderby }
         <tr><td style="width:50px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['id']})"> 查看</a></li>
@@ -64,7 +77,11 @@
                         </ul>
                     </div>
                 </div>
-            </td></tr>
+            </td>
+            {if: $local_domain == 'zd'}
+                <td style="width: 60px">{$item['site_url']}.qqcapp.com</td>
+            {/if}
+        </tr>
         {/query}
     </table>
 </form>
@@ -166,3 +183,18 @@
         $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/order/order_list}',method:'get'});},data:{order_no:{name:'订单编号'},type:{name:'订单类型',values:{0:'普通订单',1:'团购订单',2:'限时抢购',3:'捆绑促销'}},pay_status:{name:'支付状态',values:{0:'未付款', 1:'已付款', 2:'申请退款', 3:'已退款'}},delivery_status:{name:'发货状态',values:{0:'未发货',1:'已发货', 2:'已签收', 3:'申请换货', 4:'已换货'}},'od.status':{name:'订单状态',values:{2:'等待审核',3:'已审核',4:'完成',5:'取消',6:'废除'}},payment:{name:'支付方式',values:{{$payment}}}}});
     })
 </script>
+
+<style>
+    /*.tools_bar{*/
+        /*background: #efefef none repeat scroll 0 0;*/
+        /*border-color: #cdcdcd #aaa #aaa #cdcdcd;*/
+        /*border-style: solid;*/
+        /*border-width: 1px;*/
+        /*font-size: 0;*/
+        /*letter-spacing: -4px;*/
+        /*line-height: 32px;*/
+        /*margin-bottom: 5px;*/
+        /*overflow: hidden;*/
+        /*position: relative;*/
+    /*}*/
+</style>

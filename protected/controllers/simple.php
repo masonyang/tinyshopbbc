@@ -187,7 +187,8 @@ class SimpleController extends Controller{
         $autologin = Req::args("autologin");
         if($autologin==null)$autologin = 0;
         $model = $this->model->table("user as us");
-        $obj = $model->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$$mobile'")->find();
+        $obj = $model->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$mobile'")->find();
+
         if($obj){
             if($obj['status']==1){
                 if($obj['password'] == CHash::md5($passWord,$obj['validcode'])){
@@ -729,6 +730,7 @@ class SimpleController extends Controller{
                     }
                     exit;
                 }
+
                 //地址信息
                 $address_model = new Model('address');
                 $address = $address_model->where("id=$address_id and user_id=".$this->user['id'])->find();
@@ -928,9 +930,18 @@ class SimpleController extends Controller{
 
                     //写入订单数据
                     $order_id = $model->table("order")->data($data)->insert();
+
+                    $orderInfo = $data;
+                    $orderInfo['outer_id'] = $order_id;
+
+                    $serverName = Tiny::getServerName();
+
+                    $orderInfo['uname'] = $this->user['name'];
+                    $orderInfo['site_url'] = $serverName['top'];
+
                     //写入订单商品
                     $tem_data = array();
-
+                    $orderItems = array();
                     foreach ($order_products as $item) {
                         $tem_data['order_id'] = $order_id;
                         $tem_data['goods_id'] = $item['goods_id'];
@@ -943,7 +954,15 @@ class SimpleController extends Controller{
                         $tem_data['prom_goods'] = serialize($item['prom_goods']);
                         $tem_data['spec'] = serialize($item['spec']);
                         $model->table("order_goods")->data($tem_data)->insert();
+                        $orderItems[] = $tem_data;
                     }
+
+                    Log::orderlog($order_id,'会员:'.$this->user['name'],'创建订单','创建订单','success',$serverName['top']);
+
+                    //推送新建订单到总店后台
+                    $OrderNoticeService = new OrderNoticeService();
+                    $OrderNoticeService->sendCreateOrder($orderInfo,$orderItems);
+
                     //发送提醒
                     $NoticeService = new NoticeService();
                     $data['user'] = $this->user['name'];

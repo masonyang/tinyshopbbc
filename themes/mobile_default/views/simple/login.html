@@ -16,6 +16,7 @@
     </div>
     <div id="wrap">
         <div>
+
             <form id="login-form" class="ng-pristine ng-invalid ng-invalid-required" action="{url:/simple/login_act}" method="post">
                 <input type="hidden" name="redirectURL" value="{$redirectURL|$this->perPage()}">
                 <ul class="fm-list">
@@ -33,6 +34,7 @@
                     <a href="#/account/initpassword">未设置过登录密码的老会员，请点击设置</a>
                     -->
                 </div>
+                <div style="color: red; text-align: center; font-size: 16px;">{$invalid['msg']}</div>
                 <input class="btn-com space" type="submit" value="登录">
                 <!--
                 <div id="forget-password" class="conv-entry align-r">

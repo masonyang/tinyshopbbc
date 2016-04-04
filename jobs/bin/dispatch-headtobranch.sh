@@ -11,13 +11,13 @@ fi
 LIMIT=10
 
 # 分配器 总店数据同步到分店脚本
-PHP="/usr/bin/php"
+PHP="/usr/local/Cellar/php54/5.4.45_3/bin/php"
 
-LAUNCHER="/var/www/html/qqc/jobs/job.php"
+LAUNCHER="/Users/yangminsheng/masonInHome/tinyshop/jobs/job.php"
 
-DISPATCHHB="/var/www/html/qqc/data/log/dispatch-headtobranch.log"
+DISPATCHHB="/Users/yangminsheng/masonInHome/tinyshop/data/log/dispatch-headtobranch.log"
 
-WORKINFO="/var/www/html/qqc/data/log/headtobranch/dispatch-headtobranch-disId.log"
+WORKINFO="/Users/yangminsheng/masonInHome/tinyshop/data/log/headtobranch/dispatch-headtobranch-disId.log"
 
 $PHP $LAUNCHER dispatchJob --syncdirect=headtobranch --logfile=$DISPATCHHB --limit=$LIMIT
 

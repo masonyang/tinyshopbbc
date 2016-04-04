@@ -546,6 +546,11 @@ class UcenterController extends Controller
         $id = Filter::int(Req::args("id"));
         $info = array('status'=>'fail');
         $result = $this->model->table('order')->where("id=$id and user_id=".$this->user['id']." and status=3 and pay_status=1 and delivery_status=1")->data(array('delivery_status'=>2,'status'=>4,'completion_time'=>date('Y-m-d H:i:s')))->update();
+
+        $serverName = Tiny::getServerName();
+
+        Log::orderlog($id,'会员:'.$this->user['name'],'订单已签收','订单已签收','success',$serverName['top']);
+
         if($result){
             $info = array('status'=>'success');
             //提取购买商品信息

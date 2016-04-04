@@ -651,8 +651,10 @@ CREATE TABLE `tiny_order` (
   `trading_info` varchar(255) DEFAULT NULL,
   `is_del` tinyint(1) DEFAULT '0' ,
   `distributor_id` bigint(20) NOT NULL COMMENT '分销商id',
+  `site_url` varchar(255) NOT NULL COMMENT '站点网址',
+  `outer_id` bigint(20) NOT NULL COMMENT '关联分店订单表的id',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_order_goods`;
 CREATE TABLE `tiny_order_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -668,7 +670,7 @@ CREATE TABLE `tiny_order_goods` (
   `prom_goods` text ,
   `spec` text ,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_order_log`;
 CREATE TABLE `tiny_order_log` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -680,6 +682,8 @@ CREATE TABLE `tiny_order_log` (
   `note` varchar(100) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_order_log` add INDEX order_id (order_id);
+
 DROP TABLE IF EXISTS `tiny_pay_plugin`;
 CREATE TABLE `tiny_pay_plugin` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -962,7 +966,7 @@ CREATE TABLE `tiny_orderscanner` (
   `scan_no` varchar(100) DEFAULT NULL COMMENT '扫描编号',
   `scanner_time` int(11) DEFAULT NULL COMMENT '扫描时间',
   `memo` text DEFAULT NULL COMMENT '备注',
-  `status` enum('wait_warehouse', 'wait_picking', 'wait_inspection', 'wait_delivery') DEFAULT 'wait_warehouse',
+  `status` enum('wait_warehouse', 'wait_picking', 'wait_inspection', 'wait_delivery','wait_distribution','wait_logistics') DEFAULT 'wait_warehouse',
   `disabled` enum('true', 'false') DEFAULT 'false',
   PRIMARY KEY (`scanner_order_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单扫描表';
@@ -994,3 +998,13 @@ CREATE TABLE `tiny_sync_queue` (
   `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='数据同步队列表';
+DROP TABLE IF EXISTS `tiny_order_invoice`;
+CREATE TABLE `tiny_order_invoice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `order_no` varchar(20) NOT NULL ,
+  `express_no` varchar(255) DEFAULT NULL ,
+  `site_url` varchar(255) NOT NULL COMMENT '站点网址',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单、物流单关联表';
+ALTER TABLE `tiny_order_invoice` add INDEX order_no (order_no);
+ALTER TABLE `tiny_order_invoice` add INDEX express_no (express_no);

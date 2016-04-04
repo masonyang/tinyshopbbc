@@ -84,6 +84,10 @@ class PaymentController extends Controller
                             //记录支付日志
                             Log::balance((0-$total_fee),$user_id,'通过余额支付方式进行商品购买,订单编号：'.$return['order_no']);
 
+                            $serverName = Tiny::getServerName();
+
+                            Log::orderlog($order['id'],'会员:'.$this->user['name'],'订单通过余额支付方式完成支付','订单已支付','success',$serverName['top']);
+
                             $filter_param = $pay_balance->filterParam($return);
                             $para_sort = $pay_balance->argSort($filter_param);
                             $sign = $pay_balance->buildSign($para_sort,$classConfig['partner_key']);
@@ -424,6 +428,11 @@ class PaymentController extends Controller
                     $order_id = Order::updateStatus($orderNo,$payment_id,$callbackData);
                     if($order_id)
                     {
+
+                        $serverName = Tiny::getServerName();
+
+                        Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
+
                         if(ControllerExt::$isMobile){
                             $this->redirect("/ucenter/order/status/3");
                         }else{
@@ -491,6 +500,10 @@ class PaymentController extends Controller
                 $order_id = Order::updateStatus($orderNo,$payment_id,$callbackData);
                 if($order_id)
                 {
+                    $serverName = Tiny::getServerName();
+
+                    Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
+
                     $paymentPlugin->asyncStop();
                     exit;
                 }

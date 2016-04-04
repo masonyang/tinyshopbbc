@@ -53,6 +53,7 @@ class ConfigService
     		'other_currency_unit'=>Req::args('other_currency_unit'),
     		'other_is_invoice'=>Req::args('other_is_invoice'),
     		'other_tax'=>Req::args('other_tax'),
+            'other_tradeprice_rate'=>Req::args('other_tradeprice_rate'),
     		//'other_grade_days'=>Req::args('other_grade_days'),
     		'other_order_delay'=>Req::args('other_order_delay'),
     		//'other_order_delay_flash'=>Req::args('other_order_delay_flash'),

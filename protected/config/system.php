@@ -50,5 +50,6 @@
     'other_order_delay_group' => '120',
     'other_order_delay_bund' => '0',
     'other_verification_eamil' => NULL,
+    'other_tradeprice_rate' => '0',
   ),
 );

@@ -39,6 +39,9 @@ class OrderController extends Controller
         $this->domain = $branchStore;
         $this->assign('domain',$branchStore);
 
+        $serverName = Tiny::getServerName();
+        $this->assign("local_domain",$serverName['top']);
+
 	}
 	public function noRight(){
 		$this->layout = '';
@@ -162,66 +165,117 @@ class OrderController extends Controller
 	public function doc_invoice_save(){
 		Req::post("admin",$this->manager['name']);
 		Req::post("create_time",date('Y-m-d H:i:s'));
-		Req::post("invoice_no",date('YmdHis').rand(100,999));
+
 		$order_id = Filter::int(Req::args("order_id"));
 		$express_no = Filter::str(Req::args("express_no"));
 		$express_company_id = Filter::int(Req::args('express_company_id'));
-
+        $invoice_no = date('YmdHis').rand(100,999);
+        Req::post("invoice_no",$invoice_no);
         //处理发货之前,先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货
 
         //订单所有产品的批发价之和  == 分销商预存款金额 比较
 
         //同步发货信息
-        $model = new Model("doc_invoice",$this->domain);
-        $order_info = $model->table("order")->where("id=$order_id")->find();
 
-        $orderGoodsModelObj = new Model('order_goods',$this->domain);
-        $managerObj = new Model('manager');//去分店 manager表中的数据
-        $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
+        $orderModel = new Model('order');
+        $order_info = $orderModel->where("id=$order_id")->find();
 
-        //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
-        $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
+        $paymentModel = new Model("payment as pa");
+        $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
 
-        $depost = $manager['deposit'] - $ordergoods[0]['tradeprice'];
-
-        if(($depost) <= 0){
-            echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
-            exit;
+        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
+            $is_onlinepay = true;
         }else{
-            $zdModel = new Model("distributor","zd","master");
-            $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
-            $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $ordergoods[0]['tradeprice']))->where("distributor_id=".$manager['distributor_id'])->update();
+            $is_onlinepay = false;
+        }
 
-            //同步预存款金额到分店
-            $managerObj = new Model("manager",$manager['site_url'],"master");
-            $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
-            $distrInfo['deposit'] -= $ordergoods[0]['tradeprice'];
+        if(!$is_onlinepay){
+            $orderGoodsModelObj = new Model('order_goods');
+            $managerObj = new Model('manager');//去分店 manager表中的数据
+            $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
 
-            $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
+            //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
+            $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
 
-            $manager = $this->safebox->get('manager');
-            $data['op_name'] = $manager['name'];
-            $data['op_time'] = time();
-            $data['op_id'] = $manager['id'];
-            $data['money'] = $ordergoods[0]['tradeprice'];
-            $data['action'] = 'minus';
-            $data['op_ip'] = Chips::getIP();
-            $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_bn'].'进行发货 扣除'.$ordergoods[0]['tradeprice'].'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
-            Log::rechange($data,$distrInfo['site_url']);
+            $depost = $manager['deposit'] - $ordergoods[0]['tradeprice'];
 
+            if(($depost) <= 0){
+                echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
+                exit;
+            }else{
+                $zdModel = new Model("distributor","zd","master");
+                $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
+                $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $ordergoods[0]['tradeprice']))->where("distributor_id=".$manager['distributor_id'])->update();
+
+                //同步预存款金额到分店
+                $managerObj = new Model("manager",$manager['site_url'],"master");
+                $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
+                $distrInfo['deposit'] -= $ordergoods[0]['tradeprice'];
+
+                $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
+
+                $manager = $this->safebox->get('manager');
+                $data['op_name'] = $manager['name'];
+                $data['op_time'] = time();
+                $data['op_id'] = $manager['id'];
+                $data['money'] = $ordergoods[0]['tradeprice'];
+                $data['action'] = 'minus';
+                $data['op_ip'] = Chips::getIP();
+                $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 扣除'.$ordergoods[0]['tradeprice'].'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+                Log::rechange($data,$distrInfo['site_url']);
+
+            }
         }
 
 
+        $model = new Model("doc_invoice",$order_info['site_url']);
 		$delivery_status = Req::args("delivery_status");
 		if($delivery_status==3){
-			$model->where("order_id=$order_id")->insert();
+            $data = array();
+            $data['invoice_no'] = $invoice_no;
+            $data['order_id'] = $order_info['outer_id'];
+            $data['order_no'] = $order_info['order_no'];
+            $data['admin'] = $this->manager['name'];
+            $data['create_time'] = date('Y-m-d H:i:s');
+            $data['express_no'] = $express_no;
+            $data['express_company_id'] = $express_company_id;
+            $data['remark'] = Req::post("remark");
+            $data['accept_name'] = Req::post("accept_name");
+            $data['province'] = Req::post("province");
+            $data['city'] = Req::post("city");
+            $data['county'] = Req::post("county");
+            $data['zip'] = Req::post("zip");
+            $data['addr'] = Req::post("addr");
+            $data['phone'] = Req::post("phone");
+            $data['mobile'] = Req::post("mobile");
+			$model->data($data)->insert();
 		}
 		else{
-			$obj = $model->where("order_id=$order_id")->find();
+
+            $data = array();
+
+            $data['admin'] = $this->manager['name'];
+            $data['create_time'] = date('Y-m-d H:i:s');
+            $data['express_no'] = $express_no;
+            $data['express_company_id'] = $express_company_id;
+            $data['remark'] = Req::post("remark");
+            $data['accept_name'] = Req::post("accept_name");
+            $data['province'] = Req::post("province");
+            $data['city'] = Req::post("city");
+            $data['county'] = Req::post("county");
+            $data['zip'] = Req::post("zip");
+            $data['addr'] = Req::post("addr");
+            $data['phone'] = Req::post("phone");
+            $data['mobile'] = Req::post("mobile");
+
+			$obj = $model->where("order_id=".$order_info['outer_id'])->find();
 			if($obj){
-				$model->where("order_id=$order_id")->update();
+				$model->where($data)->update();
 			}else{
-				$model->where("order_id=$order_id")->insert();
+                $data['invoice_no'] = $invoice_no;
+                $data['order_id'] = $order_info['outer_id'];
+                $data['order_no'] = $order_info['order_no'];
+				$model->where($data)->insert();
 			}
 		}
 
@@ -230,7 +284,8 @@ class OrderController extends Controller
 				$payment_id = $order_info['payment'];
 				$payment = new Payment($payment_id);
 				$payment_plugin = $payment->getPaymentPlugin();
-				$express_company = $model->table('express_company')->where('id='.$express_company_id)->find();
+                $exModel = new Model('express_company');
+				$express_company = $exModel->where('id='.$express_company_id)->find();
 				if($express_company) $express = $express_company['name'];
 				else $express = $express_company_id;
 				//处理同步发货
@@ -238,19 +293,20 @@ class OrderController extends Controller
 				if($delivery!=null && method_exists($delivery, "send")) $delivery->send($order_info['trading_info'],$express,'express_no');
 			}
 		}
-		$model->table("order")->where("id=$order_id")->data(array('delivery_status'=>1,'send_time'=>date('Y-m-d H:i:s')))->update();
+        $send_time = date('Y-m-d H:i:s');
+        $orderModel->where("id=$order_id")->data(array('delivery_status'=>1,'send_time'=>$send_time))->update();
+
+        $odModel = new Model("order",$order_info['site_url']);
+
+        $odModel->where("id=".$order_info['outer_id'])->data(array('delivery_status'=>1,'send_time'=>$send_time))->update();
 
         //处理发货之后,计算收益逻辑 并加入到预存款中，并生成一条添加预存款记录
         //todo
-        //如果没有用支付宝支付的话 是不是公式就变成了收益=订单金额-分销商批发价格
+        //如果没有用支付宝支付的话 收益=订单金额-分销商批发价格
         //分销商批发价格 = 所有产品的批发价之和
         //收益=订单金额-分销商批发价格-(订单金额*0.6%)
 
-        $paymentModel = new Model("payment as pa");
-        $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
-
-        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
-
+        if($is_onlinepay){
             $payfee = $order_info['order_amount'] * ($paymentInfo['pay_fee']/100);
 
             $income = $order_info['order_amount'] - $ordergoods[0]['tradeprice'] - $payfee;
@@ -275,8 +331,17 @@ class OrderController extends Controller
         $data['money'] = $income;
         $data['action'] = 'add';
         $data['op_ip'] = Chips::getIP();
-        $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_bn'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+        $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
         Log::rechange($data,$distrInfo['site_url']);
+
+        Log::orderlog($order_id,'操作人:'.$manager['name'],'订单已完成发货','订单已发货','success',$order_info['site_url']);
+
+        $orderInvoiceModel = new Model('order_invoice');
+        $oi = array();
+        $oi['order_no'] = $order_info['order_no'];
+        $oi['express_no'] = $express_no;
+        $oi['site_url'] = $distrInfo['site_url'];
+        $orderInvoiceModel->data($oi)->insert();
 
 		echo "<script>parent.send_dialog_close();</script>";
 	}
@@ -287,10 +352,45 @@ class OrderController extends Controller
 		if($condition_str) $this->assign("where",$condition_str);
 		else{
 			$status = Req::args("status");
-			if($status)
-				$this->assign("where","od.status=".$status);
-			else
-				$this->assign("where","1=1");
+            switch($status){
+                case '1'://待审核
+                    $where = 'status in (1,2)';
+                    $orderby = 'create_time desc';
+                break;
+                case '2'://未支付
+                    $where = 'status=3 and pay_status=0';
+                    $orderby = 'create_time desc';
+                break;
+                case '3'://已支付 未发货
+                    $where = 'pay_status=1 and delivery_status=0';
+                    $orderby = 'pay_time desc';
+                    break;
+                case '4'://已发货
+                    $where = 'status=3 and delivery_status=1';
+                    $orderby = 'send_time desc';
+                    break;
+                case '5'://已取消
+                    $where = 'status in (5,6)';
+                    $orderby = 'create_time desc';
+                    break;
+                case '6'://已完成
+                    $where = 'status=4';
+                    $orderby = 'completion_time desc';
+                    break;
+                default:
+                    $serverName = Tiny::getServerName();
+                    if($serverName['top'] == 'zd'){
+                        $where = 'status=3 and delivery_status=1';
+                        $orderby = 'send_time desc';
+                    }else{
+                        $where = '1=1';
+                        $orderby = 'id desc';
+                    }
+
+                    break;
+            }
+            $this->assign("where",$where);
+            $this->assign("orderby",$orderby);
 		}
 		$this->assign("condition",$condition);
 		$this->assign("status",array('0'=>'<span class="red">等待审核</span>','1'=>'<span class="red">等待审核</span>','2'=>'<span class="red">等待审核</span>','3'=>'已审核','4'=>'已完成','5'=>'已取消','6'=>'<span class="red"><s>已作废</s></span>'));
@@ -325,7 +425,7 @@ class OrderController extends Controller
 	{
 		$this->layout = "blank";
 		$id = Req::args("id");
-		$model = new Model("order",$this->domain);
+		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		if($order){
 
@@ -339,8 +439,12 @@ class OrderController extends Controller
             $order['payname'] = $py['payname'];
 
             $this->assign("orderInfo",$order);
-
-			$this->assign("id",$id);
+            $serverName = Tiny::getServerName();
+            if($serverName['top'] == 'zd'){
+			    $this->assign("id",$order['outer_id']);
+            }else{
+                $this->assign("id",$id);
+            }
 			$this->redirect();
 
 		}
@@ -349,7 +453,7 @@ class OrderController extends Controller
 	{
 		$this->layout = "blank";
 		$id = Req::args("id");
-		$model = new Model("order",$this->domain);
+		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		if($order){
 			if($order['status']==3){
@@ -364,7 +468,7 @@ class OrderController extends Controller
                 $order['payname'] = $py['payname'];
 
                 $this->assign("orderInfo",$order);
-                $this->assign("id",$id);
+                $this->assign("id",$order['outer_id']);
 				$this->redirect();
 			}
 		}
@@ -374,7 +478,7 @@ class OrderController extends Controller
 		$id = Filter::int(Req::args("id"));
 		$status = Req::args("status");
 		$admin_remark = Req::args("remark");
-		$model = new Model("order",$this->domain);
+		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		$flag = false;
 		$info = array();
@@ -394,11 +498,12 @@ class OrderController extends Controller
 							Order::updateStatus($order['order_no']);
 						}
 						//订单完成
-						$model_tem = new Model('order',$this->domain);
+						$model_tem = new Model('order',$order['site_url']);
+                        $model->where("id=".$order['outer_id'])->data(array('delivery_status'=>2,'status'=>4,'completion_time'=>date('Y-m-d H:i:s')))->update();
 						$model_tem->where("id=$id")->data(array('delivery_status'=>2,'status'=>4,'completion_time'=>date('Y-m-d H:i:s')))->update();
 						//允许评价
-						$model_tem = new Model('order as od',$this->domain);
-			            $products = $model_tem->join('left join order_goods as og on od.id=og.order_id')->where('od.id='.$id)->findAll();
+						$model_tem = new Model('order as od',$order['site_url']);
+			            $products = $model_tem->join('left join order_goods as og on od.id=og.order_id')->where('od.id='.$order['outer_id'])->findAll();
 			            foreach ($products as $product) {
 			                $data = array('goods_id'=>$product['goods_id'],'user_id'=>$order['user_id'],'order_no'=>$product['order_no'],'buy_time'=>$product['create_time']);
 			                $model_tem->table('review')->data($data)->insert();
@@ -408,7 +513,19 @@ class OrderController extends Controller
 				}
 				if($order['status'] == 4 && $status == 6) $flag = true;
 				if($flag){
+
+                    if($status == 6){
+                        $orderInvoiceModel = new Model('order_invoice');
+                        $orderInvoiceModel->where('order_id='.$id)->delete();
+                    }
+
 					$model->where("id=$id")->data(array('status'=>$status,'admin_remark'=>$admin_remark))->update();
+
+                    $model_tem = new Model('order',$order['site_url']);
+                    $model_tem->where("id=".$order['outer_id'])->data(array('status'=>$status,'admin_remark'=>$admin_remark))->update();
+
+                    Log::orderlog($order['outer_id'],'操作人:'.$this->manager['name'],$parse_status[$status].'完成',$parse_status[$status],'success',$this->domain);
+
 					$info  = array('status'=>'success','msg'=>$parse_status[$status]);
 				}else{
 					$info  = array('status'=>'fail','msg'=>$parse_status[$status]);
@@ -417,9 +534,12 @@ class OrderController extends Controller
 				$op = Req::args("op");
 				if($op == 'note'){
 					$model->where("id=$id")->data(array('admin_remark'=>$admin_remark))->update();
+
+                    $model_tem = new Model('order',$order['site_url']);
+                    $model_tem->where("id=".$order['outer_id'])->data(array('admin_remark'=>$admin_remark))->update();
 					$info  = array('status'=>'success','msg'=>'备注');
 				}else if($op == 'del'){
-					$model->where("id=$id")->delete();
+					//$model->where("id=$id")->delete();
 					$info  = array('status'=>'success','msg'=>'删除');
 				}
 			}
@@ -429,7 +549,7 @@ class OrderController extends Controller
 		}
 		echo JSON::encode($info);
 	}
-	//订单编辑
+	//订单编辑 todo 二期
 	public function order_save(){
 		$model = new Model("order",$this->domain);
 		$id = Req::args('id');
@@ -521,25 +641,34 @@ class OrderController extends Controller
 	public function print_order(){
 		$this->layout = 'blank';
 		$this->title = '订单打印';
-		$this->assign("id",Req::args("id"));
+        $orderModel = new Model('order');
+        $order = $orderModel->where('id='.Req::args("id"))->find();
+		$this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}
 	public function print_product(){
 		$this->layout = 'blank';
 		$this->title = '购物单打印';
-		$this->assign("id",Req::args("id"));
+        $orderModel = new Model('order');
+        $order = $orderModel->where('id='.Req::args("id"))->find();
+        $this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}
 	public function print_picking(){
 		$this->layout = 'blank';
 		$this->title = '配货单打印';
-		$this->assign("id",Req::args("id"));
+        $orderModel = new Model('order');
+        $order = $orderModel->where('id='.Req::args("id"))->find();
+        $this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}
 	public function print_express(){
 		$this->layout = 'blank';
 		$this->title = '快递单打印';
 		$id = Filter::int(Req::args("id"));
+        $orderModel = new Model('order');
+        $order = $orderModel->where('id='.$id)->find();
+        $id = $order['outer_id'];
 		if($id){
 			$this->assign("id",$id);
 			$template_id = Filter::int(Req::args("template_id"));
@@ -552,8 +681,8 @@ class OrderController extends Controller
 			$template = $model->table("express_template")->where($template_where)->find();
 			$ship = $model->table("ship")->where($ship_where)->find();
 
-            $orderModel = new Model('order',$this->domain);
-			$order = $orderModel->where("id=$id")->find();
+//            $orderModel = new Model('order',$this->domain);
+//			$order = $orderModel->where("id=$id")->find();
 
 			$order_product = $orderModel->where("order_id = $id")->findAll();
 			$total_weight = 0;

@@ -1066,8 +1066,16 @@ class AdminController extends Controller
         $id = intval(Req::post("id"));
 
         if($id > 0){
-            $gallery = new Model('gallery');
-           $gallery->where("`id`=".$id)->delete();
+           $gallery = new Model('gallery');
+           $gallerys = $gallery->where("`id`=".$id)->find();
+           if($gallerys){
+               $img_path = Tiny::getPath('uploads');
+               $img = $img_path.'../../'.$gallerys['img'];
+               if(file_exists($img)){
+                   @unlink($img);
+               }
+               $gallery->where("`id`=".$id)->delete();
+           }
         }
 
         $info = array('status'=>'success','msg'=>'删除成功');

@@ -18,6 +18,11 @@ class OrderScanner
         //此单已验货完毕，等待发货
         'wait_delivery'=>4,//待发送订单
         //已送货
+
+        'wait_distribution'=>5,//代配货枪
+
+        'wait_logistics'=>6,//代配货枪
+
     );
 
     //定义扫描状态和扫描枪的对应关系
@@ -29,6 +34,11 @@ class OrderScanner
         'wait_inspection'=>'此单已验货完毕，等待发货',
 
         'wait_delivery'=>'已送货',
+
+        'wait_distribution'=>'已进入配货',
+
+        'wait_logistics'=>'已送货',
+
     );
 
 
@@ -39,7 +49,12 @@ class OrderScanner
 
         'wait_inspection'=>'请使用发货枪进行扫描',
 
-        'wait_delivery'=>'订单扫描已完成，'
+        'wait_delivery'=>'订单扫描已完成，',
+
+        'wait_distribution'=>'请使用验货枪进行扫描',
+
+        'wait_logistics'=>'订单扫描已完成，'
+
     );
 
     private static $instance = null;
@@ -94,7 +109,13 @@ class OrderScanner
             if(in_array($row['scanner_type'],array('wait_warehouse','wait_delivery')))
             {
                 $result['mutiScanner'] = 'true';
+                $result['orderNums'] = '20';
+            }elseif('wait_distribution' == $row['scanner_type']){
+                $result['mutiScanner'] = 'true';
+                $result['orderNums'] = '40';
             }
+
+            $result['scanner_type'] = $row['scanner_type'];
 
             $result['msg'] = '<dl class="lineD"><dt>员工姓名：</dt><dd>'.$row['scanner_name'].'<input type="hidden" name="scanner_id" id="scanner_id" value="'.$row['scanner_id'].'"></dd></dl>';
             $result['msg'] .= '<dl class="lineD"><dt>扫描枪号：</dt><dd>'.$row['scan_no'].'<input type="hidden" name="scanner_type" id="scanner_type" value="'.$row['scanner_type'].'"></dd></dl>';
@@ -109,9 +130,21 @@ class OrderScanner
         $result = array('res'=>'false','msg'=>'fail');
         $error = false;
 
+        if($scanner_type == 'wait_logistics'){
+            $deliveryObj = new Model('order_invoice');
+            $deliveryData = $deliveryObj->where('express_no="'.$order_id.'"')->find();
+
+            if(!$deliveryData){
+                $result['msg'] = '物流单号不存在';
+            }else{
+                $result['res']='true';
+            }
+
+            return $result;
+        }
+
         $ordersObj = new Model('order');
-        //$orderdata = $ordersObj->getList('order_id,ship_status',array('order_id'=>$order_id),0,1);
-        $orderdata = $ordersObj->fields("order_id,ship_status")->where('order_id = '.$order_id)->find();
+        $orderdata = $ordersObj->fields("id,delivery_status")->where('order_no = '.$order_id)->find();
 
         if(!$orderdata){
             $result['msg'] = '订单号不存在';
@@ -137,14 +170,30 @@ class OrderScanner
 
         $row = $this->scannersettingModel->fields('scanner_id,scanner_name,scan_no,scanner_type')->where('scanner_id = '.$params['scanner_id'].' and status = "false"')->find();
 
+        $text = '订单号';
+
+        if($row['scanner_type'] == 'wait_logistics'){
+            $text = '物流单号';
+            $field = 'express_no';
+        }else{
+            $field = 'order_no';
+        }
+
+        $orderInvoiceModel = new Model('order_invoice');
+        $oi = $orderInvoiceModel->where($field.'='.$params['order_id'])->find();
+
+        $domain = $oi['site_url'];
+
+
         $aData = array(
             'scanner_id'=>$params['scanner_id'],
-            'order_id'=>$params['order_id'],
+            'order_no'=>$oi['order_no'],
             'scan_no'=>$row['scan_no'],
             'scanner_time'=>$params['scanner_time'],
-            'memo'=>'订单号:'.$params['order_id'].self::$scanner_orderstatus[$row['scanner_type']].'.  操作人:'.$row['scanner_name'],
+            'memo'=>$text.':'.$params['order_id'].self::$scanner_orderstatus[$row['scanner_type']].'.  操作人:'.$row['scanner_name'],
             'status'=>$row['scanner_type'],
             'scanner_name'=>$row['scanner_name'],
+            'domain'=>$domain,
         );
 
         if($this->savescanner($aData)){
@@ -157,9 +206,12 @@ class OrderScanner
     }
 
     private function savescanner($params = array()){
+        $orderModel = new Model('order');
+        $order = $orderModel->where('order_no="'.$params['order_no'].'"')->find();
+        $order_id = $order['id'];
         $aData = array(
             'scanner_id'=>$params['scanner_id'],
-            'order_id'=>$params['order_id'],
+            'order_id'=>$params['order_no'],
             'scan_no'=>$params['scan_no'],
             'scanner_time'=>$params['scanner_time'],
             'memo'=>$params['memo'],
@@ -170,16 +222,8 @@ class OrderScanner
         if(!$exists){
             $orderscanner = $this->orderscannerModel->data($aData)->add();
             if( $orderscanner ){
-                $logdata = array(
-                    'order_id'=>$params['order_id'],
-                    'user'=>$params['scanner_name'],
-                    'note'=>$params['memo'],
-                    'addtime'=>time(),
-                    'action'=>'订单扫描',
-                    'result'=>'success',
-                );
-                $orderLogModel = new Model('order_log');
-                $orderLogModel->data($logdata)->add();
+
+                Log::orderlog($order_id,'扫描人员:'.$params['scanner_name'],$params['memo'],'订单扫描','success',$params['domain']);
                 return true;
             }else{
                 return false;

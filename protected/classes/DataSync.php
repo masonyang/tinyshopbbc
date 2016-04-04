@@ -5,7 +5,7 @@
  * Date: 27/2/16
  * Time: 下午3:37
  */
-//数据同步类
+//数据同步类  走队列方法
 /*
  * 访问方式:
  * $syncObj = syncDistributorInfo::getInstance();

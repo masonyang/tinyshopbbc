@@ -57,6 +57,23 @@
         <tr><th><b class="red">*</b>收货地址：</th><td colspan=3>{$orderInfo['addr']}</td></tr>
     </table>
 
+    <h3 class="lineD mt10">订单日志：</h3>
+    <table class="default">
+        <tr>
+            <th>操作人</th>
+            <th>事件</th>
+            <th>备注</th>
+            <th>时间</th>
+        </tr>
+        {query:name=order_log domain=$domain fields=order_id,user,addtime,action,note where=order_id eq $id}
+        <tr>
+            <td>{$item['user']}</td>
+            <td>{$item['action']}</td>
+            <td>{$item['note']}</td>
+            <td>{$item['addtime']}</td>
+        </tr>
+        {/query}
+    </table>
 </div>
 
 <script type="text/javascript">
