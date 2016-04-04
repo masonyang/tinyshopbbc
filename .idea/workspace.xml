@@ -23,12 +23,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="order_list.html" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="order_list.html" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/views/order/order_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="35" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.6060606" vertical-offset="225" max-vertical-offset="3075">
+            <state line="39" column="50" selection-start="2287" selection-end="2287" vertical-scroll-proportion="-15.0" vertical-offset="225" max-vertical-offset="3075">
               <folding>
                 <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#th#12;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#8;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#10;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#12;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
@@ -37,10 +38,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="order.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="headstore.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/headstore.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="983" column="18" selection-start="174749" selection-end="174749" vertical-scroll-proportion="-1.2467532" vertical-offset="14649" max-vertical-offset="15240">
+              <folding />
+            </state>
+          </provider>
+          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+            <state />
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="branchstore.sql" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="304" column="23" selection-start="11444" selection-end="11464" vertical-scroll-proportion="-2.4868422" vertical-offset="4371" max-vertical-offset="9225">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="order.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="303" column="14" selection-start="11850" selection-end="11850" vertical-scroll-proportion="-21.625" vertical-offset="4026" max-vertical-offset="12390">
+            <state line="337" column="38" selection-start="13607" selection-end="13617" vertical-scroll-proportion="0.6293578" vertical-offset="4712" max-vertical-offset="12435">
               <folding />
             </state>
           </provider>
@@ -136,8 +158,8 @@
         <option value="$PROJECT_DIR$/protected/controllers/orderscanner.php" />
         <option value="$PROJECT_DIR$/data/headstore.sql" />
         <option value="$PROJECT_DIR$/protected/classes/OrderScanner.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/order.php" />
         <option value="$PROJECT_DIR$/protected/views/order/order_list.html" />
+        <option value="$PROJECT_DIR$/protected/controllers/order.php" />
       </list>
     </option>
   </component>
@@ -221,6 +243,20 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -643,23 +679,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="298" column="2" selection-start="11224" selection-end="11257" vertical-scroll-proportion="-2.4907749" vertical-offset="5820" max-vertical-offset="9225">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/headstore.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="1008" column="61" selection-start="176084" selection-end="176092" vertical-scroll-proportion="0.7781885" vertical-offset="14699" max-vertical-offset="15240">
-          <folding />
-        </state>
-      </provider>
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/OrderScanner.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="145" column="40" selection-start="3991" selection-end="3991" vertical-scroll-proportion="0.38556337" vertical-offset="1881" max-vertical-offset="4170">
@@ -699,13 +718,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="303" column="14" selection-start="11850" selection-end="11850" vertical-scroll-proportion="-21.625" vertical-offset="4026" max-vertical-offset="12390">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/system.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="47" column="33" selection-start="1113" selection-end="1113" vertical-scroll-proportion="-17.166666" vertical-offset="293" max-vertical-offset="900">
@@ -715,13 +727,38 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/order/order_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="35" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.6060606" vertical-offset="225" max-vertical-offset="3075">
+        <state line="39" column="50" selection-start="2287" selection-end="2287" vertical-scroll-proportion="-15.0" vertical-offset="225" max-vertical-offset="3075">
           <folding>
             <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#th#12;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#8;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#10;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#td#12;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/headstore.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="983" column="18" selection-start="174749" selection-end="174749" vertical-scroll-proportion="-1.2467532" vertical-offset="14649" max-vertical-offset="15240">
+          <folding />
+        </state>
+      </provider>
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="304" column="23" selection-start="11444" selection-end="11464" vertical-scroll-proportion="-2.4868422" vertical-offset="4371" max-vertical-offset="9225">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="337" column="38" selection-start="13607" selection-end="13617" vertical-scroll-proportion="0.6293578" vertical-offset="4712" max-vertical-offset="12435">
+          <folding />
         </state>
       </provider>
     </entry>
