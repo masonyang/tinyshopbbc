@@ -23,23 +23,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="order_list.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="order_list.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/views/order/order_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="81" column="70" selection-start="5546" selection-end="5546" vertical-scroll-proportion="-18.125" vertical-offset="780" max-vertical-offset="3075">
+            <state line="39" column="35" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.6060606" vertical-offset="225" max-vertical-offset="3075">
               <folding>
                 <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#8;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#td#10;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#12;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="order.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="order.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="272" column="35" selection-start="10576" selection-end="10576" vertical-scroll-proportion="0.09090909" vertical-offset="4026" max-vertical-offset="12390">
+            <state line="303" column="14" selection-start="11850" selection-end="11850" vertical-scroll-proportion="-21.625" vertical-offset="4026" max-vertical-offset="12390">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="system.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/config/system.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="33" selection-start="1113" selection-end="1113" vertical-scroll-proportion="-17.166666" vertical-offset="293" max-vertical-offset="900">
               <folding />
             </state>
           </provider>
@@ -126,8 +136,8 @@
         <option value="$PROJECT_DIR$/protected/controllers/orderscanner.php" />
         <option value="$PROJECT_DIR$/data/headstore.sql" />
         <option value="$PROJECT_DIR$/protected/classes/OrderScanner.php" />
-        <option value="$PROJECT_DIR$/protected/views/order/order_list.html" />
         <option value="$PROJECT_DIR$/protected/controllers/order.php" />
+        <option value="$PROJECT_DIR$/protected/views/order/order_list.html" />
       </list>
     </option>
   </component>
@@ -179,6 +189,38 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -257,7 +299,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="39" y="23" width="1241" height="777" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
@@ -265,7 +307,7 @@
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979185" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2593828" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.2593828" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -298,11 +340,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/jobs/bin/dispatch-headtobranch.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="64" selection-start="355" selection-end="355" vertical-scroll-proportion="0.35657686" vertical-offset="0" max-vertical-offset="631" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/goods/goods_edit.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="653" column="42" selection-start="26731" selection-end="26731" vertical-scroll-proportion="0.3939394" vertical-offset="9561" max-vertical-offset="10320" />
@@ -644,17 +681,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/order/order_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="81" column="70" selection-start="5546" selection-end="5546" vertical-scroll-proportion="-18.125" vertical-offset="780" max-vertical-offset="3075">
-          <folding>
-            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#8;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#td#10;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/views/order/order_send.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="24" column="107" selection-start="2178" selection-end="2178" vertical-scroll-proportion="-8.958333" vertical-offset="145" max-vertical-offset="1005">
@@ -675,8 +701,27 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="272" column="35" selection-start="10576" selection-end="10576" vertical-scroll-proportion="0.09090909" vertical-offset="4026" max-vertical-offset="12390">
+        <state line="303" column="14" selection-start="11850" selection-end="11850" vertical-scroll-proportion="-21.625" vertical-offset="4026" max-vertical-offset="12390">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/system.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="33" selection-start="1113" selection-end="1113" vertical-scroll-proportion="-17.166666" vertical-offset="293" max-vertical-offset="900">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/order/order_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="35" selection-start="2272" selection-end="2272" vertical-scroll-proportion="0.6060606" vertical-offset="225" max-vertical-offset="3075">
+          <folding>
+            <element signature="n#style#0;n#th#0;n#tr#0;n#table#0;n#form#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#8;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#10;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#12;n#tr#1;n#table#0;n#form#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
