@@ -29,31 +29,32 @@
                     <td style="width: 85%">
                         {list:items=$_catids}
                         {$categorys[$_catids[$key]]},
+                        <input name="catids[]" type="hidden" value="{$_catids[$key]}">
                         {/list}
                     </td>
                 </tr>
-                <tr>
-                    <td style="width: 15%">新增授权分类:</td>
-                    <td style="width: 85%">
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 15%">移除授权分类:</td>
-                    <td style="width: 85%">
-                    </td>
-                </tr>
+                <!--<tr>-->
+                    <!--<td style="width: 15%">新增授权分类:</td>-->
+                    <!--<td style="width: 85%">-->
+                    <!--</td>-->
+                <!--</tr>-->
+                <!--<tr>-->
+                    <!--<td style="width: 15%">移除授权分类:</td>-->
+                    <!--<td style="width: 85%">-->
+                    <!--</td>-->
+                <!--</tr>-->
               </table>
-              <select name="catids[]" id="category" multiple="multiple" size="5" >
-                  {query:name=goods_category order=path/}
-                  {set:$goods_category=Common::treeArray($items)}
-                  {set:$_catids = explode(',',$catids);}
-                  {list:items=$goods_category}
-                  {if:!isset($path) || strpos($item['path'],$path)===false}
-                  {set:$num = count(explode(',',$item['path']))-3;}
-                  <option value="{$item['id']}" {if:in_array($item['id'],$_catids)} selected {/if} >{$item['name']}</option>
-                  {/if}
-                  {/list}
-              </select>
+              <!--<select name="catids[]" id="category" multiple="multiple" size="5" >-->
+                  <!--{query:name=goods_category order=path/}-->
+                  <!--{set:$goods_category=Common::treeArray($items)}-->
+                  <!--{set:$_catids = explode(',',$catids);}-->
+                  <!--{list:items=$goods_category}-->
+                  <!--{if:!isset($path) || strpos($item['path'],$path)===false}-->
+                  <!--{set:$num = count(explode(',',$item['path']))-3;}-->
+                  <!--<option value="{$item['id']}" {if:in_array($item['id'],$_catids)} selected {/if} >{$item['name']}</option>-->
+                  <!--{/if}-->
+                  <!--{/list}-->
+              <!--</select>-->
           {else:}
             <select name="catids[]" id="category" multiple="multiple" size="5" >
               {query:name=goods_category order=path/}
