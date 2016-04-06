@@ -27,6 +27,12 @@ class Order{
 			//更新订单支付状态
 			$model->table("order")->data($data)->where("id=".$order['id'])->update();
 
+            $serverName = Tiny::getServerName();
+            if($serverName['top'] != 'zd'){
+                $zdModel = new Model('order','zd','master');
+                $zdModel->data($data)->where("outer_id=".$order['id'])->update();
+            }
+
 			//商品中优惠券的处理
 			$products = $model->table("order_goods")->where("order_id=".$order['id'])->findAll();
 			$goods_ids = array();

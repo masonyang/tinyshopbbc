@@ -80,13 +80,13 @@ class SimpleController extends Controller{
 //
 //                            }
                             $validcode = CHash::random(8);
-
-                            $last_id = $model->data(array('name'=>$mobile,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status))->insert();
+                            $userModel = new Model('user');
+                            $last_id = $userModel->data(array('name'=>$mobile,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status))->insert();
                             $time = date('Y-m-d H:i:s');
-                                $model->table("customer")->data(array('user_id'=>$last_id ,'reg_time'=>$time,'login_time'=>$time,'mobile'=>$mobile))->insert();
+                                $this->model->table("customer")->data(array('user_id'=>$last_id ,'reg_time'=>$time,'login_time'=>$time,'mobile'=>$mobile))->insert();
                             if($user_status==1){
                                 //记录登录信息
-                                $obj = $model->table("user as us")->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$mobile'")->find();
+                                $obj = $this->model->table("user as us")->join("left join customer as cu on us.id = cu.user_id")->fields("us.*,cu.group_id,cu.login_time")->where("cu.mobile='$mobile'")->find();
                                 $this->safebox->set('user',$obj,1800);
                             }else{
 //                                $mobile_code = Crypt::encode($mobile);

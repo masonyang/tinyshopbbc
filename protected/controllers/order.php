@@ -270,12 +270,12 @@ class OrderController extends Controller
 
 			$obj = $model->where("order_id=".$order_info['outer_id'])->find();
 			if($obj){
-				$model->where($data)->update();
+				$model->data($data)->where("order_id=".$order_info['outer_id'])->update();
 			}else{
                 $data['invoice_no'] = $invoice_no;
                 $data['order_id'] = $order_info['outer_id'];
                 $data['order_no'] = $order_info['order_no'];
-				$model->where($data)->insert();
+				$model->data($data)->insert();
 			}
 		}
 
@@ -294,7 +294,8 @@ class OrderController extends Controller
 			}
 		}
         $send_time = date('Y-m-d H:i:s');
-        $orderModel->where("id=$order_id")->data(array('delivery_status'=>1,'send_time'=>$send_time))->update();
+        $zdOrderModel = new Model('order');
+        $zdOrderModel->data(array('delivery_status'=>1,'send_time'=>$send_time))->where("id=".$order_info['id'])->update();
 
         $odModel = new Model("order",$order_info['site_url']);
 
@@ -344,7 +345,12 @@ class OrderController extends Controller
         $oi['order_no'] = $order_info['order_no'];
         $oi['express_no'] = $express_no;
         $oi['site_url'] = $distrInfo['site_url'];
-        $orderInvoiceModel->data($oi)->insert();
+        $oiData = $orderInvoiceModel->fields('id')->where('order_no="'.$order_info['order_no'].'" and site_url="'.$distrInfo['site_url'].'"')->find();
+        if($oiData){
+            $orderInvoiceModel->data(array('express_no="'.$express_no.'"'))->where('id='.$oiData['id'])->update();
+        }else{
+            $orderInvoiceModel->data($oi)->insert();
+        }
 
 		echo "<script>parent.send_dialog_close();</script>";
 	}
