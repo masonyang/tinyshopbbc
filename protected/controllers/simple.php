@@ -87,8 +87,7 @@ class SimpleController extends Controller{
 //
 //                            }
                             $validcode = CHash::random(8);
-                            $userModel = new Model('user');
-                            $last_id = $userModel->data(array('name'=>$mobile,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status))->insert();
+                            $last_id = $this->model->table("user")->data(array('name'=>$mobile,'password'=>CHash::md5($passWord,$validcode),'validcode'=>$validcode,'status'=>$user_status,'email'=>$mobile.'@qqcapp.com'))->insert();
                             $time = date('Y-m-d H:i:s');
                                 $this->model->table("customer")->data(array('user_id'=>$last_id ,'reg_time'=>$time,'login_time'=>$time,'mobile'=>$mobile))->insert();
                             if($user_status==1){
