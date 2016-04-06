@@ -112,7 +112,7 @@ class SimpleController extends Controller{
 
 
                             if(ControllerExt::$isMobile){
-                                $this->redirect("ucenter/index",false,array());
+                                $this->redirect("ucenter/index",true,array());
                             }else{
                                 $email = '';
                                 $mail_host = 'http://mail.'.preg_replace('/.+@/i', '', $email);
