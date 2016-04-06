@@ -53,7 +53,7 @@
         $("input[name='mobile']").on("change",function(event){
             $.post("{url:/ajax/mobile/mobile/}"+$(this).val(),function(data){
                 var msg = '合法用户';
-                if(data['status']) msg = '用户不存在';
+                if(!data['status']) msg = '用户不存在';
                 $('#mobileerror').html(msg);
             },'json');
         });
