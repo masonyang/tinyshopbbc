@@ -557,9 +557,13 @@ class GoodsController extends Controller
 		//商品处理
 		$goods = new Model('goods');
 		Req::args('specs',serialize($specs_new));
-		$attrs = is_array(Req::args("attr"))?Req::args("attr"):array();
 		$imgs = is_array(Req::args("imgs"))?Req::args("imgs"):array();
-		Req::args('attrs',serialize($attrs));
+        $attrs = array();
+        $serverName = Tiny::getServerName();
+        if($serverName['top'] == 'zd'){
+            $attrs = is_array(Req::args("attr"))?Req::args("attr"):array();
+            Req::args('attrs',serialize($attrs));
+        }
 		Req::args('imgs',serialize($imgs));
 		Req::args('up_time',date("Y-m-d H:i:s"));
 

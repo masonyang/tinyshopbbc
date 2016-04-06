@@ -955,6 +955,7 @@ class SimpleController extends Controller{
                         $tem_data['goods_price'] = $item['sell_price'];
                         $tem_data['real_price'] = $item['real_price'];
                         $tem_data['trade_price'] = $item['trade_price'] ? $item['trade_price'] : 0;//商品批发价
+                        $tem_data['cost_price'] = $item['cost_price'] ? $item['cost_price'] : 0;//商品成本价
                         $tem_data['goods_nums'] = $item['num'];
                         $tem_data['goods_weight'] = $item['weight'];
                         $tem_data['prom_goods'] = serialize($item['prom_goods']);

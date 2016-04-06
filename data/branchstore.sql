@@ -352,6 +352,7 @@ CREATE TABLE `tiny_order_goods` (
   `goods_price` float(10,2) DEFAULT '0.00' ,
   `real_price` float(10,2) DEFAULT '0.00' ,
   `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',
+  `cost_price` float(10,2) DEFAULT '0.00' COMMENT '成本价',
   `goods_nums` int(11) DEFAULT '1' ,
   `goods_weight` float DEFAULT '0' ,
   `shipments` int(11) DEFAULT '0' ,
