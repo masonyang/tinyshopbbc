@@ -65,6 +65,13 @@ class SimpleController extends Controller{
             if($checkFlag){
                 if(!Validator::mobi($mobile)){
                     $info = array('field'=>'mobile','msg'=>'手机号不能为空！');
+                }
+
+                $model = new Model('customer');
+                $obj = $model->where("mobile='".$mobile."'")->find();
+
+                if($obj){
+                    $info = array('field'=>'mobile','msg'=>'该手机号已注册过！');
                 }elseif(strlen($passWord)<6){
                     $info = array('field'=>'password','msg'=>'密码长度必需大于6位！');
                 }else{
