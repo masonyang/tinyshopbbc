@@ -302,41 +302,49 @@ class OrderController extends Controller
         $odModel->where("id=".$order_info['outer_id'])->data(array('delivery_status'=>1,'send_time'=>$send_time))->update();
 
         //处理发货之后,计算收益逻辑 并加入到预存款中，并生成一条添加预存款记录
-        //todo
-        //如果没有用支付宝支付的话 收益=订单金额-分销商批发价格
-        //分销商批发价格 = 所有产品的批发价之和
-        //收益=订单金额-分销商批发价格-(订单金额*0.6%)
+
+        /*
+         * new
+         *
+         * 线上支付：
+         * 分销商批发价格 = 所有产品的批发价之和
+	     * 发货时候，计算收益＝订单金额*（1-0.006）-分销商批发价
+         * 线下支付：
+	     * 发货时候，先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货。（订单所有产品的批发价之和  == 分销商预存款金额 比较）
+         * */
         $orderGoodsModelObj = new Model('order_goods');
         $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
 
-        if($is_onlinepay){
-            $payfee = $order_info['order_amount'] * ($paymentInfo['pay_fee']/100);
+        $manager = $this->safebox->get('manager');
 
-            $income = $order_info['order_amount'] - $ordergoods[0]['tradeprice'] - $payfee;
-        }else{ //其他方式支付 收益=订单金额-分销商批发价格
-            $income = $order_info['order_amount'] - $ordergoods[0]['tradeprice'];
+        if($is_onlinepay){
+            $payfee = 1 - ($paymentInfo['pay_fee']/100);
+
+            $income = ($order_info['order_amount'] * $payfee) - $ordergoods[0]['tradeprice'];
+
+            $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
+            $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();
+
+            $zdModel = new Model("distributor","zd","master");
+            $distrInfo = $zdModel->where("distributor_id=".$fxmanager['distributor_id'])->find();
+            $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $income))->where("distributor_id=".$fxmanager['distributor_id'])->update();
+
+            $fxmanager['deposit'] += $income;
+
+            $managerObj->data(array('deposit'=>$fxmanager['deposit']))->where("id=".$fxmanager['id'])->update();
+
+
+            $data['op_name'] = $manager['name'];
+            $data['op_time'] = time();
+            $data['op_id'] = $manager['id'];
+            $data['money'] = $income;
+            $data['action'] = 'add';
+            $data['op_ip'] = Chips::getIP();
+            $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$fxmanager['deposit'].'元';
+            Log::rechange($data,$distrInfo['site_url']);
         }
 
-        $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
-        $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();
 
-        $zdModel = new Model("distributor","zd","master");
-        $distrInfo = $zdModel->where("distributor_id=".$fxmanager['distributor_id'])->find();
-        $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $income))->where("distributor_id=".$fxmanager['distributor_id'])->update();
-
-        $fxmanager['deposit'] += $income;
-
-        $managerObj->data(array('deposit'=>$fxmanager['deposit']))->where("id=".$fxmanager['id'])->update();
-
-        $manager = $this->safebox->get('manager');
-        $data['op_name'] = $manager['name'];
-        $data['op_time'] = time();
-        $data['op_id'] = $manager['id'];
-        $data['money'] = $income;
-        $data['action'] = 'add';
-        $data['op_ip'] = Chips::getIP();
-        $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$fxmanager['deposit'].'元';
-        Log::rechange($data,$distrInfo['site_url']);
 
         Log::orderlog($order_info['outer_id'],'操作人:'.$manager['name'],'订单已完成发货','订单已发货','success',$order_info['site_url']);
 
