@@ -41,16 +41,16 @@
         'name' => '会员管理',
         'parent' => 'customer',
       ),
-    'balance' =>
-        array (
-            'name' => '会员资金',
-            'parent' => 'customer',
-        ),
-    'ask_reviews' =>
-        array (
-            'name' => '咨询与评价',
-            'parent' => 'customer',
-        ),
+      'balance' => 
+      array (
+        'name' => '会员资金',
+        'parent' => 'customer',
+      ),
+      'ask_reviews' => 
+      array (
+        'name' => '咨询与评价',
+        'parent' => 'customer',
+      ),
       'order' => 
       array (
         'name' => '订单管理',
@@ -64,7 +64,7 @@
     ),
     'nodes' => 
     array (
-      '/admin/index' =>
+      '/admin/index' => 
       array (
         'name' => '管理首页',
         'parent' => 'config',
@@ -114,51 +114,51 @@
         'name' => '会员管理',
         'parent' => 'customer',
       ),
-    '/customer/customer_edit' =>
-        array (
-            'name' => '编辑会员',
-            'parent' => 'customer',
-        ),
-    '/customer/withdraw_list' =>
-        array (
-            'name' => '提现申请',
-            'parent' => 'balance',
-        ),
-    '/customer/balance_list' =>
-        array (
-            'name' => '资金日志',
-            'parent' => 'balance',
-        ),
-    '/customer/review_list' =>
-        array (
-            'name' => '商品评价',
-            'parent' => 'ask_reviews',
-        ),
-    '/customer/ask_list' =>
-        array (
-            'name' => '商品咨询',
-            'parent' => 'ask_reviews',
-        ),
-    '/customer/ask_edit' =>
-        array (
-            'name' => '咨询回复',
-            'parent' => 'ask_reviews',
-        ),
-    '/customer/message_list' =>
-        array (
-            'name' => '信息管理',
-            'parent' => 'ask_reviews',
-        ),
-    '/customer/message_edit' =>
-        array (
-            'name' => '信息发送',
-            'parent' => 'ask_reviews',
-        ),
-    '/customer/notify_list' =>
-        array (
-            'name' => '到货通知',
-            'parent' => 'ask_reviews',
-        ),
+      '/customer/customer_edit' => 
+      array (
+        'name' => '编辑会员',
+        'parent' => 'customer',
+      ),
+      '/customer/withdraw_list' => 
+      array (
+        'name' => '提现申请',
+        'parent' => 'balance',
+      ),
+      '/customer/balance_list' => 
+      array (
+        'name' => '资金日志',
+        'parent' => 'balance',
+      ),
+      '/customer/review_list' => 
+      array (
+        'name' => '商品评价',
+        'parent' => 'ask_reviews',
+      ),
+      '/customer/ask_list' => 
+      array (
+        'name' => '商品咨询',
+        'parent' => 'ask_reviews',
+      ),
+      '/customer/ask_edit' => 
+      array (
+        'name' => '咨询回复',
+        'parent' => 'ask_reviews',
+      ),
+      '/customer/message_list' => 
+      array (
+        'name' => '信息管理',
+        'parent' => 'ask_reviews',
+      ),
+      '/customer/message_edit' => 
+      array (
+        'name' => '信息发送',
+        'parent' => 'ask_reviews',
+      ),
+      '/customer/notify_list' => 
+      array (
+        'name' => '到货通知',
+        'parent' => 'ask_reviews',
+      ),
       '/order/order_list' => 
       array (
         'name' => '订单列表',
@@ -296,7 +296,7 @@
     ),
     'nodes' => 
     array (
-      '/admin/index' =>
+      '/admin/index' => 
       array (
         'name' => '管理首页',
         'parent' => 'config',
@@ -326,10 +326,10 @@
         'name' => '信息模板',
         'parent' => 'config',
       ),
-      '/admin/image_manage' =>
+      '/admin/image_manage' => 
       array (
-         'name' => '图片库管理',
-         'parent' => 'config',
+        'name' => '图片库管理',
+        'parent' => 'config',
       ),
       '/admin/msg_template_edit' => 
       array (

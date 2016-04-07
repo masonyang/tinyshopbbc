@@ -341,8 +341,8 @@ class OrderController extends Controller
 
             $fxmanager['deposit'] += $income;
 
-            $managerObj->data(array('deposit'=>$fxmanager['deposit']))->where("id=".$fxmanager['id'])->update();
-
+            $testObj = new Model('manager',$order_info['site_url']);
+            $testObj->data(array('deposit'=>$fxmanager['deposit']))->where("id=".$fxmanager['id'])->update();
 
             $data['op_name'] = $manager['name'];
             $data['op_time'] = time();

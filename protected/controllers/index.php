@@ -468,6 +468,7 @@ class IndexController extends Controller{
                         $skumap[$k]['guige'] = $sku[$specs_key[2]];
                     }
 
+                    $skumap[$k]['guige'] = rtrim($skumap[$k]['guige'],',');
 
                 }
 

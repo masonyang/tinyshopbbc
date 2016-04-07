@@ -430,7 +430,6 @@ class Model
             $this->changeWhere();
             $sql = $this->sql;
             $sqlStr = "update {$sql['table']} {$set} {$sql['where']}";
-
             return $this->query($sqlStr);
         }
     }

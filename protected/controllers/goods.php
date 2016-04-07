@@ -569,6 +569,17 @@ class GoodsController extends Controller
 
 		$id = intval(Req::args("id"));
 		$gdata = Req::args();
+
+        if(isset($branchstore_sell_price)){
+            $suggest_price = $trade_price * ($this->other_tradeprice_rate/100);
+            if($suggest_price >= $branchstore_sell_price){
+                $gdata['branchstore_sell_price'] = $branchstore_sell_price;
+            }else{
+                $gdata['branchstore_sell_price'] = $sell_price;
+            }
+        }
+
+
 		$gdata['name'] = Filter::sql($gdata['name']);
 		if(is_array($gdata['pro_no'])) $gdata['pro_no'] = $gdata['pro_no'][0];
 		if($id==0){
@@ -608,6 +619,26 @@ class GoodsController extends Controller
 			else if($g_market_price<$data['market_price']) $g_market_price = $data['market_price'];
 			if($g_cost_price==0) $g_cost_price = $data['cost_price'];
 			else if($g_cost_price<$data['cost_price']) $g_cost_price = $data['cost_price'];
+
+            if($data['pro_no'] == ''){
+                unset($data['pro_no']);
+            }
+
+            if($data['warning_line'] == ''){
+                unset($data['warning_line']);
+            }
+
+            if($data['weight'] == ''){
+                unset($data['weight']);
+            }
+
+            if($data['sell_price'] == ''){
+                unset($data['sell_price']);
+            }
+
+            if($data['trade_price'] == ''){
+                unset($data['trade_price']);
+            }
 
 			if(!$result){
 				$products->data($data)->insert();
