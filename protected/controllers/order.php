@@ -195,11 +195,11 @@ class OrderController extends Controller
             $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
 
             //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
-            $ordergoods = $orderGoodsModelObj->fields('goods_nums,tradeprice')->where('order_id='.$order_id)->findAll();
+            $ordergoods = $orderGoodsModelObj->fields('goods_nums,trade_price')->where('order_id='.$order_id)->findAll();
 
             $tradeprice = 0;
             foreach($ordergoods as $og){
-                $tradeprice += $og['tradeprice'] * $og['goods_nums'];
+                $tradeprice += $og['trade_price'] * $og['goods_nums'];
             }
 
             $depost = $manager['deposit'] - $tradeprice;
@@ -318,11 +318,11 @@ class OrderController extends Controller
 	     * 发货时候，先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货。（订单所有产品的批发价之和  == 分销商预存款金额 比较）
          * */
         $orderGoodsModelObj = new Model('order_goods');
-        $ordergoods = $orderGoodsModelObj->fields('goods_nums,tradeprice')->where('order_id='.$order_id)->findAll();
+        $ordergoods = $orderGoodsModelObj->fields('goods_nums,trade_price')->where('order_id='.$order_id)->findAll();
 
         $tradeprice = 0;
         foreach($ordergoods as $og){
-            $tradeprice += $og['tradeprice'] * $og['goods_nums'];
+            $tradeprice += $og['trade_price'] * $og['goods_nums'];
         }
 
         $manager = $this->safebox->get('manager');
