@@ -23,31 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="headstore.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/headstore.sql">
-          <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-            <state />
-          </provider>
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="666" column="2" selection-start="152900" selection-end="152954" vertical-scroll-proportion="0.0" vertical-offset="9811" max-vertical-offset="15255">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="branchstore.sql" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="354" column="56" selection-start="13572" selection-end="13572" vertical-scroll-proportion="0.0" vertical-offset="5122" max-vertical-offset="9240">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="goods.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/goods.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="628" column="39" selection-start="23549" selection-end="23559" vertical-scroll-proportion="0.0" vertical-offset="8778" max-vertical-offset="12315">
+            <state line="628" column="39" selection-start="23549" selection-end="23559" vertical-scroll-proportion="-28.625" vertical-offset="8733" max-vertical-offset="12315">
               <folding>
                 <marker date="1459961368000" expanded="true" signature="25638:25682" placeholder="insert into ..." />
                 <marker date="1459961368000" expanded="true" signature="25704:25748" placeholder="insert into ..." />
@@ -95,7 +74,7 @@
       <file leaf-file-name="order.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="302" column="0" selection-start="11910" selection-end="11910" vertical-scroll-proportion="-0.323993" vertical-offset="4715" max-vertical-offset="12645">
+            <state line="197" column="12" selection-start="7009" selection-end="7009" vertical-scroll-proportion="0.3625219" vertical-offset="2748" max-vertical-offset="12795">
               <folding />
             </state>
           </provider>
@@ -176,9 +155,9 @@
         <option value="$PROJECT_DIR$/protected/views/goods/goods_edit.html" />
         <option value="$PROJECT_DIR$/protected/controllers/simple.php" />
         <option value="$PROJECT_DIR$/protected/classes/Cart.php" />
+        <option value="$PROJECT_DIR$/framework/tiny.php" />
         <option value="$PROJECT_DIR$/data/headstore.sql" />
         <option value="$PROJECT_DIR$/data/branchstore.sql" />
-        <option value="$PROJECT_DIR$/framework/tiny.php" />
         <option value="$PROJECT_DIR$/protected/controllers/order.php" />
       </list>
     </option>
@@ -689,16 +668,6 @@
         <state line="32" column="81" selection-start="1054" selection-end="1054" vertical-scroll-proportion="0.0" vertical-offset="480" max-vertical-offset="3135" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/goods.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="628" column="39" selection-start="23549" selection-end="23559" vertical-scroll-proportion="0.0" vertical-offset="8778" max-vertical-offset="12315">
-          <folding>
-            <marker date="1459961368000" expanded="true" signature="25638:25682" placeholder="insert into ..." />
-            <marker date="1459961368000" expanded="true" signature="25704:25748" placeholder="insert into ..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/version.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="1" column="0" selection-start="22" selection-end="22" vertical-scroll-proportion="0.024711696" vertical-offset="0" max-vertical-offset="607" />
@@ -728,23 +697,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/headstore.sql">
-      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="666" column="2" selection-start="152900" selection-end="152954" vertical-scroll-proportion="0.0" vertical-offset="9811" max-vertical-offset="15255">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="354" column="56" selection-start="13572" selection-end="13572" vertical-scroll-proportion="0.0" vertical-offset="5122" max-vertical-offset="9240">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data/uploads/2016/04/07/ea4857d8b503f0759ef221e0ec2b732a.jpg">
       <provider selected="true" editor-type-id="images">
         <state />
@@ -757,9 +709,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/headstore.sql">
+      <provider editor-type-id="com.intellij.persistence.database.editor.CsvTableFileEditorProvider">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="952" column="10" selection-start="173048" selection-end="173055" vertical-scroll-proportion="0.45528457" vertical-offset="14056" max-vertical-offset="15255">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/branchstore.sql">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="247" column="10" selection-start="9237" selection-end="9244" vertical-scroll-proportion="0.33333334" vertical-offset="3532" max-vertical-offset="9240">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/goods.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="628" column="39" selection-start="23549" selection-end="23559" vertical-scroll-proportion="-28.625" vertical-offset="8733" max-vertical-offset="12315">
+          <folding>
+            <marker date="1459961368000" expanded="true" signature="25638:25682" placeholder="insert into ..." />
+            <marker date="1459961368000" expanded="true" signature="25704:25748" placeholder="insert into ..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="302" column="0" selection-start="11910" selection-end="11910" vertical-scroll-proportion="-0.323993" vertical-offset="4715" max-vertical-offset="12645">
+        <state line="197" column="12" selection-start="7009" selection-end="7009" vertical-scroll-proportion="0.3625219" vertical-offset="2748" max-vertical-offset="12795">
           <folding />
         </state>
       </provider>

@@ -195,9 +195,14 @@ class OrderController extends Controller
             $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
 
             //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
-            $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
+            $ordergoods = $orderGoodsModelObj->fields('goods_nums,tradeprice')->where('order_id='.$order_id)->findAll();
 
-            $depost = $manager['deposit'] - $ordergoods[0]['tradeprice'];
+            $tradeprice = 0;
+            foreach($ordergoods as $og){
+                $tradeprice += $og['tradeprice'] * $og['goods_nums'];
+            }
+
+            $depost = $manager['deposit'] - $tradeprice;
 
             if(($depost) <= 0){
                 echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
@@ -205,12 +210,12 @@ class OrderController extends Controller
             }else{
                 $zdModel = new Model("distributor","zd","master");
                 $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
-                $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $ordergoods[0]['tradeprice']))->where("distributor_id=".$manager['distributor_id'])->update();
+                $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $tradeprice))->where("distributor_id=".$manager['distributor_id'])->update();
 
                 //同步预存款金额到分店
                 $managerObj = new Model("manager",$manager['site_url'],"master");
                 $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
-                $distrInfo['deposit'] -= $ordergoods[0]['tradeprice'];
+                $distrInfo['deposit'] -= $tradeprice;
 
                 $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
 
@@ -218,10 +223,10 @@ class OrderController extends Controller
                 $data['op_name'] = $manager['name'];
                 $data['op_time'] = time();
                 $data['op_id'] = $manager['id'];
-                $data['money'] = $ordergoods[0]['tradeprice'];
+                $data['money'] = $tradeprice;
                 $data['action'] = 'minus';
                 $data['op_ip'] = Chips::getIP();
-                $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 扣除'.$ordergoods[0]['tradeprice'].'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
+                $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 扣除'.$tradeprice.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
                 Log::rechange($data,$distrInfo['site_url']);
 
             }
@@ -313,14 +318,19 @@ class OrderController extends Controller
 	     * 发货时候，先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货。（订单所有产品的批发价之和  == 分销商预存款金额 比较）
          * */
         $orderGoodsModelObj = new Model('order_goods');
-        $ordergoods = $orderGoodsModelObj->fields('sum(trade_price) as tradeprice')->where('order_id='.$order_id)->findAll();
+        $ordergoods = $orderGoodsModelObj->fields('goods_nums,tradeprice')->where('order_id='.$order_id)->findAll();
+
+        $tradeprice = 0;
+        foreach($ordergoods as $og){
+            $tradeprice += $og['tradeprice'] * $og['goods_nums'];
+        }
 
         $manager = $this->safebox->get('manager');
 
         if($is_onlinepay){
             $payfee = 1 - ($paymentInfo['pay_fee']/100);
 
-            $income = ($order_info['order_amount'] * $payfee) - $ordergoods[0]['tradeprice'];
+            $income = ($order_info['order_amount'] * $payfee) - $tradeprice;
 
             $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
             $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();

@@ -245,8 +245,8 @@ CREATE TABLE `tiny_manager` (
   `email` varchar(255) NOT NULL COMMENT '邮箱',
   `site_keyword` varchar(255) NOT NULL COMMENT '关键字',
   `site_description` varchar(255) NOT NULL COMMENT '描述信息',
-  `deposit` float(10,2) DEFAULT '0.00' COMMENT '预存款',
-  `income` float(10,2) DEFAULT '0.00' COMMENT '收益',
+  `deposit` float(10,6) DEFAULT '0.00' COMMENT '预存款',
+  `income` float(10,6) DEFAULT '0.00' COMMENT '收益',
   `catids` varchar(200) NOT NULL DEFAULT '' COMMENT '授权分类',
   `register_time` int(10) NOT NULL COMMENT '加入时间',
   PRIMARY KEY (`id`)
