@@ -41,7 +41,7 @@ class ControllerExt implements Extension
         $site_logo = (isset($site['site_logo'])&&$site['site_logo']!='')?$site['site_logo']:'static/images/logo.png';
         $site_name = isset($site['site_name'])?$site['site_name']:'109商城';
         $site_icp = isset($site['site_icp'])?$site['site_icp']:'鲁ICP备00000100号';
-        
+
         $safebox = Safebox::getInstance();
         $manager = $safebox->get('manager');
         $site_logo = isset($manager['site_logo']) ? $manager['site_logo'] : $site_logo;

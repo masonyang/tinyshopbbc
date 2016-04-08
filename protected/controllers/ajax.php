@@ -205,4 +205,28 @@ class AjaxController extends Controller
 		header('Content-Type: image/png');
 		$drawing->finish(BCGDrawing::IMG_FORMAT_PNG);
 	}
+
+    public function index_product(){
+        $limit = 1;
+
+        $page = Filter::int(Req::args('page'));
+
+        $offset = $limit * ($page-1);
+
+        $goodsModel = new Model('goods');
+        $goodsData = $goodsModel->fields('id,img,name,branchstore_sell_price,sell_price')->where('is_online = 0')->limit($offset.','.$limit)->order('id desc')->findAll();
+
+        if($goodsData){
+            $data = array();
+            foreach($goodsData as $k=>$gd){
+                $data[$k]['url'] = '/index.php?con=index&act=product&id='.$gd['id'];
+                $data[$k]['name'] = $gd['name'];
+                $data[$k]['price'] = ($gd['branchstore_sell_price']) ? $gd['branchstore_sell_price'] : $gd['sell_price'];
+                $data[$k]['image'] = Common::thumb($gd['img'],400,400);
+            }
+            echo json_encode(array('page'=>$page,'data'=>$data));exit;
+        }else{
+            echo json_encode(array('page'=>'no data','data'=>array()));exit;
+        }
+    }
 }

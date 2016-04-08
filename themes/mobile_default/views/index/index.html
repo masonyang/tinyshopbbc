@@ -59,27 +59,78 @@
     <div class="ng-scope">
         <div class="wrap-dailyNewProduct ng-scope">
             <div>
+                <input type="hidden" id="page-product" value="1">
                 <dl class="vipbestlove-list">
-                    {list:items=$category item=$categ}
-                        {set:$path_like = "like '$categ[path]%'";}
-                        {query:name=goods where= is_online eq 0 and category_id in (select id from tiny_goods_category where path $path_like) order=sort desc limit=10}
-                        <dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">
-                            <a href="{url:/index/product/id/$item[id]}">
-                                <img style="min-height: 100px" src="{echo:Common::thumb($item['img'],400,400);}">
-                                <div class="wrap-doc-vipbestlove">
-                                    <div class="title font-medium">{$item['name']}</div>
-                                    <div>
-                                        <span class="spanSale font-medium"></span>
-                                        <span class="salePrice font-medium">{$currency_symbol}{if: $item['branchstore_sell_price']} {$item['branchstore_sell_price']} {else:} {$item['sell_price']} {/if}</span>
-                                    </div>
-                                </div>
-                            </a>
-                        </dd>
-                        {/list}
-                    {/list}
+
                 </dl>
+                <div style="text-align: center;" id="carts-link font-medium" class="loadmore">
+                    <a style="border: 1px solid #d71515;padding: 0.5rem 1.5rem;display: inline-block;border-radius: 6px;font-size: 1.5rem;letter-spacing: 1px;margin-top: 1rem;color: #d71515;">加载更多...</a>
+                </div>
             </div>
         </div>
 
     </div>
 </article>
+
+<script>
+
+    $(document).ready(function(e) {
+        loadMore();
+
+    });
+
+    $('.loadmore').on('touchstart',function(){
+         loadMore();
+    });
+
+    function loadMore(){
+        var page = $('#page-product').val();
+
+        if(page != 'no data'){
+            $.post("{url:/ajax/index_product}", {page: page},function(data){
+                if(data.data){
+                    if(data.page != 'no data'){
+                        page = parseInt(page)+1;
+                    }else{
+                        page = data.page;
+                    }
+                    $('#page-product').val(page);
+                    for(i in data.data){
+                        var row,iTempHeight,iHeight;
+                        iHeight = -1;
+
+                        $('.vipbestlove-list dd').each(function(){
+                            iTempHeight = Number( $(this).height() );
+
+                            if(iHeight==-1 || iHeight>iTempHeight)
+                            {
+                                iHeight = iTempHeight;
+                                row = $(this);
+                            }
+                        });
+
+                        if(row){
+                            var html = '<dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">';
+                            html +='<a href="'+data.data[i].url+'">';
+                            html +='<img style="min-height: 100px" src="'+data.data[i].image+'"><div class="wrap-doc-vipbestlove"><div class="title font-medium">'+data.data[i].name+'</div><div><span class="spanSale font-medium"></span><span class="salePrice font-medium">'+data.data[i].price+'</span></div></div></a></dd>';
+
+                            row.after(html);
+                        }else{
+                            row = $('.vipbestlove-list');
+
+                            var html = '<dd class="vipbestlove-item ng-scope" href="#" style="padding: 0;">';
+                            html +='<a href="'+data.data[i].url+'">';
+                            html +='<img style="min-height: 100px" src="'+data.data[i].image+'"><div class="wrap-doc-vipbestlove"><div class="title font-medium">'+data.data[i].name+'</div><div><span class="spanSale font-medium"></span><span class="salePrice font-medium">'+data.data[i].price+'</span></div></div></a></dd>';
+
+                            row.append(html);
+                        }
+
+                    }
+                }
+
+            },"json");
+        }else{
+            $('.loadmore').html('<a style="border: 1px solid #d71515;padding: 0.5rem 1.5rem;display: inline-block;border-radius: 6px;font-size: 1.5rem;letter-spacing: 1px;margin-top: 1rem;color: #d71515;">已经全部显示了</a>');
+        }
+    }
+</script>

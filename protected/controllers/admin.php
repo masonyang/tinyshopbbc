@@ -29,6 +29,8 @@ class AdminController extends Controller
 		$this->assign('manager',$this->manager);
 		$serverName = Tiny::getServerName();
 		$domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
+
+        $this->assign("server_domain",$serverName['top']);
 		$this->assign("domain",$domain);
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);

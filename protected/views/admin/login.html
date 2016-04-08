@@ -54,7 +54,7 @@
 <body>
 
 <div id="login" style="padding-top:100px;">
-	<div style="text-align:center;margin: 0 auto;"><img src="{url:@static/images/logo_min.png}"></div>
+	<div style="text-align:center;margin: 0 auto;"><img src="{url:@static/images/logo_min.png}"><span style="color: #000000;">{if: $server_domain == 'zd'}&nbsp;&nbsp;(总店){else:}&nbsp;&nbsp;(加盟店){/if}</span></div>
     <div style="border:10px solid #8f96A7; background:#3f4657; color:#FFF;height:240px; width:460px;text-align:center;margin: 0 auto;">
     <div  class="message">{$msg}</div>
     <form action="{url:/admin/check}" method="post">
