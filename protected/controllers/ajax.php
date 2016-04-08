@@ -207,7 +207,7 @@ class AjaxController extends Controller
 	}
 
     public function index_product(){
-        $limit = 1;
+        $limit = 20;
 
         $page = Filter::int(Req::args('page'));
 
