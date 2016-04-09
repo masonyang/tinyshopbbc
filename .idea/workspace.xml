@@ -41,18 +41,18 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/themes/mobile_default/views/index/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="65" column="84" selection-start="2409" selection-end="2409" vertical-scroll-proportion="-8.125" vertical-offset="780" max-vertical-offset="2115">
+            <state line="69" column="14" selection-start="2719" selection-end="2719" vertical-scroll-proportion="0.15151516" vertical-offset="945" max-vertical-offset="2115">
               <folding>
                 <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
-                <marker date="1460173126000" expanded="false" signature="3999:4010" placeholder="..." />
-                <marker date="1460173126000" expanded="false" signature="4133:4150" placeholder="..." />
-                <marker date="1460173126000" expanded="false" signature="4639:4650" placeholder="..." />
-                <marker date="1460173126000" expanded="false" signature="4773:4790" placeholder="..." />
-                <marker date="1460173126000" expanded="false" signature="5245:5405" placeholder="..." />
+                <marker date="1460176050000" expanded="false" signature="4001:4012" placeholder="..." />
+                <marker date="1460176050000" expanded="false" signature="4135:4152" placeholder="..." />
+                <marker date="1460176050000" expanded="false" signature="4641:4652" placeholder="..." />
+                <marker date="1460176050000" expanded="false" signature="4775:4792" placeholder="..." />
+                <marker date="1460176050000" expanded="false" signature="5247:5407" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -67,10 +67,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="controller_class.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="controller_class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="108" column="34" selection-start="2901" selection-end="3063" vertical-scroll-proportion="0.32828283" vertical-offset="1350" max-vertical-offset="11340">
+            <state line="108" column="34" selection-start="2901" selection-end="3063" vertical-scroll-proportion="-8.125" vertical-offset="1350" max-vertical-offset="11340">
               <folding>
                 <marker date="1460173289000" expanded="false" signature="2491:2510" placeholder="..." />
                 <marker date="1460173289000" expanded="false" signature="2982:3001" placeholder="..." />
@@ -137,10 +137,10 @@
         <option value="$PROJECT_DIR$/protected/views/layouts/admin.html" />
         <option value="$PROJECT_DIR$/protected/views/admin/login.html" />
         <option value="$PROJECT_DIR$/protected/controllers/admin.php" />
-        <option value="$PROJECT_DIR$/themes/mobile_default/views/index/index.html" />
         <option value="$PROJECT_DIR$/protected/extensions/ControllerExt.php" />
         <option value="$PROJECT_DIR$/protected/controllers/ajax.php" />
         <option value="$PROJECT_DIR$/framework/web/controller/controller_class.php" />
+        <option value="$PROJECT_DIR$/themes/mobile_default/views/index/index.html" />
       </list>
     </option>
   </component>
@@ -745,21 +745,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/themes/mobile_default/views/index/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="65" column="84" selection-start="2409" selection-end="2409" vertical-scroll-proportion="-8.125" vertical-offset="780" max-vertical-offset="2115">
-          <folding>
-            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
-            <marker date="1460173126000" expanded="false" signature="3999:4010" placeholder="..." />
-            <marker date="1460173126000" expanded="false" signature="4133:4150" placeholder="..." />
-            <marker date="1460173126000" expanded="false" signature="4639:4650" placeholder="..." />
-            <marker date="1460173126000" expanded="false" signature="4773:4790" placeholder="..." />
-            <marker date="1460173126000" expanded="false" signature="5245:5405" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/extensions/ControllerExt.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="20" selection-start="224" selection-end="224" vertical-scroll-proportion="-3.125" vertical-offset="75" max-vertical-offset="990">
@@ -776,11 +761,26 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="108" column="34" selection-start="2901" selection-end="3063" vertical-scroll-proportion="0.32828283" vertical-offset="1350" max-vertical-offset="11340">
+        <state line="108" column="34" selection-start="2901" selection-end="3063" vertical-scroll-proportion="-8.125" vertical-offset="1350" max-vertical-offset="11340">
           <folding>
             <marker date="1460173289000" expanded="false" signature="2491:2510" placeholder="..." />
             <marker date="1460173289000" expanded="false" signature="2982:3001" placeholder="..." />
             <marker date="1460173289000" expanded="false" signature="3298:3317" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/themes/mobile_default/views/index/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="69" column="14" selection-start="2719" selection-end="2719" vertical-scroll-proportion="0.15151516" vertical-offset="945" max-vertical-offset="2115">
+          <folding>
+            <element signature="n#style#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#a#0;n#div#0;n#div#0;n#div#0;n#div#1;n#article#0;n#!!top" expanded="true" />
+            <marker date="1460176050000" expanded="false" signature="4001:4012" placeholder="..." />
+            <marker date="1460176050000" expanded="false" signature="4135:4152" placeholder="..." />
+            <marker date="1460176050000" expanded="false" signature="4641:4652" placeholder="..." />
+            <marker date="1460176050000" expanded="false" signature="4775:4792" placeholder="..." />
+            <marker date="1460176050000" expanded="false" signature="5247:5407" placeholder="..." />
           </folding>
         </state>
       </provider>
