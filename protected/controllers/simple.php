@@ -907,6 +907,13 @@ class SimpleController extends Controller{
                     $data['zip'] = $address['zip'];
                     $data['payable_amount'] = $payable_amount;
 
+                    $expressModel = new Model('express_company','zd');
+                    $ex = $expressModel->fields('name as exname')->where('express_company_id="汇通速递"')->find();
+
+                    if(!$ex){
+                        $ex = $expressModel->fields('name as exname')->where('id=1')->find();
+                    }
+                    $data['express'] = $ex['id'];
                     $data['payable_freight'] = $payable_freight;
                     $data['real_freight'] = $real_freight;
                     $data['create_time'] = date('Y-m-d H:i:s');

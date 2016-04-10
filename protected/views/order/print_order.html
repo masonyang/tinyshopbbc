@@ -48,7 +48,7 @@
 	{/query}
 	<table >
 		<tr><td align="left">收货人：{$order['accept_name']}</td><td align="right">地址：{$area[$order['province']]},{$area[$order['city']]},{$area[$order['county']]},{$order['addr']}</td></tr>
-        {query:name=express fields=ex.name as exname where= express_company_id eq $order[express]/}
+        {query:name=express_company fields=ex.name as exname where= id eq $order[express]/}
         {set:$express = $item[0];}
 
 		<tr><td>电话：{$order['mobile']}</td><td align="right">配送方式：{$express['exname']}</td></tr>

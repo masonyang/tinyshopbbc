@@ -8,10 +8,11 @@ class Fare{
 
 	public function calculate($address_id){
 		$total = 0;
-		$model = new model("fare");
-		$fare = $model->where("is_default=1")->find();
+		$fareModel = new model("fare","zd");
+		$fare = $fareModel->where("is_default=1")->find();
 		if($fare){
-			$addr = $model->table('address')->where("id=$address_id")->find();
+            $addressModel = new model("address");
+			$addr = $addressModel->where("id=$address_id")->find();
 			if($addr){
 				$city = $addr['city'];
 				$first_price = $fare['first_price'];

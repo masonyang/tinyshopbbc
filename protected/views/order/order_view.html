@@ -57,6 +57,28 @@
         <tr><th><b class="red">*</b>收货地址：</th><td colspan=3>{$orderInfo['addr']}</td></tr>
     </table>
 
+    {query:name=doc_invoice domain=$domain fields=* where=order_id eq $id /}
+    {set:$invoice = $items[0]; $area_ids=array($invoice['province'],$invoice['city'],$invoice['county']);$area_ids = implode(',',$area_ids);$areas=array();}
+    {query:name=area where=id in ($area_ids)}
+    {set:$areas[$item['id']]=$item['name']}
+    {/query}
+
+    {query:name=express_company fields=name as exname where=id eq $invoice[express_company_id]}
+    {set:$express = $items[0]}
+    {/query}
+
+    {if: $express}
+    <h3 class="lineD ">发货单信息：</h3>
+
+    <table class="default">
+        <tr><th width="120">订单编号：</th><td>{$invoice['order_no']}</td><th width="120">发货单号：</th><td>{$invoice['invoice_no']}</td></tr>
+        <tr><th>物流公司：</th><td class="golden">{$express['exname']}</td><th>物流单号：</th><td class="golden">{$invoice['express_no']}</td></tr>
+        <tr><th width="100">收货人：</th><td>{$invoice['accept_name']}</td><th width="100">联系手机：</th><td>{$invoice['mobile']}</td></tr>
+        <tr><th>联系电话：</th><td>{$invoice['phone']}</td><th>邮编：</th><td>{$invoice['zip']}</td></tr>
+        <tr><th>发货时间：</th><td>{$invoice['create_time']}</td><th>发货人：</th><td>{$invoice['admin']}</td></tr>
+        <tr><th>收货地址：</th><td colspan=3>{$areas[$invoice['province']]},{$areas[$invoice['city']]},{$areas[$invoice['county']]}{$invoice['addr']}</td></tr>
+    </table>
+    {/if}
     <h3 class="lineD mt10">订单日志：</h3>
     <table class="default">
         <tr>

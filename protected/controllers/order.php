@@ -14,6 +14,7 @@ class OrderController extends Controller
 	public $needRightActions = array('*'=>true);
 	public function init()
 	{
+
 		$menu = new Menu();
 		$this->assign('mainMenu',$menu->getMenu());
 		$menu_index = $menu->current_menu();
@@ -450,14 +451,15 @@ class OrderController extends Controller
 	}
 	public function order_view()
 	{
+
 		$this->layout = "blank";
 		$id = Req::args("id");
 		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		if($order){
 
-            $expressModel = new Model('express');
-            $ex = $expressModel->fields('name as exname')->where('express_company_id='.$order['express'])->find();
+            $expressModel = new Model('express_company');
+            $ex = $expressModel->fields('name as exname')->where('id='.$order['express'])->find();
 
             $order['exname'] = $ex['exname'];
 
@@ -485,8 +487,8 @@ class OrderController extends Controller
 		if($order){
 			if($order['status']==3){
 
-                $expressModel = new Model('express');
-                $ex = $expressModel->fields('name as exname')->where('express_company_id='.$order['express'])->find();
+                $expressModel = new Model('express_company');
+                $ex = $expressModel->fields('name as exname')->where('id='.$order['express'])->find();
 
                 $order['exname'] = $ex['exname'];
 

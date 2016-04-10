@@ -14,6 +14,7 @@
                 {set:$address_default=0;}
                 {if: $address}
                 {list:items=$address}
+                {set:$address_id = $item['id'];}
                 <tr style="font-size: 1.3rem;">
                     <td rowspan="2" width="15%">
                         <div class="ico"></div>
@@ -107,7 +108,8 @@
                 </tr>
                     <tr>
                         <td class="ng-binding">运费</td>
-                        <td class="Price ng-binding" id="fare" data-weight="{$weight}">+￥{echo:$fare->calculate(16);}</td>
+                        {set:$fare = $fare->calculate($address_id);}
+                        <td class="Price ng-binding" id="fare" data-weight="{$weight}">+￥{$fare}</td>
                     </tr>
                 </tbody>
             </table>
@@ -120,7 +122,8 @@
         <tbody>
         <tr>
             <td style="padding: 0 0 0 0.5rem;color: black"><span>本单您只需支付</span><br>
-                <span class="Price ng-binding" id="total-amount" total="{$total}">{$currency_symbol}<b class="cart-total red" id="real-total">{echo:sprintf("%01.2f",$total)}</b></span>
+                {set:$sub_total = $fare+$total}
+                <span class="Price ng-binding" id="total-amount" total="{$sub_total}">{$currency_symbol}<b class="cart-total red" id="real-total">{echo:sprintf("%01.2f",$sub_total)}</b></span>
             </td>
             <td rowspan="2">
                 <button class="Submit" style="background: #ffb03f;">提交订单</button>

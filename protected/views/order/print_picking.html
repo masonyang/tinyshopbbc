@@ -38,7 +38,7 @@
 			<li><span class="caption">地址：</span>{$area[$order['province']]},{$area[$order['city']]},{$area[$order['county']]},{$order['addr']}</li>
 			<li><span class="caption">邮编：</span>{$order['zip']}</li>
 			<li><span class="caption">手机：</span>{$order['mobile']}</li>
-                {query:name=express fields=ex.name as exname where= express_company_id eq $order[express]/}
+                {query:name=express_company fields=ex.name as exname where= id eq $order[express]/}
                 {set:$express = $item[0];}
 			<li><span class="caption">配送方式：</span>{$express['exname']}</li>
 			</ul></td>
