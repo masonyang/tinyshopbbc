@@ -65,10 +65,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="db_mysql_class.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="db_mysql_class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/framework/lib/db/db_mysql_class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="137" column="26" selection-start="3298" selection-end="3298" vertical-scroll-proportion="0.5798165" vertical-offset="1664" max-vertical-offset="2760">
+            <state line="137" column="26" selection-start="3298" selection-end="3298" vertical-scroll-proportion="-6.32" vertical-offset="1664" max-vertical-offset="2760">
               <folding>
                 <marker date="1460387266000" expanded="true" signature="1240:1285" placeholder="..." />
               </folding>
@@ -76,10 +76,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="tiny.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="tiny.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/framework/tiny.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="760" column="73" selection-start="23060" selection-end="23060" vertical-scroll-proportion="-8.2" vertical-offset="10915" max-vertical-offset="11460">
+            <state line="760" column="46" selection-start="23033" selection-end="23033" vertical-scroll-proportion="0.7522936" vertical-offset="10915" max-vertical-offset="11460">
               <folding />
             </state>
           </provider>
@@ -305,6 +305,34 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="logs" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -708,19 +736,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/framework/tiny.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="760" column="73" selection-start="23060" selection-end="23060" vertical-scroll-proportion="-8.2" vertical-offset="10915" max-vertical-offset="11460">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/lib/db/db_mysql_class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="137" column="26" selection-start="3298" selection-end="3298" vertical-scroll-proportion="0.5798165" vertical-offset="1664" max-vertical-offset="2760">
+        <state line="137" column="26" selection-start="3298" selection-end="3298" vertical-scroll-proportion="-6.32" vertical-offset="1664" max-vertical-offset="2760">
           <folding>
             <marker date="1460387266000" expanded="true" signature="1240:1285" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/tiny.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="760" column="46" selection-start="23033" selection-end="23033" vertical-scroll-proportion="0.7522936" vertical-offset="10915" max-vertical-offset="11460">
+          <folding />
         </state>
       </provider>
     </entry>
