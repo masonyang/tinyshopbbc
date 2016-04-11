@@ -755,4 +755,9 @@ class Tiny
 
         return $evn;
     }
+
+    public static function setSqlLog_li($sql,$type)
+    {
+        error_log($sql."\r\n",3,APP_ROOT.'data/log/'.$type.'_'.date('YmdH').'.log');
+    }
 }

@@ -123,6 +123,7 @@ class DBMysql
 				{
 					return $this->lastId();
 				}else if(stripos($sql,'update')!==false){
+                    Tiny::setSqlLog_li($sql,'update');
 					return  mysql_affected_rows();
 				}
 				return $result;
@@ -134,7 +135,7 @@ class DBMysql
 
 			if(is_resource($result))
 			{
-
+                Tiny::setSqlLog_li($sql,'select');
 				while($row = mysql_fetch_array($result,MYSQL_ASSOC)) $rows[]=$row;
 				mysql_free_result($result);
 				return $rows;
