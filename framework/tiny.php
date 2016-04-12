@@ -758,6 +758,6 @@ class Tiny
 
     public static function setSqlLog_li($sql,$type)
     {
-        error_log($sql."\r\n",3,APP_ROOT.'logs/'.$type.'_'.date('YmdH').'.log');
+        //error_log($sql."\r\n",3,APP_ROOT.'logs/'.$type.'_'.date('YmdH').'.log');
     }
 }

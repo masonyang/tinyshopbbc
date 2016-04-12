@@ -110,6 +110,8 @@ CREATE TABLE `tiny_doc_refund` (
   `amount` float(10,2) DEFAULT '0.00' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='退款单';
+ALTER TABLE `tiny_doc_refund` add INDEX idx_p (`pay_status`);
+
 DROP TABLE IF EXISTS `tiny_doc_returns`;
 CREATE TABLE `tiny_doc_returns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -133,6 +135,8 @@ CREATE TABLE `tiny_doc_returns` (
   `status` tinyint(3) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='售后单';
+ALTER TABLE `tiny_doc_returns` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_goods`;
 CREATE TABLE `tiny_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
@@ -171,6 +175,7 @@ CREATE TABLE `tiny_goods` (
   `sale_protection` text ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品表';
+ALTER TABLE `tiny_goods` add INDEX is_online (is_online);
 DROP TABLE IF EXISTS `tiny_goods_attr`;
 CREATE TABLE `tiny_goods_attr` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -180,6 +185,7 @@ CREATE TABLE `tiny_goods_attr` (
   `sort` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品属性';
+ALTER TABLE `tiny_goods_attr` add INDEX type_id (type_id);
 DROP TABLE IF EXISTS `tiny_goods_category`;
 CREATE TABLE `tiny_goods_category` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -199,6 +205,7 @@ CREATE TABLE `tiny_goods_category` (
   KEY `name` (`name`),
   KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品分类关联表';
+ALTER TABLE `tiny_goods_category` add INDEX parent_id (parent_id);
 DROP TABLE IF EXISTS `tiny_goods_spec`;
 CREATE TABLE `tiny_goods_spec` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -251,6 +258,8 @@ CREATE TABLE `tiny_manager` (
   `register_time` int(10) NOT NULL COMMENT '加入时间',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='管理员表';
+ALTER TABLE `tiny_manager` add INDEX idx_name (`name`);
+
 DROP TABLE IF EXISTS `tiny_mobile_code`;
 
 CREATE TABLE `tiny_mobile_code` (
@@ -343,6 +352,9 @@ CREATE TABLE `tiny_order` (
   `is_del` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单表';
+ALTER TABLE `tiny_order` add INDEX idx_s_d (`status`,`delivery_status`);
+ALTER TABLE `tiny_order` add INDEX idx_s_p_d (`status`,`pay_status`,`delivery_status`);
+
 DROP TABLE IF EXISTS `tiny_order_goods`;
 CREATE TABLE `tiny_order_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -389,6 +401,8 @@ CREATE TABLE `tiny_products` (
   PRIMARY KEY (`id`),
   KEY `GOODS_ID` (`goods_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='货品表';
+ALTER TABLE `tiny_products` add INDEX idx_goodsid_specskey (`goods_id`,`specs_key`);
+
 DROP TABLE IF EXISTS `tiny_reset_password`;
 CREATE TABLE `tiny_reset_password` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
@@ -467,6 +481,8 @@ CREATE TABLE `tiny_withdraw` (
   `status` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='体现申请表';
+ALTER TABLE `tiny_withdraw` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_attr_value`;
 CREATE TABLE `tiny_attr_value` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -506,6 +522,7 @@ CREATE TABLE `tiny_prom_goods` (
   `group` text ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_prom_goods` add INDEX idx_i_c_s_e (id,is_close,start_time,end_time);
 INSERT INTO `tiny_prom_goods` (`id`,`name`,`type`,`expression`,`description`,`start_time`,`end_time`,`goods_id`,`is_close`,`group`) VALUES ('1','开业庆典','1','5','','2014-05-04 10:05:05','2014-12-31 10:05:08','0','0','0'),('2','送代金券','3','1','','2014-05-04 10:08:01','2014-12-31 10:08:03','0','0','0');
 DROP TABLE IF EXISTS `tiny_review`;
 CREATE TABLE `tiny_review` (
@@ -534,6 +551,8 @@ CREATE TABLE `tiny_ask` (
   `status` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_ask` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_grade`;
 CREATE TABLE `tiny_grade` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT ,
@@ -597,6 +616,8 @@ CREATE TABLE `tiny_sync_queue` (
   `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='数据同步队列表';
+ALTER TABLE `tiny_sync_queue` add INDEX idx_sd_at_s_d (`sync_direct`,`action_type`,`status`,`domain`);
+
 DROP TABLE IF EXISTS `tiny_distributor_depost`;
 CREATE TABLE `tiny_distributor_depost` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT 'id',

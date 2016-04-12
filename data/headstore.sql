@@ -15,6 +15,7 @@ CREATE TABLE `tiny_ad` (
   `is_open` tinyint(1) DEFAULT '1' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_ad` add INDEX idx_n_s_e (number,start_time,end_time);
 INSERT INTO `tiny_ad` (`id`,`name`,`type`,`number`,`link`,`order`,`width`,`height`,`start_time`,`end_time`,`content`,`description`,`is_open`) VALUES ('31','首页Banner','2','qgiowmka-us4k-p0up-vs3c-blkqmtb7','','0','960','410','2014-02-26','2022-02-28','a:2:{i:0;a:3:{s:4:\"path\";s:60:\"data/uploads/2014/05/13/b5cf5e20eda87a3ff77e4a2d33828947.jpg\";s:3:\"url\";s:0:\"\";s:5:\"title\";s:0:\"\";}i:1;a:3:{s:4:\"path\";s:60:\"data/uploads/2014/05/13/9670df531a008c75e7bed5b8967efd66.gif\";s:3:\"url\";s:0:\"\";s:5:\"title\";s:0:\"\";}}','王','1');
 DROP TABLE IF EXISTS `tiny_address`;
 CREATE TABLE `tiny_address` (
@@ -70,6 +71,8 @@ CREATE TABLE `tiny_ask` (
   `status` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_ask` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_attention`;
 CREATE TABLE `tiny_attention` (
   `id` bigint(11) NOT NULL AUTO_INCREMENT,
@@ -234,6 +237,8 @@ CREATE TABLE `tiny_doc_refund` (
   `amount` float(10,2) DEFAULT '0.00' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_doc_refund` add INDEX idx_p (`pay_status`);
+
 DROP TABLE IF EXISTS `tiny_doc_returns`;
 CREATE TABLE `tiny_doc_returns` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -257,6 +262,8 @@ CREATE TABLE `tiny_doc_returns` (
   `status` tinyint(3) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_doc_returns` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_express`;
 CREATE TABLE `tiny_express` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -345,6 +352,8 @@ CREATE TABLE `tiny_gallery` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `key` (`key`)
 ) ENGINE=MyISAM AUTO_INCREMENT=39 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_gallery` add INDEX idx_type (`type`);
+ALTER TABLE `tiny_gallery` add INDEX idx_key (`key`);
 INSERT INTO `tiny_gallery` (`id`,`type`,`key`,`img`) VALUES ('1','2','dfc1f156cb696a415fa67299c8c8accc','data/uploads/2014/04/28/38bfb11bf48fc2f56d2ca2d796d0b0af.gif'),('2','2','da41e56a98e03b3b916c645971d05efe','data/uploads/2014/04/28/2897d450bec860604e70007a9511c99d.png'),('3','2','624baf6475a02bfea089b456bb1e5bdb','data/uploads/2014/04/29/f2eaba12529e00081c4ed5832713a946.png'),('4','0','1678f030ef2f09c6f91b598d5a5a0b85','data/uploads/2014/04/29/7a18d229142972a45f19d34dd1bbc3bb.jpg'),('5','0','320d84617a232dbeafdc2aa81d850b31','data/uploads/2014/04/29/bee3fc7f0746b54f51fc5f1a2e7a38e3.jpg'),('6','0','314de642d88ab425090209c625c6e274','data/uploads/2014/04/29/ef93ee15ca9544b261513dd76bb56fae.jpg'),('7','0','d8026864eeba235a98cb222bb5c9c329','data/uploads/2014/04/29/d6e93371fdcfae0890fe519fdeb50129.jpg'),('8','0','e808b7c4c0f49e1a5a5f4362042a34cb','data/uploads/2014/04/29/519ecfe92a47cf2b98d6504dd875c211.png'),('9','0','c76c6c743f75aedd49bc288442248b45','data/uploads/2014/04/29/870c43499b99862429287c2d4119fef6.jpg'),('10','0','d2eb7bd9279d220c68d09a583702711d','data/uploads/2014/04/29/6b33dafad4bb8752240cf2d3ab066be8.jpg'),('11','0','653bb4fb012302df0afa03e5be685dcb','data/uploads/2014/04/29/4e7afbf5508fb11769950c397b67c03b.png'),('12','2','73f6e69ace2a06a08944a202998b2454','data/uploads/2014/04/29/a691d4112f465f542c99ac8239982627.gif'),('13','0','69751baae52c2b3b1e0cc559f3f9abc1','data/uploads/2014/04/29/8f551833e1ab9568186641fe4b5b0101.jpg'),('14','0','e4d71c8d4aaf71d82529676484b186ba','data/uploads/2014/04/30/b8f4125b967911e08f7115f8d2b3f684.jpg'),('15','0','49c20ee2651aae7496e1f80947e7f334','data/uploads/2014/04/30/eab91d30be1f31560db64cc14c277d32.jpg'),('16','0','132d6b46fe7ef222ada4f99fe736795d','data/uploads/2014/04/30/62527b26f1afbe204f247b72d1f20c2d.jpg'),('17','0','776939f2048bdc7b09fdd55d98580bc7','data/uploads/2014/04/30/bfe7319f2b2387bcd20dca7e92b83325.jpg'),('18','0','98041acacfcb43d12ba78227b16f24b4','data/uploads/2014/04/30/f31a00b4e0f6617378095a8c1bfb00c9.jpg'),('19','0','1fda76d3056b46ba4c0547c0d5bb17ff','data/uploads/2014/04/30/f16151cf9685b0e3653e8287bfed2b0d.jpg'),('20','0','5fa43753e18ce31bda5010a9ba9032ba','data/uploads/2014/04/30/f3ccdd27d2000e3f9255a7e3e2c48800.jpg'),('21','0','c1ab64673cf731e5936d880c8a3c1321','data/uploads/2014/04/30/fe5df232cafa4c4e0f1a0294418e5660.jpg'),('22','0','5000c012db2b2e0ba05e2ab1110f2ad8','data/uploads/2014/04/30/95fc43a276b4706c1eb6be35a460dcc9.jpg'),('23','0','0814690944a93562f29f23b7c66fafa2','data/uploads/2014/04/30/b6d8ff9b2b918ddde6585cba4c82bf72.jpg'),('24','0','66a90b7ceb166e0828cc87b6281c2f4f','data/uploads/2014/05/04/6a63f7365e4430b5d07791fd32c66500.jpg'),('25','0','8dac84c75059c033deef31b81cff7407','data/uploads/2014/05/04/f81d28ad7c32504c0af3a8c44eec681e.jpg'),('26','0','b244261cafcfc167d06741944f4660e4','data/uploads/2014/05/04/ef5a1ccdd16137f07139fe972f8be244.jpg'),('27','0','bf256e0c84db9df7078fa70e51f25112','data/uploads/2014/05/04/fb84a52b8da8869e478a236ed10172b8.jpg'),('28','0','39908687efde23ffc5a9d522e926099c','data/uploads/2014/05/04/fc518b7ed40e2e80188331149c9a8d5e.jpg'),('29','0','94cc3e24f660dc3d3de3624e1a25eb99','data/uploads/2014/05/04/da175403c79047247a25e76ec8c4913a.jpg'),('30','0','c94e6353fe07cb04dc924837d43f5b84','data/uploads/2014/05/04/364ed7cdfd1e19f1d2aed3aefa46145d.jpg'),('31','0','3a0cbf90373b11d1304285d2843198fd','data/uploads/2014/05/04/b1dcd910f2d270c11d91668ecfbf7302.jpg'),('32','0','fff62e0a7f7ebea6a32965f26951949f','data/uploads/2014/05/04/19579466f48282ec37548040b0c69bb3.jpg'),('33','0','109ed7d42c91e34c460dcc8443b6d6af','data/uploads/2014/05/04/a56ab48abdf9aefdef5fd16abb44d02c.jpg'),('34','0','12d0beb07614e67093829e14e24f6d6e','data/uploads/2014/05/04/16615175a6eff3846c20d4e68100ed70.jpg'),('35','0','849e216bbcc913b9c1b66213b3c19b0f','data/uploads/2014/05/04/9bd757b51fc75afd17475b667a042599.jpg'),('36','0','9b1dabbb04c92bad947371c2b322aeba','data/uploads/2014/05/04/451b95af03616fd150e78fdc84a22378.jpg'),('37','4','0267896585ade545b695c21062d03ff4','data/uploads/2014/05/13/b5cf5e20eda87a3ff77e4a2d33828947.jpg'),('38','4','e67ad91921d2ab7137f1813f0a5c7deb','data/uploads/2014/05/13/9670df531a008c75e7bed5b8967efd66.gif');
 DROP TABLE IF EXISTS `tiny_goods`;
 CREATE TABLE `tiny_goods` (
@@ -384,6 +393,7 @@ CREATE TABLE `tiny_goods` (
   `sale_protection` text ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_goods` add INDEX is_online (is_online);
 DROP TABLE IF EXISTS `tiny_goods_attr`;
 CREATE TABLE `tiny_goods_attr` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -393,6 +403,7 @@ CREATE TABLE `tiny_goods_attr` (
   `sort` int(11) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_goods_attr` add INDEX type_id (type_id);
 DROP TABLE IF EXISTS `tiny_goods_category`;
 CREATE TABLE `tiny_goods_category` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -409,9 +420,10 @@ CREATE TABLE `tiny_goods_category` (
   `seo_keywords` varchar(255) DEFAULT NULL ,
   `seo_description` varchar(255) DEFAULT NULL ,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`),
+  KEY `name` (`name`), add column
   KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_goods_category` add INDEX parent_id (parent_id);
 DROP TABLE IF EXISTS `tiny_goods_spec`;
 CREATE TABLE `tiny_goods_spec` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -508,6 +520,7 @@ CREATE TABLE `tiny_manager` (
   `is_lock` int(1) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+ALTER TABLE `tiny_manager` add INDEX idx_name (`name`);
 insert into tiny_manager(`name`,`roles`,`password`,`validcode`) values('admin','administrator','8d9199f9af00a180c621fe05c0cca2d4','Vj%eOsPw');
 DROP TABLE IF EXISTS `tiny_message`;
 CREATE TABLE `tiny_message` (
@@ -563,7 +576,7 @@ CREATE TABLE `tiny_notice_template` (
   `note` text,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
-
+ALTER TABLE `tiny_notice_template` add INDEX idx_ki_s (`key_id`,`status`);
 insert  into `tiny_notice_template`(`id`,`title`,`key_id`,`style`,`template_id`,`template`,`tousers`,`status`,`note`) values (1,'下单提醒','create_order','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"贺喜，商城有人下单了！\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"订单(__order_no__)\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"__user__\",\"color\":\"#008972\"},\"keyword3\":{\"value\":\"__order_amount____currency_unit__\",\"color\":\"#EFC028\"},\"keyword4\":{\"value\":\"__order_amount____currency_unit__\",\"color\":\"#EFC028\"},\"keyword5\":{\"value\":\"__create_time__\",\"color\":\"#EFC028\"},\"remark\":{\"value\":\"济南泰创软件科技有限公司--祝你生意兴隆!\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“下单通知”，对应的模板编号为：OPENTM207350184'),(2,'下单提醒','create_order','email','','<h1>贺喜，商城有人下单了！</h1>\r\n订单编号：__order_no__<br/>\r\n下单者：__user__ <br/>\r\n订单金额：__order_amount____currency_unit__ <br/>\r\n下单时间：__create_time__ <br/>\r\n济南泰创软件科技公司--祝您生意兴隆！','',0,'以下变量可以使用</br>\r\n订单编号：__order_no__\r\n下单者：__user__ \r\n订单金额：__order_amount__\r\n货币单位：__currency_unit__ \r\n下单时间：__create_time__ '),(3,'下单提醒','create_order','sms','','{\"order\":\"__order_no__\",\"user\":\"__user__\",\"order_amount\":\"__order_amount____currency_unit__\",\"time\":\"__create_time__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n订单编号{order_no} 长度20位\r\n用户:{user}\r\n订单金额:{order_amount}\r\n下单时间{time}'),(4,'发货提醒','payment_order','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"客户已完成支付，请及时发货！\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"__order_amount____currency_unit__\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"订单编号(__order_no__)\",\"color\":\"#008972\"},\"keyword3\":{\"value\":\"__accept_name__,__mobile__,__address__\",\"color\":\"#EFC028\"},\"remark\":{\"value\":\"济南泰创软件科技有限公司--祝你生意兴隆!\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“发货提醒”，对应的模板编号为：OPENTM203331384'),(5,'发货提醒','payment_order','email','','<h1>客户已完成付款，请及时发货！</h1>\r\n订单金额：__order_amount____currency_unit__ <br/>\r\n订单编号：__order_no__<br/>\r\n收货信息：__accept_name__,__mobile__,__address__<br/>\r\n济南泰创软件科技公司--祝您生意兴隆！','',0,'以下变量可以使用</br>\r\n订单编号：__order_no__\r\n订单金额：__order_amount__\r\n货币单位：__currency_unit__ \r\n收货地址：__address__\r\n收货人：__accept_name__\r\n收货人电话：__mobile__'),(7,'用户咨询提醒','user_ask','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"你好，你有一条用户咨询待解决!\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"__user__\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"__content__\",\"color\":\"#008972\"},\"remark\":{\"value\":\"请尽快处理，提高公司信誉!\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“用户咨询提醒”，对应的模板编号为：OPENTM202119578'),(6,'发货提醒','payment_order','sms','','{\"order\":\"__order_no__\",\"order_amount\":\"__order_amount____currency_unit__\",\"time\":\"__pay_time__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n订单编号{order_no} 长度20位\r\n订单金额:{order_amount}\r\n付款时间{time}'),(8,'用户咨询提醒','user_ask','email','','<h1>你好，你有一条用户咨询待解决！</h1>\r\n用户：__user__ <br/>\r\n咨询内容：__content__<br/>\r\n请尽快处理，提高公司信誉!','',0,'以下变量可以使用</br>\r\n用户：__user__\r\n咨询内容：__content__\r\n'),(9,'用户咨询提醒','user_ask','sms','','{\"user\":\"__user__\",\"content\":\"__content__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n用户:{user}\r\n咨询内容:{content}'),(10,'后台登录通知','admin_login','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"帐号__manager__已登录后台\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"__time__\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"__login_type__\",\"color\":\"#008972\"},\"keyword3\":{\"value\":\"__ip__\",\"color\":\"#EFC028\"},\"remark\":{\"value\":\"如非公司管理人员操作，请立即访问桌面版修改密码\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“登录通知”，对应的模板编号为：OPENTM217116132'),(11,'后台登录通知','admin_login','email','','<h1>帐号__manager__已登录后台</h1>\r\n登录时间：__time__ <br/>\r\n登录设备：__login_type__<br/>\r\n登录IP：__ip__<br/>\r\n如非公司管理人员操作，请立即访问桌面版修改密码','',0,'以下变量可以使用</br>\r\n登录时间：__time__ \r\n登录设备：__login_type__\r\n登录IP：__ip__'),(12,'后台登录通知','admin_login','sms','','{\"manager\":\"__manager__\",\"time\":\"__time__\",\"login_type\":\"__login_type__\",\"ip\":\"__ip__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n管理员:{manager}\r\n登录时间:{time}\r\n登录设备:{login_type}\r\n登录IP:{ip}'),(13,'退款/退货申请提醒','refund_application','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"买家__user__申请退货\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"__order_no__\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"__goods_name__\",\"color\":\"#008972\"},\"keyword3\":{\"value\":\"__order_amount__\",\"color\":\"#EFC028\"},\"remark\":{\"value\":\"请尽快处理用户的退款/退货的申请，提高公司信誉！\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“退货申请提醒”，对应的模板编号为：OPENTM204146731'),(14,'退款/退货申请提醒','refund_application','email','','<h1>买家__user__申请退货</h1>\r\n订单编号：__order_no__ <br/>\r\n商品名称：__goods_name__<br/>\r\n订单金额：__order_amount__<br/>\r\n请尽快处理用户的退款/退货的申请，提高公司信誉！','',0,'以下变量可以使用</br>\r\n用户：__user__\r\n订单编号：__order_no__\r\n商品名称：__goods_name__\r\n商品金额：__order_amount__'),(15,'退款/退货申请提醒','refund_application','sms','','{\"user\":\"__user__\",\"order_no\":\"__order_no__\",\"goods_name\":\"__goods_name__\",\"order_amount\":\"__order_amount__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n客户:{user}\r\n订单编号:{order_no}\r\n商品名称:{goods_name}\r\n订单金额:{order_amount}'),(16,'提现申请通知','withdrawal_application','weixin','','{\"touser\":\"__touser__\",\"template_id\":\"__template_id__\",\"topcolor\":\"#0067A6\",\"data\":{\"first\":{\"value\":\"用户申请提现！\",\"color\":\"#00ABD8\"},\"keyword1\":{\"value\":\"__user__\",\"color\":\"#008972\"},\"keyword2\":{\"value\":\"__amount____currency_unit__\",\"color\":\"#008972\"},\"keyword3\":{\"value\":\"__account__\",\"color\":\"#EFC028\"},\"keyword4\":{\"value\":\"账户名/开户名(__name__)\",\"color\":\"#EFC028\"},\"remark\":{\"value\":\"请尽快进行处理!\",\"color\":\"#F2572D\"}}}','',0,'在微信模板搜索中搜索“提现申请通知”，对应的模板编号为：OPENTM207277133'),(17,'提现申请通知','withdrawal_application','email','','<h1>用户提现申请！</h1>\r\n用户：__user__ <br/>\r\n申请金额：__amount____currency_unit__<br/>\r\n银行卡号：__account__<br/>\r\n商户号：__name__<br/>\r\n请尽快处理用户的退款/退货的申请，提高公司信誉！','',0,'以下变量可以使用</br>\r\n用户：__user__\r\n银行卡号：__account__\r\n商户号：__name__\r\n申请金额：__amount__'),(18,'提现申请通知','withdrawal_application','sms','','{\"user\":\"__user__\",\"amount\":\"__amount__\",\"account\":\"__account__\",\"name\":\"__name__\"}','',0,'请务必注意短信下发字数的限制<br/>\r\n客户:{user}\r\n商户号:{name}\r\n银行卡号:{account}\r\n申请金额:{amount}');
 DROP TABLE IF EXISTS `tiny_notify`;
 CREATE TABLE `tiny_notify` (
@@ -655,6 +668,9 @@ CREATE TABLE `tiny_order` (
   `outer_id` bigint(20) NOT NULL COMMENT '关联分店订单表的id',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_order` add INDEX idx_s_d (`status`,`delivery_status`);
+ALTER TABLE `tiny_order` add INDEX idx_s_p_d (`status`,`pay_status`,`delivery_status`);
+
 DROP TABLE IF EXISTS `tiny_order_goods`;
 CREATE TABLE `tiny_order_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -739,6 +755,7 @@ CREATE TABLE `tiny_products` (
   PRIMARY KEY (`id`),
   KEY `GOODS_ID` (`goods_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_products` add INDEX idx_goodsid_specskey (`goods_id`,`specs_key`);
 
 DROP TABLE IF EXISTS `tiny_prom_goods`;
 CREATE TABLE `tiny_prom_goods` (
@@ -754,6 +771,7 @@ CREATE TABLE `tiny_prom_goods` (
   `group` text ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_prom_goods` add INDEX idx_i_c_s_e (id,is_close,start_time,end_time);
 INSERT INTO `tiny_prom_goods` (`id`,`name`,`type`,`expression`,`description`,`start_time`,`end_time`,`goods_id`,`is_close`,`group`) VALUES ('1','开业庆典','1','5','','2014-05-04 10:05:05','2014-12-31 10:05:08','0','0','0'),('2','送代金券','3','1','','2014-05-04 10:08:01','2014-12-31 10:08:03','0','0','0');
 DROP TABLE IF EXISTS `tiny_prom_order`;
 CREATE TABLE `tiny_prom_order` (
@@ -918,6 +936,8 @@ CREATE TABLE `tiny_withdraw` (
   `status` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_withdraw` add INDEX idx_s (`status`);
+
 DROP TABLE IF EXISTS `tiny_zoning`;
 CREATE TABLE `tiny_zoning` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -959,6 +979,8 @@ CREATE TABLE `tiny_distributor` (
   `disabled` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0:启用 1:禁用',
   PRIMARY KEY (`distributor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商信息';
+ALTER TABLE `tiny_distributor` add INDEX idx_disabled (`disabled`);
+
 DROP TABLE IF EXISTS `tiny_orderscanner`;
 CREATE TABLE `tiny_orderscanner` (
   `scanner_order_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '扫描订单号',
@@ -999,6 +1021,8 @@ CREATE TABLE `tiny_sync_queue` (
   `sync_type` enum('goods', 'brand','category','distrInfo','goods_type','payment','products','spec','tag') DEFAULT 'goods',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='数据同步队列表';
+ALTER TABLE `tiny_sync_queue` add INDEX idx_sd_at_s_d (`sync_direct`,`action_type`,`status`,`domain`);
+
 DROP TABLE IF EXISTS `tiny_order_invoice`;
 CREATE TABLE `tiny_order_invoice` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
