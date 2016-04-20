@@ -329,9 +329,11 @@ class OrderController extends Controller
         $manager = $this->safebox->get('manager');
 
         if($is_onlinepay){
-            $payfee = 1 - ($paymentInfo['pay_fee']/100);
+            //$payfee = 1 - ($paymentInfo['pay_fee']/100);
 
-            $income = ($order_info['order_amount'] * $payfee) - $tradeprice;
+            //$income = ($order_info['order_amount'] * $payfee) - $tradeprice;
+
+            $income = $order_info['order_amount'] - $tradeprice;
 
             $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
             $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();
