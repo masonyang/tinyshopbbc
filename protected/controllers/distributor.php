@@ -84,6 +84,10 @@ class DistributorController extends Controller
         unset($mappers);
         unset($distrInfos);
 
+        if(!$id && empty($domainList)){
+            $this->redirect("distributor_list",true,array('msg'=>array('error','没有可用的域名,暂时无法新建分销商！')));
+        }
+
         $this->assign("domain_list",$domainList);
 
 		$this->assign("domain",$domain);
@@ -138,20 +142,6 @@ class DistributorController extends Controller
 		$data['disabled'] = $disabled;
 		$data['catids'] = implode(',',$catids);
 
-//        $data['distributor_name'] = '测试分销商';
-//        $data['validcode'] = 'h10Y!2P8';
-//        $data['distributor_password'] = 'b74893a3b2d0e1f078e8212aa2e7fcb1';
-//        $data['register_time'] = time();
-//        $data['distributor_id'] = 1;
-//
-//        OpenShop::getInstance()->setParams($data);
-        //OpenShop::getInstance()->updateMapperConfig();
-        //OpenShop::getInstance()->createDb(); //ok
-        //OpenShop::getInstance()->createTables(); //ok
-//        OpenShop::getInstance()->syncDistributorInfo();//ok
-//        OpenShop::getInstance()->syncGoods();
-//        $msg = OpenShop::getInstance()->done();
-//        exit;
 		$distributorModel = new Model("distributor");
 		
 		if($id){
@@ -184,12 +174,9 @@ class DistributorController extends Controller
 			OpenShop::getInstance()->syncDistributorInfo();//ok
 			OpenShop::getInstance()->syncGoods();
 
-            $this->redirect("distributor_list",$return);
+			OpenShop::getInstance()->done();
 
-			$msg = OpenShop::getInstance()->done();
-				if(false == $msg['res']){
-					$this->msg = array("error",$msg['msg']);
-				}
+            $this->redirect("distributor_list",true,array('msg'=>array('success',$distributor_name.'分销商新建成功！')));
 		}
 
 		$this->redirect("distributor_list",$return);

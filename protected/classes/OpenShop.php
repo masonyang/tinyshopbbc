@@ -118,30 +118,32 @@ class OpenShop
 	//同步分类所对应的商品、规格、类型、品牌
 	public function syncGoods()
 	{
-
-
+        echo "<span style='text-align:center;font-size:24px;color:#FF0000;'>为了数据同步无误,请不要关闭该窗口</span>";
+        echo "正在同步商品分类...<br>";
 		$this->_syncCategory();//同步分类
-        echo "_syncGoodsing...<br>";
+        echo "商品分类同步完毕...<br>";
+        echo "正在同步商品...<br>";
         $this->_syncGoods();//根据授权商品分类 去获取 对应的商品
-        echo "_syncGoodsed...<br>";
-        echo "_syncProductsing...<br>";
+        echo "商品同步完毕...<br>";
+        echo "正在同步产品...<br>";
         $this->_syncProducts();//同步货品
-        echo "_syncProductsed...<br>";
-        echo "_syncGoodsSpeceing...<br>";
+        echo "产品同步完毕...<br>";
+        echo "正在同步商品规格...<br>";
         $this->_syncGoodsSpec();//商品规格
-        echo "_syncGoodsSpeced...<br>";
-        echo "_syncGoodsTypeing...<br>";
+        echo "商品规格同步完毕...<br>";
+        echo "正在同步商品类型...<br>";
         $this->_syncGoodsType();//对应商品类型
-        echo "_syncGoodsTypeed...<br>";
-        echo "_syncGoodsBranding...<br>";
+        echo "商品类型同步完毕...<br>";
+        echo "正在同步品牌...<br>";
         $this->_syncGoodsBrand();//品牌 信息
-        echo "_syncGoodsBranded...<br>";
-        echo "_syncTagsing...<br>";
+        echo "品牌同步完毕...<br>";
+        echo "正在同步商品标签...<br>";
         $this->_syncTags();//商品标签
-        echo "_syncTagsed...<br>";
-        echo "_syncGoodsPaymenting...<br>";
+        echo "商品标签同步完毕...<br>";
+        echo "正在同步支付方式...<br>";
         $this->_syncPayment();//支付方式
-        echo "_syncGoodsPaymented...<br>";
+        echo "支付方式同步完毕...<br>";
+        echo "<span style='text-align:center;font-size:24px;color:#008000;'>所有数据已完成同步!</span>";
 	}
 
 	//同步分类

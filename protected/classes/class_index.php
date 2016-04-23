@@ -128,4 +128,10 @@
 "DXSMS"=>"standard/sms/DXSMS.php",
 "SMS"=>"standard/sms/SMS.php",
 "SMSInterface"=>"standard/sms/SMSInterface.php",
+
+/**********************API INTERFACE************************************/
+"test"=>"api/test.php",
+
+
+/**********************API INTERFACE************************************/
 );?>

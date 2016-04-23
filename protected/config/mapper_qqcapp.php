@@ -49,4 +49,56 @@ return array(
         'frontend'=>'a.qqcapp.com',
         'backend'=>'a.qqcapp.com/index.php?con=admin&act=index',
     ),
+    'b' =>
+        array (
+            'db' =>
+                array (
+                    'type' => 'mysql',
+                    'domain' => 'b',
+                    'tablePre' => 'tiny_',
+                    'master'=>array(
+                        'host' => '10.45.54.89:3306',
+                        'user' => 'qqc',
+                        'password' => 'qqc-2016-mysql',
+                        'name' => 'a',
+                    ),
+                    'salve'=>array(
+                        'host' => '10.45.54.89:3306',
+                        'user' => 'qqc',
+                        'password' => 'qqc-2016-mysql',
+                        'name' => 'a',
+                    ),
+                ),
+            'theme' => 'default',
+            'themes_mobile' => 'mobile_default',
+            'menu' => 'branchstore',
+            'frontend' => 'b.qqcapp.com',
+            'backend' => 'b.qqcapp.com/index.php?con=admin&act=index',
+        ),
+    'c' =>
+        array (
+            'db' =>
+                array (
+                    'type' => 'mysql',
+                    'domain' => 'c',
+                    'tablePre' => 'tiny_',
+                    'master'=>array(
+                        'host' => '10.45.54.89:3306',
+                        'user' => 'qqc',
+                        'password' => 'qqc-2016-mysql',
+                        'name' => 'c',
+                    ),
+                    'salve'=>array(
+                        'host' => '10.45.54.89:3306',
+                        'user' => 'qqc',
+                        'password' => 'qqc-2016-mysql',
+                        'name' => 'c',
+                    ),
+                ),
+            'theme' => 'default',
+            'themes_mobile' => 'mobile_default',
+            'menu' => 'branchstore',
+            'frontend' => 'c.qqcapp.com',
+            'backend' => 'c.qqcapp.com/index.php?con=admin&act=index',
+        ),
 );

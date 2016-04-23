@@ -703,12 +703,20 @@ class Tiny
                 return false;
             }
 
-            list($top,$domain,$ext) = explode('.',$serverName);
+            if($serverName == '192.168.1.101'){
+                $top = 'a';
+                $domain = 'tinyshop';
+                $ext = 'com';
+            }else{
+                list($top,$domain,$ext) = explode('.',$serverName);
+            }
+
 
             return array('top'=>$top,'domain'=>$domain,'ext'=>$ext);
         }else{
             //$ip = Chips::getLocalIp();
             $ip = '10.24.35.30'; //todo 临时解决 job同步问题
+
             $allowips = array_keys(self::$allowIps);
 
             if(in_array($ip,$allowips)){
