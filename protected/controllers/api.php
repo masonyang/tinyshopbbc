@@ -11,7 +11,11 @@ class ApiController extends Controller
     {
         $args = Req::args();
 
-        $class = new $args['method']();
+        $obj = $args['method'];
+
+        unset($args['method']);
+
+        $class = new $obj($args);
 
         return $class->index();
     }

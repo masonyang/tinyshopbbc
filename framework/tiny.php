@@ -516,6 +516,7 @@ class Tiny
      */
     public static function loadExtendsClass($className)
     {
+
         if(isset(self::$_classes_index[$className])){
             if(is_file(self::$_classes_index[$className])) include(self::$_classes_index[$className]);
             return true;
@@ -530,6 +531,8 @@ class Tiny
                         if(!isset(self::$_classes_index[$k])) self::$_classes_index[$k] = $class_base_path.$v;
                     }
                 }
+
+
                 if(isset(self::$_classes_index[$className])){
                     if(is_file(self::$_classes_index[$className]))include(self::$_classes_index[$className]);
                     return true;
@@ -703,7 +706,7 @@ class Tiny
                 return false;
             }
 
-            if($serverName == '192.168.1.101'){
+            if($serverName == '192.168.1.100'){
                 $top = 'a';
                 $domain = 'tinyshop';
                 $ext = 'com';

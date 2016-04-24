@@ -126,12 +126,21 @@
 "pay_tenpay"=>"payments/pay_tenpay.php",
 "pay_alipaymobile"=>"payments/pay_alipaymobile.php",
 "DXSMS"=>"standard/sms/DXSMS.php",
-"SMS"=>"standard/sms/SMS.php",
+"SMS"=>"sms/SMS.php",
 "SMSInterface"=>"standard/sms/SMSInterface.php",
 
 /**********************API INTERFACE************************************/
-"test"=>"api/test.php",
-
-
+"baseapi"=>"api/api.php",
+"advert"=>"api/advert.php",//广告
+"gcat"=>"api/goodscat.php",//商品分类
+"goods"=>"api/goods.php",//商品
+"payment"=>"api/payment.php",//支付方式
+"shipping"=>"api/shipping.php",//配送方式
+"customer"=>"api/customer.php",//会员
+"cservice"=>"api/cservice.php",//客户服务
+"orders"=>"api/orders.php",//订单
+"carts"=>"api/carts.php",//购物车
+"paylink"=>"api/paylink.php",//支付链接
+"arealist"=>"api/arealist.php",//区域筛选器
 /**********************API INTERFACE************************************/
 );?>
