@@ -605,7 +605,7 @@ class GoodsController extends Controller
             if($suggest_price >= $branchstore_sell_price[$k]){
                 $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
             }else{
-                $data['branchstore_sell_price'] = $sell_price[$k];
+                $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
             }
 
             $g_store_nums += $data['store_nums'];
@@ -665,7 +665,7 @@ class GoodsController extends Controller
             if($suggest_price >= $g_branchstore_sell_price){
                 $data['branchstore_sell_price'] = $g_branchstore_sell_price;
             }else{
-                $data['branchstore_sell_price'] = $g_sell_price;
+                $data['branchstore_sell_price'] = $branchstore_sell_price;
             }
 
             $result = $products->where("goods_id = ".$goods_id)->find();
