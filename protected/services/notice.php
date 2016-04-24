@@ -62,12 +62,12 @@ class NoticeService
 						}
 						break;
 					case 'sms':
-						if(class_exists('SMS')){
-							$obj = SMS::getInstance();
-							if($obj->getStatus()){
-								$this->noticeClasses['sms'] = $obj;
-							}
-						}
+//						if(class_exists('SMS')){
+//							$obj = SMS::getInstance();
+//							if($obj->getStatus()){
+//								$this->noticeClasses['sms'] = $obj;
+//							}
+//						}
 						break;
 					case 'email':
 						$obj = new Mail();

@@ -44,10 +44,10 @@ class SimpleController extends Controller{
             $code = $this->safebox->get($this->captchaKey);
             $verifyCode = Req::args("verifyCode");
             $smsCheck = false;
-            if(class_exists('SMS')){
-                $sms = SMS::getInstance();
-                if($sms->getStatus()) $smsCheck = true;
-            }
+//            if(class_exists('SMS')){
+//                $sms = SMS::getInstance();
+//                if($sms->getStatus()) $smsCheck = true;
+//            }
             $checkFlag = false;
             if($smsCheck){
                 $mobile_code = Req::args('mobile_code');
