@@ -41,19 +41,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="simple.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="simple.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/simple.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="46" column="17" selection-start="1463" selection-end="1463" vertical-scroll-proportion="-8.625" vertical-offset="483" max-vertical-offset="17745">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="notice.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/protected/services/notice.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="70" column="30" selection-start="2483" selection-end="2483" vertical-scroll-proportion="0.6084507" vertical-offset="834" max-vertical-offset="1350">
+            <state line="1042" column="24" selection-start="50116" selection-end="50116" vertical-scroll-proportion="0.23569024" vertical-offset="15490" max-vertical-offset="17805">
               <folding />
             </state>
           </provider>
@@ -62,7 +53,7 @@
       <file leaf-file-name="ucenter.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/ucenter.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="516" column="27" selection-start="20859" selection-end="20859" vertical-scroll-proportion="-13.625" vertical-offset="7413" max-vertical-offset="10170">
+            <state line="508" column="32" selection-start="20637" selection-end="20649" vertical-scroll-proportion="-8.625" vertical-offset="7413" max-vertical-offset="10170">
               <folding />
             </state>
           </provider>
@@ -71,7 +62,7 @@
       <file leaf-file-name="model_class.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/framework/web/model/model_class.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="42" column="0" selection-start="893" selection-end="893" vertical-scroll-proportion="-12.291667" vertical-offset="260" max-vertical-offset="9345">
+            <state line="35" column="20" selection-start="709" selection-end="709" vertical-scroll-proportion="-7.9166665" vertical-offset="260" max-vertical-offset="9345">
               <folding>
                 <marker date="1460043223000" expanded="true" signature="9609:9665" placeholder="insert into ..." />
                 <marker date="1460043223000" expanded="true" signature="12220:12278" placeholder="delete from ..." />
@@ -81,37 +72,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mapper_qqcapp.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/config/mapper_qqcapp.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="72" column="38" selection-start="2375" selection-end="2375" vertical-scroll-proportion="-0.5833333" vertical-offset="1066" max-vertical-offset="1650">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="tiny.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/framework/tiny.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="728" column="0" selection-start="22471" selection-end="22471" vertical-scroll-proportion="-14.791667" vertical-offset="10490" max-vertical-offset="11625">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="goodscat.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/classes/api/goodscat.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="9" selection-start="438" selection-end="648" vertical-scroll-proportion="-17.5" vertical-offset="0" max-vertical-offset="1590">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="api.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="30" column="20" selection-start="539" selection-end="539" vertical-scroll-proportion="-14.416667" vertical-offset="104" max-vertical-offset="735">
+            <state line="728" column="0" selection-start="22471" selection-end="22471" vertical-scroll-proportion="-19.166666" vertical-offset="10385" max-vertical-offset="11625">
               <folding />
             </state>
           </provider>
@@ -176,8 +140,8 @@
         <option value="$PROJECT_DIR$/framework/tiny.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/customer.php" />
         <option value="$PROJECT_DIR$/protected/config/mapper_qqcapp.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/simple.php" />
         <option value="$PROJECT_DIR$/protected/services/notice.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/simple.php" />
       </list>
     </option>
   </component>
@@ -370,6 +334,24 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -450,7 +432,7 @@
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32776934" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979185" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.28177258" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -687,20 +669,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/goodscat.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="9" selection-start="438" selection-end="648" vertical-scroll-proportion="-17.5" vertical-offset="0" max-vertical-offset="1590">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="20" selection-start="539" selection-end="539" vertical-scroll-proportion="-14.416667" vertical-offset="104" max-vertical-offset="735">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/class_index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="138" column="9" selection-start="6313" selection-end="6321" vertical-scroll-proportion="-17.541666" vertical-offset="1649" max-vertical-offset="2280">
@@ -746,13 +714,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/ucenter.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="516" column="27" selection-start="20859" selection-end="20859" vertical-scroll-proportion="-13.625" vertical-offset="7413" max-vertical-offset="10170">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/config_qqcapp.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="28" selection-start="537" selection-end="537" vertical-scroll-proportion="0.46061644" vertical-offset="1" max-vertical-offset="585">
@@ -760,9 +721,23 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/protected/services/notice.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="30" selection-start="391" selection-end="391" vertical-scroll-proportion="0.31523642" vertical-offset="0" max-vertical-offset="1350">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/config/mapper_qqcapp.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="38" selection-start="2375" selection-end="2375" vertical-scroll-proportion="1.025685" vertical-offset="481" max-vertical-offset="1650">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/framework/web/model/model_class.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="0" selection-start="893" selection-end="893" vertical-scroll-proportion="-12.291667" vertical-offset="260" max-vertical-offset="9345">
+        <state line="35" column="20" selection-start="709" selection-end="709" vertical-scroll-proportion="-7.9166665" vertical-offset="260" max-vertical-offset="9345">
           <folding>
             <marker date="1460043223000" expanded="true" signature="9609:9665" placeholder="insert into ..." />
             <marker date="1460043223000" expanded="true" signature="12220:12278" placeholder="delete from ..." />
@@ -771,30 +746,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/framework/tiny.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/goodscat.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="728" column="0" selection-start="22471" selection-end="22471" vertical-scroll-proportion="-14.791667" vertical-offset="10490" max-vertical-offset="11625">
+        <state line="28" column="9" selection-start="438" selection-end="648" vertical-scroll-proportion="0.73555166" vertical-offset="0" max-vertical-offset="1590">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/config/mapper_qqcapp.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="72" column="38" selection-start="2375" selection-end="2375" vertical-scroll-proportion="-0.5833333" vertical-offset="1066" max-vertical-offset="1650">
+        <state line="30" column="20" selection-start="539" selection-end="539" vertical-scroll-proportion="0.59246576" vertical-offset="104" max-vertical-offset="735">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/tiny.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="728" column="0" selection-start="22471" selection-end="22471" vertical-scroll-proportion="-19.166666" vertical-offset="10385" max-vertical-offset="11625">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/ucenter.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="508" column="32" selection-start="20637" selection-end="20649" vertical-scroll-proportion="-8.625" vertical-offset="7413" max-vertical-offset="10170">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/simple.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="46" column="17" selection-start="1463" selection-end="1463" vertical-scroll-proportion="-8.625" vertical-offset="483" max-vertical-offset="17745">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/services/notice.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="70" column="30" selection-start="2483" selection-end="2483" vertical-scroll-proportion="0.6084507" vertical-offset="834" max-vertical-offset="1350">
+        <state line="1042" column="24" selection-start="50116" selection-end="50116" vertical-scroll-proportion="0.23569024" vertical-offset="15490" max-vertical-offset="17805">
           <folding />
         </state>
       </provider>

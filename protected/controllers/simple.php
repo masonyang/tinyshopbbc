@@ -752,7 +752,7 @@ class SimpleController extends Controller{
 
                     //订单类型: 0普通订单 1团购订单 2限时抢购 3捆绑促销
                     $order_type = 0;
-                    $model = new Model('');
+                    $model = new Model('order');
 
                     //团购处理
                     if($type=="groupbuy"){
@@ -845,7 +845,8 @@ class SimpleController extends Controller{
                     if($order_type ==0 ){
                         if($prom_id){
                             $prom = new Prom($real_amount);
-                            $prom_order = $model->table("prom_order")->where("id=$prom_id")->find();
+                            $prom_orderObj = new Model('prom_order');
+                            $prom_order = $prom_orderObj->where("id=$prom_id")->find();
 
                             //防止非法会员使用订单优惠
                             $user = $this->user;
@@ -880,7 +881,8 @@ class SimpleController extends Controller{
                     $voucher_value = 0;
                     $voucher = array();
                     if($voucher_id){
-                        $voucher = $model->table("voucher")->where("id=$voucher_id and is_send=1 and user_id=".$this->user['id']." and status = 0 and '".date("Y-m-d H:i:s")."' <=end_time and '".date("Y-m-d H:i:s")."' >=start_time and money<=".$real_amount)->find();
+                        $voucherModel = new Model('voucher');
+                        $voucher = $voucherModel->where("id=$voucher_id and is_send=1 and user_id=".$this->user['id']." and status = 0 and '".date("Y-m-d H:i:s")."' <=end_time and '".date("Y-m-d H:i:s")."' >=start_time and money<=".$real_amount)->find();
                         if($voucher){
                             $voucher_value = $voucher['value'];
                             if($voucher_value>$real_amount)$voucher_value = $real_amount;
@@ -942,7 +944,8 @@ class SimpleController extends Controller{
                     //var_dump($order_products);exit();
 
                     //写入订单数据
-                    $order_id = $model->table("order")->data($data)->insert();
+                    $orderModel = new Model('order');
+                    $order_id = $orderModel->data($data)->insert();
 
                     $orderInfo = $data;
                     $orderInfo['outer_id'] = $order_id;
@@ -955,6 +958,7 @@ class SimpleController extends Controller{
                     //写入订单商品
                     $tem_data = array();
                     $orderItems = array();
+                    $orderGoodsModel = new Model('order_goods');
                     foreach ($order_products as $item) {
                         $tem_data['order_id'] = $order_id;
                         $tem_data['goods_id'] = $item['goods_id'];
@@ -967,7 +971,7 @@ class SimpleController extends Controller{
                         $tem_data['goods_weight'] = $item['weight'];
                         $tem_data['prom_goods'] = serialize($item['prom_goods']);
                         $tem_data['spec'] = serialize($item['spec']);
-                        $model->table("order_goods")->data($tem_data)->insert();
+                        $orderGoodsModel->data($tem_data)->insert();
                         $orderItems[] = $tem_data;
                     }
 
