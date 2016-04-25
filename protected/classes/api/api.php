@@ -17,8 +17,8 @@ class baseapi
 
     public function __construct($params = array())
     {
-        header('Access-Control-Allow-Origin:*;');
-        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
+        header('Access-Control-Allow-Origin:*');
+//        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
         $this->params = $params;
     }

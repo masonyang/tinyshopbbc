@@ -459,6 +459,9 @@ class OrderController extends Controller
 		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		if($order){
+            if($order['site_url']){
+                $this->assign('domain',$order['site_url']);
+            }
 
             $expressModel = new Model('express_company');
             $ex = $expressModel->fields('name as exname')->where('id='.$order['express'])->find();
@@ -487,6 +490,11 @@ class OrderController extends Controller
 		$model = new Model("order");
 		$order = $model->where("id=$id")->find();
 		if($order){
+
+            if($order['site_url']){
+                $this->assign('domain',$order['site_url']);
+            }
+
 			if($order['status']==3){
 
                 $expressModel = new Model('express_company');
@@ -555,7 +563,7 @@ class OrderController extends Controller
                     $model_tem = new Model('order',$order['site_url']);
                     $model_tem->where("id=".$order['outer_id'])->data(array('status'=>$status,'admin_remark'=>$admin_remark))->update();
 
-                    Log::orderlog($order['outer_id'],'操作人:'.$this->manager['name'],$parse_status[$status].'完成',$parse_status[$status],'success',$this->domain);
+                    Log::orderlog($order['outer_id'],'操作人:'.$this->manager['name'],$parse_status[$status].'完成',$parse_status[$status],'success',$order['site_url']);
 
 					$info  = array('status'=>'success','msg'=>$parse_status[$status]);
 				}else{
@@ -659,7 +667,7 @@ class OrderController extends Controller
 		return $info;
 	}
 	public function ship_validator(){
-		$model = new Model('ship',$this->domain);
+		$model = new Model('ship');
 		if(Req::args("is_default")==1){
 
 			$model->data(array('is_default'=>0))->update();

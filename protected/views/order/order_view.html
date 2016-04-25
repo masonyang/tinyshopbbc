@@ -2,16 +2,23 @@
 <div style="overflow: auto;width:900px;height: 450px;">
     <h3 class="lineD">商品信息：</h3>
     <table class="default" id="attr_values">
-        <tr><td width="40"></td><td width="120">货号</td><td>商品名</td><td width="140">规格</td><td width="60">价格</td><td width="40">数量</td><td width="60">商品促销</td><td width="60">小计</td></tr>
-        {query:name=order_goods as od domain=$domain fields=go.img,go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,od.prom_goods join= left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=order_id eq $id}
+        {set:$total_weight = 0;}
+        {set:$total_trade_price = 0;}
+        {set:$total_cost_price = 0;}
+
+        <tr><td width="40"></td><td width="120">货号</td><td>商品名</td><td width="140">规格</td><td width="60">价格</td><td width="40">数量</td><td width="60">重量</td><td width="60">成本价</td><td width="60">批发价</td><td width="60">小计</td></tr>
+        {query:name=order_goods as od domain=$domain fields=go.img,go.name,pr.pro_no,od.spec,od.goods_price,od.goods_nums,od.prom_goods,od.goods_weight,od.trade_price,od.cost_price join= left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=order_id eq $id}
         {set:$spec = unserialize($item['spec']);}
+        {set:$total_weight += ($item['goods_weight']*$item['goods_nums']);}
+        {set:$total_trade_price += ($item['trade_price']*$item['goods_nums']);}
+        {set:$total_cost_price += ($item['cost_price']*$item['goods_nums']);}
         <tr><td><img src="{echo:Common::thumb($item['img'],100,100);}" width="40"></td><td>{$item['pro_no']}</td><td>{$item['name']}</td><td>
             {if:is_array($spec)}
             {list:items=$spec item=$ite }
             {$ite['name']}:{$ite['value'][2]}
             {/list}
             {/if}
-        </td><td>{$item['goods_price']}</td><td>{$item['goods_nums']}</td><td>{set:$prom=unserialize($item['prom_goods']);}{$prom['prom']['name']}</td><td class="golden">{echo:sprintf("%.2f",($item['goods_price']*$item['goods_nums']))}</td></tr>
+        </td><td>{$item['goods_price']} 元</td><td>{$item['goods_nums']}</td>{set:$prom=unserialize($item['prom_goods']);}{$prom['prom']['name']}<td>{$item['goods_weight']} g</td><td>{$item['cost_price']} 元</td><td>{$item['trade_price']} 元</td><td class="golden">{echo:sprintf("%.2f",($item['goods_price']*$item['goods_nums']))} 元</td></tr>
         {/query}
     </table>
     <h3 class="lineD mt10">购买人信息：</h3>
@@ -28,18 +35,18 @@
     <h3 class="lineD mt10">订单信息：</h3>
     <table class="default">
         <tr><th width="100">订单编号：</th><td>{$orderInfo['order_no']}</td><th width="100">下单时间：</th><td>{$orderInfo['create_time']}</td></tr>
-        <tr><th>支付方式：</th><td>{$orderInfo['payname']}</td><th>支付手续费：</th><td class="golden">{$orderInfo['handling_fee']}</td></tr>
-        <tr><th>配送方式：</th><td>{$orderInfo['exname']}</td><th>配送费用：</th><td class="golden">{$orderInfo['payable_freight']}</td></tr>
-        <tr><th>实际配送费用：</th><td class="golden">{$orderInfo['real_freight']}</td></tr>
-        <tr><th>应付商品总金额：</th><td class="golden">{$orderInfo['payable_amount']}</td><th>实付商品总金额：</th><td class="golden">{$orderInfo['real_amount']}</td></tr>
+        <tr><th>支付方式：</th><td>{$orderInfo['payname']}</td><th>支付手续费：</th><td class="golden">{$orderInfo['handling_fee']} 元</td></tr>
+        <tr><th>配送方式：</th><td>{$orderInfo['exname']}</td><th>配送费用：</th><td class="golden">{$orderInfo['payable_freight']} 元</td></tr>
+        <tr><th>实际配送费用：</th><td class="golden">{$orderInfo['real_freight']} 元</td></tr>
+        <tr><th>应付商品总金额：</th><td class="golden">{$orderInfo['payable_amount']} 元</td><th>实付商品总金额：</th><td class="golden">{$orderInfo['real_amount']} 元</td></tr>
         {if:$orderInfo['is_invoice']==1}
         {set:$invoice = explode(':',$orderInfo['invoice_title'])}
         <tr><th>发票类型：</th><td ><b>{if:$invoice[0]==1}单位{else:}个人{/if}</b></td><th>发票抬头：</th><td ><b>{$invoice[1]}</b></td></tr>
         {/if}
-        <tr><th>发票税金：</th><td class="golden">{$item['taxes']}</td><th>活动优惠金额：</th><td class="golden">{$orderInfo['discount_amount']}</td></tr>
-        <tr><th>原订单总金额：</th><td colspan=3  class="golden">{echo:sprintf("%.2f",$amount)} 注：记订单在未调价之前的总金额</td></tr>
-        <tr><th>订单折扣或涨价：</th><td colspan=3 >{$orderInfo['adjust_amount']|0}</td></tr>
-        <tr><th>调整后订单总金额：</th><td colspan=3   ><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$orderInfo['order_amount']} </span> 注：总金额不会小于0元</td></tr>
+        <tr><th>发票税金：</th><td class="golden">{$item['taxes']}</td><th>活动优惠金额：</th><td class="golden">{$orderInfo['discount_amount']} 元</td></tr>
+        <tr><th>原订单总金额：</th><td class="golden">{echo:sprintf("%.2f",$amount)} 元 注：记订单在未调价之前的总金额</td><th>商品总重量：</th><td>{$total_weight} g</td></tr>
+        <tr><th>订单折扣或涨价：</th><td>{$orderInfo['adjust_amount']|0} 元</td><th>商品总成本价：</th><td>{$total_cost_price} 元</td></tr>
+        <tr><th>调整后订单总金额：</th><td><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$orderInfo['order_amount']} 元</span> 注：总金额不会小于0元</td><th>商品利润：</th><td>{set:$lirun = $orderInfo['order_amount'] - $total_trade_price - $total_cost_price} {$lirun} 元</td></tr>
         <tr><th>调价原因：</th><td colspan=3>{$orderInfo['adjust_note']}</td></tr>
         <tr><th>用户备注：</th><td colspan=3>{$orderInfo['user_remark']}</td></tr>
         <tr><th>管理人员备注：</th><td colspan=3>{$orderInfo['admin_remark']}</td></tr>

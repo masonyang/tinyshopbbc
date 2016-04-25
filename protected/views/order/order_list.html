@@ -26,7 +26,7 @@
         <tr>
             <th style="width:50px">选择</th>
             <th style="width:70px">操作</th>
-            <th style="width:100px">订单号</th>
+            <th style="width:130px">订单号</th>
             <th style="width:70px">商品总额 </th>
             <th style="width:70px">会员账号</th>
             <th style="width:70px">收货人</th>
@@ -61,7 +61,7 @@
                 <li><a class="icon-close" href="javascript:confirm_action('{url:/order/order_del/id/$item[id]}')"> 删除</a></li>
                 {/if}
                 <li><a class="icon-attachment"  href="javascript:;" onclick="change_status({$item['id']},null,'note')"> 备注</a></li></ul></div></div> </td>
-            <td style="width:100px">{$item['order_no']}</td><td style="width:70px">{$item['order_amount']}</td><td style="width:70px">{$item['uname']}</td><td style="width:70px">{$item['accept_name']}</td><td style="width:80px">{$item['mobile']}</td><td style="width:80px">{$payment[$item['payment']]}</td><td style="width:50px">{$pay_status[$item['pay_status']]}</td>
+            <td style="width:130px">{$item['order_no']}</td><td style="width:70px">{$item['order_amount']}</td><td style="width:70px">{$item['uname']}</td><td style="width:70px">{$item['accept_name']}</td><td style="width:80px">{$item['mobile']}</td><td style="width:80px">{$payment[$item['payment']]}</td><td style="width:50px">{$pay_status[$item['pay_status']]}</td>
             <td style="width:50px">{$delivery_status[$item['delivery_status']]}</td>
             <td style="width:50px" id="status_{$item['id']}">{$status[$item['status']]}</td>
             <td style="width:60px" class="btn_min">
