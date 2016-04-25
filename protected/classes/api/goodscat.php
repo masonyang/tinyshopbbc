@@ -34,7 +34,17 @@ class gcat extends baseapi
     //首页导航分类展示
     protected function getCatIndex()
     {
+        $catData = $this->catModel->where('parent_id=0')->order('sort desc')->findAll();
 
+        $html = '';
+
+        $i = 3;
+        foreach($catData as $val){
+            $html .= '<div class="col-25"><a href="#tab'.$i.'" style="width:100%" class="button tab-link">'.$val['name'].'</a></div>&nbsp;';
+            $i++;
+        }
+
+        echo $html;
     }
 
     //全部分类
