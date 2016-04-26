@@ -46,7 +46,7 @@
                 <li><a class="icon-pencil" href="{url:/goods/goods_edit/id/$item[id]}"> 编辑</a></li>
                 <li><a class="icon-remove-2" href="javascript:;" onclick="confirm_action('{url:/goods/goods_del/id/$item[id]}')"> 删除</a></li>
                </ul></div></div></td>
-        <td><a href="{url:/index/product/id/$item[id]}" target="_blank">{echo:TString::msubstr($item['name'],0,24)}</a></td> {if: $domain != 'zd'}<td>{echo:TString::msubstr($item['branchstore_goods_name'],0,24)}</td>{/if}<td style="width:80px;">{$item['goods_no']}</td><td style="width:100px;">{$category_name[$item['category_id']]}</td><td style="width:80px;">{$item['sell_price']}</td>{if: $domain != 'zd'}<td>{$item['branchstore_sell_price']}</td>{/if}<td style="width:60px;">{$item['trade_price']}</td>
+        <td><a href="{url:/index/product/id/$item[id]}" target="_blank">{$item['name']}</a></td> {if: $domain != 'zd'}<td>{$item['branchstore_goods_name']}</td>{/if}<td style="width:80px;">{$item['goods_no']}</td><td style="width:100px;">{$category_name[$item['category_id']]}</td><td style="width:80px;">{$item['sell_price']}</td>{if: $domain != 'zd'}<td>{$item['branchstore_sell_price']}</td>{/if}<td style="width:60px;">{$item['trade_price']}</td>
         <td style="width:60px;">{$item['sort']}</td><td style="width:60px;" {if:$item['store_nums']<=$item['warning_line']}class="red"{/if}><b>{$item['store_nums']}</b></td><td style="width:60px;">{if:$item['is_online']==0}<b class="green">在售</b>{else:}<b class="red">下架</b>{/if}</td></tr>
     {/query}
 </table>
