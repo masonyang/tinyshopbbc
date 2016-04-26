@@ -576,7 +576,7 @@ class GoodsController extends Controller
 		$gdata = Req::args();
 
         if(isset($branchstore_sell_price)){
-            $suggest_price = $trade_price * ($this->other_tradeprice_rate/100);
+            $suggest_price = 0;//$trade_price * ($this->other_tradeprice_rate/100);
             if($suggest_price >= $branchstore_sell_price){
                 $gdata['branchstore_sell_price'] = $branchstore_sell_price;
             }else{
@@ -679,7 +679,7 @@ class GoodsController extends Controller
 
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
 
-            $suggest_price = $g_trade_price * ($this->other_tradeprice_rate/100);
+            $suggest_price = 0;//$g_trade_price * ($this->other_tradeprice_rate/100);
             if($suggest_price >= $g_branchstore_sell_price){
                 $data['branchstore_sell_price'] = $g_branchstore_sell_price;
             }else{
