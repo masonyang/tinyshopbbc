@@ -25,7 +25,7 @@
     </script>
     <dl>
         <dd class="Detail-info font-medium" style="margin-bottom: 0;margin-top: 0">
-            <div class="ng-binding">{$goods['name']}<span style="float:right;color:red" class="ng-binding"></span></div>
+            <div class="ng-binding">{if: $goods['branchstore_goods_name']} {$goods['branchstore_goods_name']} {else:}{$goods['name']}{/if} <span style="float:right;color:red" class="ng-binding"></span></div>
 
             <div>
                 销售价：<span class="ng-binding ng-hide" style=" font-size: 1.6rem;">{$currency_symbol}{if: $goods['branchstore_sell_price']} {$goods['branchstore_sell_price']} {else:} {$goods['sell_price']} {/if}</span>

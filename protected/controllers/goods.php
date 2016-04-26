@@ -556,7 +556,12 @@ class GoodsController extends Controller
 
 		//商品处理
 		$goods = new Model('goods');
-		Req::args('specs',serialize($specs_new));
+
+        $serverName = Tiny::getServerName();
+        if($serverName['top'] == 'zd'){
+            Req::args('specs',serialize($specs_new));
+        }
+
 		$imgs = is_array(Req::args("imgs"))?Req::args("imgs"):array();
         $attrs = array();
         $serverName = Tiny::getServerName();
@@ -594,7 +599,8 @@ class GoodsController extends Controller
 			Log::op($this->manager['id'],"修改商品","管理员[".$this->manager['name']."]:修改了商品 ".Req::args('name'));
 		}
 		//货品添加处理
-		$g_store_nums = $g_warning_line = $g_weight = $g_sell_price = $g_market_price = $g_cost_price = 0;
+        $g_store_nums = $g_warning_line = $g_weight = $g_sell_price = $g_market_price = $g_cost_price = 0;
+        $g_branchstore_sell_price = array();
 		$products = new Model("products");
 		$k = 0;
 		foreach ($values_dcr as $key => $value) {
@@ -608,6 +614,7 @@ class GoodsController extends Controller
                 $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
             }
 
+
             $g_store_nums += $data['store_nums'];
 			if($g_warning_line==0) $g_warning_line = $data['warning_line'];
 			else if($g_warning_line>$data['warning_line']) $g_warning_line = $data['warning_line'];
@@ -619,6 +626,9 @@ class GoodsController extends Controller
 			else if($g_market_price<$data['market_price']) $g_market_price = $data['market_price'];
 			if($g_cost_price==0) $g_cost_price = $data['cost_price'];
 			else if($g_cost_price<$data['cost_price']) $g_cost_price = $data['cost_price'];
+
+            $g_branchstore_sell_price[] = $data['branchstore_sell_price'];
+
 
             if($data['pro_no'] == ''){
                 unset($data['pro_no']);
@@ -658,14 +668,14 @@ class GoodsController extends Controller
 			$g_market_price = $market_price;
             $g_trade_price = $trade_price;
 			$g_cost_price = $cost_price;
-            $g_branchstore_sell_price = $branchstore_sell_price;
+            $g_branchstore_sell_price = min($g_branchstore_sell_price);
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
 
             $suggest_price = $g_trade_price * ($this->other_tradeprice_rate/100);
             if($suggest_price >= $g_branchstore_sell_price){
                 $data['branchstore_sell_price'] = $g_branchstore_sell_price;
             }else{
-                $data['branchstore_sell_price'] = $branchstore_sell_price;
+                $data['branchstore_sell_price'] = $g_branchstore_sell_price;
             }
 
             $result = $products->where("goods_id = ".$goods_id)->find();

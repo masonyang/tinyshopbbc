@@ -214,13 +214,13 @@ class AjaxController extends Controller
         $offset = $limit * ($page-1);
 
         $goodsModel = new Model('goods');
-        $goodsData = $goodsModel->fields('id,img,name,branchstore_sell_price,sell_price')->where('is_online = 0')->limit($offset.','.$limit)->order('id desc')->findAll();
+        $goodsData = $goodsModel->fields('id,img,name,branchstore_goods_name,branchstore_sell_price,sell_price')->where('is_online = 0')->limit($offset.','.$limit)->order('id desc')->findAll();
 
         if($goodsData){
             $data = array();
             foreach($goodsData as $k=>$gd){
                 $data[$k]['url'] = '/index.php?con=index&act=product&id='.$gd['id'];
-                $data[$k]['name'] = $gd['name'];
+                $data[$k]['name'] = ($gd['branchstore_goods_name']) ? $gd['branchstore_goods_name'] : $gd['name'];
                 $data[$k]['price'] = ($gd['branchstore_sell_price']) ? $gd['branchstore_sell_price'] : $gd['sell_price'];
                 $data[$k]['image'] = Common::thumb($gd['img'],400,400);
             }
