@@ -12,17 +12,18 @@
         <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
         {if: $local_domain == 'zd'}
         <div class="tools_bar clearfix" style="height: auto;">
-            <a href="{url:/order/order_list/status/1}"> 未审核</a>
-            <a href="{url:/order/order_list/status/2}"> 未支付</a>
-            <a href="{url:/order/order_list/status/3}"> 已支付</a>
-            <a href="{url:/order/order_list/status/4}"> 已发货</a>
-            <a href="{url:/order/order_list/status/5}"> 已取消</a>
-            <a href="{url:/order/order_list/status/6}"> 已完成</a>
+            <a href="{url:/order/order_list/status/1}" {if:$tab_status == 1} style="color: red;font-weight: bolder"{/if} > 未审核</a>
+            <a href="{url:/order/order_list/status/2}" {if:$tab_status == 2} style="color: red;font-weight: bolder"{/if} > 未支付</a>
+            <a href="{url:/order/order_list/status/3}" {if:$tab_status == 3} style="color: red;font-weight: bolder"{/if} > 已支付</a>
+            <a href="{url:/order/order_list/status/4}" {if:$tab_status == 4} style="color: red;font-weight: bolder"{/if} > 已发货</a>
+            <a href="{url:/order/order_list/status/5}" {if:$tab_status == 5} style="color: red;font-weight: bolder"{/if} > 已取消</a>
+            <a href="{url:/order/order_list/status/6}" {if:$tab_status == 6} style="color: red;font-weight: bolder"{/if} > 已完成</a>
         </div>
         {/if}
 
     </div>
-    <table class="default" >
+    <div style="overflow-y:hidden;">
+    <table class="default">
         <tr>
             <th style="width:50px">选择</th>
             <th style="width:70px">操作</th>
@@ -37,8 +38,11 @@
             <th style="width:50px">订单状态</th>
             <th style="width: 60px">打印</th>
             {if: $local_domain == 'zd'}
-                <th style="width: 60px">分销商店铺</th>
+                <th style="width: 100px">分销商店铺</th>
             {/if}
+            <th style="width: 150px">创建时间</th>
+            <th style="width: 150px">支付时间</th>
+            <th style="width: 150px">发货时间</th>
         </tr>
         {query:name=order fields=* where=$where id=$obj page=1 order= $orderby }
         <tr><td style="width:50px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
@@ -81,9 +85,13 @@
             {if: $local_domain == 'zd'}
                 <td style="width: 60px" title="{$item['site_url']}.qqcapp.com">{$item['site_url']}.qqcapp.com</td>
             {/if}
+            <td style="width:150px">{$item['create_time']}</td>
+            <td style="width:150px">{$item['pay_time']}</td>
+            <td style="width:150px">{$item['send_time']}</td>
         </tr>
         {/query}
     </table>
+    </div>
 </form>
 <div class="page_nav">
     {echo:$obj->pageBar()}

@@ -386,32 +386,39 @@ class OrderController extends Controller
                 case '1'://待审核
                     $where = 'status in (1,2)';
                     $orderby = 'create_time desc';
+                    $tab_status = 1;
                 break;
                 case '2'://未支付
                     $where = 'status=3 and pay_status=0';
                     $orderby = 'create_time desc';
+                    $tab_status = 2;
                 break;
                 case '3'://已支付 未发货
                     $where = 'pay_status=1 and delivery_status=0';
                     $orderby = 'pay_time desc';
+                    $tab_status = 3;
                     break;
                 case '4'://已发货
                     $where = 'status=3 and delivery_status=1';
                     $orderby = 'send_time desc';
+                    $tab_status = 4;
                     break;
                 case '5'://已取消
                     $where = 'status in (5,6)';
                     $orderby = 'create_time desc';
+                    $tab_status = 5;
                     break;
                 case '6'://已完成
                     $where = 'status=4';
                     $orderby = 'completion_time desc';
+                    $tab_status = 6;
                     break;
                 default:
                     $serverName = Tiny::getServerName();
                     if($serverName['top'] == 'zd'){
                         $where = 'status=3 and delivery_status=1';
                         $orderby = 'send_time desc';
+                        $tab_status = 4;
                     }else{
                         $where = '1=1';
                         $orderby = 'id desc';
@@ -419,6 +426,8 @@ class OrderController extends Controller
 
                     break;
             }
+
+            $this->assign("tab_status",$tab_status);
             $this->assign("where",$where);
             $this->assign("orderby",$orderby);
 		}
@@ -682,6 +691,7 @@ class OrderController extends Controller
 		$this->title = '订单打印';
         $orderModel = new Model('order');
         $order = $orderModel->where('id='.Req::args("id"))->find();
+        $this->assign('domain',$order['site_url']);
 		$this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}
@@ -690,6 +700,7 @@ class OrderController extends Controller
 		$this->title = '购物单打印';
         $orderModel = new Model('order');
         $order = $orderModel->where('id='.Req::args("id"))->find();
+        $this->assign('domain',$order['site_url']);
         $this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}
@@ -698,6 +709,14 @@ class OrderController extends Controller
 		$this->title = '配货单打印';
         $orderModel = new Model('order');
         $order = $orderModel->where('id='.Req::args("id"))->find();
+
+        $distrModel = new Model('distributor');
+
+        $disData = $distrModel->fields('site_logo')->where('site_url="'.$order['site_url'].'"')->find();
+
+        $site_logo = 'http://'.$order['site_url'].'.qqcapp.com/'.$disData['site_logo'];
+        $this->assign('site_logo',$site_logo);
+        $this->assign('domain',$order['site_url']);
         $this->assign("id",$order['outer_id']);
 		$this->redirect();
 	}

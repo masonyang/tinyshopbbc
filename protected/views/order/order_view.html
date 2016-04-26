@@ -46,7 +46,7 @@
         <tr><th>发票税金：</th><td class="golden">{$item['taxes']}</td><th>活动优惠金额：</th><td class="golden">{$orderInfo['discount_amount']} 元</td></tr>
         <tr><th>原订单总金额：</th><td class="golden">{echo:sprintf("%.2f",$amount)} 元 注：记订单在未调价之前的总金额</td><th>商品总重量：</th><td>{$total_weight} g</td></tr>
         <tr><th>订单折扣或涨价：</th><td>{$orderInfo['adjust_amount']|0} 元</td><th>商品总成本价：</th><td>{$total_cost_price} 元</td></tr>
-        <tr><th>调整后订单总金额：</th><td><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$orderInfo['order_amount']} 元</span> 注：总金额不会小于0元</td><th>商品利润：</th><td>{set:$lirun = $orderInfo['order_amount'] - $total_trade_price - $total_cost_price} {$lirun} 元</td></tr>
+        <tr><th>调整后订单总金额：</th><td><span style="display: inline-block;width: 100px" class="golden" id="order_amount">{$orderInfo['order_amount']} 元</span> 注：总金额不会小于0元</td><th>商品利润：</th><td>{set:$lirun = $total_trade_price - $total_cost_price} {$lirun} 元</td></tr>
         <tr><th>调价原因：</th><td colspan=3>{$orderInfo['adjust_note']}</td></tr>
         <tr><th>用户备注：</th><td colspan=3>{$orderInfo['user_remark']}</td></tr>
         <tr><th>管理人员备注：</th><td colspan=3>{$orderInfo['admin_remark']}</td></tr>

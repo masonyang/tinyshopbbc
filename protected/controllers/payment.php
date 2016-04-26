@@ -326,12 +326,26 @@ class PaymentController extends Controller
                             }
                         }else{
                             $model->table("order")->data(array('status'=>6))->where('id='.$order_id)->update();
+
+                            $zdOrderModel = new Model('order','zd','master');
+
+                            $serverName = Tiny::getServerName();
+
+                            $zdOrderModel->data(array('status'=>6))->where('outer_id='.$order_id.' and site_url="'.$serverName['top'].'"')->update();
+
                             $this->redirect("/index/msg",false,array('type'=>'fail','msg'=>'支付晚了，库存已不足。'));
                             exit;
                         }
 
                     }else{
                         $model->data(array('status'=>6))->where('id='.$order_id)->update();
+
+                        $zdOrderModel = new Model('order','zd','master');
+
+                        $serverName = Tiny::getServerName();
+
+                        $zdOrderModel->data(array('status'=>6))->where('outer_id='.$order_id.' and site_url="'.$serverName['top'].'"')->update();
+
                         $this->redirect("/index/msg",false,array('type'=>'fail','msg'=>'订单超出了规定时间内付款，已作废.'));
                         exit;
                     }

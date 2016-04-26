@@ -3,17 +3,18 @@
 <div class="panel">
 	{query:name=order as od domain=$domain fields=od.*,cu.phone as uphone,us.name as uname join=left join customer as cu on od.user_id eq cu.user_id left join user as us on od.user_id eq us.id where= od.id eq $id/}
 	{set:$order = $items[0];}
+    {set:$goods_nums = 0;}
 	<table style="border-top:none;">
 		<tr>
-			<td ><img src="{url:@static/images/logo.png}"  /></td>
-			<td valign="bottom" align="rgiht" width="240"><p>客户：{$order['uname']} &nbsp;&nbsp;<span class="ml_20">电话：{$order['phone']}</span></p></td>
+			<td ><img src="{$site_logo}"  /></td>
+			<td valign="bottom" align="rgiht" width="240"><p>收货人：{$order['accept_name']} &nbsp;&nbsp;<span class="ml_20">电话：{$order['mobile']}</span></p></td>
 		</tr>
 		</table>
 		<table >
 		<tr><td><b>订单号：{$order['order_no']}</b></td><td align="right" width="240px"><b>订购日期：{$order['create_time']}</b></td></tr>
 	</table>
 	<table style="border:none;">
-			<tr><th width="40">序号</th><th width="100">商品货号</th><th width="200">商品名称</th><th width="200">规格</th><th  width="80">单价</th><th  width="60">数量</th><th width="80">小计</th></tr>
+			<tr><th width="40">序号</th><th width="100">商品货号</th><th width="200">商品名称</th><th width="200">规格</th><th  width="60">数量</th></tr>
 				{query:name=order_goods as od domain=$domain fields=go.name,go.branchstore_goods_name,pr.pro_no,pr.spec,od.goods_price,od.goods_nums join= left join products as pr on od.product_id eq pr.id  left join goods as go on od.goods_id eq go.id where=order_id eq $id}
 				{set:$spec = unserialize($item['spec']);}
 				<tr><td>{echo:($key+1)}</td><td>{$item['pro_no']}</td><td>{if: $item['branchstore_goods_name']} {$item['branchstore_goods_name']} {else:} {$item['name']} {/if}</td><td>
@@ -22,7 +23,8 @@
 						{$ite['name']}:{$ite['value'][2]}
 					{/list}
 					{/if}
-				</td><td>{$item['goods_price']}</td><td>{$item['goods_nums']}</td><td class="golden">{echo:sprintf("%.2f",($item['goods_price']*$item['goods_nums']))}</td></tr>
+				</td><td>{$item['goods_nums']}</td></tr>
+                    {set:$goods_nums += $item['goods_nums'];}
 				{/query}
 	</table>
 	{set:$ids = "($order[province],$order[city],$order[county])";$areas=array();}
@@ -34,13 +36,7 @@
 			<td>订单附言：{$order['user_remark']}</td>
 			<td width="400">
 			<ul>
-			<li><span class="caption">收货人：</span>{$order['accept_name']}</li>
-			<li><span class="caption">地址：</span>{$area[$order['province']]},{$area[$order['city']]},{$area[$order['county']]},{$order['addr']}</li>
-			<li><span class="caption">邮编：</span>{$order['zip']}</li>
-			<li><span class="caption">手机：</span>{$order['mobile']}</li>
-                {query:name=express_company fields=ex.name as exname where= id eq $order[express]/}
-                {set:$express = $item[0];}
-			<li><span class="caption">配送方式：</span>{$express['exname']}</li>
+			<li><span class="caption" style="float: right;padding-right: 110px;">商品总数：{$goods_nums}</span></li>
 			</ul></td>
 		</tr>
 	</table>
