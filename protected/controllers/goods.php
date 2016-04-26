@@ -601,6 +601,7 @@ class GoodsController extends Controller
 		//货品添加处理
         $g_store_nums = $g_warning_line = $g_weight = $g_sell_price = $g_market_price = $g_cost_price = 0;
         $g_branchstore_sell_price = array();
+        $g_trade_price = array();
 		$products = new Model("products");
 		$k = 0;
 		foreach ($values_dcr as $key => $value) {
@@ -629,6 +630,7 @@ class GoodsController extends Controller
 
             $g_branchstore_sell_price[] = $data['branchstore_sell_price'];
 
+            $g_trade_price[] = $data['trade_price'];
 
             if($data['pro_no'] == ''){
                 unset($data['pro_no']);
@@ -659,6 +661,9 @@ class GoodsController extends Controller
 			}
 			$k++;
 		}
+
+        $g_trade_price = min($g_trade_price);
+        $g_branchstore_sell_price = min($g_branchstore_sell_price);
 		//如果没有规格
 		if($k==0){
 			$g_store_nums = $store_nums;
@@ -666,9 +671,12 @@ class GoodsController extends Controller
 			$g_weight = $weight;
 			$g_sell_price = $sell_price;
 			$g_market_price = $market_price;
-            $g_trade_price = $trade_price;
+
 			$g_cost_price = $cost_price;
-            $g_branchstore_sell_price = min($g_branchstore_sell_price);
+
+            $g_trade_price = $trade_price;
+            $g_branchstore_sell_price = $branchstore_sell_price;
+
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no,'store_nums'=>$store_nums,'warning_line'=>$warning_line,'weight'=>$weight,'sell_price'=>$sell_price,'market_price'=>$market_price,'cost_price'=>$cost_price,'trade_price'=>$trade_price,'specs_key'=>'','spec'=>serialize(array()));
 
             $suggest_price = $g_trade_price * ($this->other_tradeprice_rate/100);
@@ -688,7 +696,10 @@ class GoodsController extends Controller
 			}
 		}
 		//更新商品相关货品的部分信息
-		$goods->data(array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'trade_price'=>$g_trade_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price,'branchstore_sell_price'=>$g_branchstore_sell_price))->where("id=".$goods_id)->update();
+
+        $ggdata = array('store_nums'=>$g_store_nums,'warning_line'=>$g_warning_line,'weight'=>$g_weight,'sell_price'=>$g_sell_price,'trade_price'=>$g_trade_price,'market_price'=>$g_market_price,'cost_price'=>$g_cost_price,'branchstore_sell_price'=>$g_branchstore_sell_price);
+
+        $goods->data($ggdata)->where("id=".$goods_id)->update();
 
 		$keys = array_keys($values_dcr);
 		$keys = implode("','", $keys);
