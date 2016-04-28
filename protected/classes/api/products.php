@@ -151,7 +151,7 @@ class products extends baseapi
         $loadimgs = '';
 
         foreach($imgs as $val){
-            $loadimgs .= '<div class="swiper-slide"><img src="http://192.168.1.101/'.$val.'" width="300" height="300"></div>';
+            $loadimgs .= '<div class="swiper-slide"><img src="http://a.qqcapp.com/'.$val.'" width="300" height="300"></div>';
         }
 
         $html .= str_replace(array('{name}','{imgs}','{sale_price}','{store_nums}','{goods_no}','{pro_no}','{unit}','{content}'),array($name,$loadimgs,$sale_price,$store_nums,$goods_no,$pro_no,$unit,$content),$this->template);

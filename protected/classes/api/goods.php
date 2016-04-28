@@ -17,7 +17,7 @@ class goods extends baseapi
                 </div>
                 </a>
                 <a href="product.html?id={id}" class="item-link">
-                <div class="card-content"> <img src="http://192.168.1.101/{img}" width="100%"/></div>
+                <div class="card-content"> <img src="http://a.qqcapp.com/{img}" width="100%"/></div>
                 </a>
                 <div class="card-footer no-border"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
             </div>';

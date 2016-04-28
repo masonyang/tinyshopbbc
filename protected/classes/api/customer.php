@@ -91,6 +91,21 @@ class customer extends baseapi
     //添加/编辑收获地址
     protected function addAddress()
     {
+        $addrid = intval($this->params['id']);
+
+        $data = array();
+
+        $addressModel = new Model('address');
+
+        $addrList = $addressModel->fields('id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('id='.$addrid)->find();
+
+        if($addrList){
+            $data = $addrList;
+            $this->output['status'] = 'succ';
+        }
+
+
+        $this->output($data,'json');
 
     }
 
@@ -101,6 +116,7 @@ class customer extends baseapi
         $areaModel = new Model('area','zd','salve');
 
         foreach($addrLists as $val){
+            $id = $val['id'];
             $name = $val['accept_name'];
             $mobile = $val['mobile'];
             $province = $val['province'];
@@ -119,7 +135,7 @@ class customer extends baseapi
 
             $address = $parse_area[$province].$parse_area[$city].$parse_area[$county].$addr;
 
-            $html = str_replace(array('{name}','{mobile}','{address}','{is_default}'),array($name,$mobile,$address,$is_default),$this->addrManageTemplate);
+            $html .= str_replace(array('{id}','{name}','{mobile}','{address}','{is_default}'),array($id,$name,$mobile,$address,$is_default),$this->addrManageTemplate);
         }
 
         echo $html;

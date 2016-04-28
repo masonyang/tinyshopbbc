@@ -706,7 +706,7 @@ class Tiny
                 return false;
             }
 
-            if(in_array($serverName,array('192.168.1.112','192.168.1.100'))){
+            if(in_array($serverName,array('192.168.1.112','192.168.1.101'))){
                 $top = 'a';
                 $domain = 'tinyshop';
                 $ext = 'com';
