@@ -9,6 +9,19 @@
 class customer extends baseapi
 {
 
+    protected $addrManageTemplate = '<li class="swipeout">
+            <div class="swipeout-content"><a href="#" class="item-link item-content">
+                <div class="item-inner">
+                    <div class="item-title-row">
+                        <div class="item-title">{name}</div>
+                        <div class="item-after">{mobile}</div>
+                    </div>
+                    <div class="item-subtitle">{address}&nbsp;&nbsp;{is_default}</div>
+                </div></a></div>
+            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a href="#" class="demo-mark bg-orange">设为默认</a><a href="#" data-confirm="Are you sure you want to delete this item?" class="swipeout-delete swipeout-overswipe">删除</a></div>
+        </li>';
+
+
     public function index()
     {
         switch($this->params['source']){
@@ -20,6 +33,9 @@ class customer extends baseapi
                 break;
             case 'address':
                 $this->getAddress();
+                break;
+            case 'addaddr':
+                $this->addAddress();
                 break;
             case 'cpwd':
                 $this->changePwd();
@@ -57,7 +73,56 @@ class customer extends baseapi
     //收货地址管理
     protected function getAddress()
     {
+        $userid = intval($this->params['id']);
 
+        $addressModel = new Model('address');
+
+        $addrLists = $addressModel->fields('id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('user_id='.$userid)->findAll();
+
+        if($addrLists){
+            $this->getAddrHtml($addrLists);
+
+        }else{
+            echo '';
+        }
+
+    }
+
+    //添加/编辑收获地址
+    protected function addAddress()
+    {
+
+    }
+
+    protected function getAddrHtml($addrLists)
+    {
+        $html = '';
+
+        $areaModel = new Model('area','zd','salve');
+
+        foreach($addrLists as $val){
+            $name = $val['accept_name'];
+            $mobile = $val['mobile'];
+            $province = $val['province'];
+            $city = $val['city'];
+            $county = $val['county'];
+            $addr = $val['addr'];
+            $is_default = ($val['is_default'] == 1) ? '<span class="badge bg-gray">默认</span>' : '';
+
+            $area_ids = $province.','.$city.','.$county;
+
+            if($area_ids!='')$areas = $areaModel->where("id in ($area_ids)")->findAll();
+            $parse_area = array();
+            foreach ($areas as $area) {
+                $parse_area[$area['id']] = $area['name'];
+            }
+
+            $address = $parse_area[$province].$parse_area[$city].$parse_area[$county].$addr;
+
+            $html = str_replace(array('{name}','{mobile}','{address}','{is_default}'),array($name,$mobile,$address,$is_default),$this->addrManageTemplate);
+        }
+
+        echo $html;
     }
 
     //修改密码

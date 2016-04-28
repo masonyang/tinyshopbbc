@@ -33,6 +33,8 @@ class syncdata_goodsJob extends billJob
 
         unset($params['spec_attr']);
 
+        unset($params['branchstore_sell_price']);
+        unset($params['branchstore_goods_name']);
         headToBranchJob::getInstance()->deal($op_type,$params,$where,'goods',$db);
 
         $this->return_msg['res'] = 'success';
@@ -63,6 +65,7 @@ class syncdata_goodsJob extends billJob
                     if(empty($val)){
                         continue;
                     }
+                    unset($val['branchstore_sell_price']);
                     headToBranchJob::getInstance()->deal('update',$val,$w,'products',$db);
                 }
             }

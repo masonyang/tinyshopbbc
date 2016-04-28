@@ -77,7 +77,7 @@ class gcat extends baseapi
 
     }
 
-    private function getHtml($goods_category)
+    protected function getHtml($goods_category)
     {
 
         $html = '';

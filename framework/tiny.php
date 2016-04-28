@@ -706,7 +706,7 @@ class Tiny
                 return false;
             }
 
-            if($serverName == '192.168.1.100'){
+            if(in_array($serverName,array('192.168.1.112','192.168.1.100'))){
                 $top = 'a';
                 $domain = 'tinyshop';
                 $ext = 'com';
@@ -719,7 +719,7 @@ class Tiny
         }else{
             //$ip = Chips::getLocalIp();
             $ip = '10.24.35.30'; //todo 临时解决 job同步问题
-
+//            $ip = '192.168.1.101';
             $allowips = array_keys(self::$allowIps);
 
             if(in_array($ip,$allowips)){

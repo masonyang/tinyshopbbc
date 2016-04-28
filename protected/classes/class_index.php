@@ -133,7 +133,8 @@
 "baseapi"=>"api/api.php",
 "advert"=>"api/advert.php",//广告
 "gcat"=>"api/goodscat.php",//商品分类
-"goods"=>"api/goods.php",//商品
+"goods"=>"api/goods.php",//商品列表
+"products"=>"api/products.php",//商品详情
 "payment"=>"api/payment.php",//支付方式
 "shipping"=>"api/shipping.php",//配送方式
 "customer"=>"api/customer.php",//会员
