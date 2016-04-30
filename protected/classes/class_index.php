@@ -143,5 +143,7 @@
 "carts"=>"api/carts.php",//购物车
 "paylink"=>"api/paylink.php",//支付链接
 "arealist"=>"api/arealist.php",//区域筛选器
+"captchacode"=>"api/captchacode.php",//验证码
+
 /**********************API INTERFACE************************************/
 );?>

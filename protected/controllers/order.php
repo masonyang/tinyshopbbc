@@ -385,39 +385,39 @@ class OrderController extends Controller
             switch($status){
                 case '1'://待审核
                     $where = 'status in (1,2)';
-                    $orderby = 'create_time desc';
+                    $orderby = 'unix_timestamp(create_time) desc';
                     $tab_status = 1;
                 break;
                 case '2'://未支付
                     $where = 'status=3 and pay_status=0';
-                    $orderby = 'create_time desc';
+                    $orderby = 'unix_timestamp(create_time) desc';
                     $tab_status = 2;
                 break;
                 case '3'://已支付 未发货
                     $where = 'pay_status=1 and delivery_status=0';
-                    $orderby = 'pay_time desc';
+                    $orderby = 'unix_timestamp(pay_time) desc';
                     $tab_status = 3;
                     break;
                 case '4'://已发货
                     $where = 'status=3 and delivery_status=1';
-                    $orderby = 'send_time desc';
+                    $orderby = 'unix_timestamp(send_time) desc';
                     $tab_status = 4;
                     break;
                 case '5'://已取消
                     $where = 'status in (5,6)';
-                    $orderby = 'create_time desc';
+                    $orderby = 'unix_timestamp(create_time) desc';
                     $tab_status = 5;
                     break;
                 case '6'://已完成
                     $where = 'status=4';
-                    $orderby = 'completion_time desc';
+                    $orderby = 'unix_timestamp(completion_time) desc';
                     $tab_status = 6;
                     break;
                 default:
                     $serverName = Tiny::getServerName();
                     if($serverName['top'] == 'zd'){
                         $where = 'status=3 and delivery_status=1';
-                        $orderby = 'send_time desc';
+                        $orderby = 'unix_timestamp(send_time) desc';
                         $tab_status = 4;
                     }else{
                         $where = '1=1';
