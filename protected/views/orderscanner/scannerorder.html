@@ -220,11 +220,11 @@
                                 $.post('{url:/orderscanner/doscannorders}',{order_id:$('#order_id').val(),scanner_id:$('#scanner_id').val()},function(r){
                                     if(r['res'] == 'true'){
                                         $('#order_id').val('');
-                                        if($('#scanner_type').val() != 'wait_consignor'){
+                                        //if($('#scanner_type').val() != 'wait_consignor'){
                                             $('#scanner_number').attr('disabled','');
-                                            $('#docheckauth').css('display','none');
-                                            $('#checkscannordersSingle').css('display','none');
-                                        }
+                                            $('#docheckauth').css('display','block');
+                                            $('#checkscannordersSingle').css('display','block');
+                                        //}
                                         $('#error-order-single').html($('#order_id').val()+'操作成功!');
                                     }else{
                                         alert(r['msg']);
@@ -267,11 +267,11 @@
                             $.post('{url:/orderscanner/doscannorders}',{order_id:orderId,scanner_id:$('#scanner_id').val()},function(r){
                                 if(r['res'] == 'true'){
                                     $('.orderMuti').val('');
-                                    if($('#scanner_type').val() != 'wait_consignor'){
+                                    //if($('#scanner_type').val() != 'wait_consignor'){
                                         $('#scanner_number').attr('disabled','');
-                                        $('#docheckauth').css('display','none');
-                                        $('#checkscannordersMuti').css('display','none');
-                                    }
+                                        $('#docheckauth').css('display','block');
+                                        $('#checkscannordersMuti').css('display','block');
+                                    //}
                                     $('#error-order').html('订单操作成功!');
                                 }else{
                                     alert(r['msg']);

@@ -4,10 +4,14 @@
  * User: yangminsheng
  * Date: 22/4/16
  * Time: 下午11:05
+ *
+ * https://github.com/phonegap/phonegap-plugin-barcodescanner
  */
 class baseapi
 {
     protected $params = array();
+
+    const APIURL = 'http://192.168.1.103/';
 
     protected $output = array(
         'status'=>'fail',

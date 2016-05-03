@@ -378,7 +378,19 @@ class OrderController extends Controller
 
 	public function order_list(){
 		$condition = Req::args("condition");
-		$condition_str = Common::str2where($condition);
+        $condition_input = Req::args("condition_input");
+
+        $condition_str = false;
+
+        if($condition && $condition_input){
+            switch($condition){
+                case 'order_no':
+                    $condition_str = 'order_no like "'.trim($condition_input).'%"';
+                    $orderby = 'unix_timestamp(create_time) desc';
+                break;
+            }//20160404184031231030
+        }
+
 		if($condition_str) $this->assign("where",$condition_str);
 		else{
 			$status = Req::args("status");
@@ -426,12 +438,13 @@ class OrderController extends Controller
 
                     break;
             }
-
             $this->assign("tab_status",$tab_status);
             $this->assign("where",$where);
-            $this->assign("orderby",$orderby);
+
 		}
+        $this->assign("orderby",$orderby);
 		$this->assign("condition",$condition);
+        $this->assign("condition_input",$condition_input);
 		$this->assign("status",array('0'=>'<span class="red">等待审核</span>','1'=>'<span class="red">等待审核</span>','2'=>'<span class="red">等待审核</span>','3'=>'已审核','4'=>'已完成','5'=>'已取消','6'=>'<span class="red"><s>已作废</s></span>'));
 		$this->assign("pay_status",array('0'=>'<span class="red">未付款</span>','1'=>'已付款','2'=>'申请退款','3'=>'已退款'));
 		$this->assign("delivery_status",array('0'=>'<span class="red">未发货</span>','1'=>'已发货','2'=>'已签收','3'=>'申请换货','4'=>'已换货'));
@@ -712,10 +725,14 @@ class OrderController extends Controller
 
         $distrModel = new Model('distributor');
 
-        $disData = $distrModel->fields('site_logo')->where('site_url="'.$order['site_url'].'"')->find();
+        $disData = $distrModel->fields('distributor_name,site_url,mobile')->where('site_url="'.$order['site_url'].'"')->find();
 
-        $site_logo = 'http://'.$order['site_url'].'.qqcapp.com/'.$disData['site_logo'];
-        $this->assign('site_logo',$site_logo);
+        $contacter = $disData;
+
+        $contacter['site_logo'] = 'http://'.$order['site_url'].'.tinyshop.com/';
+
+
+        $this->assign('contacter',$contacter);
         $this->assign('domain',$order['site_url']);
         $this->assign("id",$order['outer_id']);
 		$this->redirect();

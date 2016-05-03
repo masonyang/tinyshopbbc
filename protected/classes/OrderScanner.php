@@ -208,7 +208,7 @@ class OrderScanner
     private function savescanner($params = array()){
         $orderModel = new Model('order');
         $order = $orderModel->where('order_no="'.$params['order_no'].'"')->find();
-        $order_id = $order['id'];
+        $order_id = $order['outer_id'];
         $aData = array(
             'scanner_id'=>$params['scanner_id'],
             'order_id'=>$params['order_no'],
@@ -219,8 +219,10 @@ class OrderScanner
         );
 
         $exists = $this->orderscannerModel->where('scanner_id = '.$params['scanner_id'].' AND order_id = '.$params['order_id'].' AND status = "'.$params['status'].'"')->find();
+
         if(!$exists){
             $orderscanner = $this->orderscannerModel->data($aData)->add();
+
             if( $orderscanner ){
 
                 Log::orderlog($order_id,'扫描人员:'.$params['scanner_name'],$params['memo'],'订单扫描','success',$params['domain']);

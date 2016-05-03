@@ -426,16 +426,16 @@
         'name' => '角色编辑',
         'parent' => 'safe',
       ),
-      '/admin/resources_list' => 
-      array (
-        'name' => '权限列表',
-        'parent' => 'safe',
-      ),
-      '/admin/resources_edit' => 
-      array (
-        'name' => '编辑权限资源',
-        'parent' => 'safe',
-      ),
+//      '/admin/resources_list' =>
+//      array (
+//        'name' => '权限列表',
+//        'parent' => 'safe',
+//      ),
+//      '/admin/resources_edit' =>
+//      array (
+//        'name' => '编辑权限资源',
+//        'parent' => 'safe',
+//      ),
       '/admin/log_operation_list' => 
       array (
         'name' => '操作日志',

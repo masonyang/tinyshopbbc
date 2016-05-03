@@ -165,7 +165,7 @@ class orders extends baseapi
             $products .= '<li>
                 <div class="card ks-facebook-card">
                     <div class="card-header no-border">
-                        <div class="ks-facebook-avatar"><img src="http://192.168.1.101/'.$gData['img'].'" width="34" height="34"/></div>
+                        <div class="ks-facebook-avatar"><img src="'.self::APIURL.$gData['img'].'" width="34" height="34"/></div>
                         <div style="float:right;">￥'.$vval['real_price'].'</div>
                         <div class="ks-facebook-name" style="margin-right:44px;">'.$gData['name'].'</div>
                         <div class="ks-facebook-date" style="margin-right:44px;"> X '.$vval['goods_nums'].'</div>

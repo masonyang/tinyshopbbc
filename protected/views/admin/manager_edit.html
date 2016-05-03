@@ -62,13 +62,13 @@
     <dl class="lineD showpwd">
         <dt><b class="red">*</b>密码：</dt>
         <dd>
-            <input name="distr_rechange_pwd" type="password"  bind="re_distr_rechange_pwd" pattern=".{6,}" value="" alt="密码必需大于6位">
+            <input name="distr_rechange_pwd" id="distr_rechange_pwd_add" type="password"  bind="re_distr_rechange_pwd" pattern=".{6,}" value="" alt="密码必需大于6位">
             <label></label>(用于分销商充值验证密码)
         </dd>
     </dl><dl class="lineD showpwdre">
     <dt><b class="red">*</b>确认密码：</dt>
     <dd>
-        <input name="re_distr_rechange_pwd" type="password" bind="distr_rechange_pwd" pattern=".{6,}" value="" alt="密码必需大于6位">
+        <input name="re_distr_rechange_pwd" id="re_distr_rechange_pwd_add" type="password" bind="distr_rechange_pwd" pattern=".{6,}" value="" alt="密码必需大于6位">
         <label></label>(用于分销商充值验证密码)
     </dd>
     </dl>
@@ -159,13 +159,18 @@ function changeRechangePassword(e){
 $('#roles_change').change(function(){
     if($(this).val() == 'administrator'){
         $('.showpwd').show();
+        $('#distr_rechange_pwd_add').attr('disabled',false);
         if($('.showpwdre')){
             $('.showpwdre').show();
+            $('#re_distr_rechange_pwd_add').attr('disabled',false);
+
         }
     }else{
         $('.showpwd').hide();
+        $('#distr_rechange_pwd_add').attr('disabled',true);
         if($('.showpwdre')){
             $('.showpwdre').hide();
+            $('#re_distr_rechange_pwd_add').attr('disabled',true);
         }
     }
 });

@@ -11,17 +11,17 @@ class goods extends baseapi
 
     protected $template = '<div class="card ks-facebook-card">
                 <a href="product.html?id={id}" class="item-link">
+                    <div class="card-content"> <img src="{img}" width="100%"/></div>
+                </a>
+                <a href="product.html?id={id}" class="item-link">
                 <div class="card-header no-border">
                     <div class="ks-facebook-name">{name}</div>
                     <div class="ks-facebook-date">{price}</div>
                 </div>
                 </a>
-                <a href="product.html?id={id}" class="item-link">
-                    <div class="card-content"> {img}></div>
-                </a>
-                <div class="card-footer no-border"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
             </div>';
 //<div class="card-content"> <img src="http://a.qqcapp.com/{img}" width="100%"/></div>
+//<div class="card-footer no-border"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
     public function __construct($params = array())
     {
         parent::__construct($params);
@@ -41,9 +41,9 @@ class goods extends baseapi
         $html = '';
 
         foreach($goods as $val){
-            $price = $val['price'];
-            $name = $val['name'];
-            $img = $val['img'];
+            $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
+            $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
+            $img = self::APIURL.$val['img'];
             $id = $val['id'];
             $html .= str_replace(array('{name}','{price}','{img}','{id}'),array($name,$price,$img,$id),$this->template);
         }

@@ -180,30 +180,39 @@ class AjaxController extends Controller
 		echo ($result);
 	}
 	public function test(){
-		$codebar = "BCGcode128";//$_REQUEST['codebar'];
-		$color_black = new BCGColor(0, 0, 0);
-		$color_white = new BCGColor(255, 255, 255);
-		$drawException = null;
-		try {
-		    $code = new $codebar();//实例化对应的编码格式
-		    $code->setScale(2); // Resolution
-		    $code->setThickness(23); // Thickness
-		    $code->setForegroundColor($color_black); // Color of bars
-		    $code->setBackgroundColor($color_white); // Color of spaces
-		    $text = Req::args('code'); //条形码将要数据的内容
-		    $code->parse($text);
-		} catch(Exception $exception) {
-		    $drawException = $exception;
-		}
-		$drawing = new BCGDrawing('', $color_white);
-		if($drawException) {
-		    $drawing->drawException($drawException);
-		} else {
-		    $drawing->setBarcode($code);
-		    $drawing->draw();
-		}
-		header('Content-Type: image/png');
-		$drawing->finish(BCGDrawing::IMG_FORMAT_PNG);
+
+        $source = Req::args('source');
+
+        if(isset($source)){
+            $url = urldecode(Req::args("data"));
+            QRcode::png($url,false,3);
+        }else{
+            $codebar = "BCGcode128";//$_REQUEST['codebar'];
+            $color_black = new BCGColor(0, 0, 0);
+            $color_white = new BCGColor(255, 255, 255);
+            $drawException = null;
+            try {
+                $code = new $codebar();//实例化对应的编码格式
+                $code->setScale(2); // Resolution
+                $code->setThickness(23); // Thickness
+                $code->setForegroundColor($color_black); // Color of bars
+                $code->setBackgroundColor($color_white); // Color of spaces
+                $text = Req::args('code'); //条形码将要数据的内容
+                $code->parse($text);
+            } catch(Exception $exception) {
+                $drawException = $exception;
+            }
+            $drawing = new BCGDrawing('', $color_white);
+            if($drawException) {
+                $drawing->drawException($drawException);
+            } else {
+                $drawing->setBarcode($code);
+                $drawing->draw();
+            }
+            header('Content-Type: image/png');
+            $drawing->finish(BCGDrawing::IMG_FORMAT_PNG);
+        }
+
 	}
 
     public function index_product(){
@@ -229,4 +238,5 @@ class AjaxController extends Controller
             echo json_encode(array('page'=>'no data','data'=>array()));exit;
         }
     }
+
 }

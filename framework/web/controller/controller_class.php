@@ -255,7 +255,7 @@ class Controller extends Object
     public function checkRight($actionId)
     {
         $this->autoActionRight = false;
-        $notcheckRight = array('login','logout','checkRight','check','captcha','noRight');
+        $notcheckRight = array('login','logout','checkRight','check','captcha','noRight','index');
         if(in_array($actionId,$notcheckRight)) return true;
         //判定系统是否需要验证
         $isCheckRight = false;

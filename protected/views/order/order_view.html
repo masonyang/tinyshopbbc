@@ -94,6 +94,7 @@
             <th>备注</th>
             <th>时间</th>
         </tr>
+        {$id}
         {query:name=order_log domain=$domain fields=order_id,user,addtime,action,note where=order_id eq $id}
         <tr>
             <td>{$item['user']}</td>

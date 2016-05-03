@@ -9,7 +9,18 @@
         <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
         <!--<a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>-->
         <!--<a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>-->
-        <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+        <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
+        <span class="fr">
+            <form action="{url:/order/order_list}" method="post">
+                <select name="condition">
+                    <option value="order_no">订单号</option>
+                </select>
+                <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
+                <button class="icon-search" >&nbsp;</button>
+            </form>
+
+        </span>
+
         {if: $local_domain == 'zd'}
         <div class="tools_bar clearfix" style="height: auto;">
             <a href="{url:/order/order_list/status/1}" {if:$tab_status == 1} style="color: red;font-weight: bolder"{/if} > 未审核</a>
@@ -27,7 +38,7 @@
         <tr>
             <th style="width:50px">选择</th>
             <th style="width:70px">操作</th>
-            <th style="width:130px">订单号</th>
+            <th style="width:150px">订单号</th>
             <th style="width:70px">商品总额 </th>
             <th style="width:70px">会员账号</th>
             <th style="width:70px">收货人</th>
@@ -65,7 +76,7 @@
                 <li><a class="icon-close" href="javascript:confirm_action('{url:/order/order_del/id/$item[id]}')"> 删除</a></li>
                 {/if}
                 <li><a class="icon-attachment"  href="javascript:;" onclick="change_status({$item['id']},null,'note')"> 备注</a></li></ul></div></div> </td>
-            <td style="width:130px">{$item['order_no']}</td><td style="width:70px">{$item['order_amount']}</td><td style="width:70px">{$item['uname']}</td><td style="width:70px">{$item['accept_name']}</td><td style="width:80px">{$item['mobile']}</td><td style="width:80px">{$payment[$item['payment']]}</td><td style="width:50px">{$pay_status[$item['pay_status']]}</td>
+            <td style="width:150px">{$item['order_no']}</td><td style="width:70px">{$item['order_amount']}</td><td style="width:70px">{$item['uname']}</td><td style="width:70px">{$item['accept_name']}</td><td style="width:80px">{$item['mobile']}</td><td style="width:80px">{$payment[$item['payment']]}</td><td style="width:50px">{$pay_status[$item['pay_status']]}</td>
             <td style="width:50px">{$delivery_status[$item['delivery_status']]}</td>
             <td style="width:50px" id="status_{$item['id']}">{$status[$item['status']]}</td>
             <td style="width:60px" class="btn_min">

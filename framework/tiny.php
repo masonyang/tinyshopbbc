@@ -516,7 +516,6 @@ class Tiny
      */
     public static function loadExtendsClass($className)
     {
-
         if(isset(self::$_classes_index[$className])){
             if(is_file(self::$_classes_index[$className])) include(self::$_classes_index[$className]);
             return true;
@@ -706,7 +705,7 @@ class Tiny
                 return false;
             }
 
-            if(in_array($serverName,array('192.168.1.112','192.168.1.101','192.168.1.100'))){
+            if(in_array($serverName,array('192.168.1.112','192.168.1.101','192.168.1.100','192.168.1.102','192.168.1.103'))){
                 $top = 'a';
                 $domain = 'tinyshop';
                 $ext = 'com';

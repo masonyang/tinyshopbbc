@@ -56,23 +56,6 @@
 "WxPayDataBase"=>"advanced/payments/weixin/WxPayDataBase.php",
 "WxPayException"=>"advanced/payments/weixin/WxPayException.php",
 "WxPayNotify"=>"advanced/payments/weixin/WxPayNotify.php",
-"QRbitstream"=>"advanced/payments/weixin/phpqrcode.php",
-"QRencode"=>"advanced/payments/weixin/phpqrcode.php",
-"QRrs"=>"advanced/payments/weixin/phpqrcode.php",
-"QRcode"=>"advanced/payments/weixin/phpqrcode.php",
-"QRtools"=>"advanced/payments/weixin/phpqrcode.php",
-"QRvect"=>"advanced/payments/weixin/phpqrcode.php",
-"qrstr"=>"advanced/payments/weixin/phpqrcode.php",
-"QRrawcode"=>"advanced/payments/weixin/phpqrcode.php",
-"QRinput"=>"advanced/payments/weixin/phpqrcode.php",
-"FrameFiller"=>"advanced/payments/weixin/phpqrcode.php",
-"QRinputItem"=>"advanced/payments/weixin/phpqrcode.php",
-"QRrsblock"=>"advanced/payments/weixin/phpqrcode.php",
-"QRsplit"=>"advanced/payments/weixin/phpqrcode.php",
-"QRimage"=>"advanced/payments/weixin/phpqrcode.php",
-"QRmask"=>"advanced/payments/weixin/phpqrcode.php",
-"QRspec"=>"advanced/payments/weixin/phpqrcode.php",
-"QRrsItem"=>"advanced/payments/weixin/phpqrcode.php",
 "BCGArgumentException"=>"barcode/BCGArgumentException.php",
 "BCGBarcode"=>"barcode/BCGBarcode.php",
 "BCGBarcode1D"=>"barcode/BCGBarcode1D.php",
@@ -129,6 +112,24 @@
 "SMS"=>"sms/SMS.php",
 "SMSInterface"=>"standard/sms/SMSInterface.php",
 
+
+"QRcode"=>"phpqrcode.php",
+"QRbitstream"=>"phpqrcode.php",
+"QRencode"=>"phpqrcode.php",
+"QRrs"=>"phpqrcode.php",
+"QRtools"=>"phpqrcode.php",
+"QRvect"=>"phpqrcode.php",
+"qrstr"=>"phpqrcode.php",
+"QRrawcode"=>"phpqrcode.php",
+"QRinput"=>"phpqrcode.php",
+"FrameFiller"=>"phpqrcode.php",
+"QRinputItem"=>"phpqrcode.php",
+"QRrsblock"=>"phpqrcode.php",
+"QRsplit"=>"phpqrcode.php",
+"QRimage"=>"phpqrcode.php",
+"QRmask"=>"phpqrcode.php",
+"QRspec"=>"phpqrcode.php",
+"QRrsItem"=>"phpqrcode.php",
 /**********************API INTERFACE************************************/
 "baseapi"=>"api/api.php",
 "advert"=>"api/advert.php",//广告
@@ -144,6 +145,6 @@
 "paylink"=>"api/paylink.php",//支付链接
 "arealist"=>"api/arealist.php",//区域筛选器
 "captchacode"=>"api/captchacode.php",//验证码
-
+"searchany"=>"api/searchany.php",//搜索
 /**********************API INTERFACE************************************/
 );?>

@@ -93,7 +93,7 @@ class customer extends baseapi
 //<div class="swiper-slide"><img src="http://lorempixel.com/500/500/nature/1" width="200" height="200" /></div>
             foreach($odDatas as $vval){
                 $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                $products .= '<div class="swiper-slide"><img src="http://192.168.1.101/'.$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                $products .= '<div class="swiper-slide"><img src="'.self::APIURL.$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
             }
             $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
         }
