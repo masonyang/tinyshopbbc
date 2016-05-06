@@ -59,7 +59,7 @@ class searchany extends baseapi
             foreach($goods as $val){
                 $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
                 $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
-                $img = self::APIURL.$val['img'];
+                $img = self::getApiUrl().$val['img'];
                 $id = $val['id'];
                 $html .= str_replace(array('{name}','{price}','{img}','{id}'),array($name,$price,$img,$id),$this->template);
             }

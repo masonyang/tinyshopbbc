@@ -93,7 +93,7 @@ class customer extends baseapi
 //<div class="swiper-slide"><img src="http://lorempixel.com/500/500/nature/1" width="200" height="200" /></div>
             foreach($odDatas as $vval){
                 $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                $products .= '<div class="swiper-slide"><img src="'.self::APIURL.$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
             }
             $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
         }
@@ -141,8 +141,10 @@ class customer extends baseapi
     {
         $data = array();
 
+        $userid = intval($this->params['id']);
+
         $userModel = new Model('user');
-        $userInfo = $userModel->fields('name,email,head_pic')->where('id=1')->find();
+        $userInfo = $userModel->fields('name,email,head_pic')->where('id='.$userid)->find();
 
         if($userInfo){
             $customerModel = new Model('customer');
@@ -236,7 +238,35 @@ class customer extends baseapi
     //登录
     protected function login()
     {
-        print_r($this->params);
+        $mobile = Filter::sql($this->params['mobile']);
+
+
+        if(Validator::mobi($mobile)){
+
+            $password = $this->params['password'];
+
+            $userModel = new Model('user');
+
+            $userData = $userModel->where('name="'.$mobile.'"')->find();
+
+            if($userData['password'] == CHash::md5($password,$userData['validcode'])){
+
+                $data = array();
+                $data['user_id'] = $userData['id'];
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '登录成功';
+                $this->output($data);
+            }else{
+                $this->output['msg'] = '密码不正确';
+                $this->output();
+            }
+
+        }else{
+            $this->output['msg'] = '手机号不存在';
+            $this->output();
+        }
+
+
     }
 
     //注册

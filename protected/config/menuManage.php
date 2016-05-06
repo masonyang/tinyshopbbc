@@ -84,6 +84,11 @@
         'name' => '分销商预存款日志',
         'parent' => 'config',
       ),
+      '/admin/cservice' =>
+      array (
+        'name' => '客户服务',
+        'parent' => 'config',
+      ),
       '/admin/clear' => 
       array (
         'name' => '清除缓存',

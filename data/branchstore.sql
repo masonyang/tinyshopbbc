@@ -630,3 +630,14 @@ CREATE TABLE `tiny_distributor_depost` (
   `op_name` varchar(200) NOT NULL COMMENT '操作人名称',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商预存款日志表';
+DROP TABLE IF EXISTS `tiny_cservice`;
+CREATE TABLE `tiny_cservice` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(20) DEFAULT NULL ,
+  `mobile` varchar(20) DEFAULT NULL ,
+  `phone` varchar(20) DEFAULT NULL ,
+  `wechat` varchar(20) DEFAULT NULL ,
+  `qq` varchar(20) DEFAULT NULL ,
+  `content` varchar(200) DEFAULT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='客户服务表';

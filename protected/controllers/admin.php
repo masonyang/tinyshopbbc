@@ -1084,4 +1084,32 @@ class AdminController extends Controller
         echo JSON::encode($info);
     }
 
+    //客户服务
+    public function cservice()
+    {
+        $cserviceModel = new Model('cservice');
+
+        $cservice = $cserviceModel->where('id=1')->find();
+
+        $this->assign("cservice",$cservice);
+        $this->redirect();
+    }
+
+    public function cservice_save()
+    {
+        $params = Req::post();
+
+        $cserviceModel = new Model('cservice');
+
+        if($params['id'] && (!empty($params['id']))){
+            $data = $params;
+            unset($data['id']);
+            $cserviceModel->data($data)->where('id = '.$params['id'])->update();
+        }else{
+            $data = $params;
+            unset($data['id']);
+            $cserviceModel->data($data)->insert();
+        }
+        $this->redirect('cservice',true,'保存成功');
+    }
 }

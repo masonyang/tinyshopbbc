@@ -19,9 +19,10 @@ class OrderNoticeService
         $zdOrderModel = new Model('order','zd','master');
         $zdOrderGoodsModel = new Model('order_goods','zd','master');
 
-        $zdOrderModel->data($orderInfo)->insert();
+        $order_id = $zdOrderModel->data($orderInfo)->insert();
 
         foreach($orderItem as $tem_data){
+            $tem_data['order_id'] = $order_id;
             $zdOrderGoodsModel->data($tem_data)->insert();
         }
     }

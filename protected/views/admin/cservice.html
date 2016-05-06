@@ -1,0 +1,51 @@
+{echo:JS::import('form');}
+{echo:JS::import('date');}
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<div id="obj_form" class="form2">
+    <form action="{url:/admin/cservice_save}" method="post" >
+        {if:isset($cservice['id'])}<input type="hidden" name="id" id="objId" value="{$cservice['id']}">{/if}
+        <dl class="lineD">
+            <dt>客服姓名：</dt>
+            <dd>
+                <input name="name" type="text" value="{$cservice['name']}" />
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>电话：</dt>
+            <dd>
+                <input name="phone" type="text" value="{$cservice['phone']}">
+                <label></label>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>手机号：</dt>
+            <dd>
+                <input name="mobile" type="text" value="{$cservice['mobile']}">
+                <label></label>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>微信号：</dt>
+            <dd>
+                <input name="wechat" type="text" value="{$cservice['wechat']}">
+                <label></label>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>QQ：</dt>
+            <dd>
+                <input name="qq" type="text" value="{$cservice['qq']}">
+                <label></label>
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>附加信息：</dt>
+            <dd>
+                <textarea name="content" rows="10" cols="5">{$cservice['content']}</textarea>
+                <label></label>
+            </dd>
+        </dl>
+        <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
+    </form>
+</div>

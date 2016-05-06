@@ -62,7 +62,7 @@ class orders extends baseapi
             <li>
                 <div class="item-content">
                     <div class="item-inner">
-                        <div class="col-50"><a href="#" class="button demo-actions">取消订单</a></div><div class="col-50"><a href="#" class="button demo-actions">立即支付</a></div>
+                        <div class="col-50"><a href="#" class="button demo-actions">取消订单</a></div><div class="col-50"><a href="#" class="button dopay" payurl="{payurl}">立即支付</a></div>
                     </div>
                 </div>
             </li>
@@ -137,7 +137,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight')->where('id='.$orderid)->find();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id')->where('id='.$orderid)->find();
 
         $orderDetailModel = new Model('order_goods');
 
@@ -165,7 +165,7 @@ class orders extends baseapi
             $products .= '<li>
                 <div class="card ks-facebook-card">
                     <div class="card-header no-border">
-                        <div class="ks-facebook-avatar"><img src="'.self::APIURL.$gData['img'].'" width="34" height="34"/></div>
+                        <div class="ks-facebook-avatar"><img src="'.self::getApiUrl().$gData['img'].'" width="34" height="34"/></div>
                         <div style="float:right;">￥'.$vval['real_price'].'</div>
                         <div class="ks-facebook-name" style="margin-right:44px;">'.$gData['name'].'</div>
                         <div class="ks-facebook-date" style="margin-right:44px;"> X '.$vval['goods_nums'].'</div>
@@ -207,7 +207,9 @@ class orders extends baseapi
 
         $ship_addr = $parse_area[$orders['province']].$parse_area[$orders['city']].$parse_area[$orders['county']].' '.$orders['addr'];
 
-        $detail .= str_replace(array('{order_no}','{create_time}','{ship_addr}','{goods_amount}','{real_freight}','{order_amount}','{products}','{status}','{lastlog}'),array($orders['order_no'],$orders['create_time'],$ship_addr,$goods_amount,$orders['real_freight'],$orders['order_amount'],$products,$status,$lastlog),$this->orderDetailTemplate);
+        $payurl = rtrim(self::getApiUrl(),'/').urldecode(Url::urlFormat("/api/index?method=paylink&userid=".$orders['user_id']."&orderid=".$orders['id']."&paymentid=".$orders['payment']));
+
+        $detail .= str_replace(array('{order_no}','{create_time}','{ship_addr}','{goods_amount}','{real_freight}','{order_amount}','{products}','{status}','{lastlog}','{payurl}'),array($orders['order_no'],$orders['create_time'],$ship_addr,$goods_amount,$orders['real_freight'],$orders['order_amount'],$products,$status,$lastlog,$payurl),$this->orderDetailTemplate);
 
         $this->output['status'] = 'succ';
 

@@ -11,7 +11,7 @@ class baseapi
 {
     protected $params = array();
 
-    const APIURL = 'http://a.qqcapp.com/';//192.168.1.103
+    const APIURL = 'http://192.168.1.100/';//192.168.1.100
 
     protected $output = array(
         'status'=>'fail',
@@ -21,6 +21,7 @@ class baseapi
 
     public function __construct($params = array())
     {
+        header('Content-type:text/html;charset=utf-8');
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
@@ -32,7 +33,7 @@ class baseapi
 
     }
 
-    public function output($params,$output = 'json')
+    public function output($params = array(),$output = 'json')
     {
         switch($output){
             case 'json':
@@ -45,4 +46,8 @@ class baseapi
         }
     }
 
+    protected static function getApiUrl()
+    {
+        return self::APIURL;
+    }
 }
