@@ -333,7 +333,7 @@ class OrderController extends Controller
 
             //$income = ($order_info['order_amount'] * $payfee) - $tradeprice;
 
-            $income = $order_info['order_amount'] - $tradeprice;
+            $income = $order_info['order_amount'] - $order_info['payable_freight'] - $tradeprice;
 
             $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
             $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();
