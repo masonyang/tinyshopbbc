@@ -11,7 +11,7 @@ class baseapi
 {
     protected $params = array();
 
-    const APIURL = 'http://192.168.1.100/';//192.168.1.100
+    const APIURL = 'http://a.qqcapp.com/';//192.168.1.100
 
     protected $output = array(
         'status'=>'fail',
