@@ -18,7 +18,7 @@ class customer extends baseapi
                     </div>
                     <div class="item-subtitle">{address}&nbsp;&nbsp;{is_default}</div>
                 </div></a></div>
-            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a href="#" class="demo-mark bg-orange">设为默认</a><a href="#" data-confirm="Are you sure you want to delete this item?" class="swipeout-delete swipeout-overswipe">删除</a></div>
+            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a href="#" aid="{id}" class="demo-mark set-default bg-orange">设为默认</a><a href="#" data-confirm="确定要删除吗?" aid="{id}" class="swipeout-delete swipeout-overswipe addr-delete">删除</a></div>
         </li>';
 
     protected $myOrderListTemplate = '<div class="card ks-facebook-card item-link">
@@ -50,6 +50,9 @@ class customer extends baseapi
             case 'uinfo':
                 $this->getUserInfo();
                 break;
+            case 'douinfo':
+                $this->saveUserInfo();
+                break;
             case 'address':
                 $this->getAddress();
                 break;
@@ -64,6 +67,9 @@ class customer extends baseapi
                 break;
             case 'register':
                 $this->register();
+                break;
+            case 'doaddr':
+                $this->doaddr();
                 break;
         }
     }
@@ -159,6 +165,64 @@ class customer extends baseapi
         $this->output($data,'json');
     }
 
+    //保存个人信息
+    protected function saveUserInfo()
+    {
+
+        $res = false;
+
+        $data = array();
+
+        $user_id = isset($this->params['user_id']) ? intval($this->params['user_id']) : null;
+
+        $data['real_name'] = empty($this->params['name']) ? $this->params['name'] : '';
+
+        $data['phone'] = empty($this->params['phone']) ? $this->params['phone'] : '';
+
+        $data['mobile'] = empty($this->params['mobile']) ? $this->params['mobile'] : '';
+
+        $data['sex'] = ($this->params['sex'] == '男') ? 1 : 0;
+
+        $data['province'] = $this->params['province'] ? $this->params['province'] : 0;
+
+        $data['city'] = $this->params['city'] ? $this->params['city'] : 0;
+
+        $data['county'] = $this->params['county'] ? $this->params['county'] : 0;
+
+        $data['addr'] = $this->params['addr'] ? $this->params['addr'] : 0;
+
+        $data['birthday'] = $this->params['birthday'] ? $this->params['birthday'] : '';
+
+
+        if($user_id){
+
+            if(isset($this->params['head_pic']) && !empty($this->params['head_pic'])){
+
+                $userModel = new Model('user');
+
+                $udata = array('head_pic'=>$this->params['head_pic']);
+
+                $userModel->data($udata)->where('id='.$user_id)->update();
+
+            }
+
+            $customerModel = new Model('customer');
+
+            $res = $customerModel->data($data)->where('user_id='.$user_id)->update();
+        }
+
+
+        if($res){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '保存成功';
+            $this->output();
+        }else{
+            $this->output['msg'] = '保存失败';
+            $this->output();
+        }
+
+    }
+
     //收货地址管理
     protected function getAddress()
     {
@@ -186,7 +250,7 @@ class customer extends baseapi
 
         $addressModel = new Model('address');
 
-        $addrList = $addressModel->fields('id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('id='.$addrid)->find();
+        $addrList = $addressModel->fields('user_id,id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('id='.$addrid)->find();
 
         if($addrList){
             $data = $addrList;
@@ -232,6 +296,37 @@ class customer extends baseapi
     //修改密码
     protected function changePwd()
     {
+        $password = isset($this->params['password']) ? trim($this->params['password']) : '';
+
+        $repassword = isset($this->params['repassword']) ? trim($this->params['repassword']) : '';
+
+        $user_id = intval($this->params['user_id']) ? $this->params['user_id'] : 0;
+
+        if($user_id){
+
+            if($password != $repassword){
+                $this->output['msg'] = '两次密码不一致';
+                $this->output();
+                exit;
+            }
+
+            $userModel = new Model('user');
+            $validcode = CHash::random(8);
+            $res = $userModel->data(array('password'=>CHash::md5($password,$validcode),'validcode'=>$validcode))->where('id='.$user_id)->update();
+
+            if($res){
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '修改成功';
+                $this->output();
+            }else{
+                $this->output['msg'] = '修改失败';
+                $this->output();
+            }
+
+        }else{
+            $this->output['msg'] = '用户不存在';
+            $this->output();
+        }
 
     }
 
@@ -272,6 +367,195 @@ class customer extends baseapi
     //注册
     protected function register()
     {
+        $mobile = Filter::sql($this->params['mobile']);
+
+        if(Validator::mobi($mobile)){
+
+            $password = $this->params['password'];
+
+            $userModel = new Model('user');
+
+            $userData = $userModel->where('name="'.$mobile.'"')->find();
+
+            if($userData){
+                $this->output['msg'] = '手机号已注册';
+                $this->output();
+            }else{
+                $validcode = CHash::random(8);
+                $data = array('name'=>$mobile,'password'=>CHash::md5($password,$validcode),'validcode'=>$validcode);
+                $user_id = $userModel->data($data)->insert();
+                if($user_id){
+                    $customerModel = new Model('customer');
+
+                    $data = array('user_id'=>$user_id,'mobile'=>$mobile,'reg_time'=>date('Y-m-d H:i:s'));
+
+                    $customerModel->data($data)->insert();
+
+                    $_data = array();
+                    $_data['user_id'] = $user_id;
+                    $this->output['status'] = 'succ';
+                    $this->output['msg'] = '登录成功';
+                    $this->output($_data);
+                }
+            }
+        }else{
+            $this->output['msg'] = '手机号格式不正确';
+            $this->output();
+        }
+    }
+
+    //添加收货地址
+    public function doaddr()
+    {
+        $id = isset($this->params['id']) ? intval($this->params['id']) : 0;
+        $user_id = isset($this->params['user_id']) ? $this->params['user_id'] : null;
+        $accept_name = isset($this->params['accept_name']) ? trim($this->params['accept_name']) : '';
+        $mobile = isset($this->params['mobile']) ? $this->params['mobile'] : '';
+        $zip = isset($this->params['zip']) ? $this->params['zip'] : '';
+        $phone = isset($this->params['phone']) ? $this->params['phone'] : '';
+        $province = isset($this->params['province']) ? $this->params['province'] : '';
+        $city = isset($this->params['city']) ? $this->params['city'] : '';
+        $county = isset($this->params['county']) ? $this->params['county'] : '';
+        $addr = isset($this->params['addr']) ? trim($this->params['addr']) : '';
+        $is_default = isset($this->params['is_default']) ? $this->params['is_default'] : 0;
+        $_act = isset($this->params['_act']) ? $this->params['_act'] : null;
+
+        if(!$_act || !$user_id){
+            $this->output['msg'] = '异常错误';
+            $this->output();
+            exit;
+        }
+
+        switch($_act){
+            case 'add':
+            case 'edit':
+                $this->_doaddr($user_id,$accept_name,$mobile,$province,$city,$county,$addr,$zip,$phone,$is_default,$_act,$id);
+            break;
+            case 'del':
+                $this->_deladdr($id);
+            break;
+            case 'setdefault':
+                $this->_setdefaultaddr($is_default,$id);
+            break;
+        }
 
     }
+
+    private function _deladdr($id)
+    {
+        $addressModel = new Model('address');
+
+        $res = $addressModel->where('id='.$id)->delete();
+
+        if($res){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '删除成功';
+            $this->output();
+        }else{
+            $this->output['msg'] = '删除失败';
+            $this->output();
+        }
+    }
+
+    private function _setdefaultaddr($is_default,$id)
+    {
+        $addressModel = new Model('address');
+
+        if($is_default == 1){
+            $addressModel->data(array('is_default = 0'))->where('id='.$id)->update();
+        }
+
+        $res = $addressModel->data(array('is_default = '.$is_default))->where('id='.$id)->update();
+
+        if($res){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '设置成功';
+            $this->output();
+        }else{
+            $this->output['msg'] = '设置失败';
+            $this->output();
+        }
+    }
+
+    private function _doaddr($user_id,$accept_name,$mobile,$province,$city,$county,$addr,$zip,$phone,$is_default,$_act,$id)
+    {
+        $res = false;
+        $act = ($_act == 'add') ? '添加':'编辑';
+
+        if(empty($accept_name)){
+            $this->output['msg'] = '收货人不能为空';
+            $this->output();
+            exit;
+        }elseif(Validator::mobi($mobile)){
+            $this->output['msg'] = '手机号格式不正确';
+            $this->output();
+            exit;
+        }elseif(empty($province)){
+            $this->output['msg'] = '省份不能为空';
+            $this->output();
+            exit;
+        }elseif(empty($city)){
+            $this->output['msg'] = '市不能为空';
+            $this->output();
+            exit;
+        }elseif(empty($county)){
+            $this->output['msg'] = '县/区不能为空';
+            $this->output();
+            exit;
+        }elseif(empty($addr)){
+            $this->output['msg'] = '地址不能为空';
+            $this->output();
+            exit;
+        }elseif(empty($zip)){
+            $this->output['msg'] = '邮编不能为空';
+            $this->output();
+            exit;
+        }
+
+        $addressModel = new Model('address');
+
+        if($_act == 'add'){
+
+            $data = array();
+            $data['user_id'] = $user_id;
+            $data['accept_name'] = $accept_name;
+            $data['mobile'] = $mobile;
+            $data['province'] = $province;
+            $data['city'] = $city;
+            $data['county'] = $county;
+            $data['addr'] = $addr;
+            $data['zip'] = $zip;
+            $data['phone'] = $phone;
+            $data['is_default'] = $is_default;
+
+            $res = $addressModel->data($data)->insert();
+
+        }elseif($_act == 'edit'){
+
+            $data = array();
+            $data['user_id'] = $user_id;
+            $data['accept_name'] = $accept_name;
+            $data['mobile'] = $mobile;
+            $data['province'] = $province;
+            $data['city'] = $city;
+            $data['county'] = $county;
+            $data['addr'] = $addr;
+            $data['zip'] = $zip;
+            $data['phone'] = $phone;
+            $data['is_default'] = $is_default;
+
+            $res = $addressModel->data($data)->where('id='.$id)->update();
+        }
+
+        if($res){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = $act.'成功';
+            $this->output();
+        }else{
+            $this->output['msg'] = $act.'失败';
+            $this->output();
+        }
+    }
+
+
 }

@@ -641,3 +641,11 @@ CREATE TABLE `tiny_cservice` (
   `content` varchar(200) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='客户服务表';
+DROP TABLE IF EXISTS `tiny_class_config`;
+CREATE TABLE `tiny_class_config` (
+  `class_name` varchar(40) NOT NULL,
+  `name` varchar(60) DEFAULT NULL,
+  `config` text,
+  `status` int(1) DEFAULT '0',
+  PRIMARY KEY (`class_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
