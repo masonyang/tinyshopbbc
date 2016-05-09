@@ -9,19 +9,12 @@
         <div class="menuNavNewProductPanel">
             <ul class="menuNavNewProduct">
                 <li class="ng-scope">
-                    <a class="font-large" href="{url:/index/category/cid/all}">全部商品</a>
+                    <a class="font-large" href="{url:/index/category/cid/all/sort/5}">全部商品</a>
                 </li>
                 {list:items=$category item=$categ}
                 <li class="ng-scope">
                     <a class="font-large" href="{url:/index/category/cid/$categ[id]}">{$categ['title']}</a>
                 </li>
-                {if: $categ['child']}
-                {list:items=$categ['child'] item=$child}
-                <li class="ng-scope">
-                    <a class="font-large" href="{url:/index/category/cid/$child[id]}">{$child['title']}</a>
-                </li>
-                {/list}
-                {/if}
                 {/list}
             </ul>
         </div>

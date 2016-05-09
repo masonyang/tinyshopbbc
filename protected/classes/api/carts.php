@@ -201,15 +201,23 @@ class carts extends baseapi
                 $num = $this->params['pro_num'];
                 $pro_no = $this->params['pro_no'];
 
+                $info = '成功加入购物车';
+
                 $productsModel = new Model('products');
                 $product = $productsModel->where('pro_no="'.$pro_no.'"')->find();
 
                 if($product['id'] && ($num>=1)){
-                    $cart->addItem($product['id'],$num);
+
+                    if($product['store_nums'] > 0){
+                        $cart->addItem($product['id'],$num);
+                    }else{
+                        $info = '该商品库存不足';
+                    }
+
                 }
 
                 $data['count'] = count($cart->all());
-                $this->output['msg'] = '成功加入购物车';
+                $this->output['msg'] = $info;
                 $this->output($data);
             break;
             case 'removecart'://从购物车删除商品

@@ -93,6 +93,9 @@ class IndexController extends Controller{
     {
         if(ControllerExt::$isMobile){
             $batchnum = Req::args("batchnum");
+            $info = '成功加入购物车';
+
+            $productModel = new Model('products');
             if(isset($batchnum) && is_array($batchnum)){
                 $cart = Cart::getCart();
                 foreach($batchnum as $id=>$num){
@@ -100,9 +103,16 @@ class IndexController extends Controller{
                     if($num < 1){
                         continue;
                     }
-                    $cart->addItem($id,$num);
+                    $products = $productModel->fields('store_nums')->where('id='.$id)->find();
+
+                    if($products['store_nums'] > 0){
+                        $cart->addItem($id,$num);
+                    }else{
+                        $info = '该商品库存不足';
+                    }
+
                 }
-                echo JSON::encode(array('status'=>1,'data'=>count($cart->all()),'info'=>'成功加入购物车'));
+                echo JSON::encode(array('status'=>1,'data'=>count($cart->all()),'info'=>$info));
             }
         }else{
             $id = Filter::int(Req::args("id"));
@@ -506,7 +516,13 @@ class IndexController extends Controller{
         if(ControllerExt::$isMobile){
             $this->layout = '';
             $this->assign("footer","category");
-            $cid = Filter::int(Req::args("cid"));
+
+            if(Req::args("cid") == 'all'){
+                $cid = -1;
+            }else{
+                $cid = Filter::int(Req::args("cid"));
+            }
+
             if($cid == 0){
                 $this->assign('is_categorylist','false');
             }else{
