@@ -648,7 +648,7 @@ class IndexController extends Controller{
             if($seo_category){
                 if($seo_category['seo_title']!='') $seo_title = $seo_category['seo_title'];
                 else $seo_title = $seo_category['name'];
-                if($seo_category['seo_keywords']!='') $seo_keywords = $seo_category['name'].','.$seo_category['seo_keywords'];
+                if($seo_category['seo_keywords']!='') $seo_keywords = $seo_category['name'];
                 else $seo_keywords = $seo_category['name'];
                 if($seo_category['seo_description']!='') $seo_description = $seo_category['seo_description'];
                 else $seo_description = $seo_category['name'];
