@@ -230,7 +230,9 @@ class carts extends baseapi
             case 'checkout':
                 $this->checkout();
             break;
-
+            case 'docheckout':
+                $this->docheckout();
+            break;
         }
     }
 
@@ -333,4 +335,173 @@ class carts extends baseapi
 
         return $parse_area[$addrData['province']].$parse_area[$addrData['city']].$parse_area[$addrData['county']].$addrData['addr'];
     }
+
+    //创建订单
+    protected function docheckout()
+    {
+        try{
+            $address_id = Filter::int($this->params['address_id']);
+            $payment_id = Filter::int($this->params['payment_id']);
+            $user_remark = Filter::txt($this->params['user_remark']);
+
+            if(!$address_id || !$payment_id){
+
+                if(!$address_id) $info = "必需选择收货地址，才能确认订单。";
+                else if(!$payment_id)$info = "必需选择支付方式，才能确认订单。";
+
+                $this->output['msg'] = $info;
+                $this->output(array());
+                exit;
+            }
+
+            //地址信息
+            $address_model = new Model('address');
+            $address = $address_model->where("id=$address_id and user_id=".$this->params['userid'])->find();
+            if(!$address){
+                $info = "选择的地址信息不正确！";
+                $this->output['msg'] = $info;
+                $this->output(array());
+                exit;
+            }
+
+            $order_products = $this->cart;
+
+            //检测products 是否还有数据
+            if(empty($order_products)){
+                $this->output['msg'] = '非法提交订单！';
+                $this->output(array());
+                exit;
+            }
+
+            //商品总金额,重量,积分计算
+            $payable_amount = 0.00;
+            $real_amount = 0.00;
+            $weight=0;
+            $point = 0;
+            foreach ($order_products as $item) {
+                $payable_amount+=$item['sell_total'];
+                $real_amount+=$item['amount'];
+                $weight += $item['weight']*$item['num'];
+                $point += $item['point']*$item['num'];
+            }
+
+            //计算运费
+            $fare = new Fare($weight);
+            $payable_freight = $fare->calculate($address_id);
+            $real_freight = $payable_freight;
+
+            //计算订单优惠
+            $discount_amount = 0;
+
+            //税计算
+            $tax_fee = 0;
+
+            //计算订单总金额
+            $order_amount = $real_amount + $payable_freight + $tax_fee - $discount_amount;
+
+            //填写订单
+            $data['order_no'] = Common::createOrderNo();
+            $data['user_id'] = $this->params['userid'];
+            $data['payment'] = $payment_id;
+            $data['status'] = 2;
+            $data['pay_status'] = 0;
+            $data['accept_name'] = Filter::text($address['accept_name']);
+            $data['phone'] = $address['phone'];
+            $data['mobile'] = $address['mobile'];
+            $data['province'] = $address['province'];
+            $data['city'] = $address['city'];
+            $data['county'] = $address['county'];
+            $data['addr'] = Filter::text($address['addr']);
+            $data['zip'] = $address['zip'];
+            $data['payable_amount'] = $payable_amount;
+
+            $expressModel = new Model('express_company','zd');
+            $ex = $expressModel->fields('name as exname')->where('express_company_id="汇通速递"')->find();
+
+            if(!$ex){
+                $ex = $expressModel->fields('name as exname')->where('id=1')->find();
+            }
+            $data['express'] = $ex['id'];
+            $data['payable_freight'] = $payable_freight;
+            $data['real_freight'] = $real_freight;
+            $data['create_time'] = date('Y-m-d H:i:s');
+            $data['user_remark'] = $user_remark;
+            $data['is_invoice'] = false;
+            $data['invoice_title'] = '';
+
+            $data['taxes'] = $tax_fee;
+
+
+            $data['discount_amount'] = $discount_amount;
+
+            $data['order_amount'] = $order_amount;
+            $data['real_amount'] = $real_amount;
+
+            $data['point'] = $point;
+            $data['type'] = 0;
+            $data['voucher_id'] = 0;
+            $data['voucher'] = serialize(array());
+
+
+            //var_dump($order_products);exit();
+
+            $customerModel = new Model('customer');
+
+            $customer = $customerModel->where('user_id='.$this->params['userid'])->find();
+
+            $uname = $customer['real_name'];
+
+            //写入订单数据
+            $orderModel = new Model('order');
+            $order_id = $orderModel->data($data)->insert();
+
+            $orderInfo = $data;
+            $orderInfo['outer_id'] = $order_id;
+
+            $serverName = Tiny::getServerName();
+
+            $orderInfo['uname'] = $uname;
+            $orderInfo['site_url'] = $serverName['top'];
+
+            //写入订单商品
+            $tem_data = array();
+            $orderItems = array();
+            $orderGoodsModel = new Model('order_goods');
+            foreach ($order_products as $item) {
+                $tem_data['order_id'] = $order_id;
+                $tem_data['goods_id'] = $item['goods_id'];
+                $tem_data['product_id'] = $item['id'];
+                $tem_data['goods_price'] = $item['sell_price'];
+                $tem_data['real_price'] = $item['real_price'];
+                $tem_data['trade_price'] = $item['trade_price'] ? $item['trade_price'] : 0;//商品批发价
+                $tem_data['cost_price'] = $item['cost_price'] ? $item['cost_price'] : 0;//商品成本价
+                $tem_data['goods_nums'] = $item['num'];
+                $tem_data['goods_weight'] = $item['weight'];
+                $tem_data['prom_goods'] = serialize($item['prom_goods']);
+                $tem_data['spec'] = serialize($item['spec']);
+                $orderGoodsModel->data($tem_data)->insert();
+                $orderItems[] = $tem_data;
+            }
+
+            Log::orderlog($order_id,'会员:'.$uname,'创建订单','创建订单','success',$serverName['top']);
+
+            //推送新建订单到总店后台
+            $OrderNoticeService = new OrderNoticeService();
+            $OrderNoticeService->sendCreateOrder($orderInfo,$orderItems);
+
+
+            //清空购物车与表单缓存
+            $cart = Cart::getCart();
+            $cart->clear();
+            Session::clear("order_status");
+
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '订单创建成功';
+            $this->output(array('orderid'=>$order_id));
+
+        }catch (Exception $e){
+            echo $e->getMessage();exit;
+        }
+    }
+
 }
