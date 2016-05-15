@@ -18,7 +18,7 @@ class customer extends baseapi
                     </div>
                     <div class="item-subtitle">{address}&nbsp;&nbsp;{is_default}</div>
                 </div></a></div>
-            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a href="#" aid="{id}" class="demo-mark set-default bg-orange">设为默认</a><a href="#" data-confirm="确定要删除吗?" aid="{id}" class="swipeout-delete swipeout-overswipe addr-delete">删除</a></div>
+            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a aid="{id}" class="demo-mark set-default bg-orange">设为默认</a><a href="#" data-confirm="确定要删除吗?" aid="{id}" class="swipeout-delete swipeout-overswipe addr-delete">删除</a></div>
         </li>';
 
     protected $myOrderListTemplate = '<div class="card ks-facebook-card item-link">
@@ -41,11 +41,26 @@ class customer extends baseapi
                         <div class="card-footer no-border"><a href="#" class="link"><span class="badge bg-green">立即支付</span></a><a href="#" class="link"><span class="badge bg-green">再次购买</span></a></div>
                     </div>';
 
+    protected $myOrderListNoTemplate = '<div class="card ks-facebook-card">
+                        <div class="no-border item-inner">
+                            <div class="item-title" style="text-align: center;">暂无订单</div>
+
+                        </div>
+                    </div>';
+
     public function index()
     {
         switch($this->params['source']){
             case 'morders':
-                $this->getMyOrders();
+                if($this->params['type'] == 'waitpay'){
+                    $this->getWaitPayOrders();
+                }elseif($this->params['type'] == 'delivery'){
+                    $this->getDeliveryOrders();
+                }elseif($this->params['type'] == 'finish'){
+                    $this->getFinishOrders();
+                }else{
+                    $this->getMyOrders();
+                }
                 break;
             case 'uinfo':
                 $this->getUserInfo();
@@ -74,6 +89,123 @@ class customer extends baseapi
         }
     }
 
+    //待支付订单
+    protected function getWaitPayOrders()
+    {
+        $html = '';
+
+        $userid = $this->params['id'];
+
+        $orderModel = new Model('order');
+
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=0')->order('unix_timestamp(create_time) desc')->findAll();
+
+        if($orders){
+            $orderDetailModel = new Model('order_goods');
+
+            $goodsModel = new Model('goods');
+
+            foreach($orders as $val){
+
+                $status = $this->status($val);
+
+                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                $products = '';
+
+                foreach($odDatas as $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                }
+                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+            }
+        }else{
+            $html = $this->myOrderListNoTemplate;
+
+        }
+
+
+        echo $html;
+    }
+
+    //待发货订单
+    protected function getDeliveryOrders()
+    {
+        $html = '';
+
+        $userid = $this->params['id'];
+
+        $orderModel = new Model('order');
+
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=1 and delivery_status=0')->order('unix_timestamp(pay_time) desc')->findAll();
+
+        if($orders){
+            $orderDetailModel = new Model('order_goods');
+
+            $goodsModel = new Model('goods');
+
+            foreach($orders as $val){
+
+                $status = $this->status($val);
+
+                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                $products = '';
+
+                foreach($odDatas as $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                }
+                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+            }
+        }else{
+            $html = $this->myOrderListNoTemplate;
+
+        }
+
+
+        echo $html;
+    }
+
+    //已完成订单
+    protected function getFinishOrders()
+    {
+        $html = '';
+
+        $userid = $this->params['id'];
+
+        $orderModel = new Model('order');
+
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4')->order('unix_timestamp(completion_time) desc')->findAll();
+
+        if($orders){
+            $orderDetailModel = new Model('order_goods');
+
+            $goodsModel = new Model('goods');
+
+            foreach($orders as $val){
+
+                $status = $this->status($val);
+
+                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                $products = '';
+
+                foreach($odDatas as $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                }
+                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+            }
+        }else{
+            $html = $this->myOrderListNoTemplate;
+
+        }
+
+
+        echo $html;
+    }
+
     //我的订单
     protected function getMyOrders()
     {
@@ -83,26 +215,32 @@ class customer extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->limit(2)->findAll();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc')->findAll();
 
-        $orderDetailModel = new Model('order_goods');
+        if($orders){
+            $orderDetailModel = new Model('order_goods');
 
-        $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
 
-        foreach($orders as $val){
+            foreach($orders as $val){
 
-            $status = $this->status($val);
+                $status = $this->status($val);
 
-            $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-            $products = '';
+                $products = '';
 //<div class="swiper-slide"><img src="http://lorempixel.com/500/500/nature/1" width="200" height="200" /></div>
-            foreach($odDatas as $vval){
-                $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                foreach($odDatas as $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                }
+                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
             }
-            $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+        }else{
+            $html = $this->myOrderListNoTemplate;
+
         }
+
 
         echo $html;
     }
@@ -175,11 +313,11 @@ class customer extends baseapi
 
         $user_id = isset($this->params['user_id']) ? intval($this->params['user_id']) : null;
 
-        $data['real_name'] = empty($this->params['name']) ? $this->params['name'] : '';
+        $data['real_name'] = !empty($this->params['real_name']) ? $this->params['real_name'] : '';
 
-        $data['phone'] = empty($this->params['phone']) ? $this->params['phone'] : '';
+        $data['phone'] = !empty($this->params['phone']) ? $this->params['phone'] : '';
 
-        $data['mobile'] = empty($this->params['mobile']) ? $this->params['mobile'] : '';
+        $data['mobile'] = !empty($this->params['mobile']) ? $this->params['mobile'] : '';
 
         $data['sex'] = ($this->params['sex'] == '男') ? 1 : 0;
 
@@ -296,6 +434,7 @@ class customer extends baseapi
     //修改密码
     protected function changePwd()
     {
+
         $password = isset($this->params['password']) ? trim($this->params['password']) : '';
 
         $repassword = isset($this->params['repassword']) ? trim($this->params['repassword']) : '';
@@ -407,6 +546,7 @@ class customer extends baseapi
     //添加收货地址
     public function doaddr()
     {
+
         $id = isset($this->params['id']) ? intval($this->params['id']) : 0;
         $user_id = isset($this->params['user_id']) ? $this->params['user_id'] : null;
         $accept_name = isset($this->params['accept_name']) ? trim($this->params['accept_name']) : '';
@@ -435,7 +575,7 @@ class customer extends baseapi
                 $this->_deladdr($id);
             break;
             case 'setdefault':
-                $this->_setdefaultaddr($is_default,$id);
+                $this->_setdefaultaddr($is_default,$id,$user_id);
             break;
         }
 
@@ -457,15 +597,15 @@ class customer extends baseapi
         }
     }
 
-    private function _setdefaultaddr($is_default,$id)
+    private function _setdefaultaddr($is_default,$id,$user_id)
     {
         $addressModel = new Model('address');
 
         if($is_default == 1){
-            $addressModel->data(array('is_default = 0'))->where('id='.$id)->update();
+            $addressModel->data(array('is_default'=>0))->where('user_id='.$user_id)->update();
         }
 
-        $res = $addressModel->data(array('is_default = '.$is_default))->where('id='.$id)->update();
+        $res = $addressModel->data(array('is_default'=>$is_default))->where('id='.$id)->update();
 
         if($res){
             $this->output['status'] = 'succ';
@@ -526,7 +666,7 @@ class customer extends baseapi
             $data['addr'] = $addr;
             $data['zip'] = $zip;
             $data['phone'] = $phone;
-            $data['is_default'] = $is_default;
+            //$data['is_default'] = $is_default;
 
             $res = $addressModel->data($data)->insert();
 
@@ -542,7 +682,7 @@ class customer extends baseapi
             $data['addr'] = $addr;
             $data['zip'] = $zip;
             $data['phone'] = $phone;
-            $data['is_default'] = $is_default;
+            //$data['is_default'] = $is_default;
 
             $res = $addressModel->data($data)->where('id='.$id)->update();
         }

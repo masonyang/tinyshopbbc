@@ -84,7 +84,7 @@
         'name' => '分销商预存款日志',
         'parent' => 'config',
       ),
-      '/admin/cservice' =>
+      '/admin/cservice' => 
       array (
         'name' => '客户服务',
         'parent' => 'config',
@@ -431,16 +431,6 @@
         'name' => '角色编辑',
         'parent' => 'safe',
       ),
-//      '/admin/resources_list' =>
-//      array (
-//        'name' => '权限列表',
-//        'parent' => 'safe',
-//      ),
-//      '/admin/resources_edit' =>
-//      array (
-//        'name' => '编辑权限资源',
-//        'parent' => 'safe',
-//      ),
       '/admin/log_operation_list' => 
       array (
         'name' => '操作日志',

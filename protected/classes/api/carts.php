@@ -103,7 +103,7 @@ class carts extends baseapi
                                 <div style="float:right;">{mobile}</div>
                                 <div class="ks-facebook-name" style="margin-right:44px;">收货人: {accept_name}</div>
                                 <div class="ks-facebook-date" style="margin-right:44px;">{addr}</div>
-
+                                <input type="hidden" name="address_id" id="address_id" value="{address_id}">
                             </div>
                         </div>
                     </li>
@@ -119,6 +119,7 @@ class carts extends baseapi
                             <div class="item-media"><img src="http://photocdn.sohu.com/20151016/mp35928456_1444959854152_1_th.jpeg" width="50"/></div>
                             <div class="item-inner">
                                 <div class="item-title-row">
+                                    <input type="hidden" name="payment_id" id="payment_id" value="{payment_id}">
                                     <div class="item-title">支付宝</div>
                                 </div>
                                 <div class="item-text">支付金额大于订单金额</div>
@@ -144,7 +145,7 @@ class carts extends baseapi
                             <div class="item-inner">
                                 <div class="item-title label">订单备注</div>
                                 <div class="item-input">
-                                    <textarea></textarea>
+                                    <textarea name="user_remark" id="user_remark"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -164,7 +165,7 @@ class carts extends baseapi
                             <div class="item-inner">
                                 <div class="item-title label">运费</div>
                                 <div class="item-input right">
-                                    ￥2.00
+                                    ￥{payable_freight}
                                 </div>
                             </div>
                         </div>
@@ -178,9 +179,9 @@ class carts extends baseapi
                             <div class="item-inner">
                                 <div class="item-title label">合计</div>
                                 <div class="item-input right">
-                                    ￥14.00
+                                    ￥{order_amount}
                                 </div>
-                                <div class="item-after"><a href="#" class="button">提交订单</a></div>
+                                <div class="item-after"><input type="submit" class="button loginout button-big button-fill color-red add-chekcout-click" value="提交订单"></div>
                             </div>
 
                         </div>
@@ -191,6 +192,8 @@ class carts extends baseapi
 
     public function index()
     {
+
+
         switch($this->params['source']){
             case 'cindex':
                 $this->cartIndex();
@@ -210,6 +213,7 @@ class carts extends baseapi
 
                     if($product['store_nums'] > 0){
                         $cart->addItem($product['id'],$num);
+                        $this->output['status'] = 'succ';
                     }else{
                         $info = '该商品库存不足';
                     }
@@ -287,6 +291,8 @@ class carts extends baseapi
 
         $total = 0;
         $goods_info = '';
+        $weight = 0;
+        $real_amount = 0;
         $cart = Cart::getCart();
 
         $all = $cart->all();
@@ -297,6 +303,8 @@ class carts extends baseapi
             $name = $item['name'];
             $num = $item['num'];
             $amount = $item['amount'];
+            $real_amount += $item['amount'];
+            $weight += $item['weight']*$item['num'];
             $spec = array();
             foreach($item['spec'] as $specs){
                 $spec[] = $specs['value'][2];
@@ -318,7 +326,15 @@ class carts extends baseapi
                     </li>';
         }
 
-        echo str_replace(array('{mobile}','{accept_name}','{addr}','{goods_info}','{total}'),array($mobile,$accept_name,$addr,$goods_info,$total),$this->checkoutIndexTemplate);
+
+        $fare = new Fare($weight);
+        $payable_freight = $fare->calculate($addrData['id']);
+        $order_amount = $payable_freight + $real_amount;
+
+        $paymentModel = new Model('payment','zd','salve');
+        $payment = $paymentModel->where('pay_name = "支付宝[手机支付]"')->find();
+        $payment_id = $payment['id'];
+        echo str_replace(array('{payment_id}','{address_id}','{mobile}','{accept_name}','{addr}','{goods_info}','{total}','{payable_freight}','{order_amount}'),array($payment_id,$addrData['id'],$mobile,$accept_name,$addr,$goods_info,$total,$payable_freight,$order_amount),$this->checkoutIndexTemplate);
     }
 
     private function consignee($addrData)
@@ -364,7 +380,8 @@ class carts extends baseapi
                 exit;
             }
 
-            $order_products = $this->cart;
+            $cart = Cart::getCart();
+            $order_products = $cart->all();
 
             //检测products 是否还有数据
             if(empty($order_products)){
@@ -500,7 +517,9 @@ class carts extends baseapi
             $this->output(array('orderid'=>$order_id));
 
         }catch (Exception $e){
-            echo $e->getMessage();exit;
+            $this->output['status'] = 'fail';
+            $this->output['msg'] = $e->getMessage();
+            $this->output(array());
         }
     }
 

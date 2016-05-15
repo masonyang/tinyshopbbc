@@ -44,12 +44,8 @@
     'other_currency_unit' => '元',
     'other_is_invoice' => '1',
     'other_tax' => '6',
-    'other_grade_days' => '365',
+    'other_tradeprice_rate' => '6',
     'other_order_delay' => '120',
-    'other_order_delay_flash' => '120',
-    'other_order_delay_group' => '120',
-    'other_order_delay_bund' => '0',
     'other_verification_eamil' => NULL,
-    'other_tradeprice_rate' => '0',
   ),
 );

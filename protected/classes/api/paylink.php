@@ -35,17 +35,12 @@ class paylink extends baseapi
 
         $data = array();
 
-        if($this->islogin($userid) && $paymentid && $orderid){
+        if($userid && $paymentid && $orderid){
             $this->genatePayLink($paymentid,$orderid,$extendDatas);
         }else{
             echo '未登录';
             exit;
         }
-    }
-
-    protected function islogin($userid)
-    {
-        return true;
     }
 
     protected function genatePayLink($paymentid,$orderid,$extendDatas)

@@ -58,5 +58,17 @@ class Config
     {
 		if(self::$change_flag)File::putContents(self::$fileName,'<?php return '.var_export(self::$system,true).';'); 
     }
+
+    public function sethead($file,$key,$value)
+    {
+        $fileName = APP_CODE_ROOT.'config/'.$file.'.php';
+
+        $system = require($fileName);
+
+        $system[$key] = $value;
+
+        File::putContents(self::$fileName,'<?php return '.var_export($system,true).';');
+
+    }
 }
 

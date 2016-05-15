@@ -21,7 +21,8 @@ class ConfigService
 			'site_zip'=>Req::args('site_zip'),
 			'site_phone'=>Req::args('site_phone')
 		);
-		$this->config->set('globals',$globals);
+
+        $this->config->sethead('system','globals',$globals);
 		return true;
     }
     public function photo()
@@ -44,7 +45,7 @@ class ConfigService
 			'email_password'=>Req::args('email_password'),
 			'email_sender_name'=>Req::args('email_sender_name')
 		);
-		$this->config->set('email',$email);
+        $this->config->sethead('system','email',$email);
 		return true;
     }
     public function other(){
@@ -61,7 +62,8 @@ class ConfigService
     		//'other_order_delay_bund'=>Req::args('other_order_delay_bund'),
     		'other_verification_eamil'=>Req::args('other_verification_eamil'),
     	);
-    	$this->config->set('other',$other);
+
+    	$this->config->sethead('system','other',$other);
 		return true;
     }
 	public function safe()
