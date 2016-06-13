@@ -77,7 +77,10 @@ class apilist extends baseapi
 
         $this->apiname = $apiname;
 
+
         $this->header();
+
+        $this->buildSignRule();
 
         $this->body();
 
@@ -99,10 +102,25 @@ class apilist extends baseapi
 
     }
 
+
+    private function buildSignRule()
+    {
+        $html = "<tr><td style='font-size: 16px;'>请求时， 通用的生成sign签名规则</td></tr>";
+
+        $html .= "<tr><td><table border=1 width='100%'>
+        <tr><td>请求的参数key value拼接 后 md5<br/>
+            例如：请求参数为 con=api&act=index&method=apilist&source=detail&apiname=advert
+            那么 先拼接数据 conapiactindexmethodapilistsourcedetailapinameapiname
+            最后将拼接完的数据 md5加密。</td></tr>
+        </table></td></tr>";
+
+        $this->detail_html[] =  $html;
+    }
+
     private function body()
     {
 
-        $html = "<tr><td>请求参数</td></tr>";
+        $html = "<tr><td style='font-size: 16px;'>请求参数</td></tr>";
 
         $html .= "<tr><td><table border=1 width='100%'>";
 
@@ -124,7 +142,7 @@ class apilist extends baseapi
 
     private function footer()
     {
-        $html = "<tr><td>返回字段说明</td></tr>";
+        $html = "<tr><td style='font-size: 16px;'>返回字段说明</td></tr>";
 
         $html .= "<tr><td><table border=1 width='100%'>";
 
