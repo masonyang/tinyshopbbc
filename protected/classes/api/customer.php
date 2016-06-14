@@ -9,6 +9,45 @@
 class customer extends baseapi
 {
 
+    public static $title = array(
+        'login'=>'用户登录'
+    );
+
+    public static $lastmodify = array(
+        'login'=>'2016-6-13'
+    );
+
+    public static $requestParams = array(
+        'login'=>array(
+            array(
+                'colum'=>'mobile',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'password',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'密码',
+            ),
+        ),
+    );
+
+    public static $responsetParams = array(
+        'login'=>array(
+            array(
+                'colum'=>'user_id',
+                'content'=>'成功，则返回用户id',
+            ),
+        ),
+    );
+
+    public static $requestUrl = array(
+        'login'=>'     /index.php?con=api&act=index&method=customer&source=login'
+    );
+
+
     protected $addrManageTemplate = '<li class="swipeout">
             <div class="swipeout-content"><a href="#" class="item-link item-content">
                 <div class="item-inner">
@@ -697,5 +736,21 @@ class customer extends baseapi
         }
     }
 
-
+    public function login_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'密码不正确 / 手机号不存在',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'登录成功',
+                'data'=>array(
+                    'user_id'=>1,
+                ),
+            )
+        );
+    }
 }

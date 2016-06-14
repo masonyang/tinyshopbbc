@@ -8,43 +8,29 @@
  *
  * http://a.tinyshop.com/index.php?con=api&act=index&method=carts&source=scount
  *
+ * http://a.tinyshop.com/index.php?con=api&act=index&method=apilist
+ *
  */
 class apilist extends baseapi
 {
     protected $apilist = array(
-        'advert',
+        'advert'=>'advert',
+        'captchacode'=>'captchacode',
+        'customer'=>'login',
     );
 
     private $apiname = '';
 
+    private $ailas = '';
+
     private $detail_html = array();
 
-    private $requestDefaultParams = array(
-        array(
-            'colum'=>'con',
-            'required'=>'必选',
-            'type'=>'string',
-            'content'=>'控制器名称,api',
-        ),
-        array(
-            'colum'=>'act',
-            'required'=>'必选',
-            'type'=>'string',
-            'content'=>'方法名称,index',
-        ),
-        array(
-            'colum'=>'method',
-            'required'=>'必选',
-            'type'=>'string',
-            'content'=>'调用接口名称,根据实际请求而定',
-        ),
-    );
 
     public function index()
     {
         switch($this->params['source']){
             case 'detail':
-                $this->detail($this->params['apiname']);
+                $this->detail($this->params['apiname'],$this->params['ailas']);
             break;
             default:
                 $this->main();
@@ -58,9 +44,9 @@ class apilist extends baseapi
 
         $html .= "<tr><td align='center'>API 文档</td></tr>";
 
-        foreach($this->apilist as $api){
+        foreach($this->apilist as $api=>$ailas){
 
-            $html .= "<tr><td>".$api::$title.'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'">查看'."</td></tr>";
+            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看'."</td></tr>";
         }
 
         $html .= '</table>';
@@ -68,15 +54,16 @@ class apilist extends baseapi
         echo $html;
     }
 
-    private function detail($apiname)
+    private function detail($apiname,$ailas)
     {
-        if(!in_array($this->params['apiname'],$this->apilist)){
+        if(!in_array($this->params['apiname'],array_keys($this->apilist))){
             echo 'apiname 不存在';
             exit;
         }
 
         $this->apiname = $apiname;
 
+        $this->ailas = $ailas;
 
         $this->header();
 
@@ -94,9 +81,11 @@ class apilist extends baseapi
 
         $appname = $this->apiname;
 
+        $ailas = $this->ailas;
+
         $html = '<a href="/index.php?con=api&act=index&method=apilist">返回</a><table align="center" border="0" width="100%">';
 
-        $html .= "<tr><td align='center'>".$appname::$title." <br><h5>最后更新时间:".$appname::$lastmodify."</h5></td></tr>";
+        $html .= "<tr><td align='center'>".$appname::$title[$ailas]." <br><h5>最后更新时间:".$appname::$lastmodify[$ailas]."</h5></td></tr>";
 
         $this->detail_html[] =  $html;
 
@@ -105,14 +94,20 @@ class apilist extends baseapi
 
     private function buildSignRule()
     {
-        $html = "<tr><td style='font-size: 16px;'>请求时， 通用的生成sign签名规则</td></tr>";
+        $appname = $this->apiname;
 
-        $html .= "<tr><td><table border=1 width='100%'>
-        <tr><td>请求的参数key value拼接 后 md5<br/>
-            例如：请求参数为 con=api&act=index&method=apilist&source=detail&apiname=advert
-            那么 先拼接数据 conapiactindexmethodapilistsourcedetailapinameapiname
-            最后将拼接完的数据 md5加密。</td></tr>
-        </table></td></tr>";
+        $ailas = $this->ailas;
+
+        $html = "<tr><td style='font-size: 16px;'>请求地址:".$appname::$requestUrl[$ailas]."</td></tr>";
+
+        $html .= "<tr><td style='font-size: 16px;'>生成sign签名规则 后续完善</td></tr>";
+
+//        $html .= "<tr><td><table border=1 width='100%'>
+//        <tr><td>请求的参数key value拼接 后 md5<br/>
+//            例如：请求参数为 con=api&act=index&method=apilist&source=detail&apiname=advert
+//            那么 先拼接数据 conapiactindexmethodapilistsourcedetailapinameapiname
+//            最后将拼接完的数据 md5加密。</td></tr>
+//        </table></td></tr>";
 
         $this->detail_html[] =  $html;
     }
@@ -128,10 +123,10 @@ class apilist extends baseapi
 
         $appname = $this->apiname;
 
-        $this->requestDefaultParams[2]['content'] = str_replace('根据实际请求而定',$appname,$this->requestDefaultParams[2]['content']);
+        $ailas = $this->ailas;
 
-        $request = array_merge($this->requestDefaultParams,$appname::$requestParams);
-        foreach($request as $req){
+        foreach($appname::$requestParams[$ailas] as $req){
+
             $html .= "<tr><td align='center'>".$req['colum']."</td><td align='center'>".$req['required']."</td><td align='center'>".$req['type']."</td><td align='center'>".$req['content']."</td></tr>";
         }
 
@@ -150,16 +145,28 @@ class apilist extends baseapi
 
         $appname = $this->apiname;
 
-        foreach($appname::$responsetParams as $req){
+        $ailas = $this->ailas;
+
+        foreach($appname::$responsetParams[$ailas] as $req){
             $html .= "<tr><td align='center'>".$req['colum']."</td><td align='center'>".$req['content']."</td></tr>";
         }
 
         $classname = new $appname();
 
 
+        $method = $this->ailas.'_demo';
+
         $html .= "</table></td></tr>";
 
-        $html .= "<tr><td><pre>".var_export(json_decode($classname->demo(),1),1)."</td></tr>";
+        $json = $classname->$method();
+
+        if(is_array($json)){
+            $html .= "<tr><td> 成功 结果:<br/><pre>".var_export($json['succ'],1)."</td></tr>";
+            $html .= "<tr><td>错误 结果:<br/><pre>".var_export($json['fail'],1)."</td></tr>";
+        }else{
+            $html .= "<tr><td><pre>结果:<br/>".$classname->$method()."</td></tr>";
+        }
+
         $html .= '</table>';
 
 
