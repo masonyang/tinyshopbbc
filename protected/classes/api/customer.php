@@ -9,12 +9,16 @@
 class customer extends baseapi
 {
 
+    protected $captchaKey = 'verifyCode';
+
     public static $title = array(
-        'login'=>'用户登录'
+        'login'=>'用户登录',
+        'register'=>'用户注册',
     );
 
     public static $lastmodify = array(
-        'login'=>'2016-6-13'
+        'login'=>'2016-6-13',
+        'register'=>'2016-6-13',
     );
 
     public static $requestParams = array(
@@ -31,6 +35,38 @@ class customer extends baseapi
                 'type'=>'string',
                 'content'=>'密码',
             ),
+            array(
+                'colum'=>'vaildcode',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'验证码',
+            ),
+        ),
+        'register'=>array(
+            array(
+                'colum'=>'mobile',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'password',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'密码',
+            ),
+            array(
+                'colum'=>'repassword',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'确认密码',
+            ),
+            array(
+                'colum'=>'vaildcode',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'验证码',
+            ),
         ),
     );
 
@@ -41,10 +77,17 @@ class customer extends baseapi
                 'content'=>'成功，则返回用户id',
             ),
         ),
+        'register'=>array(
+            array(
+                'colum'=>'user_id',
+                'content'=>'成功，则返回用户id',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
-        'login'=>'     /index.php?con=api&act=index&method=customer&source=login'
+        'login'=>'     /index.php?con=api&act=index&method=customer&source=login',
+        'register'=>'     /index.php?con=api&act=index&method=customer&source=register'
     );
 
 
@@ -513,6 +556,16 @@ class customer extends baseapi
     {
         $mobile = Filter::sql($this->params['mobile']);
 
+        $_vaildcode = $this->params['vaildcode'];
+
+        $safebox = Safebox::getInstance();
+        $code = $safebox->get($this->captchaKey);
+
+        if($_vaildcode != $code){
+            $this->output['msg'] = '验证码不正确';
+            $this->output();
+            exit;
+        }
 
         if(Validator::mobi($mobile)){
 
@@ -547,9 +600,28 @@ class customer extends baseapi
     {
         $mobile = Filter::sql($this->params['mobile']);
 
+        $_vaildcode = $this->params['vaildcode'];
+
+        $safebox = Safebox::getInstance();
+        $code = $safebox->get($this->captchaKey);
+
+        if($_vaildcode != $code){
+            $this->output['msg'] = '验证码不正确';
+            $this->output();
+            exit;
+        }
+
+
         if(Validator::mobi($mobile)){
 
             $password = $this->params['password'];
+
+            $re_password = $this->params['repassword'];
+
+            if($password != $re_password){
+                $this->output['msg'] = '二次密码输入不一致';
+                $this->output();
+            }
 
             $userModel = new Model('user');
 
@@ -558,6 +630,7 @@ class customer extends baseapi
             if($userData){
                 $this->output['msg'] = '手机号已注册';
                 $this->output();
+                exit;
             }else{
                 $validcode = CHash::random(8);
                 $data = array('name'=>$mobile,'password'=>CHash::md5($password,$validcode),'validcode'=>$validcode);
@@ -572,7 +645,7 @@ class customer extends baseapi
                     $_data = array();
                     $_data['user_id'] = $user_id;
                     $this->output['status'] = 'succ';
-                    $this->output['msg'] = '登录成功';
+                    $this->output['msg'] = '注册成功';
                     $this->output($_data);
                 }
             }
@@ -741,12 +814,30 @@ class customer extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'密码不正确 / 手机号不存在',
+                'msg'=>'密码不正确 / 手机号不存在 / 验证码不正确',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
                 'msg'=>'登录成功',
+                'data'=>array(
+                    'user_id'=>1,
+                ),
+            )
+        );
+    }
+
+    public function register_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'二次密码输入不一致 / 手机号已注册 / 手机号格式不正确 / 验证码不正确',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'注册成功',
                 'data'=>array(
                     'user_id'=>1,
                 ),

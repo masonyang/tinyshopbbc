@@ -16,7 +16,8 @@ class apilist extends baseapi
     protected $apilist = array(
         'advert'=>'advert',
         'captchacode'=>'captchacode',
-        'customer'=>'login',
+        'login'=>'customer',
+        'register'=>'customer',
     );
 
     private $apiname = '';
@@ -44,7 +45,7 @@ class apilist extends baseapi
 
         $html .= "<tr><td align='center'>API 文档</td></tr>";
 
-        foreach($this->apilist as $api=>$ailas){
+        foreach($this->apilist as $ailas=>$api){
 
             $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看'."</td></tr>";
         }
@@ -56,7 +57,7 @@ class apilist extends baseapi
 
     private function detail($apiname,$ailas)
     {
-        if(!in_array($this->params['apiname'],array_keys($this->apilist))){
+        if(!in_array($this->params['apiname'],array_values($this->apilist))){
             echo 'apiname 不存在';
             exit;
         }
@@ -98,7 +99,7 @@ class apilist extends baseapi
 
         $ailas = $this->ailas;
 
-        $html = "<tr><td style='font-size: 16px;'>请求地址:".$appname::$requestUrl[$ailas]."</td></tr>";
+        $html = "<tr><td style='font-size: 16px;'>请求地址:".$appname::$requestUrl[$ailas]." &nbsp;&nbsp;&nbsp;&nbsp; 【所有请求参数POST提交】</td></tr>";
 
         $html .= "<tr><td style='font-size: 16px;'>生成sign签名规则 后续完善</td></tr>";
 

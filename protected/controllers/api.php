@@ -15,6 +15,13 @@ class ApiController extends Controller
 
         unset($args['method']);
 
+        if($args['data']){
+
+            $json = json_decode($args['data'],1);
+
+            $args = array_merge($args,$json);
+        }
+
         $class = new $obj($args);
 
         return $class->index();
