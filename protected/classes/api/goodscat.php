@@ -11,6 +11,73 @@ class gcat extends baseapi
 {
     protected $catModel = null;
 
+    public static $title = array(
+        'scategory'=>'商品分类（二级）',
+        'category'=>'商品分类（一级）'
+    );
+
+    public static $lastmodify = array(
+        'scategory'=>'2016-6-13',
+        'category'=>'2016-6-13',
+    );
+
+    public static $requestParams = array(
+        'scategory'=>array(
+            array(
+                'colum'=>'无',
+                'required'=>'无',
+                'type'=>'无',
+                'content'=>'无',
+            ),
+        ),
+        'category'=>array(
+            array(
+                'colum'=>'无',
+                'required'=>'无',
+                'type'=>'无',
+                'content'=>'无',
+            ),
+        ),
+    );
+
+    public static $responsetParams = array(
+        'scategory'=>array(
+            array(
+                'colum'=>'parent_id',
+                'content'=>'一级分类id',
+            ),
+            array(
+                'colum'=>'name',
+                'content'=>'分类名称',
+            ),
+            array(
+                'colum'=>'img',
+                'content'=>'分类图片',
+            ),
+            array(
+                'colum'=>'sub_cat',
+                'content'=>'sub_cat为key情况下,它下面的多维数组就是二级分类内容',
+            ),
+
+        ),
+        'category'=>array(
+            array(
+                'colum'=>'id',
+                'content'=>'一级分类id',
+            ),
+            array(
+                'colum'=>'name',
+                'content'=>'分类名称',
+            ),
+
+        ),
+    );
+
+    public static $requestUrl = array(
+        'scategory'=>'     /index.php?con=api&act=index&method=gcat&source=scategory',
+        'category'=>'     /index.php?con=api&act=index&method=gcat&source=category'
+    );
+
     public function __construct($params = array())
     {
         parent::__construct($params);
@@ -20,10 +87,10 @@ class gcat extends baseapi
     public function index()
     {
         switch($this->params['source']){
-            case 'category':
+            case 'scategory':
                 $this->getCatPage();
             break;
-            case 'index':
+            case 'category':
                 $this->getCatIndex();
             break;
         }
@@ -43,8 +110,23 @@ class gcat extends baseapi
             $html .= '<div class="col-25"><a href="#tab'.$i.'" style="width:100%" class="button tab-link">'.$val['name'].'</a></div>&nbsp;';
             $i++;
         }
+        if($catData){
+            $_data = array();
+            $i = 0;
+            foreach($catData as $val){
+                $_data[$i]['id'] = $val['id'];
+                $_data[$i]['name'] = $val['name'];
+                $i++;
+            }
 
-        echo $html;
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '分类获取成功';
+            $this->output($_data);
+        }else{
+            $this->output['msg'] = '分类获取失败';
+            $this->output();
+        }
+
     }
 
     //全部分类
@@ -73,8 +155,115 @@ class gcat extends baseapi
 
         }
 
-        $this->getHtml($tmpCat);
+        if($tmpCat){
+            $_data = array();
+            $i = 0;
+            foreach($tmpCat as $val){
+                $_data[$i]['parent_id'] = $val['id'];
+                $_data[$i]['name'] = $val['name'];
+                $_data[$i]['img'] = $val['img'];
+                foreach($val['extends'] as $kk=> $eval){
+                    $_data[$i]['sub_cat'][$kk]['id'] = $eval['id'];
+                    $_data[$i]['sub_cat'][$kk]['name'] = $eval['name'];
+                    $_data[$i]['sub_cat'][$kk]['img'] = $eval['img'];
+                }
+                $i++;
+            }
 
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '分类获取成功';
+            $this->output($_data);
+        }else{
+            $this->output['msg'] = '分类获取失败';
+            $this->output();
+        }
+
+//        $this->getHtml($tmpCat);
+
+    }
+
+
+    public function scategory_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'分类获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'分类获取成功',
+                'data'=>array(
+                    array(
+                        'parent_id' => 5,
+                        'name' => '服饰1',
+                        'img' => '',
+                        'sub_cat' => array(
+                            array(
+                                'id' => 6,
+                                'name' => '女装',
+                                'img' => '',
+                            ),
+                            array(
+                                'id' => 8,
+                                'name' => '男式',
+                                'img' =>'',
+                            ),
+                        ),
+                    ),
+                    array(
+                        'parent_id' => 1,
+                        'name' => '电脑、手机',
+                        'img' => '',
+                        'sub_cat' => array(
+                            array(
+                                'id' => 2,
+                                'name' => '手机',
+                                'img' => '',
+                            ),
+                            array(
+                                'id' => 3,
+                                'name' => '笔记本',
+                                'img' =>'',
+                            ),
+                            array(
+                                'id' => 4,
+                                'name' => '平板',
+                                'img' =>'',
+                            ),
+                        ),
+                    ),
+                ),
+            )
+        );
+//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+    }
+
+    public function category_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'分类获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'分类获取成功',
+                'data'=>array(
+                    array(
+                        'id' => 5,
+                        'name' => '服饰1',
+                    ),
+                    array(
+                        'parent_id' => 1,
+                        'name' => '电脑、手机',
+                    ),
+                ),
+            )
+        );
+//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
     }
 
     protected function getHtml($goods_category)

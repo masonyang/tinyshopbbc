@@ -18,6 +18,9 @@ class apilist extends baseapi
         'captchacode'=>'captchacode',
         'login'=>'customer',
         'register'=>'customer',
+        'scategory'=>'gcat',
+        'category'=>'gcat',
+        'goods'=>'goods',
     );
 
     private $apiname = '';

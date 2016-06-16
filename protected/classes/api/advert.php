@@ -30,6 +30,10 @@ class advert extends baseapi
     public static $responsetParams = array(
         'advert'=>array(
             array(
+                'colum'=>'url',
+                'content'=>'链接地址',
+            ),
+            array(
                 'colum'=>'img_path',
                 'content'=>'轮播图 图片地址',
             ),
@@ -61,9 +65,11 @@ class advert extends baseapi
         $data = array();
 
         foreach ($ad['content'] as $item) {
+            $data[]['url'] =$item['url'];
             $data[]['img_path'] = Url::fullUrlFormat('@'.$item['path']);
         }
 
+        $this->output['status'] = 'succ';
         $this->output['msg'] = '获取成功';
         $this->output($data);
     }
@@ -81,9 +87,11 @@ class advert extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
+                        'url'=>'http://www.baidu.com',
                         'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),
                     array(
+                        'url'=>'http://www.baidu.com',
                         'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),
                 ),
