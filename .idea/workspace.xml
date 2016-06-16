@@ -63,12 +63,12 @@
       <file leaf-file-name="goods.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/goods.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="32" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.6060606" vertical-offset="360" max-vertical-offset="2355">
+            <state line="54" column="14" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.75757575" vertical-offset="360" max-vertical-offset="2355">
               <folding>
-                <marker date="1466091505000" expanded="true" signature="1213:1693" placeholder="..." />
-                <marker date="1466091505000" expanded="true" signature="1279:1385" placeholder="..." />
-                <marker date="1466091505000" expanded="true" signature="1451:1674" placeholder="..." />
-                <marker date="1466091505000" expanded="true" signature="1503:1653" placeholder="..." />
+                <marker date="1466091715000" expanded="true" signature="1212:1692" placeholder="..." />
+                <marker date="1466091715000" expanded="true" signature="1278:1384" placeholder="..." />
+                <marker date="1466091715000" expanded="true" signature="1450:1673" placeholder="..." />
+                <marker date="1466091715000" expanded="true" signature="1502:1652" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -671,12 +671,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/goods.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="32" selection-start="1001" selection-end="1001" vertical-scroll-proportion="0.6060606" vertical-offset="360" max-vertical-offset="2355">
+        <state line="54" column="14" selection-start="1091" selection-end="1091" vertical-scroll-proportion="0.75757575" vertical-offset="360" max-vertical-offset="2355">
           <folding>
-            <marker date="1466091505000" expanded="true" signature="1213:1693" placeholder="..." />
-            <marker date="1466091505000" expanded="true" signature="1279:1385" placeholder="..." />
-            <marker date="1466091505000" expanded="true" signature="1451:1674" placeholder="..." />
-            <marker date="1466091505000" expanded="true" signature="1503:1653" placeholder="..." />
+            <marker date="1466091715000" expanded="true" signature="1212:1692" placeholder="..." />
+            <marker date="1466091715000" expanded="true" signature="1278:1384" placeholder="..." />
+            <marker date="1466091715000" expanded="true" signature="1450:1673" placeholder="..." />
+            <marker date="1466091715000" expanded="true" signature="1502:1652" placeholder="..." />
           </folding>
         </state>
       </provider>

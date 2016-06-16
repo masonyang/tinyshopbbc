@@ -52,7 +52,7 @@ class goods extends baseapi
     );
 
     public static $requestUrl = array(
-        'advert'=>'     /index.php?con=api&act=index&method=goods'
+        'goods'=>'     /index.php?con=api&act=index&method=goods'
     );
 
     protected $template = '<div class="card ks-facebook-card">
