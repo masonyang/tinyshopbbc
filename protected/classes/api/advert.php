@@ -64,9 +64,11 @@ class advert extends baseapi
 
         $data = array();
 
+        $i = 0;
         foreach ($ad['content'] as $item) {
-            $data[]['url'] =$item['url'];
-            $data[]['img_path'] = Url::fullUrlFormat('@'.$item['path']);
+            $data[$i]['url'] =$item['url'];
+            $data[$i]['img_path'] = Url::fullUrlFormat('@'.$item['path']);
+            $i++;
         }
 
         $this->output['status'] = 'succ';
