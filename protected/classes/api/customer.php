@@ -16,6 +16,11 @@ class customer extends baseapi
         'register'=>'用户注册',
     );
 
+    public static $notice = array(
+        'login'=>'',
+        'register'=>'',
+    );
+
     public static $lastmodify = array(
         'login'=>'2016-6-13',
         'register'=>'2016-6-13',
@@ -40,6 +45,12 @@ class customer extends baseapi
                 'required'=>'是',
                 'type'=>'string',
                 'content'=>'验证码',
+            ),
+            array(
+                'colum'=>'rand',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'随机串为 手机序列号',
             ),
         ),
         'register'=>array(
@@ -66,6 +77,12 @@ class customer extends baseapi
                 'required'=>'是',
                 'type'=>'string',
                 'content'=>'验证码',
+            ),
+            array(
+                'colum'=>'rand',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'随机串为 手机序列号',
             ),
         ),
     );
@@ -558,14 +575,23 @@ class customer extends baseapi
 
         $_vaildcode = $this->params['vaildcode'];
 
-        $safebox = Safebox::getInstance();
-        $code = $safebox->get($this->captchaKey);
+        $this->params['rand'] = trim($this->params['rand']);
 
-        if($_vaildcode != $code){
+        $cacheModel = new Model('cache');
+
+        $md5 = md5($this->captchaKey.$this->params['rand'].$_SERVER['HTTP_HOST']);
+
+        $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+
+        $_code = $code['content'];
+
+        if($_vaildcode != $_code){
             $this->output['msg'] = '验证码不正确';
             $this->output();
             exit;
         }
+
+        $cacheModel->where('`key`="'.$md5.'"')->delete();
 
         if(Validator::mobi($mobile)){
 
@@ -595,22 +621,33 @@ class customer extends baseapi
 
     }
 
+    //a.tinyshop.com/index.php?con=api&act=index&method=customer&source=register&mobile=15500001235&password=q123456&repassword=q123456&vaildcode=uoke
+
     //注册
     protected function register()
     {
+
         $mobile = Filter::sql($this->params['mobile']);
 
         $_vaildcode = $this->params['vaildcode'];
 
-        $safebox = Safebox::getInstance();
-        $code = $safebox->get($this->captchaKey);
+        $this->params['rand'] = trim($this->params['rand']);
 
-        if($_vaildcode != $code){
+        $cacheModel = new Model('cache');
+
+        $md5 = md5($this->captchaKey.$this->params['rand'].$_SERVER['HTTP_HOST']);
+
+        $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+
+        $_code = $code['content'];
+
+        if($_vaildcode != $_code){
             $this->output['msg'] = '验证码不正确';
             $this->output();
             exit;
         }
 
+        $cacheModel->where('`key`="'.$md5.'"')->delete();
 
         if(Validator::mobi($mobile)){
 

@@ -16,6 +16,10 @@ class captchacode extends baseapi
         'captchacode'=>'验证码显示'
     );
 
+    public static $notice = array(
+        'captchacode'=>'',
+    );
+
     public static $lastmodify = array(
         'captchacode'=>'2016-6-13'
     );
@@ -23,10 +27,10 @@ class captchacode extends baseapi
     public static $requestParams = array(
         'captchacode'=>array(
             array(
-                'colum'=>'无',
-                'required'=>'无',
-                'type'=>'无',
-                'content'=>'无',
+                'colum'=>'rand',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'手机的序列号，用手机的序列号作为存储验证码时候 的key。在提交验证码 表单信息的 时候 也要传这个 手机序列号 来作为验证依据',
             ),
         ),
     );
@@ -48,6 +52,7 @@ class captchacode extends baseapi
     {
         ob_start();
         $this->layout = null;
+        $rand = $this->params['rand'] ? trim($this->params['rand']) : time();
         $w=$this->params['w']===null?120:intval($this->params['w']);
         $h=$this->params['h']===null?50:intval($this->params['h']);
         $l=$this->params['l']===null?4:intval($this->params['l']);
@@ -56,8 +61,9 @@ class captchacode extends baseapi
         $captcha = new Captcha($w,$h,$l,$bc,$c);
         $captcha->createImage($code);
 
-        $this->safebox = Safebox::getInstance();
-        $this->safebox->set($this->captchaKey,$code);
+        $cacheModel = new Model('cache');
+        $cacheModel->data(array('key'=>md5($this->captchaKey.$rand.$_SERVER['HTTP_HOST']),'content'=>$code))->insert();
+
         ob_end_flush();
     }
 

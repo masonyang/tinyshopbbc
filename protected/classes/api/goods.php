@@ -19,13 +19,47 @@ class goods extends baseapi
         'goods'=>'2016-6-13',
     );
 
+    public static $notice = array(
+        'goods'=>'传入参数 还需要确认。。。<br/>1. 按id搜索，id 指的是 商品id 还是分类id<br/> 2.关键字搜索 是商品名称？',
+    );
+
     public static $requestParams = array(
         'goods'=>array(
             array(
-                'colum'=>'无',
-                'required'=>'无',
-                'type'=>'无',
-                'content'=>'无',
+                'colum'=>'type',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'搜索类型:1-按id搜索   2-按关键字搜索,',
+            ),
+            array(
+                'colum'=>'filter',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'筛选条件:1-按id搜索   2-按关键字搜索,',
+            ),
+            array(
+                'colum'=>'order',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'排序方式:1-最新  2-价格  3-销量  4-人气',
+            ),
+            array(
+                'colum'=>'limit',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'每次请求加载的数据条数',
+            ),
+            array(
+                'colum'=>'offset',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'上一页最后一条数据的索引',
+            ),
+            array(
+                'colum'=>'iscount',
+                'required'=>'可选',
+                'type'=>'boolean',
+                'content'=>'是否返回总数',
             ),
         ),
     );

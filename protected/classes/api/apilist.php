@@ -50,7 +50,14 @@ class apilist extends baseapi
 
         foreach($this->apilist as $ailas=>$api){
 
-            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看'."</td></tr>";
+            if($api::$notice[$ailas]){
+                $notice = '<span style="color:red;">('.$api::$notice[$ailas].')</span>';
+            }else{
+                $notice = '';
+            }
+
+
+            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
         }
 
         $html .= '</table>';
@@ -90,6 +97,10 @@ class apilist extends baseapi
         $html = '<a href="/index.php?con=api&act=index&method=apilist">返回</a><table align="center" border="0" width="100%">';
 
         $html .= "<tr><td align='center'>".$appname::$title[$ailas]." <br><h5>最后更新时间:".$appname::$lastmodify[$ailas]."</h5></td></tr>";
+
+        if($appname::$notice[$ailas]){
+            $html .= "<tr><td align='center' style='color:red;'><h5>".$appname::$notice[$ailas]."</h5></td></tr>";
+        }
 
         $this->detail_html[] =  $html;
 

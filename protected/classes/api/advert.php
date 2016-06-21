@@ -16,6 +16,10 @@ class advert extends baseapi
         'advert'=>'2016-6-13',
     );
 
+    public static $notice = array(
+        'advert'=>'',
+    );
+
     public static $requestParams = array(
         'advert'=>array(
             array(

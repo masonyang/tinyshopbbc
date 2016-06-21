@@ -21,6 +21,11 @@ class gcat extends baseapi
         'category'=>'2016-6-13',
     );
 
+    public static $notice = array(
+        'scategory'=>'',
+        'category'=>'',
+    );
+
     public static $requestParams = array(
         'scategory'=>array(
             array(
