@@ -670,7 +670,7 @@ class customer extends baseapi
                 exit;
             }else{
                 $validcode = CHash::random(8);
-                $data = array('name'=>$mobile,'password'=>CHash::md5($password,$validcode),'validcode'=>$validcode);
+                $data = array('name'=>$mobile,'password'=>CHash::md5($password,$validcode),'validcode'=>$validcode,'email'=>$mobile.'@qqcapp.com');
                 $user_id = $userModel->data($data)->insert();
                 if($user_id){
                     $customerModel = new Model('customer');
@@ -684,6 +684,9 @@ class customer extends baseapi
                     $this->output['status'] = 'succ';
                     $this->output['msg'] = '注册成功';
                     $this->output($_data);
+                }else{
+                    $this->output['msg'] = '注册失败';
+                    $this->output();
                 }
             }
         }else{

@@ -108,13 +108,13 @@ class gcat extends baseapi
     {
         $catData = $this->catModel->where('parent_id=0')->order('sort desc')->findAll();
 
-        $html = '';
-
-        $i = 3;
-        foreach($catData as $val){
-            $html .= '<div class="col-25"><a href="#tab'.$i.'" style="width:100%" class="button tab-link">'.$val['name'].'</a></div>&nbsp;';
-            $i++;
-        }
+//        $html = '';
+//
+//        $i = 3;
+//        foreach($catData as $val){
+//            $html .= '<div class="col-25"><a href="#tab'.$i.'" style="width:100%" class="button tab-link">'.$val['name'].'</a></div>&nbsp;';
+//            $i++;
+//        }
         if($catData){
             $_data = array();
             $i = 0;

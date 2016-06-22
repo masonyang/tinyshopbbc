@@ -20,7 +20,7 @@ class goods extends baseapi
     );
 
     public static $notice = array(
-        'goods'=>'传入参数 还需要确认。。。<br/>1. 按id搜索，id 指的是 商品id 还是分类id<br/> 2.关键字搜索 是商品名称？',
+        'goods'=>'',
     );
 
     public static $requestParams = array(
@@ -29,7 +29,7 @@ class goods extends baseapi
                 'colum'=>'type',
                 'required'=>'必须',
                 'type'=>'int',
-                'content'=>'搜索类型:1-按id搜索   2-按关键字搜索,',
+                'content'=>'搜索类型:1-按商品分类id搜索   2-按关键字搜索 现在是根据商品名进行搜索',
             ),
             array(
                 'colum'=>'filter',
@@ -67,7 +67,11 @@ class goods extends baseapi
     public static $responsetParams = array(
         'goods'=>array(
             array(
-                'colum'=>'id',
+                'colum'=>'count',
+                'content'=>'当传入iscount时，返回count。',
+            ),
+            array(
+                'colum'=>'gid',
                 'content'=>'商品id',
             ),
             array(
@@ -110,19 +114,41 @@ class goods extends baseapi
     }
     public function index()
     {
-        $goodsLists = $this->goodsModel->fields('id,name,branchstore_goods_name,goods_no,img,sell_price,branchstore_sell_price')->where('is_online=0')->findAll();
+
+        $filter = $this->__filter();
+
+        $this->goodsModel->fields('id,name,branchstore_goods_name,goods_no,img,sell_price,branchstore_sell_price')->where('is_online=0 '.$filter['where']);
+
+        $this->goodsModel->limit($filter['limit']);
+
+        if($filter['order']){
+            $this->goodsModel->order($filter['order']);
+        }
+
+        $goodsLists = $this->goodsModel->findAll();
+
+        $count = false;
+
+        if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
+            $count = $this->goodsModel->where('is_online=0 '.$filter['where'])->count();
+        }
 
         if($goodsLists){
             $_data = array();
+
+            if($count){
+                $_data['count'] = $count;
+            }
+
             $i = 0;
             foreach($goodsLists as $val){
                 $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
                 $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
                 $img = self::getApiUrl().$val['img'];
-                $_data[$i]['parent_id'] = $val['id'];
-                $_data[$i]['name'] = $name;
-                $_data[$i]['img'] = $img;
-                $_data[$i]['price'] = $price;
+                $_data['goods'][$i]['gid'] = $val['id'];
+                $_data['goods'][$i]['name'] = $name;
+                $_data['goods'][$i]['img'] = $img;
+                $_data['goods'][$i]['price'] = $price;
                 $i++;
             }
 
@@ -149,22 +175,79 @@ class goods extends baseapi
                 'status'=>'succ',
                 'msg'=>'商品列表获取成功',
                 'data'=>array(
-                    array(
-                        'id' => 5,
-                        'name' => 'KAPA服饰',
-                        'price'=>1000.00,
-                        'img'=>'',
-                    ),
-                    array(
-                        'id' => 1,
-                        'name' => 'MacBook电脑',
-                        'price'=>100000.00,
-                        'img'=>'',
+                    'count'=>10,
+                    'goods'=>array(
+                        array(
+                            'gid' => 5,
+                            'name' => 'KAPA服饰',
+                            'price'=>1000.00,
+                            'img'=>'',
+                        ),
+                        array(
+                            'gid' => 1,
+                            'name' => 'MacBook电脑',
+                            'price'=>100000.00,
+                            'img'=>'',
+                        ),
                     ),
                 ),
             )
         );
 //        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+    }
+
+
+    protected function __filter($params = array())
+    {
+
+        $return = array(
+            'type'=>'',
+            'order'=>'',
+            'where'=>'',
+            'limit'=>'',
+        );
+
+        $type = $this->params['type'];
+
+        if($type == 1){ //根据 商品分类
+
+            $order = 'create_time desc';
+
+            $return['type'] = 'categroy';
+
+            switch($this->params['order']){
+                case 1: //最新
+                    $order = 'create_time desc';
+                break;
+                case 2://价格
+                    $order = 'sell_price desc,branchstore_sell_price desc';
+                break;
+//                case 3://销量
+//                    $order = ''; //todo 暂无
+//                break;
+//                case 4:
+//                    $order = '';//todo 暂无
+//                break;
+
+            }
+
+            $return['order'] = $order;
+
+            $return['where'] = $this->params['filter'] ? 'and category_id = '.$this->params['filter'] : null;
+
+        }elseif($type == 2){ // 根据 关键字
+
+            $return['type'] = 'search';
+
+            $return['where'] = $this->params['filter'] ? 'and (name like "%'.Filter::sql($this->params['filter']).'%" or branchstore_goods_name like "%'.Filter::sql($this->params['filter']).'%")' : null;
+
+        }
+
+        $offset = ($this->params['offset'] - 1) * $this->params['limit'];
+
+        $return['limit'] = $offset.','.$this->params['limit'];
+
+        return $return;
     }
 
     protected function getHtml($goods)

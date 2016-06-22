@@ -52,7 +52,7 @@ class captchacode extends baseapi
     {
         ob_start();
         $this->layout = null;
-        $rand = $this->params['rand'] ? trim($this->params['rand']) : time();
+
         $w=$this->params['w']===null?120:intval($this->params['w']);
         $h=$this->params['h']===null?50:intval($this->params['h']);
         $l=$this->params['l']===null?4:intval($this->params['l']);
@@ -62,7 +62,15 @@ class captchacode extends baseapi
         $captcha->createImage($code);
 
         $cacheModel = new Model('cache');
-        $cacheModel->data(array('key'=>$this->captchaKey.$rand,'content'=>$code))->insert();
+
+        $as = $cacheModel->where('`key`="'.$this->captchaKey.$this->params['rand'].'"')->find();
+
+        if($as){
+            $cacheModel->data(array('content'=>$code))->where('`key`="'.$this->captchaKey.$this->params['rand'].'"')->update();
+        }else{
+            $cacheModel->data(array('key'=>$this->captchaKey.$this->params['rand'],'content'=>$code))->insert();
+        }
+
 
         ob_end_flush();
     }

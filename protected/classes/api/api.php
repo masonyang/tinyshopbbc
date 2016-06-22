@@ -48,6 +48,6 @@ class baseapi
 
     protected static function getApiUrl()
     {
-        return self::APIURL;
+        return 'http://'.$_SERVER['HTTP_HOST'].'/';
     }
 }
