@@ -62,7 +62,7 @@ class captchacode extends baseapi
         $captcha->createImage($code);
 
         $cacheModel = new Model('cache');
-        $cacheModel->data(array('key'=>md5($this->captchaKey.$rand),'content'=>$code))->insert();
+        $cacheModel->data(array('key'=>$this->captchaKey.$rand,'content'=>$code))->insert();
 
         ob_end_flush();
     }
