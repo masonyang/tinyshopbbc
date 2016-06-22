@@ -26,16 +26,16 @@
       <file leaf-file-name="advert.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/advert.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="19" column="19" selection-start="393" selection-end="393" vertical-scroll-proportion="-0.0" vertical-offset="285" max-vertical-offset="1695">
+            <state line="19" column="19" selection-start="393" selection-end="393" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1695">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="customer.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="customer.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/customer.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="630" column="0" selection-start="20387" selection-end="20387" vertical-scroll-proportion="0.28371277" vertical-offset="9288" max-vertical-offset="13335">
+            <state line="630" column="0" selection-start="20387" selection-end="20387" vertical-scroll-proportion="-6.75" vertical-offset="9288" max-vertical-offset="13335">
               <folding>
                 <marker date="1466582402000" expanded="true" signature="2830:3568" placeholder="..." />
                 <marker date="1466582402000" expanded="true" signature="2873:3277" placeholder="..." />
@@ -50,7 +50,7 @@
                 <marker date="1466582402000" expanded="true" signature="4342:4418" placeholder="..." />
                 <marker date="1466582402000" expanded="true" signature="4760:4969" placeholder="..." />
                 <marker date="1466582402000" expanded="true" signature="4819:4942" placeholder="..." />
-                <marker date="1466582402000" expanded="true" signature="4880:4899" placeholder="..." />
+                <marker date="1466582402000" expanded="false" signature="4880:4899" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -71,10 +71,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="captchacode.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="captchacode.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="38" selection-start="1753" selection-end="1753" vertical-scroll-proportion="-13.791667" vertical-offset="629" max-vertical-offset="1200">
+            <state line="64" column="33" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.57968473" vertical-offset="629" max-vertical-offset="1200">
               <folding />
             </state>
           </provider>
@@ -106,7 +106,7 @@
       <file leaf-file-name="config_qqcapp.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/config/config_qqcapp.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="35" column="0" selection-start="866" selection-end="866" vertical-scroll-proportion="-21.833334" vertical-offset="1" max-vertical-offset="615">
+            <state line="35" column="0" selection-start="866" selection-end="866" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="615">
               <folding />
             </state>
           </provider>
@@ -171,8 +171,8 @@
         <option value="$PROJECT_DIR$/protected/classes/api/apilist.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/goods.php" />
         <option value="$PROJECT_DIR$/protected/config/config_qqcapp.php" />
-        <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/customer.php" />
+        <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
       </list>
     </option>
   </component>
@@ -209,7 +209,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -322,6 +321,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -401,7 +401,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979185" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32443702" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.3294412" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -696,21 +696,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/config_qqcapp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="35" column="0" selection-start="866" selection-end="866" vertical-scroll-proportion="-21.833334" vertical-offset="1" max-vertical-offset="615">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="38" selection-start="1753" selection-end="1753" vertical-scroll-proportion="-13.791667" vertical-offset="629" max-vertical-offset="1200">
+        <state line="35" column="0" selection-start="866" selection-end="866" vertical-scroll-proportion="0.0" vertical-offset="525" max-vertical-offset="615">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/customer.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="630" column="0" selection-start="20387" selection-end="20387" vertical-scroll-proportion="0.28371277" vertical-offset="9288" max-vertical-offset="13335">
+        <state line="630" column="0" selection-start="20387" selection-end="20387" vertical-scroll-proportion="-6.75" vertical-offset="9288" max-vertical-offset="13335">
           <folding>
             <marker date="1466582402000" expanded="true" signature="2830:3568" placeholder="..." />
             <marker date="1466582402000" expanded="true" signature="2873:3277" placeholder="..." />
@@ -725,8 +718,15 @@
             <marker date="1466582402000" expanded="true" signature="4342:4418" placeholder="..." />
             <marker date="1466582402000" expanded="true" signature="4760:4969" placeholder="..." />
             <marker date="1466582402000" expanded="true" signature="4819:4942" placeholder="..." />
-            <marker date="1466582402000" expanded="true" signature="4880:4899" placeholder="..." />
+            <marker date="1466582402000" expanded="false" signature="4880:4899" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="33" selection-start="1748" selection-end="1748" vertical-scroll-proportion="0.57968473" vertical-offset="629" max-vertical-offset="1200">
+          <folding />
         </state>
       </provider>
     </entry>
