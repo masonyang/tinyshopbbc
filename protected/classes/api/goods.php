@@ -216,6 +216,7 @@ class goods extends baseapi
             $return['type'] = 'categroy';
 
             switch($this->params['order']){
+                case 0:
                 case 1: //最新
                     $order = 'create_time desc';
                 break;
@@ -233,13 +234,18 @@ class goods extends baseapi
 
             $return['order'] = $order;
 
-            $return['where'] = $this->params['filter'] ? 'and category_id = '.$this->params['filter'] : null;
+            if($this->params['filter'] == 0){
+                $return['where'] = '';
+            }else{
+                $return['where'] = $this->params['filter'] ? 'and category_id = '.$this->params['filter'] : '';
+            }
+
 
         }elseif($type == 2){ // 根据 关键字
 
             $return['type'] = 'search';
 
-            $return['where'] = $this->params['filter'] ? 'and (name like "%'.Filter::sql($this->params['filter']).'%" or branchstore_goods_name like "%'.Filter::sql($this->params['filter']).'%")' : null;
+            $return['where'] = $this->params['filter'] ? 'and (name like "%'.Filter::sql($this->params['filter']).'%" or branchstore_goods_name like "%'.Filter::sql($this->params['filter']).'%")' : '';
 
         }
 
