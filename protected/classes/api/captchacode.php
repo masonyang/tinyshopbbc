@@ -61,14 +61,16 @@ class captchacode extends baseapi
         $captcha = new Captcha($w,$h,$l,$bc,$c);
         $captcha->createImage($code);
 
+        $rand = md5($this->captchaKey.$this->params['rand']);
+
         $cacheModel = new Model('cache');
 
-        $as = $cacheModel->where('`key`="'.$this->captchaKey.$this->params['rand'].'"')->find();
+        $as = $cacheModel->where('`key`="'.$rand.'"')->find();
 
         if($as){
-            $cacheModel->data(array('content'=>$code))->where('`key`="'.$this->captchaKey.$this->params['rand'].'"')->update();
+            $cacheModel->data(array('content'=>$code))->where('`key`="'.$rand.'"')->update();
         }else{
-            $cacheModel->data(array('key'=>$this->captchaKey.$this->params['rand'],'content'=>$code))->insert();
+            $cacheModel->data(array('key'=>$rand,'content'=>$code))->insert();
         }
 
 

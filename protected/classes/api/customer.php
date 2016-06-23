@@ -575,11 +575,9 @@ class customer extends baseapi
 
         $_vaildcode = $this->params['vaildcode'];
 
-        $this->params['rand'] = trim($this->params['rand']);
-
         $cacheModel = new Model('cache');
 
-        $md5 = $this->captchaKey.$this->params['rand'];
+        $md5 = md5($this->captchaKey.$this->params['rand']);
 
         $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 
@@ -635,7 +633,7 @@ class customer extends baseapi
 
         $cacheModel = new Model('cache');
 
-        $md5 = $this->captchaKey.$this->params['rand'];
+        $md5 = md5($this->captchaKey.$this->params['rand']);
 
         $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 
