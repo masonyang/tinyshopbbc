@@ -571,26 +571,30 @@ class customer extends baseapi
     //登录
     protected function login()
     {
-        $mobile = Filter::sql($this->params['mobile']);
 
-        $_vaildcode = $this->params['vaildcode'];
 
-        $cacheModel = new Model('cache');
+        if(isset($this->params['vaildcode'])){
+            $_vaildcode = $this->params['vaildcode'];
 
-        $md5 = md5($this->captchaKey.$this->params['rand']);
+            $cacheModel = new Model('cache');
 
-        $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+            $md5 = md5($this->captchaKey.$this->params['rand']);
 
-        $_code = $code['content'];
+            $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 
-        if($_vaildcode != $_code){
-            $this->output['msg'] = '验证码不正确';
-            $this->output();
-            exit;
+            $_code = $code['content'];
+
+            if($_vaildcode != $_code){
+                $this->output['msg'] = '验证码不正确';
+                $this->output();
+                exit;
+            }
+
+            $cacheModel->where('`key`="'.$md5.'"')->delete();
         }
 
-        $cacheModel->where('`key`="'.$md5.'"')->delete();
-
+        $mobile = Filter::sql($this->params['mobile']);
+        
         if(Validator::mobi($mobile)){
 
             $password = $this->params['password'];
