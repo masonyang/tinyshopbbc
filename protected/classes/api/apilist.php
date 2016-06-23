@@ -21,6 +21,7 @@ class apilist extends baseapi
         'scategory'=>'gcat',
         'category'=>'gcat',
         'goods'=>'goods',
+        'products'=>'products',
     );
 
     private $apiname = '';

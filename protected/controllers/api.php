@@ -11,7 +11,7 @@ class ApiController extends Controller
     {
         $args = Req::args();
 
-        $obj = $args['method'];
+        $obj = isset($args['method']) ? $args['method'] : 'apilist';
 
         unset($args['method']);
 
