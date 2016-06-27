@@ -309,7 +309,13 @@ class products extends baseapi
         $return['content'] = $goods['content'];
         $return['imgs'] = array();
 
-        $return['sys_attrprice'] = $sys_attrprice;
+        $i = 0;
+        $attrprice = array();
+        foreach($sys_attrprice as $val){
+            $attrprice[$i] = $val;
+            $i++;
+        }
+        $return['sys_attrprice'] = $attrprice;
 
         foreach($imgs as $k=>$val){
             $return['imgs'][$k]['url'] = self::getApiUrl().$val;
