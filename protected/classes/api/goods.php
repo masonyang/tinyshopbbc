@@ -249,6 +249,8 @@ class goods extends baseapi
 
         }
 
+        $this->params['offset'] = ($this->params['offset'] == 0) ? 1 : $this->params['offset'];
+
         $offset = ($this->params['offset'] - 1) * $this->params['limit'];
 
         $return['limit'] = $offset.','.$this->params['limit'];

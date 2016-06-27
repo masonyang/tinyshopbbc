@@ -22,6 +22,10 @@ class apilist extends baseapi
         'category'=>'gcat',
         'goods'=>'goods',
         'products'=>'products',
+        'address'=>'customer',// 收货地址管理
+        'addaddr'=>'customer',// 获取单个收货地址信息
+        'doaddr'=>'customer',// 添加/编辑/删除/设置默认收货地址
+        'uinfo'=>'customer',// 获取会员信息
     );
 
     private $apiname = '';

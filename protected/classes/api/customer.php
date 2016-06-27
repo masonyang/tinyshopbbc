@@ -14,16 +14,28 @@ class customer extends baseapi
     public static $title = array(
         'login'=>'用户登录',
         'register'=>'用户注册',
+        'address'=>'收货地址管理',
+        'addaddr'=>'获取单个收货地址信息',
+        'doaddr'=>'添加/编辑/删除/设置默认收货地址',
+        'uinfo'=>'获取会员信息',
     );
 
     public static $notice = array(
         'login'=>'',
         'register'=>'',
+        'address'=>'',
+        'addaddr'=>'',
+        'doaddr'=>'',
+        'uinfo'=>'',
     );
 
     public static $lastmodify = array(
         'login'=>'2016-6-13',
         'register'=>'2016-6-13',
+        'address'=>'2016-6-27',
+        'addaddr'=>'2016-6-27',
+        'doaddr'=>'2016-6-27',
+        'uinfo'=>'2016-6-27',
     );
 
     public static $requestParams = array(
@@ -85,6 +97,104 @@ class customer extends baseapi
                 'content'=>'随机串为 手机序列号',
             ),
         ),
+        'address'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'会员id',
+            ),
+        ),
+        'addaddr'=>array(
+            array(
+                'colum'=>'addr_id',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'收货地址id',
+            ),
+        ),
+        'uinfo'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'会员id',
+            ),
+        ),
+        'doaddr'=>array(
+            array(
+                'colum'=>'addr_id',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'收货地址id',
+            ),
+            array(
+                'colum'=>'user_id',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'name',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'收货人姓名',
+            ),
+            array(
+                'colum'=>'mobile',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'zip',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'邮编',
+            ),
+            array(
+                'colum'=>'phone',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'固定电话',
+            ),
+            array(
+                'colum'=>'province',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'省',
+            ),
+            array(
+                'colum'=>'city',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'市',
+            ),
+            array(
+                'colum'=>'county',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'区',
+            ),
+            array(
+                'colum'=>'address',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'收货地址',
+            ),
+            array(
+                'colum'=>'is_default',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'是否为默认 0：否 1：是',
+            ),
+            array(
+                'colum'=>'_act',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'add【添加】/edit【编辑】/del【删除】/setdefault【设置为默认】',
+            ),
+        ),
     );
 
     public static $responsetParams = array(
@@ -93,18 +203,142 @@ class customer extends baseapi
                 'colum'=>'user_id',
                 'content'=>'成功，则返回用户id',
             ),
+            array(
+                'colum'=>'user_name',
+                'content'=>'成功，则返回用户名',
+            ),
         ),
         'register'=>array(
             array(
                 'colum'=>'user_id',
                 'content'=>'成功，则返回用户id',
             ),
+            array(
+                'colum'=>'user_name',
+                'content'=>'成功，则返回用户名',
+            ),
+        ),
+        'address'=>array(
+            array(
+                'colum'=>'addr_id',
+                'content'=>'地址id',
+            ),
+            array(
+                'colum'=>'name',
+                'content'=>'收货人姓名',
+            ),
+            array(
+                'colum'=>'mobile',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'is_default',
+                'content'=>'是否为默认 1:默认 0:不是默认',
+            ),
+            array(
+                'colum'=>'address',
+                'content'=>'收货地址',
+            ),
+        ),
+        'addaddr'=>array(
+            array(
+                'colum'=>'addr_id',
+                'content'=>'地址id',
+            ),
+            array(
+                'colum'=>'user_id',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'name',
+                'content'=>'收货人姓名',
+            ),
+            array(
+                'colum'=>'phone',
+                'content'=>'固定电话',
+            ),
+            array(
+                'colum'=>'mobile',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'is_default',
+                'content'=>'是否为默认 1:默认 0:不是默认',
+            ),
+            array(
+                'colum'=>'address',
+                'content'=>'收货地址',
+            ),
+            array(
+                'colum'=>'zip',
+                'content'=>'邮编',
+            ),
+            array(
+                'colum'=>'province',
+                'content'=>'省',
+            ),
+            array(
+                'colum'=>'city',
+                'content'=>'市',
+            ),
+            array(
+                'colum'=>'county',
+                'content'=>'区',
+            ),
+        ),
+        'doaddr'=>array(
+            array(
+                'colum'=>'-',
+                'content'=>'-',
+            ),
+        ),
+        'uinfo'=>array(
+            array(
+                'colum'=>'real_name',
+                'content'=>'真实姓名',
+            ),
+            array(
+                'colum'=>'sex',
+                'content'=>'性别 1：男 0：女',
+            ),
+            array(
+                'colum'=>'phone',
+                'content'=>'固定电话',
+            ),
+            array(
+                'colum'=>'mobile',
+                'content'=>'手机号',
+            ),
+            array(
+                'colum'=>'addr',
+                'content'=>'地址',
+            ),
+            array(
+                'colum'=>'birthday',
+                'content'=>'出生年月',
+            ),
+            array(
+                'colum'=>'province',
+                'content'=>'省',
+            ),
+            array(
+                'colum'=>'city',
+                'content'=>'市',
+            ),
+            array(
+                'colum'=>'county',
+                'content'=>'区',
+            ),
         ),
     );
 
     public static $requestUrl = array(
         'login'=>'     /index.php?con=api&act=index&method=customer&source=login',
-        'register'=>'     /index.php?con=api&act=index&method=customer&source=register'
+        'register'=>'     /index.php?con=api&act=index&method=customer&source=register',
+        'address'=>'     /index.php?con=api&act=index&method=customer&source=address',
+        'addaddr'=>'     /index.php?con=api&act=index&method=customer&source=addaddr',
+        'doaddr'=>'     /index.php?con=api&act=index&method=customer&source=doaddr',
+        'uinfo'=>'     /index.php?con=api&act=index&method=customer&source=uinfo',
     );
 
 
@@ -384,7 +618,7 @@ class customer extends baseapi
     {
         $data = array();
 
-        $userid = intval($this->params['id']);
+        $userid = intval($this->params['uid']);
 
         $userModel = new Model('user');
         $userInfo = $userModel->fields('name,email,head_pic')->where('id='.$userid)->find();
@@ -396,6 +630,10 @@ class customer extends baseapi
             $customerInfo['sex'] = ($customerInfo['sex'] == 1) ? '男' : '女';
             $data = array_merge($userInfo,$customerInfo);
             $this->output['status'] = 'succ';
+            $this->output['msg'] = '获取成功';
+        }else{
+            $this->output['status'] = 'fail';
+            $this->output['msg'] = '获取失败';
         }
 
 
@@ -463,17 +701,22 @@ class customer extends baseapi
     //收货地址管理
     protected function getAddress()
     {
-        $userid = intval($this->params['id']);
+        $userid = intval($this->params['uid']);
 
         $addressModel = new Model('address');
 
         $addrLists = $addressModel->fields('id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('user_id='.$userid)->findAll();
 
         if($addrLists){
-            $this->getAddrHtml($addrLists);
+            $data = $this->getAddrHtml($addrLists);
+
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '收货地址管理获取成功';
+            $this->output($data);
 
         }else{
-            echo '';
+            $this->output['msg'] = '会员id不存在';
+            $this->output();
         }
 
     }
@@ -481,13 +724,13 @@ class customer extends baseapi
     //添加/编辑收获地址
     protected function addAddress()
     {
-        $addrid = intval($this->params['id']);
+        $addrid = intval($this->params['addr_id']);
 
         $data = array();
 
         $addressModel = new Model('address');
 
-        $addrList = $addressModel->fields('user_id,id,accept_name,mobile,phone,province,city,county,zip,addr,is_default')->where('id='.$addrid)->find();
+        $addrList = $addressModel->fields('user_id,id as addr_id,accept_name as name,mobile,phone,province,city,county,zip,addr as address,is_default')->where('id='.$addrid)->find();
 
         if($addrList){
             $data = $addrList;
@@ -500,19 +743,19 @@ class customer extends baseapi
 
     protected function getAddrHtml($addrLists)
     {
-        $html = '';
+        $data = array();
 
         $areaModel = new Model('area','zd','salve');
 
-        foreach($addrLists as $val){
-            $id = $val['id'];
-            $name = $val['accept_name'];
-            $mobile = $val['mobile'];
+        foreach($addrLists as $k=>$val){
+            $data[$k]['addr_id'] = $val['id'];
+            $data[$k]['name'] = $val['accept_name'];
+            $data[$k]['mobile'] = $val['mobile'];
             $province = $val['province'];
             $city = $val['city'];
             $county = $val['county'];
             $addr = $val['addr'];
-            $is_default = ($val['is_default'] == 1) ? '<span class="badge bg-gray">默认</span>' : '';
+            $data[$k]['is_default'] = $val['is_default'];
 
             $area_ids = $province.','.$city.','.$county;
 
@@ -522,12 +765,12 @@ class customer extends baseapi
                 $parse_area[$area['id']] = $area['name'];
             }
 
-            $address = $parse_area[$province].$parse_area[$city].$parse_area[$county].$addr;
+            $data[$k]['address'] = $parse_area[$province].$parse_area[$city].$parse_area[$county].$addr;
 
-            $html .= str_replace(array('{id}','{name}','{mobile}','{address}','{is_default}'),array($id,$name,$mobile,$address,$is_default),$this->addrManageTemplate);
+//            $html .= str_replace(array('{id}','{name}','{mobile}','{address}','{is_default}'),array($id,$name,$mobile,$address,$is_default),$this->addrManageTemplate);
         }
 
-        echo $html;
+        return $data;
     }
 
     //修改密码
@@ -607,6 +850,7 @@ class customer extends baseapi
 
                 $data = array();
                 $data['user_id'] = $userData['id'];
+                $data['user_name'] = $userData['name'];
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
                 $this->output($data);
@@ -683,6 +927,7 @@ class customer extends baseapi
 
                     $_data = array();
                     $_data['user_id'] = $user_id;
+                    $data['user_name'] = $mobile;
                     $this->output['status'] = 'succ';
                     $this->output['msg'] = '注册成功';
                     $this->output($_data);
@@ -701,16 +946,16 @@ class customer extends baseapi
     public function doaddr()
     {
 
-        $id = isset($this->params['id']) ? intval($this->params['id']) : 0;
+        $id = isset($this->params['addr_id']) ? intval($this->params['addr_id']) : 0;
         $user_id = isset($this->params['user_id']) ? $this->params['user_id'] : null;
-        $accept_name = isset($this->params['accept_name']) ? trim($this->params['accept_name']) : '';
+        $accept_name = isset($this->params['name']) ? trim($this->params['name']) : '';
         $mobile = isset($this->params['mobile']) ? $this->params['mobile'] : '';
         $zip = isset($this->params['zip']) ? $this->params['zip'] : '';
         $phone = isset($this->params['phone']) ? $this->params['phone'] : '';
         $province = isset($this->params['province']) ? $this->params['province'] : '';
         $city = isset($this->params['city']) ? $this->params['city'] : '';
         $county = isset($this->params['county']) ? $this->params['county'] : '';
-        $addr = isset($this->params['addr']) ? trim($this->params['addr']) : '';
+        $addr = isset($this->params['address']) ? trim($this->params['address']) : '';
         $is_default = isset($this->params['is_default']) ? $this->params['is_default'] : 0;
         $_act = isset($this->params['_act']) ? $this->params['_act'] : null;
 
@@ -726,9 +971,19 @@ class customer extends baseapi
                 $this->_doaddr($user_id,$accept_name,$mobile,$province,$city,$county,$addr,$zip,$phone,$is_default,$_act,$id);
             break;
             case 'del':
+                if(empty($id)){
+                    $this->output['msg'] = '地址id不能为空';
+                    $this->output();
+                    exit;
+                }
                 $this->_deladdr($id);
             break;
             case 'setdefault':
+                if(empty($id)){
+                    $this->output['msg'] = '地址id不能为空';
+                    $this->output();
+                    exit;
+                }
                 $this->_setdefaultaddr($is_default,$id,$user_id);
             break;
         }
@@ -820,11 +1075,17 @@ class customer extends baseapi
             $data['addr'] = $addr;
             $data['zip'] = $zip;
             $data['phone'] = $phone;
-            //$data['is_default'] = $is_default;
+            $data['is_default'] = $is_default;
 
             $res = $addressModel->data($data)->insert();
 
         }elseif($_act == 'edit'){
+
+            if(empty($id)){
+                $this->output['msg'] = '地址id不能为空';
+                $this->output();
+                exit;
+            }
 
             $data = array();
             $data['user_id'] = $user_id;
@@ -836,7 +1097,7 @@ class customer extends baseapi
             $data['addr'] = $addr;
             $data['zip'] = $zip;
             $data['phone'] = $phone;
-            //$data['is_default'] = $is_default;
+            $data['is_default'] = $is_default;
 
             $res = $addressModel->data($data)->where('id='.$id)->update();
         }
@@ -864,6 +1125,7 @@ class customer extends baseapi
                 'msg'=>'登录成功',
                 'data'=>array(
                     'user_id'=>1,
+                    'user_name'=>'',
                 ),
             )
         );
@@ -882,6 +1144,106 @@ class customer extends baseapi
                 'msg'=>'注册成功',
                 'data'=>array(
                     'user_id'=>1,
+                    'user_name'=>'',
+                ),
+            )
+        );
+    }
+
+    public function address_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'会员id不存在',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'收货地址管理获取成功',
+                'data'=>array(
+                    array(
+                        'addr_id'=>1,
+                        'name'=>'张三',
+                        'mobile'=>13589100333,
+                        'is_default'=>'1',
+                        'address'=>'山东省济南市历下区山东省ddddddd',
+                    ),
+                ),
+            )
+        );
+    }
+
+    public function addaddr_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'地址id不存在',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'收货地址信息获取成功',
+                'data'=>array(
+                    'addr_id'=>1,
+                    'user_id'=>2,
+                    'phone'=>13589100475,
+                    'name'=>'张三',
+                    'mobile'=>13589100333,
+                    'is_default'=>'1',
+                    'address'=>'山东省济南市历下区山东省ddddddd',
+                    'zip'=>'250000',
+                    'province'=>'370000',
+                    'city'=>'370100',
+                    'county'=>'370102',
+                ),
+            )
+        );
+    }
+
+    public function doaddr_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'设置失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'设置成功',
+                'data'=>array(
+                ),
+            )
+        );
+    }
+
+    public function uinfo_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'获取成功',
+                'data'=>array(
+                    'name'=>'用户名',
+                    'email'=>'邮箱',
+//                    'head_pic'=>'',
+                    'real_name'=>'真实姓名',
+                    'sex'=>'性别 1：男 0：女',
+                    'phone'=>'固定电话',
+                    'mobile'=>'手机号',
+                    'addr'=>'地址',
+                    'birthday'=>'出生年月',
+                    'province'=>'省',
+                    'city'=>'市',
+                    'county'=>'区',
+//                    'balance'=>''
                 ),
             )
         );
