@@ -190,6 +190,114 @@ class carts extends baseapi
             </div>';
 
 
+    public static $title = array(
+        'addcart'=>'单商品加入购物车',
+        'docheckout'=>'创建新订单',
+        'checkout'=>'结算下单页面内容',
+    );
+
+    public static $lastmodify = array(
+        'addcart'=>'2016-6-28',
+        'docheckout'=>'2016-6-28',
+        'checkout'=>'2016-6-28',
+    );
+
+    public static $notice = array(
+        'addcart'=>'',
+        'docheckout'=>'',
+        'checkout'=>'',
+    );
+
+    public static $requestParams = array(
+        'addcart'=>array(
+            array(
+                'colum'=>'pro_num',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'购买数量',
+            ),
+            array(
+                'colum'=>'pro_no',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'货号',
+            ),
+        ),
+        'docheckout'=>array(
+            array(
+                'colum'=>'addr_id',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'收货地址id',
+            ),
+            array(
+                'colum'=>'paymentid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'支付方式id',
+            ),
+            array(
+                'colum'=>'user_remark',
+                'required'=>'否',
+                'type'=>'string',
+                'content'=>'买家备注',
+            ),
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+        ),
+        'checkout'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+        ),
+    );
+
+    public static $responsetParams = array(
+        'addcart'=>array(
+            array(
+                'colum'=>'count',
+                'content'=>'已加入购物车的商品总数',
+            ),
+        ),
+        'docheckout'=>array(
+            array(
+                'colum'=>'orderid',
+                'content'=>'创建订单成功返回 订单号',
+            ),
+        ),
+        'checkout'=>array(
+            array(
+                'colum'=>'shouhuo',
+                'content'=>'shouhuo  为收货人信息',
+            ),
+            array(
+                'colum'=>'goods_item',
+                'content'=>'goods_item  为已选购商品信息',
+            ),
+            array(
+                'colum'=>'order',
+                'content'=>'order  为订单主体信息',
+            ),
+            array(
+                'colum'=>'payment',
+                'content'=>'payment  为支付方式信息',
+            ),
+        ),
+    );
+
+    public static $requestUrl = array(
+        'addcart'=>'     /index.php?con=api&act=index&method=carts&source=addcart',
+        'docheckout'=>'     /index.php?con=api&act=index&method=carts&source=docheckout',
+        'checkout'=>'     /index.php?con=api&act=index&method=carts&source=checkout'
+    );
+
     public function index()
     {
 
@@ -279,15 +387,25 @@ class carts extends baseapi
 
     protected function checkout()
     {
-        $userid = $this->params['userid'];
+
+
+        $return = array();
+
+        $userid = $this->params['uid'];
 
         $addressModel = new Model('address');
         $addrData = $addressModel->where('user_id='.$userid.' and is_default=1')->find();
 
-        $mobile = $addrData['mobile'];
-        $accept_name = $addrData['accept_name'];
+        if($addrData){
+            $return['shouhuo']['mobile'] = $addrData['mobile'];
+            $return['shouhuo']['accept_name'] = $addrData['accept_name'];
+            $return['shouhuo']['addr_id'] = $addrData['id'];
 
-        $addr = $this->consignee($addrData);
+            $addr = $this->consignee($addrData);
+
+            $return['shouhuo']['address'] = $addr;
+
+        }
 
         $total = 0;
         $goods_info = '';
@@ -297,7 +415,7 @@ class carts extends baseapi
 
         $all = $cart->all();
 
-        foreach($all as $item){
+        foreach($all as $k=>$item){
             $total +=$item['amount'];
             $img = self::getApiUrl().$item['img'];
             $name = $item['name'];
@@ -309,21 +427,27 @@ class carts extends baseapi
             foreach($item['spec'] as $specs){
                 $spec[] = $specs['value'][2];
             }
-            $goods_info .= '<li>
-                        <div class="card ks-facebook-card">
-                            <div class="card-header no-border">
-                                <div class="ks-facebook-avatar"><img src="'.$img.'" width="34" height="34"/></div>
-                                <div style="float:right;">
-                                    <div class="item-title-row">
-                                        <div class="item-title">￥'.$amount.'</div>
-                                    </div>
-                                    <div class="item-text"> X '.$num.'</div></div>
-                                <div class="ks-facebook-name" style="margin-right:44px;">'.$name.'</div>
-                                <div class="ks-facebook-date" style="margin-right:44px;">'.implode(',',$spec).'</div>
 
-                            </div>
-                        </div>
-                    </li>';
+            $return['goods_item'][$k]['img'] = $img;
+            $return['goods_item'][$k]['goods_name'] = $name;
+            $return['goods_item'][$k]['num'] = $num;
+            $return['goods_item'][$k]['amount'] = $amount;
+            $return['goods_item'][$k]['spec'] = implode(',',$spec);
+//            $goods_info .= '<li>
+//                        <div class="card ks-facebook-card">
+//                            <div class="card-header no-border">
+//                                <div class="ks-facebook-avatar"><img src="'.$img.'" width="34" height="34"/></div>
+//                                <div style="float:right;">
+//                                    <div class="item-title-row">
+//                                        <div class="item-title">￥'.$amount.'</div>
+//                                    </div>
+//                                    <div class="item-text"> X '.$num.'</div></div>
+//                                <div class="ks-facebook-name" style="margin-right:44px;">'.$name.'</div>
+//                                <div class="ks-facebook-date" style="margin-right:44px;">'.implode(',',$spec).'</div>
+//
+//                            </div>
+//                        </div>
+//                    </li>';
         }
 
 
@@ -331,10 +455,29 @@ class carts extends baseapi
         $payable_freight = $fare->calculate($addrData['id']);
         $order_amount = $payable_freight + $real_amount;
 
+        $return['order']['order_amount'] = $order_amount;
+        $return['order']['payable_freight'] = $payable_freight;
+
         $paymentModel = new Model('payment','zd','salve');
         $payment = $paymentModel->where('pay_name = "支付宝[手机支付]"')->find();
-        $payment_id = $payment['id'];
-        echo str_replace(array('{payment_id}','{address_id}','{mobile}','{accept_name}','{addr}','{goods_info}','{total}','{payable_freight}','{order_amount}'),array($payment_id,$addrData['id'],$mobile,$accept_name,$addr,$goods_info,$total,$payable_freight,$order_amount),$this->checkoutIndexTemplate);
+
+        if($payment){
+
+            $return['payment']['paymentid'] = $payment['id'];
+            $return['payment']['payment_name'] = '支付宝[手机支付]';
+        }
+
+
+        if($addrData){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '获取成功';
+            $this->output($return);
+        }else{
+            $this->output['msg'] = '获取失败';
+            $this->output();
+        }
+
+//        echo str_replace(array('{payment_id}','{address_id}','{mobile}','{accept_name}','{addr}','{goods_info}','{total}','{payable_freight}','{order_amount}'),array($payment_id,$addrData['id'],$mobile,$accept_name,$addr,$goods_info,$total,$payable_freight,$order_amount),$this->checkoutIndexTemplate);
     }
 
     private function consignee($addrData)
@@ -356,8 +499,8 @@ class carts extends baseapi
     protected function docheckout()
     {
         try{
-            $address_id = Filter::int($this->params['address_id']);
-            $payment_id = Filter::int($this->params['payment_id']);
+            $address_id = Filter::int($this->params['addr_id']);
+            $payment_id = Filter::int($this->params['paymentid']);
             $user_remark = Filter::txt($this->params['user_remark']);
 
             if(!$address_id || !$payment_id){
@@ -372,7 +515,7 @@ class carts extends baseapi
 
             //地址信息
             $address_model = new Model('address');
-            $address = $address_model->where("id=$address_id and user_id=".$this->params['userid'])->find();
+            $address = $address_model->where("id=$address_id and user_id=".$this->params['uid'])->find();
             if(!$address){
                 $info = "选择的地址信息不正确！";
                 $this->output['msg'] = $info;
@@ -418,7 +561,7 @@ class carts extends baseapi
 
             //填写订单
             $data['order_no'] = Common::createOrderNo();
-            $data['user_id'] = $this->params['userid'];
+            $data['user_id'] = $this->params['uid'];
             $data['payment'] = $payment_id;
             $data['status'] = 2;
             $data['pay_status'] = 0;
@@ -442,7 +585,7 @@ class carts extends baseapi
             $data['payable_freight'] = $payable_freight;
             $data['real_freight'] = $real_freight;
             $data['create_time'] = date('Y-m-d H:i:s');
-            $data['user_remark'] = $user_remark;
+            $data['user_remark'] = $user_remark ? $user_remark : '';
             $data['is_invoice'] = false;
             $data['invoice_title'] = '';
 
@@ -464,7 +607,7 @@ class carts extends baseapi
 
             $customerModel = new Model('customer');
 
-            $customer = $customerModel->where('user_id='.$this->params['userid'])->find();
+            $customer = $customerModel->where('user_id='.$this->params['uid'])->find();
 
             $uname = $customer['real_name'];
 
@@ -523,4 +666,79 @@ class carts extends baseapi
         }
     }
 
+    public function addcart_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'该商品库存不足',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'成功加入购物车',
+                'data'=>array(
+                    'count'=>12,
+                ),
+            )
+        );
+    }
+
+    public function docheckout_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'创建订单失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'订单创建成功',
+                'data'=>array(
+                    'orderid'=>12,
+                ),
+            )
+        );
+    }
+
+    public function checkout_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'获取成功',
+                'data'=>array(
+                    'shouhuo'=>array(
+                        'mobile'=>'收货人手机号',
+                        'accept_name'=>'收货人名称',
+                        'addr_id'=>'收货地址id',
+                        'address'=>'收货地址描述',
+                    ),
+                    'goods_item'=>array(
+                        array(
+                            'img'=>'商品图片 http://www.baidu.com/asdfsaf',
+                            'goods_name'=>'商品名称',
+                            'num'=>'已购买数量',
+                            'amount'=>'单商品总价',
+                            'spec'=>'规格描述',
+                        ),
+                    ),
+                    'order'=>array(
+                        'order_amount'=>'订单总金额 120',
+                        'payable_freight'=>'配送费',
+                    ),
+                    'payment'=>array(
+                        'paymentid'=>'支付方式id ',
+                        'payment_name'=>'支付方式名称 ',
+                    ),
+                ),
+            )
+        );
+    }
 }

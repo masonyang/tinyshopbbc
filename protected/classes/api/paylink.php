@@ -23,11 +23,59 @@ class paylink extends baseapi
 </html>
 ';
 
+    public static $title = array(
+        'paylink'=>'支付宝手机支付页面'
+    );
+
+    public static $lastmodify = array(
+        'paylink'=>'2016-6-28',
+    );
+
+    public static $notice = array(
+        'paylink'=>'',
+    );
+
+    public static $requestParams = array(
+        'paylink'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'int',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'oid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'订单号id',
+            ),
+            array(
+                'colum'=>'paymentid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'支付方式id',
+            ),
+        ),
+    );
+
+    public static $responsetParams = array(
+        'paylink'=>array(
+            array(
+                'colum'=>'html',
+                'content'=>'如果成功，这里返回 支付宝页面内容',
+            ),
+        ),
+    );
+
+    public static $requestUrl = array(
+        'paylink'=>'     /index.php?con=api&act=index&method=paylink'
+    );
+
     public function index()
     {
-        $userid = $this->params['userid'];
+        $userid = $this->params['uid'];
 
-        $orderid = $this->params['orderid']; // order id
+        $orderid = $this->params['oid']; // order id
 
         $paymentid = $this->params['paymentid'];
 
@@ -36,14 +84,23 @@ class paylink extends baseapi
         $data = array();
 
         if($userid && $paymentid && $orderid){
-            $this->genatePayLink($paymentid,$orderid,$extendDatas);
+            $return = $this->genatePayLink($paymentid,$orderid,$extendDatas,$msg);
+
+            if($return){
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '支付页面获取成功';
+                $this->output(array('html'=>$msg));
+            }else{
+                $this->output['msg'] = $msg;
+                $this->output(array());
+            }
         }else{
-            echo '未登录';
-            exit;
+            $this->output['msg'] = '未登录';
+            $this->output(array());
         }
     }
 
-    protected function genatePayLink($paymentid,$orderid,$extendDatas)
+    protected function genatePayLink($paymentid,$orderid,$extendDatas,&$msg = '')
     {
         $payment = new Payment($paymentid);
         $paymentPlugin = $payment->getPaymentPlugin();
@@ -53,8 +110,8 @@ class paylink extends baseapi
         $order = $model->where('id='.$orderid)->find();
         if($order){
             if($order['order_amount']==0 && $payment_info['class_name']!='balance'){
-                echo '0元订单，仅限预付款支付，请选择预付款支付方式。';
-                exit;
+                $msg = '0元订单，仅限预付款支付，请选择预付款支付方式。';
+                return false;
             }
             //获取订单可能延时时长，0不限制
             $config = Config::getInstance();
@@ -117,8 +174,8 @@ class paylink extends baseapi
                         if($prom){
                             if(time() > strtotime($prom['end_time']) || $prom['max_num']<=$prom["goods_num"]){
                                 $model->table("order")->data(array('status'=>6))->where('id='.$orderid)->update();
-                                echo '支付晚了，'.$prom_name."活动已结束。";
-                                exit;
+                                $msg = '支付晚了，'.$prom_name."活动已结束。";
+                                return false;
                             }
                         }
                     }
@@ -127,8 +184,8 @@ class paylink extends baseapi
                     $packData = array_merge($extendDatas,$packData);
                     $sendData = $paymentPlugin->packData($packData);
                     if(!$paymentPlugin->isNeedSubmit()){
-                        echo($sendData);
-                        exit();
+                        $msg = $sendData;
+                        return true;
                     }
                 }else{
                     $model->table("order")->data(array('status'=>6))->where('id='.$orderid)->update();
@@ -139,8 +196,8 @@ class paylink extends baseapi
 
                     $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderid.' and site_url="'.$serverName['top'].'"')->update();
 
-                    echo '支付晚了，库存已不足。';
-                    exit;
+                    $msg = '支付晚了，库存已不足。';
+                    return false;
                 }
 
             }else{
@@ -152,8 +209,8 @@ class paylink extends baseapi
 
                 $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderid.' and site_url="'.$serverName['top'].'"')->update();
 
-                echo '订单超出了规定时间内付款，已作废.';
-                exit;
+                $msg = '订单超出了规定时间内付款，已作废.';
+                return false;
             }
 
             if(!empty($sendData)){
@@ -165,17 +222,37 @@ class paylink extends baseapi
                 foreach($sendData as $key=>$item){
                     $_sendData .= "<input type='hidden' name='".$key."' value='".$item."' />";
                 }
-                echo str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
+                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
+                return true;
             }else{
-                echo '需要支付的订单已经不存在。';exit;
+                $msg = '需要支付的订单已经不存在。';
+                return false;
             }
 
         }else{
-            echo '订单不存在';
-            exit;
+            $msg = '订单不存在';
+            return false;
         }
 
 
+    }
+
+    public function paylink_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'需要支付的订单已经不存在 / 订单不存在 / 订单超出了规定时间内付款，已作废. ...',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'支付页面获取成功',
+                'data'=>array(
+                    'html'=>'支付宝支付html页面',
+                ),
+            )
+        );
     }
 
 }

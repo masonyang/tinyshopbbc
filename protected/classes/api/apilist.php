@@ -26,6 +26,11 @@ class apilist extends baseapi
         'addaddr'=>'customer',// 获取单个收货地址信息
         'doaddr'=>'customer',// 添加/编辑/删除/设置默认收货地址
         'uinfo'=>'customer',// 获取会员信息
+        'arealist'=>'arealist',
+        'addcart'=>'carts',
+        'paylink'=>'paylink',
+        'docheckout'=>'carts',
+        'checkout'=>'carts',
     );
 
     private $apiname = '';
@@ -34,6 +39,7 @@ class apilist extends baseapi
 
     private $detail_html = array();
 
+    private $notices = '接口已完成，不过部分还没细测，等我一周出差 回来后 再弄。';
 
     public function index()
     {
@@ -52,6 +58,11 @@ class apilist extends baseapi
         $html = '<table align="center" border="1" width="20%">';
 
         $html .= "<tr><td align='center'>API 文档</td></tr>";
+
+        if(!empty($this->notices)){
+            $html .= "<tr><td align='center' style='color:red;'>".$this->notices."</td></tr>";
+        }
+
 
         foreach($this->apilist as $ailas=>$api){
 
@@ -181,8 +192,9 @@ class apilist extends baseapi
         $json = $classname->$method();
 
         if(is_array($json)){
-            $html .= "<tr><td> 成功 结果:<br/><pre>".var_export($json['succ'],1)."</td></tr>";
             $html .= "<tr><td>错误 结果:<br/><pre>".var_export($json['fail'],1)."</td></tr>";
+            $html .= "<tr><td> 成功 结果:<br/><pre>".var_export($json['succ'],1)."</td></tr>";
+
         }else{
             $html .= "<tr><td><pre>结果:<br/>".$classname->$method()."</td></tr>";
         }
