@@ -1035,7 +1035,7 @@ class customer extends baseapi
             $this->output['msg'] = '收货人不能为空';
             $this->output();
             exit;
-        }elseif(Validator::mobi($mobile)){
+        }elseif(!Validator::mobi($mobile)){
             $this->output['msg'] = '手机号格式不正确';
             $this->output();
             exit;

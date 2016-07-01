@@ -44,6 +44,9 @@ class arealist extends baseapi
     {
 
         $result = $this->areas();
+
+        $result = json_decode($result,1);
+
         if($result){
             $this->output['status'] = 'succ';
             $this->output['msg'] = '地区列表获取成功';
@@ -72,16 +75,65 @@ class arealist extends baseapi
         $model = new Model('area','zd','salve');
         $result = $model->where("parent_id=".$id)->order('sort')->findAll();
         $list = array();
+
         if($result) {
 
-            foreach($result as $value) {
+            foreach($result as$key => $value) {
+
                 $id = "o_".$value['id'];
-                $list["$id"]['t'] = $value['name'];
-                if($level<2)$list[$id]['c'] = $this->_AreaInit($value['id'], $level + 1);
+                $list[$key]['id'] = $value['id'];
+                $list[$key]['name'] = $value['name'];
+
+                if($value['parent_id'] ==  0)
+                {
+                    $model2 = new Model('area','zd','salve');
+                    $rr = $model2->where("parent_id=".$value['id'])->order('sort')->findAll();
+                    $list[$key]['city'] = $rr;
+
+                    //---
+                    $area = array();
+                    foreach($rr as $kk => $vv)
+                    {
+                        $model3 = new Model('area','zd','salve');
+                        $area = $model3->where("parent_id=".$vv['id'])->order('sort')->findAll();
+                        $rr[$kk]['area'] = $area;
+                    }
+                    $list[$key]['city'] = $rr;
+                    //$list[$key]['city']['area'] =$area;
+                    //---
+                }
             }
         }
+
+        /*
+
+               if($result) {
+
+                    foreach($result as $value) {
+                        $id = "o_".$value['id'];
+                        $list["$id"]['t'] = $value['name'];
+                        if($level<2)$list[$id]['c'] = $this->_AreaInit($value['id'], $level + 1);
+                    }
+                }
+
+        */
         return $list;
     }
+//
+//    private function _AreaInit($id, $level = '0') {
+//        $model = new Model('area','zd','salve');
+//        $result = $model->where("parent_id=".$id)->order('sort')->findAll();
+//        $list = array();
+//        if($result) {
+//
+//            foreach($result as $value) {
+//                $id = "o_".$value['id'];
+//                $list["$id"]['t'] = $value['name'];
+//                if($level<2)$list[$id]['c'] = $this->_AreaInit($value['id'], $level + 1);
+//            }
+//        }
+//        return $list;
+//    }
 
 
     public function arealist_demo()
@@ -97,7 +149,6 @@ class arealist extends baseapi
                 'status'=>'succ',
                 'msg'=>'地区列表获取成功',
                 'data'=>array(
-
                 ),
             )
         );
