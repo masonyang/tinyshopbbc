@@ -32,6 +32,7 @@ class apilist extends baseapi
         'docheckout'=>'carts',
         'checkout'=>'carts',
         'cservice'=>'cservice',
+        'orderdetail'=>'orders',
     );
 
     private $apiname = '';
