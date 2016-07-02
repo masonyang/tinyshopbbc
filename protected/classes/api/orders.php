@@ -36,15 +36,18 @@ class orders extends baseapi
                     </div>';
 
     public static $title = array(
-        'orderdetail'=>'订单详情'
+        'orderdetail'=>'订单详情',
+        'morders'=>'我的订单',
     );
 
     public static $lastmodify = array(
         'orderdetail'=>'2016-6-28',
+        'morders'=>'201-6-28',
     );
 
     public static $notice = array(
         'orderdetail'=>'',
+        'morders'=>'',
     );
 
     public static $requestParams = array(
@@ -54,6 +57,20 @@ class orders extends baseapi
                 'required'=>'必须',
                 'type'=>'string',
                 'content'=>'订单id（订单主键id）',
+            ),
+        ),
+        'morders'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'status',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'订单状态 (waitpay:未支付,delivery:已支付,finish:已完成,cancel:已作废,不传:全部订单)',
             ),
         ),
     );
@@ -113,10 +130,29 @@ class orders extends baseapi
                 'content'=>'购买的商品 列表 多维数组',
             ),
         ),
+        'morders'=>array(
+            array(
+                'colum'=>'oid',
+                'content'=>'订单主键id',
+            ),
+            array(
+                'colum'=>'order_no',
+                'content'=>'订单号',
+            ),
+            array(
+                'colum'=>'create_time',
+                'content'=>'订单创建时间',
+            ),
+            array(
+                'colum'=>'status',
+                'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
-        'orderdetail'=>'     /index.php?con=api&act=index&method=orders&source=orderdetail'
+        'orderdetail'=>'     /index.php?con=api&act=index&method=orders&source=orderdetail',
+        'morders'=>'     /index.php?con=api&act=index&method=orders&source=morders',
     );
 
     public function index()
@@ -126,12 +162,14 @@ class orders extends baseapi
                 $this->orderDetail();
                 break;
             case 'morders':
-                if($this->params['type'] == 'waitpay'){
+                if($this->params['status'] == 'waitpay'){
                     $this->getWaitPayOrders();
-                }elseif($this->params['type'] == 'delivery'){
+                }elseif($this->params['status'] == 'delivery'){
                     $this->getDeliveryOrders();
-                }elseif($this->params['type'] == 'finish'){
+                }elseif($this->params['status'] == 'finish'){
                     $this->getFinishOrders();
+                }elseif($this->params['status'] == 'cancel'){
+                    $this->getCancelOrders();
                 }else{
                     $this->getMyOrders();
                 }
@@ -261,7 +299,6 @@ class orders extends baseapi
     //待支付订单
     protected function getWaitPayOrders()
     {
-        $html = '';
 
         $userid = $this->params['uid'];
 
@@ -270,37 +307,46 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=0')->order('unix_timestamp(create_time) desc')->findAll();
 
         if($orders){
-            $orderDetailModel = new Model('order_goods');
+//            $orderDetailModel = new Model('order_goods');
+//
+//            $goodsModel = new Model('goods');
 
-            $goodsModel = new Model('goods');
+            $result = array();
 
-            foreach($orders as $val){
+            foreach($orders as $k=>$val){
 
                 $status = $this->status($val);
 
-                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//
+//                $products = '';
+//
+//                foreach($odDatas as $vval){
+//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+//                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
-                $products = '';
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['order_amount'] = $val['order_amount'];
 
-                foreach($odDatas as $vval){
-                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                }
-                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '会员订单获取成功';
+                $this->output($result);
             }
         }else{
-            $html = $this->myOrderListNoTemplate;
+            $this->output['msg'] = '暂无订单';
+            $this->output();
 
         }
 
-
-        echo $html;
     }
 
     //待发货订单
     protected function getDeliveryOrders()
     {
-        $html = '';
 
         $userid = $this->params['uid'];
 
@@ -309,37 +355,44 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=1 and delivery_status=0')->order('unix_timestamp(pay_time) desc')->findAll();
 
         if($orders){
-            $orderDetailModel = new Model('order_goods');
+//            $orderDetailModel = new Model('order_goods');
+//
+//            $goodsModel = new Model('goods');
+            $result = array();
 
-            $goodsModel = new Model('goods');
-
-            foreach($orders as $val){
+            foreach($orders as $k=>$val){
 
                 $status = $this->status($val);
 
-                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//
+//                $products = '';
+//
+//                foreach($odDatas as $vval){
+//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+//                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['order_amount'] = $val['order_amount'];
 
-                $products = '';
-
-                foreach($odDatas as $vval){
-                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                }
-                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '会员订单获取成功';
+                $this->output($result);
             }
         }else{
-            $html = $this->myOrderListNoTemplate;
+            $this->output['msg'] = '暂无订单';
+            $this->output();
 
         }
 
-
-        echo $html;
     }
 
     //已完成订单
     protected function getFinishOrders()
     {
-        $html = '';
 
         $userid = $this->params['uid'];
 
@@ -348,37 +401,93 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4')->order('unix_timestamp(completion_time) desc')->findAll();
 
         if($orders){
-            $orderDetailModel = new Model('order_goods');
+//            $orderDetailModel = new Model('order_goods');
+//
+//            $goodsModel = new Model('goods');
+            $result = array();
 
-            $goodsModel = new Model('goods');
-
-            foreach($orders as $val){
+            foreach($orders as $k=>$val){
 
                 $status = $this->status($val);
 
-                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//
+//                $products = '';
+//
+//                foreach($odDatas as $vval){
+//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+//                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
-                $products = '';
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['order_amount'] = $val['order_amount'];
 
-                foreach($odDatas as $vval){
-                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                }
-                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '会员订单获取成功';
+                $this->output($result);
             }
         }else{
-            $html = $this->myOrderListNoTemplate;
+            $this->output['msg'] = '暂无订单';
+            $this->output();
 
         }
 
+    }
 
-        echo $html;
+    //已作废订单
+    protected function getCancelOrders()
+    {
+
+        $userid = $this->params['uid'];
+
+        $orderModel = new Model('order');
+
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (5,6)')->order('unix_timestamp(create_time) desc')->findAll();
+
+        if($orders){
+//            $orderDetailModel = new Model('order_goods');
+//
+//            $goodsModel = new Model('goods');
+
+            $result = array();
+
+            foreach($orders as $k=>$val){
+
+                $status = $this->status($val);
+
+//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//
+//                $products = '';
+//
+//                foreach($odDatas as $vval){
+//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+//                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['order_amount'] = $val['order_amount'];
+
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '会员订单获取成功';
+                $this->output($result);
+            }
+        }else{
+            $this->output['msg'] = '暂无订单';
+            $this->output();
+
+        }
+
     }
 
     //我的订单
     protected function getMyOrders()
     {
-        $html = '';
 
         $userid = $this->params['uid'];
 
@@ -387,31 +496,41 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc')->findAll();
 
         if($orders){
-            $orderDetailModel = new Model('order_goods');
+//            $orderDetailModel = new Model('order_goods');
+//
+//            $goodsModel = new Model('goods');
 
-            $goodsModel = new Model('goods');
+            $result = array();
 
-            foreach($orders as $val){
+            foreach($orders as $k=>$val){
 
                 $status = $this->status($val);
 
-                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+//
+//                $products = '';
+//
+//                foreach($odDatas as $vval){
+//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+//                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
-                $products = '';
-//<div class="swiper-slide"><img src="http://lorempixel.com/500/500/nature/1" width="200" height="200" /></div>
-                foreach($odDatas as $vval){
-                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                }
-                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['order_amount'] = $val['order_amount'];
+
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '会员订单获取成功';
+                $this->output($result);
             }
         }else{
-            $html = $this->myOrderListNoTemplate;
+            $this->output['msg'] = '暂无订单';
+            $this->output();
 
         }
 
-
-        echo $html;
     }
 
 //    private function status($item = array())
@@ -486,6 +605,35 @@ class orders extends baseapi
                             'goods_name'=>'商品名称',
                             'goods_nums'=>'商品数量',
                         ),
+                    ),
+                ),
+            )
+        );
+
+        return $return;
+
+    }
+
+
+    public function morders_demo()
+    {
+
+        $return = array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'会员订单不存在',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'会员订单获取成功',
+                'data'=>array(
+                    array(
+                        'oid'=>'订单主键id',
+                        'order_no'=>1241242342,
+                        'create_time'=>'订单创建时间',
+                        'order_amount'=>'订单总金额',
+                        'status'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
                     ),
                 ),
             )
