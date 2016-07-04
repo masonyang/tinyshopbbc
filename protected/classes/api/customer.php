@@ -490,7 +490,7 @@ class customer extends baseapi
             $this->output($data);
 
         }else{
-            $this->output['msg'] = '会员id不存在';
+            $this->output['msg'] = '还没添加收获地址';
             $this->output();
         }
 
@@ -930,7 +930,7 @@ class customer extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'会员id不存在',
+                'msg'=>'还没添加收获地址',
                 'data'=>array(),
             ),
             'succ'=>array(
