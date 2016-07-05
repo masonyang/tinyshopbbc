@@ -194,18 +194,21 @@ class carts extends baseapi
         'addcart'=>'单商品加入购物车',
         'docheckout'=>'创建新订单',
         'checkout'=>'结算下单页面内容',
+        'scount'=>'获取会员购物车商品总数',
     );
 
     public static $lastmodify = array(
         'addcart'=>'2016-6-28',
         'docheckout'=>'2016-6-28',
         'checkout'=>'2016-6-28',
+        'scount'=>'2016-6-28',
     );
 
     public static $notice = array(
         'addcart'=>'',
         'docheckout'=>'',
         'checkout'=>'',
+        'scount'=>'',
     );
 
     public static $requestParams = array(
@@ -257,6 +260,14 @@ class carts extends baseapi
                 'content'=>'会员id',
             ),
         ),
+        'scount'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+        ),
     );
 
     public static $responsetParams = array(
@@ -290,12 +301,19 @@ class carts extends baseapi
                 'content'=>'payment  为支付方式信息',
             ),
         ),
+        'scount'=>array(
+            array(
+                'colum'=>'count',
+                'content'=>'会员购物车商品总数',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
         'addcart'=>'     /index.php?con=api&act=index&method=carts&source=addcart',
         'docheckout'=>'     /index.php?con=api&act=index&method=carts&source=docheckout',
-        'checkout'=>'     /index.php?con=api&act=index&method=carts&source=checkout'
+        'checkout'=>'     /index.php?con=api&act=index&method=carts&source=checkout',
+        'scount'=>'     /index.php?con=api&act=index&method=carts&source=scount'
     );
 
     public function index()
@@ -337,7 +355,15 @@ class carts extends baseapi
             break;
             case 'scount'://统计购物车商品数量
                 $cart = Cart::getCart();
-                echo count($cart->all());
+                if($cart){
+                    $data = array('count'=>count($cart->all()));
+                    $this->output['status'] = 'succ';
+                    $this->output['msg'] = '获取成功';
+                    $this->output($data);
+                }else{
+                    $this->output['msg'] = '获取失败';
+                    $this->output();
+                }
             break;
             case 'checkout':
                 $this->checkout();
@@ -737,6 +763,24 @@ class carts extends baseapi
                         'paymentid'=>'支付方式id ',
                         'payment_name'=>'支付方式名称 ',
                     ),
+                ),
+            )
+        );
+    }
+
+    public function scount_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'获取成功',
+                'data'=>array(
+                    'count'=>12,
                 ),
             )
         );
