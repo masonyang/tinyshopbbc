@@ -14,6 +14,14 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'addcart'=>'carts',
+        'paylink'=>'paylink',
+        'docheckout'=>'carts',
+        'checkout'=>'carts',
+        'cservice'=>'cservice',
+        'scount'=>'carts',
+        'cindex'=>'carts',
+        'removecart'=>'carts',
         'advert'=>'advert',
         'captchacode'=>'captchacode',
         'login'=>'customer',
@@ -27,16 +35,9 @@ class apilist extends baseapi
         'doaddr'=>'customer',// 添加/编辑/删除/设置默认收货地址
         'uinfo'=>'customer',// 获取会员信息
         'arealist'=>'arealist',
-        'addcart'=>'carts',
-        'paylink'=>'paylink',
-        'docheckout'=>'carts',
-        'checkout'=>'carts',
-        'cservice'=>'cservice',
         'orderdetail'=>'orders',
         'morders'=>'orders',
-        'scount'=>'carts',
-        'cindex'=>'carts',
-        'removecart'=>'carts',
+
     );
 
     private $apiname = '';
