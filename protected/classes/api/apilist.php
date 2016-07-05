@@ -34,7 +34,9 @@ class apilist extends baseapi
         'cservice'=>'cservice',
         'orderdetail'=>'orders',
         'morders'=>'orders',
-        'scount'=>'carts'
+        'scount'=>'carts',
+        'cindex'=>'carts',
+        'removecart'=>'carts',
     );
 
     private $apiname = '';

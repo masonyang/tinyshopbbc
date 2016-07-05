@@ -191,10 +191,12 @@ class carts extends baseapi
 
 
     public static $title = array(
-        'addcart'=>'单商品加入购物车',
+        'addcart'=>'单商品加入购物车 / 【购物车】中 增加商品数量',
         'docheckout'=>'创建新订单',
         'checkout'=>'结算下单页面内容',
         'scount'=>'获取会员购物车商品总数',
+        'cindex'=>'购物车列表',
+        'removecart'=>'从购物车中删除商品 /【购物车】中 删减商品数量',
     );
 
     public static $lastmodify = array(
@@ -202,17 +204,27 @@ class carts extends baseapi
         'docheckout'=>'2016-6-28',
         'checkout'=>'2016-6-28',
         'scount'=>'2016-6-28',
+        'cindex'=>'2016-6-28',
+        'removecart'=>'2016-6-28',
     );
 
     public static $notice = array(
-        'addcart'=>'',
+        'addcart'=>'<span style="color: red;">已更新 7/5</span>',
         'docheckout'=>'',
         'checkout'=>'',
-        'scount'=>'',
+        'scount'=>'<span style="color: red;">已更新 7/5</span>',
+        'cindex'=>'<span style="color: red;">已更新 7/5</span>',
+        'removecart'=>'<span style="color: red;">已更新 7/5</span>',
     );
 
     public static $requestParams = array(
         'addcart'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
             array(
                 'colum'=>'pro_num',
                 'required'=>'是',
@@ -268,6 +280,34 @@ class carts extends baseapi
                 'content'=>'会员id',
             ),
         ),
+        'cindex'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+        ),
+        'removecart'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'pro_num',
+                'required'=>'可选',
+                'type'=>'int',
+                'content'=>'购买数量【如果彻底删除某个货号, pro_num不传。否则认为是删减某个货号数量】',
+            ),
+            array(
+                'colum'=>'pro_no',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'货号',
+            ),
+        ),
     );
 
     public static $responsetParams = array(
@@ -307,13 +347,47 @@ class carts extends baseapi
                 'content'=>'会员购物车商品总数',
             ),
         ),
+        'cindex'=>array(
+            array(
+                'colum'=>'total',
+                'content'=>'商品总金额',
+            ),
+            array(
+                'colum'=>'gitem/goods_name',
+                'content'=>'goods_name  为商品名称',
+            ),
+            array(
+                'colum'=>'gitem/num',
+                'content'=>'num  为已购数量',
+            ),
+            array(
+                'colum'=>'gitem/amount',
+                'content'=>'amount  为该商品总额',
+            ),
+            array(
+                'colum'=>'gitem/goods_img',
+                'content'=>'goods_img  为该商品图片',
+            ),
+            array(
+                'colum'=>'gitem/goods_spec',
+                'content'=>'goods_spec  为商品规格',
+            ),
+        ),
+        'removecart'=>array(
+            array(
+                'colum'=>'count',
+                'content'=>'已加入购物车的商品总数',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
         'addcart'=>'     /index.php?con=api&act=index&method=carts&source=addcart',
         'docheckout'=>'     /index.php?con=api&act=index&method=carts&source=docheckout',
         'checkout'=>'     /index.php?con=api&act=index&method=carts&source=checkout',
-        'scount'=>'     /index.php?con=api&act=index&method=carts&source=scount'
+        'scount'=>'     /index.php?con=api&act=index&method=carts&source=scount',
+        'cindex'=>'     /index.php?con=api&act=index&method=carts&source=cindex',
+        'removecart'=>'     /index.php?con=api&act=index&method=carts&source=removecart',
     );
 
     public function index()
@@ -344,6 +418,8 @@ class carts extends baseapi
                         $info = '该商品库存不足';
                     }
 
+                }else{
+                    $info = '数量不能小于0';
                 }
 
                 $data['count'] = count($cart->all());
@@ -351,7 +427,40 @@ class carts extends baseapi
                 $this->output($data);
             break;
             case 'removecart'://从购物车删除商品
+                $data = array();
+                $cart = Cart::getCart();
+                $num = $this->params['pro_num'];
+                $pro_no = $this->params['pro_no'];
 
+
+                $productsModel = new Model('products');
+                $product = $productsModel->where('pro_no="'.$pro_no.'"')->find();
+
+                if(isset($num)){
+                    if($product['id'] && ($num>=1)){
+
+                        if($product['store_nums'] > 0){
+                            $cart->decNum($product['id'],$num);
+                            $this->output['status'] = 'succ';
+                            $info = '操作成功';
+                        }else{
+                            $info = '该商品库存不足';
+                        }
+
+                    }else{
+                        $info = '数量不能小于0';
+                    }
+                }else{
+                    $cart->delItem($product['id']);
+
+                    $this->output['status'] = 'succ';
+                    $info = '操作成功';
+
+                }
+
+                $data['count'] = count($cart->all());
+                $this->output['msg'] = $info;
+                $this->output($data);
             break;
             case 'scount'://统计购物车商品数量
                 $cart = Cart::getCart();
@@ -388,11 +497,12 @@ class carts extends baseapi
         $cart_count = count($all);
 
         if($cart_count == 0){
-            $html = $this->noCartTemplate;
+            $this->output['msg'] = '购物车中没有商品';
+            $this->output();
         }else{
-            $html = '';
+            $result = array();
             $total = 0;
-            foreach($all as $item){
+            foreach($all as $k=>$item){
                 $total +=$item['amount'];
                 $img = self::getApiUrl().$item['img'];
                 $name = $item['name'];
@@ -402,13 +512,26 @@ class carts extends baseapi
                 foreach($item['spec'] as $specs){
                     $spec[] = $specs['value'][2];
                 }
-                $html .= str_replace(array('{img}','{name}','{num}','{spec}','{amount}'),array($img,$name,$num,implode(',',$spec),$amount),$this->cartIndexTemplate);
+//                $html .= str_replace(array('{img}','{name}','{num}','{spec}','{amount}'),array($img,$name,$num,implode(',',$spec),$amount),$this->cartIndexTemplate);
+
+                $result['gitem'][$k]['goods_name'] = $name;
+                $result['gitem'][$k]['num'] = $num;
+                $result['gitem'][$k]['amount'] = $amount;
+                $result['gitem'][$k]['goods_img'] = $img;
+                $result['gitem'][$k]['goods_spec'] = implode(',',$spec);
             }
-            $html .= str_replace(array('{total}'),array($total),$this->checkoutTemplate);
+
+            $result['total'] = $total;
+
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '购物车列表获取成功';
+            $this->output($result);
+
+//            $html .= str_replace(array('{total}'),array($total),$this->checkoutTemplate);
+
+
         }
 
-
-        echo $html;
     }
 
     protected function checkout()
@@ -785,4 +908,50 @@ class carts extends baseapi
             )
         );
     }
+
+    public function cindex_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'购物车中没有商品',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'购物车列表获取成功',
+                'data'=>array(
+                    'gitem'=>array(
+                        array(
+                            'goods_name'=>'商品名1',
+                            'num'=>2,
+                            'amount'=>24,
+                            'goods_img'=>'http://www.baidu.com/HSADF343/AS3DF13A5S2F.jpg',
+                            'goods_spec'=>'商品规格',
+                        ),
+                    ),
+                    'total'=>24
+                ),
+            )
+        );
+    }
+
+    public function removecart_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'该商品库存不足',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'操作成功',
+                'data'=>array(
+                    'count'=>12,
+                ),
+            )
+        );
+    }
+
 }
