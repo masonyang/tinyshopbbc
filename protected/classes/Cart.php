@@ -39,7 +39,7 @@ class Cart{
 			$this->incNum($id,$num);
 			return;
 		}
-		$this->items[$id] = $num;
+        $this->cartModel->data(array('num'=>$num,'product_id'=>$id,'uid'=>$this->uid))->insert();
 	}
 
 	public function hasItem($id) {
