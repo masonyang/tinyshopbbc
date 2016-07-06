@@ -357,6 +357,22 @@ class carts extends baseapi
                 'content'=>'goods_name  为商品名称',
             ),
             array(
+                'colum'=>'gitem/product_id',
+                'content'=>'product_id  为货号id',
+            ),
+            array(
+                'colum'=>'gitem/goods_id',
+                'content'=>'goods_id  为商品id',
+            ),
+            array(
+                'colum'=>'gitem/product_no',
+                'content'=>'product_id  为货号',
+            ),
+            array(
+                'colum'=>'gitem/goods_no',
+                'content'=>'goods_no  为商品编号',
+            ),
+            array(
                 'colum'=>'gitem/num',
                 'content'=>'num  为已购数量',
             ),
@@ -514,6 +530,10 @@ class carts extends baseapi
                 }
 //                $html .= str_replace(array('{img}','{name}','{num}','{spec}','{amount}'),array($img,$name,$num,implode(',',$spec),$amount),$this->cartIndexTemplate);
 
+                $result['gitem'][$k]['product_no'] = $item['product_no'];
+                $result['gitem'][$k]['goods_no'] = $item['goods_no'];
+                $result['gitem'][$k]['product_id'] = $item['id'];
+                $result['gitem'][$k]['goods_id'] = $item['goods_id'];
                 $result['gitem'][$k]['goods_name'] = $name;
                 $result['gitem'][$k]['num'] = $num;
                 $result['gitem'][$k]['amount'] = $amount;
@@ -923,7 +943,11 @@ class carts extends baseapi
                 'data'=>array(
                     'gitem'=>array(
                         array(
+                            'product_no'=>'货号',
+                            'goods_no'=>'商品编号',
+                            'product_id'=>'货号id',
                             'goods_name'=>'商品名1',
+                            'goods_id'=>'商品id',
                             'num'=>2,
                             'amount'=>24,
                             'goods_img'=>'http://www.baidu.com/HSADF343/AS3DF13A5S2F.jpg',
