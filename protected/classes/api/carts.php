@@ -416,7 +416,7 @@ class carts extends baseapi
                 break;
             case 'addcart'://添加商品到购物车
                 $data = array();
-                $cart = Cart::getCart();
+                $cart = Cart::getCart($this->params['uid']);
                 $num = $this->params['pro_num'];
                 $pro_no = $this->params['pro_no'];
 
@@ -444,7 +444,7 @@ class carts extends baseapi
             break;
             case 'removecart'://从购物车删除商品
                 $data = array();
-                $cart = Cart::getCart();
+                $cart = Cart::getCart($this->params['uid']);
                 $num = $this->params['pro_num'];
                 $pro_no = $this->params['pro_no'];
 
@@ -479,7 +479,7 @@ class carts extends baseapi
                 $this->output($data);
             break;
             case 'scount'://统计购物车商品数量
-                $cart = Cart::getCart();
+                $cart = Cart::getCart($this->params['uid']);
                 if($cart){
                     $data = array('count'=>count($cart->all()));
                     $this->output['status'] = 'succ';
@@ -506,7 +506,7 @@ class carts extends baseapi
 //
 //        $html .= $this->checkoutTemplate;
 
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->params['uid']);
 
         $all = $cart->all();
 
@@ -580,7 +580,7 @@ class carts extends baseapi
         $goods_info = '';
         $weight = 0;
         $real_amount = 0;
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->params['uid']);
 
         $all = $cart->all();
 
@@ -692,7 +692,7 @@ class carts extends baseapi
                 exit;
             }
 
-            $cart = Cart::getCart();
+            $cart = Cart::getCart($this->params['uid']);
             $order_products = $cart->all();
 
             //检测products 是否还有数据
@@ -820,7 +820,7 @@ class carts extends baseapi
 
 
             //清空购物车与表单缓存
-            $cart = Cart::getCart();
+            $cart = Cart::getCart($this->params['uid']);
             $cart->clear();
             Session::clear("order_status");
 

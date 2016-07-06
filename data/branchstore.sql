@@ -649,3 +649,11 @@ CREATE TABLE `tiny_class_config` (
   `status` int(1) DEFAULT '0',
   PRIMARY KEY (`class_name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+DROP TABLE IF EXISTS `tiny_cart_session`;
+CREATE TABLE `tiny_cart_session` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `product_id` bigint(20) DEFAULT NULL ,
+  `uid` bigint(11) NOT NULL ,
+  `num` int(11) DEFAULT '0' ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会员购物车存储表';

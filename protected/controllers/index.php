@@ -31,7 +31,7 @@ class IndexController extends Controller{
         }
 
         $this->category = $category->getCategory();
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->user['id']);
         $this->assign("cart",$cart->all());
         $this->assign("category",$this->category);
         $keyword = urldecode(Req::args('keyword'));
@@ -97,7 +97,7 @@ class IndexController extends Controller{
 
             $productModel = new Model('products');
             if(isset($batchnum) && is_array($batchnum)){
-                $cart = Cart::getCart();
+                $cart = Cart::getCart($this->user['id']);
                 foreach($batchnum as $id=>$num){
                     $num = intval($num);
                     if($num < 1){
@@ -118,7 +118,7 @@ class IndexController extends Controller{
             $id = Filter::int(Req::args("id"));
             $num = intval(Req::args("num"));
             $num = $num>0?$num:1;
-            $cart = Cart::getCart();
+            $cart = Cart::getCart($this->user['id']);
             $cart->addItem($id,$num);
             $products = $cart->all();
             echo JSON::encode($products);
@@ -129,7 +129,7 @@ class IndexController extends Controller{
     public function cart_del()
     {
         $id = Filter::int(Req::args("id"));
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->user['id']);
         $cart->delItem($id);
         $info = array('status' =>"fail");
         if(!$cart->hasItem($id))$info = array('status' =>"success");
@@ -142,7 +142,7 @@ class IndexController extends Controller{
             $id = Filter::int(Req::args("id"));
             $num = intval(Req::args("num"));
             $num = $num>0?$num:1;
-            $cart = Cart::getCart();
+            $cart = Cart::getCart($this->user['id']);
             $cart->modNum($id,$num);
             $products = $cart->all();
             $result = array();
@@ -154,7 +154,7 @@ class IndexController extends Controller{
             $id = Filter::int(Req::args("id"));
             $num = intval(Req::args("num"));
             $num = $num>0?$num:1;
-            $cart = Cart::getCart();
+            $cart = Cart::getCart($this->user['id']);
             $cart->modNum($id,$num);
             $products = $cart->all();
             echo JSON::encode($products);

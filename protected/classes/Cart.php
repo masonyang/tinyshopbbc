@@ -3,24 +3,35 @@ class Cart{
 
 	private static $ins = null;
 	private $items = array();
-	
-	final protected function __construct() {
+
+    private $uid = null;
+
+    private $cartModel = null;
+
+	protected function __construct($uid) {
+        $this->uid = $uid;
+        $this->cartModel = new Model('cart_session');
 	}
+
 	final protected function __clone() {	
 	}
 
-	protected static function getIns() {
-		if (!(self::$ins instanceof self)) {
-			self::$ins = new self();
-		}
-		return self::$ins;
-	}
+//	protected static function getIns() {
+//		if (!(self::$ins instanceof self)) {
+//			self::$ins = new self();
+//		}
+//		return self::$ins;
+//	}
 
-	public static function getCart() {
-		if(Session::get("tiny_cart")==null || !(Session::get("tiny_cart") instanceof self)) {
-			Session::set("tiny_cart",self::getIns());
-		}
-		return Session::get("tiny_cart");
+	public static function getCart($uid = 0) {
+        if (!(self::$ins instanceof self)) {
+            self::$ins = new self($uid);
+        }
+        return self::$ins;
+//		if(Session::get("tiny_cart")==null || !(Session::get("tiny_cart") instanceof self)) {
+//			Session::set("tiny_cart",self::getIns());
+//		}
+//		return Session::get("tiny_cart");
 	} 
 
 	public  function addItem($id,$num=1) {
@@ -32,37 +43,55 @@ class Cart{
 	}
 
 	public function hasItem($id) {
-		return isset($this->items[$id]);
+        $items = $this->cartModel->fields('id')->where('uid='.$this->uid.' and product_id='.$id)->find();
+		return $items['id'] ? true : false;
 	}
 
 	public function delItem($id) {
-		unset($this->items[$id]);
+        $this->cartModel->fields('id')->where('uid='.$this->uid.' and product_id='.$id)->delete();
+//		unset($this->items[$id]);
 	}
 
 	public function modNum($id,$num=1) {
 		if (!$this->hasItem($id)) {
 			return false;
 		}
-		$this->items[$id] = $num;
+        $this->cartModel->data(array('num'=>$num))->where('uid='.$this->uid.' and product_id='.$id)->update();
+//		$this->items[$id] = $num;
 	}
 
 	public function incNum($id,$num=1) {
 		if ($this->hasItem($id)) {
-			$this->items[$id] += $num;
+            $test = $this->cartModel->fields('id,num')->where('uid='.$this->uid.' and product_id='.$id)->find();
+
+            $this->cartModel->data(array('num'=>$test['num']+$num))->where('id='.$test['id'])->update();
+//			$this->items[$id] += $num;
 		}
 	}
 
 	public function decNum($id,$num=1) {
 		if ($this->hasItem($id)) {
-			$this->items[$id] -= $num;
+
+            $test = $this->cartModel->fields('id,num')->where('uid='.$this->uid.' and product_id='.$id)->find();
+
+            $nums = $test['num']-$num;
+
+            if($nums < 1){
+                $this->delItem($id);
+            }else{
+                $this->cartModel->data(array('num'=>$nums))->where('id='.$test['id'])->update();
+            }
+
+
+//			$this->items[$id] -= $num;
 		}
-		if ($this->items[$id] <1) {
-			$this->delItem($id);
-		}
+
 	}
 
 	public function getCnt() {
-		return count($this->items);
+
+        return $this->cartModel->fields('id')->where('uid='.$this->uid)->count();
+//		return count($this->items);
 	}
 
 	public function getNum(){
@@ -70,18 +99,33 @@ class Cart{
 			return 0;
 		}
 
+        $items = $this->cartModel->fields('id,product_id,num')->where('uid='.$this->uid)->findAll();
+
 		$sum = 0;
-		foreach ($this->items as $item) {
-			$sum += $item;
+		foreach ($items as $item) {
+			$sum += $item['num'];
 		}
 		return $sum;
 	}
+
+    public function itemids()
+    {
+        $return = array();
+
+        $items = $this->cartModel->fields('product_id,num')->where('uid='.$this->uid)->findAll();
+
+        foreach($items as $item){
+            $return[$item['product_id']] = $item['num'];
+        }
+        return $return;
+    }
 
 	public function all() {
 		$products = array();
 		if($this->getCnt()>0){
 			$model = new Model("products as pr");
-			$ids = array_keys($this->items);
+			$itemids = $this->itemids();
+            $ids = array_keys($itemids);
 			$ids = trim(implode(",", $ids),',');
 			if($ids!=''){
 				$prom = new Prom();
@@ -90,7 +134,7 @@ class Cart{
 
                     $item['sell_price'] = $item['branchstore_sell_price'] ? $item['branchstore_sell_price'] : $item['sell_price'];
 
-					$num = $this->items[$item['id']];
+					$num = $itemids[$item['id']];
 					if($num > $item['store_nums']){
 						$num = $item['store_nums'];
 						$this->modNum($item['id'],$num);
@@ -115,6 +159,9 @@ class Cart{
 
 
 	public function clear() {
-		$this->items = array();
+        $this->cartModel->where('uid='.$this->uid)->delete();
+//		$this->items = array();
 	}
 }
+
+

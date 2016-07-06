@@ -146,6 +146,10 @@ class orders extends baseapi
             array(
                 'colum'=>'status',
                 'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
+            ),//'goods_count'=>10,
+            array(
+                'colum'=>'goods_count',
+                'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
             ),
         ),
     );
@@ -307,7 +311,7 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=0')->order('unix_timestamp(create_time) desc')->findAll();
 
         if($orders){
-//            $orderDetailModel = new Model('order_goods');
+            $orderDetailModel = new Model('order_goods');
 //
 //            $goodsModel = new Model('goods');
 
@@ -317,7 +321,7 @@ class orders extends baseapi
 
                 $status = $this->status($val);
 
-//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
 //                $products = '';
 //
@@ -331,7 +335,7 @@ class orders extends baseapi
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
-
+                $result[$k]['goods_count'] = $goods_count;
 
             }
             $this->output['status'] = 'succ';
@@ -356,7 +360,7 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=1 and delivery_status=0')->order('unix_timestamp(pay_time) desc')->findAll();
 
         if($orders){
-//            $orderDetailModel = new Model('order_goods');
+            $orderDetailModel = new Model('order_goods');
 //
 //            $goodsModel = new Model('goods');
             $result = array();
@@ -365,7 +369,7 @@ class orders extends baseapi
 
                 $status = $this->status($val);
 
-//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $goods_count = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->count();
 //
 //                $products = '';
 //
@@ -378,6 +382,7 @@ class orders extends baseapi
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
+                $result[$k]['goods_count'] = $goods_count;
 
             }
 
@@ -404,7 +409,7 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4')->order('unix_timestamp(completion_time) desc')->findAll();
 
         if($orders){
-//            $orderDetailModel = new Model('order_goods');
+            $orderDetailModel = new Model('order_goods');
 //
 //            $goodsModel = new Model('goods');
             $result = array();
@@ -413,7 +418,7 @@ class orders extends baseapi
 
                 $status = $this->status($val);
 
-//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
 //                $products = '';
 //
@@ -427,7 +432,7 @@ class orders extends baseapi
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
-
+                $result[$k]['goods_count'] = $goods_count;
 
             }
             $this->output['status'] = 'succ';
@@ -452,7 +457,7 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (5,6)')->order('unix_timestamp(create_time) desc')->findAll();
 
         if($orders){
-//            $orderDetailModel = new Model('order_goods');
+            $orderDetailModel = new Model('order_goods');
 //
 //            $goodsModel = new Model('goods');
 
@@ -462,7 +467,7 @@ class orders extends baseapi
 
                 $status = $this->status($val);
 
-//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
 //                $products = '';
 //
@@ -476,7 +481,7 @@ class orders extends baseapi
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
-
+                $result[$k]['goods_count'] = $goods_count;
 
             }
             $this->output['status'] = 'succ';
@@ -501,7 +506,7 @@ class orders extends baseapi
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc')->findAll();
 
         if($orders){
-//            $orderDetailModel = new Model('order_goods');
+            $orderDetailModel = new Model('order_goods');
 //
 //            $goodsModel = new Model('goods');
 
@@ -511,7 +516,7 @@ class orders extends baseapi
 
                 $status = $this->status($val);
 
-//                $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+                $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
 //                $products = '';
 //
@@ -525,7 +530,7 @@ class orders extends baseapi
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
-
+                $result[$k]['goods_count'] = $goods_count;
 
             }
 
@@ -643,6 +648,7 @@ class orders extends baseapi
                         'create_time'=>'订单创建时间',
                         'order_amount'=>'订单总金额',
                         'status'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
+                        'goods_count'=>10,
                     ),
                 ),
             )

@@ -28,7 +28,7 @@ class SimpleController extends Controller{
         $this->assign('seo_title',$site_config['site_name']);
         $this->assign('site_title',$site_config['site_name']);
 
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->user['id']);
         $this->cart = $cart->all();
         $this->assign("cart",$this->cart);
 
@@ -991,7 +991,7 @@ class SimpleController extends Controller{
                     }
                     //清空购物车与表单缓存
                     if($order_type==0){
-                        $cart = Cart::getCart();
+                        $cart = Cart::getCart($this->user['id']);
                         $cart->clear();
                         Session::clear("order_status");
                     }

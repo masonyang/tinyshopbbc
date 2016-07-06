@@ -17,7 +17,7 @@ class ErrorController extends Controller{
         $category = Category::getInstance();
 
         $this->category = $category->getCategory();
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->user['id']);
         $this->assign("cart",$cart->all());
         $this->assign("category",$this->category);
     }

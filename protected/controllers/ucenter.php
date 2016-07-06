@@ -48,7 +48,7 @@ class UcenterController extends Controller
         $category = Category::getInstance();
 
         $this->category = $category->getCategory();
-        $cart = Cart::getCart();
+        $cart = Cart::getCart($this->user['id']);
         $action = Req::args("act");
         switch ($action) {
             case 'order_detail':
