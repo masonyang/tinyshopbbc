@@ -332,10 +332,11 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
 
-                $this->output['status'] = 'succ';
-                $this->output['msg'] = '会员订单获取成功';
-                $this->output($result);
+
             }
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '会员订单获取成功';
+            $this->output($result);
         }else{
             $this->output['msg'] = '暂无订单';
             $this->output();
@@ -378,10 +379,12 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
 
-                $this->output['status'] = 'succ';
-                $this->output['msg'] = '会员订单获取成功';
-                $this->output($result);
             }
+
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '会员订单获取成功';
+            $this->output($result);
+
         }else{
             $this->output['msg'] = '暂无订单';
             $this->output();
@@ -425,10 +428,11 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
 
-                $this->output['status'] = 'succ';
-                $this->output['msg'] = '会员订单获取成功';
-                $this->output($result);
+
             }
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '会员订单获取成功';
+            $this->output($result);
         }else{
             $this->output['msg'] = '暂无订单';
             $this->output();
@@ -473,10 +477,11 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
 
-                $this->output['status'] = 'succ';
-                $this->output['msg'] = '会员订单获取成功';
-                $this->output($result);
+
             }
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '会员订单获取成功';
+            $this->output($result);
         }else{
             $this->output['msg'] = '暂无订单';
             $this->output();
@@ -526,6 +531,7 @@ class orders extends baseapi
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '会员订单获取成功';
+
             $this->output($result);
 
         }else{
