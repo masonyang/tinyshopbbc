@@ -199,7 +199,7 @@ class orders extends baseapi
         $goods_amount = 0;
 
 
-        $odDatas = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$orders['id'])->findAll();
+        $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$orders['id'])->findAll();
 
         if(!$odDatas){
             $this->output['msg'] = '订单号不存在';
@@ -207,15 +207,26 @@ class orders extends baseapi
             return ;
         }
 
+        $productsModel = new Model('products');
+
         $products = array();
 
         foreach($odDatas as $k=>$vval){
             $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
+            $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+            $spec = array();
+            $specs = unserialize($items['spec']);
+            foreach($specs as $_specs){
+                $spec[] = $_specs['value'][2];
+            }
+
             $products[$k]['img'] = self::getApiUrl().$gData['img'];
             $products[$k]['sale_price'] = $vval['real_price'];
             $products[$k]['goods_name'] = $gData['name'];
             $products[$k]['goods_nums'] = $vval['goods_nums'];
+            $products[$k]['specs'] = implode(',',$spec);
 
             $goods_amount += ($vval['real_price']*$vval['goods_nums']);
         }
@@ -618,6 +629,7 @@ class orders extends baseapi
                             'sale_price'=>'商品单价',
                             'goods_name'=>'商品名称',
                             'goods_nums'=>'商品数量',
+                            'specs'=>'商品规格',
                         ),
                     ),
                 ),

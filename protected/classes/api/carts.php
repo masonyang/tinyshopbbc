@@ -353,6 +353,10 @@ class carts extends baseapi
                 'content'=>'商品总金额',
             ),
             array(
+                'colum'=>'goods_count',
+                'content'=>'商品总数',
+            ),
+            array(
                 'colum'=>'gitem/goods_name',
                 'content'=>'goods_name  为商品名称',
             ),
@@ -517,7 +521,9 @@ class carts extends baseapi
             $this->output();
         }else{
             $result = array();
+            $goods_count = array();
             $total = 0;
+            $i = 0;
             foreach($all as $k=>$item){
                 $total +=$item['amount'];
                 $img = self::getApiUrl().$item['img'];
@@ -539,9 +545,12 @@ class carts extends baseapi
                 $result['gitem'][$k]['amount'] = $amount;
                 $result['gitem'][$k]['goods_img'] = $img;
                 $result['gitem'][$k]['goods_spec'] = implode(',',$spec);
+
+                $goods_count[$item['product_no']] = 1;
             }
 
             $result['total'] = $total;
+            $result['goods_count'] = count($goods_count);
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '购物车列表获取成功';
@@ -954,7 +963,8 @@ class carts extends baseapi
                             'goods_spec'=>'商品规格',
                         ),
                     ),
-                    'total'=>24
+                    'total'=>24,
+                    'goods_count'=>100
                 ),
             )
         );
