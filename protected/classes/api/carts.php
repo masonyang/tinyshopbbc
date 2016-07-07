@@ -319,6 +319,10 @@ class carts extends baseapi
             array(
                 'colum'=>'less_nums',
                 'content'=>'如果 提示：该商品库存不足，less_nums为该商品剩余数量',
+            ),
+            array(
+                'colum'=>'buy_num',
+                'content'=>'已选购数量',
             )
         ),
         'docheckout'=>array(
@@ -402,6 +406,10 @@ class carts extends baseapi
                 'colum'=>'count',
                 'content'=>'已加入购物车的商品总数',
             ),
+            array(
+                'colum'=>'buy_num',
+                'content'=>'已选购数量',
+            )
         ),
     );
 
@@ -451,6 +459,11 @@ class carts extends baseapi
                     if(($product['store_nums'] > 0) && ($less_num > 0)){
                         $cart->addItem($product['id'],$num);
                         $this->output['status'] = 'succ';
+
+                        $buyNum = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'" and uid = '.$this->params['uid'])->find();
+
+                        $data['buy_num'] = $buyNum['num'];
+
                     }else{
                         $info = '该商品库存不足';
                         $data['less_nums'] = $less_num;
@@ -481,6 +494,13 @@ class carts extends baseapi
                             $cart->decNum($product['id'],$num);
                             $this->output['status'] = 'succ';
                             $info = '操作成功';
+
+                            $cartSessionModel = new Model('cart_session');
+                            
+                            $buyNum = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'" and uid = '.$this->params['uid'])->find();
+
+                            $data['buy_num'] = $buyNum['num'];
+
                         }else{
                             $info = '该商品库存不足';
                         }
@@ -878,6 +898,7 @@ class carts extends baseapi
                 'msg'=>'成功加入购物车',
                 'data'=>array(
                     'count'=>12,
+                    'buy_num'=>'已选购数量',
                 ),
             )
         );
@@ -1004,6 +1025,7 @@ class carts extends baseapi
                 'msg'=>'操作成功',
                 'data'=>array(
                     'count'=>12,
+                    'buy_num'=>'已选购数量',
                 ),
             )
         );
