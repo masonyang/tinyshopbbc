@@ -323,6 +323,10 @@ class carts extends baseapi
             array(
                 'colum'=>'buy_num',
                 'content'=>'已选购数量',
+            ),
+            array(
+                'colum'=>'goods_amount',
+                'content'=>'商品总金额',
             )
         ),
         'docheckout'=>array(
@@ -409,6 +413,10 @@ class carts extends baseapi
             array(
                 'colum'=>'buy_num',
                 'content'=>'已选购数量',
+            ),
+            array(
+                'colum'=>'goods_amount',
+                'content'=>'商品总金额',
             )
         ),
     );
@@ -473,7 +481,15 @@ class carts extends baseapi
                     $info = '数量不能小于0';
                 }
 
-                $data['count'] = count($cart->all());
+                $goods_amount = 0;
+                $all = $cart->all();
+
+                foreach($all as $val){
+                    $goods_amount += $val['sell_total'];
+                }
+
+                $data['count'] = count($all);
+                $data['goods_amount'] = $goods_amount;
                 $this->output['msg'] = $info;
                 $this->output($data);
             break;
@@ -516,7 +532,16 @@ class carts extends baseapi
 
                 }
 
-                $data['count'] = count($cart->all());
+                $goods_amount = 0;
+
+                $all = $cart->all();
+
+                foreach($all as $val){
+                    $goods_amount += $val['sell_total'];
+                }
+                
+                $data['count'] = count($all);
+                $data['goods_amount'] = $goods_amount;
                 $this->output['msg'] = $info;
                 $this->output($data);
             break;
@@ -899,6 +924,7 @@ class carts extends baseapi
                 'data'=>array(
                     'count'=>12,
                     'buy_num'=>'已选购数量',
+                    'goods_amount'=>'商品总金额'
                 ),
             )
         );
@@ -1026,6 +1052,7 @@ class carts extends baseapi
                 'data'=>array(
                     'count'=>12,
                     'buy_num'=>'已选购数量',
+                    'goods_amount'=>'商品总金额'
                 ),
             )
         );
