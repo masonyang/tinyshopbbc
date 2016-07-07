@@ -316,6 +316,10 @@ class carts extends baseapi
                 'colum'=>'count',
                 'content'=>'已加入购物车的商品总数',
             ),
+            array(
+                'colum'=>'less_nums',
+                'content'=>'如果 提示：该商品库存不足，less_nums为该商品剩余数量',
+            )
         ),
         'docheckout'=>array(
             array(
@@ -431,11 +435,25 @@ class carts extends baseapi
 
                 if($product['id'] && ($num>=1)){
 
-                    if($product['store_nums'] > 0){
+                    $cartSessionModel = new Model('cart_session');
+                    $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
+
+                    $cart_nums = 0;
+
+                    if($carts){
+                        foreach($carts as $c){
+                            $cart_nums += $c['num'];
+                        }
+                    }
+
+                    $less_num = $product['store_nums'] - $cart_nums;
+
+                    if(($product['store_nums'] > 0) && ($less_num > 0)){
                         $cart->addItem($product['id'],$num);
                         $this->output['status'] = 'succ';
                     }else{
                         $info = '该商品库存不足';
+                        $data['less_nums'] = $less_num;
                     }
 
                 }else{
@@ -850,8 +868,10 @@ class carts extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'该商品库存不足',
-                'data'=>array(),
+                'msg'=>'数量不能小于0 / 仅当提示“该商品库存不足“ 返回less_nums字段',
+                'data'=>array(
+                    'less_nums'=>12,
+                ),
             ),
             'succ'=>array(
                 'status'=>'succ',
@@ -976,7 +996,7 @@ class carts extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'该商品库存不足',
+                'msg'=>'该商品库存不足/数量不能小于0',
                 'data'=>array(),
             ),
             'succ'=>array(
