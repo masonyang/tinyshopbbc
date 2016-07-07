@@ -536,17 +536,18 @@ class carts extends baseapi
                 }
 //                $html .= str_replace(array('{img}','{name}','{num}','{spec}','{amount}'),array($img,$name,$num,implode(',',$spec),$amount),$this->cartIndexTemplate);
 
-                $result['gitem'][$k]['product_no'] = $item['product_no'];
-                $result['gitem'][$k]['goods_no'] = $item['goods_no'];
-                $result['gitem'][$k]['product_id'] = $item['id'];
-                $result['gitem'][$k]['goods_id'] = $item['goods_id'];
-                $result['gitem'][$k]['goods_name'] = $name;
-                $result['gitem'][$k]['num'] = $num;
-                $result['gitem'][$k]['amount'] = $amount;
-                $result['gitem'][$k]['goods_img'] = $img;
-                $result['gitem'][$k]['goods_spec'] = implode(',',$spec);
+                $result['gitem'][$i]['product_no'] = $item['product_no'];
+                $result['gitem'][$i]['goods_no'] = $item['goods_no'];
+                $result['gitem'][$i]['product_id'] = $item['id'];
+                $result['gitem'][$i]['goods_id'] = $item['goods_id'];
+                $result['gitem'][$i]['goods_name'] = $name;
+                $result['gitem'][$i]['num'] = $num;
+                $result['gitem'][$i]['amount'] = $amount;
+                $result['gitem'][$i]['goods_img'] = $img;
+                $result['gitem'][$i]['goods_spec'] = implode(',',$spec);
 
                 $goods_count[$item['product_no']] = 1;
+                $i++;
             }
 
             $result['total'] = $total;
