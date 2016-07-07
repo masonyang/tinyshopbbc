@@ -496,10 +496,10 @@ class carts extends baseapi
                             $info = '操作成功';
 
                             $cartSessionModel = new Model('cart_session');
-                            
+
                             $buyNum = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'" and uid = '.$this->params['uid'])->find();
 
-                            $data['buy_num'] = $buyNum['num'];
+                            $data['buy_num'] = $buyNum['num'] ? $buyNum['num'] : 0;
 
                         }else{
                             $info = '该商品库存不足';
