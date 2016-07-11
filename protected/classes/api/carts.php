@@ -539,7 +539,7 @@ class carts extends baseapi
                 foreach($all as $val){
                     $goods_amount += $val['sell_total'];
                 }
-                
+
                 $data['count'] = count($all);
                 $data['goods_amount'] = $goods_amount;
                 $this->output['msg'] = $info;
@@ -657,6 +657,7 @@ class carts extends baseapi
 
         $all = $cart->all();
 
+        $i = 0;
         foreach($all as $k=>$item){
             $total +=$item['amount'];
             $img = self::getApiUrl().$item['img'];
@@ -670,11 +671,11 @@ class carts extends baseapi
                 $spec[] = $specs['value'][2];
             }
 
-            $return['goods_item'][$k]['img'] = $img;
-            $return['goods_item'][$k]['goods_name'] = $name;
-            $return['goods_item'][$k]['num'] = $num;
-            $return['goods_item'][$k]['amount'] = $amount;
-            $return['goods_item'][$k]['spec'] = implode(',',$spec);
+            $return['goods_item'][$i]['img'] = $img;
+            $return['goods_item'][$i]['goods_name'] = $name;
+            $return['goods_item'][$i]['num'] = $num;
+            $return['goods_item'][$i]['amount'] = $amount;
+            $return['goods_item'][$i]['spec'] = implode(',',$spec);
 //            $goods_info .= '<li>
 //                        <div class="card ks-facebook-card">
 //                            <div class="card-header no-border">
@@ -690,6 +691,7 @@ class carts extends baseapi
 //                            </div>
 //                        </div>
 //                    </li>';
+            $i++;
         }
 
 
