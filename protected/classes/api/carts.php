@@ -636,16 +636,27 @@ class carts extends baseapi
         $userid = $this->params['uid'];
 
         $addressModel = new Model('address');
-        $addrData = $addressModel->where('user_id='.$userid)->find();
+        $addrData = $addressModel->where('user_id='.$userid)->findAll();
+
+        $default_addr_id = 0;
 
         if($addrData){
-            $return['shouhuo']['mobile'] = $addrData['mobile'];
-            $return['shouhuo']['accept_name'] = $addrData['accept_name'];
-            $return['shouhuo']['addr_id'] = $addrData['id'];
-            $return['shouhuo']['is_default'] = $addrData['is_default'];
-            $addr = $this->consignee($addrData);
+            $default_addr_id = $addrData[0]['id'];
+            foreach($addrData as $k=>$val){
 
-            $return['shouhuo']['address'] = $addr;
+                if($val['is_default'] == 1){
+                    $default_addr_id = $val['id'];
+                }
+
+                $return['shouhuo'][$k]['mobile'] = $val['mobile'];
+                $return['shouhuo'][$k]['accept_name'] = $val['accept_name'];
+                $return['shouhuo'][$k]['addr_id'] = $val['id'];
+                $return['shouhuo'][$k]['is_default'] = $val['is_default'];
+                $addr = $this->consignee($val);
+
+                $return['shouhuo'][$k]['address'] = $addr;
+            }
+
 
         }
 
@@ -696,7 +707,7 @@ class carts extends baseapi
 
 
         $fare = new Fare($weight);
-        $payable_freight = $fare->calculate($addrData['id']);
+        $payable_freight = $fare->calculate($default_addr_id);
         $order_amount = $payable_freight + $real_amount;
 
         $return['order']['order_amount'] = $order_amount;
@@ -963,11 +974,13 @@ class carts extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     'shouhuo'=>array(
-                        'mobile'=>'收货人手机号',
-                        'accept_name'=>'收货人名称',
-                        'addr_id'=>'收货地址id',
-                        'address'=>'收货地址描述',
-                        'is_default'=>'是否是默认收货地址 1:默认 0:否',
+                        array(
+                            'mobile'=>'收货人手机号',
+                            'accept_name'=>'收货人名称',
+                            'addr_id'=>'收货地址id',
+                            'address'=>'收货地址描述',
+                            'is_default'=>'是否是默认收货地址 1:默认 0:否',
+                        ),
                     ),
                     'goods_item'=>array(
                         array(
