@@ -636,13 +636,13 @@ class carts extends baseapi
         $userid = $this->params['uid'];
 
         $addressModel = new Model('address');
-        $addrData = $addressModel->where('user_id='.$userid.' and is_default=1')->find();
+        $addrData = $addressModel->where('user_id='.$userid)->find();
 
         if($addrData){
             $return['shouhuo']['mobile'] = $addrData['mobile'];
             $return['shouhuo']['accept_name'] = $addrData['accept_name'];
             $return['shouhuo']['addr_id'] = $addrData['id'];
-
+            $return['shouhuo']['is_default'] = $addrData['is_default'];
             $addr = $this->consignee($addrData);
 
             $return['shouhuo']['address'] = $addr;
@@ -967,6 +967,7 @@ class carts extends baseapi
                         'accept_name'=>'收货人名称',
                         'addr_id'=>'收货地址id',
                         'address'=>'收货地址描述',
+                        'is_default'=>'是否是默认收货地址 1:默认 0:否',
                     ),
                     'goods_item'=>array(
                         array(
