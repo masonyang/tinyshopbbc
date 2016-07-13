@@ -638,26 +638,38 @@ class carts extends baseapi
         $addressModel = new Model('address');
         $addrData = $addressModel->where('user_id='.$userid)->findAll();
 
-        $default_addr_id = 0;
-
         if($addrData){
             $default_addr_id = $addrData[0]['id'];
             foreach($addrData as $k=>$val){
 
                 if($val['is_default'] == 1){
                     $default_addr_id = $val['id'];
+                    $return['shouhuo'][0]['mobile'] = $val['mobile'];
+                    $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
+                    $return['shouhuo'][0]['addr_id'] = $val['id'];
+                    $return['shouhuo'][0]['is_default'] = $val['is_default'];
+                    $addr = $this->consignee($val);
+
+                    $return['shouhuo'][0]['address'] = $addr;
+                    break;
+                }else{
+                    $return['shouhuo'][0]['mobile'] = $val['mobile'];
+                    $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
+                    $return['shouhuo'][0]['addr_id'] = $val['id'];
+                    $return['shouhuo'][0]['is_default'] = $val['is_default'];
+                    $addr = $this->consignee($val);
+
+                    $return['shouhuo'][0]['address'] = $addr;
                 }
 
-                $return['shouhuo'][$k]['mobile'] = $val['mobile'];
-                $return['shouhuo'][$k]['accept_name'] = $val['accept_name'];
-                $return['shouhuo'][$k]['addr_id'] = $val['id'];
-                $return['shouhuo'][$k]['is_default'] = $val['is_default'];
-                $addr = $this->consignee($val);
 
-                $return['shouhuo'][$k]['address'] = $addr;
             }
 
 
+        }else{
+            $this->output['msg'] = '请先去添加收货地址';
+            $this->output();
+            exit;
         }
 
         $total = 0;
@@ -966,7 +978,7 @@ class carts extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'获取失败',
+                'msg'=>'如果一个收货地址都没有 msg 返回“请先去添加收货地址”',
                 'data'=>array(),
             ),
             'succ'=>array(
