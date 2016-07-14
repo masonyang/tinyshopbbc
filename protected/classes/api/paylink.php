@@ -61,8 +61,16 @@ class paylink extends baseapi
     public static $responsetParams = array(
         'paylink'=>array(
             array(
-                'colum'=>'html',
-                'content'=>'如果成功，这里返回 支付宝页面内容',
+                'colum'=>'request_args',
+                'content'=>'请求参数, 一位数组 是请求到 支付宝支付所需要的参数 必填',
+            ),
+            array(
+                'colum'=>'request_method',
+                'content'=>'请求方法 GET/POST',
+            ),
+            array(
+                'colum'=>'request_action',
+                'content'=>'请求支付宝支付的url',
             ),
         ),
     );
@@ -84,12 +92,12 @@ class paylink extends baseapi
         $data = array();
 
         if($userid && $paymentid && $orderid){
-            $return = $this->genatePayLink($paymentid,$orderid,$extendDatas,$msg);
+            $return = $this->genatePayLink($paymentid,$orderid,$extendDatas,$msg,$payData);
 
             if($return){
                 $this->output['status'] = 'succ';
-                $this->output['msg'] = '支付页面获取成功';
-                $this->output(array('html'=>$msg));
+                $this->output['msg'] = '支付获取成功';
+                $this->output($payData);
             }else{
                 $this->output['msg'] = $msg;
                 $this->output(array());
@@ -100,7 +108,7 @@ class paylink extends baseapi
         }
     }
 
-    protected function genatePayLink($paymentid,$orderid,$extendDatas,&$msg = '')
+    protected function genatePayLink($paymentid,$orderid,$extendDatas,&$msg = '',&$payData = array())
     {
         $payment = new Payment($paymentid);
         $paymentPlugin = $payment->getPaymentPlugin();
@@ -217,12 +225,18 @@ class paylink extends baseapi
                 $action = $paymentPlugin->submitUrl();
                 $method = $paymentPlugin->method;
 
-                $_sendData = '';
+//                $_sendData = '';
 
-                foreach($sendData as $key=>$item){
-                    $_sendData .= "<input type='hidden' name='".$key."' value='".$item."' />";
-                }
-                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
+                $payData['request_args'] = $sendData;
+                $payData['request_action'] = $action;
+                $payData['request_method'] = $method;
+
+                $msg = '';
+
+//                foreach($sendData as $key=>$item){
+//                    $_sendData .= "<input type='hidden' name='".$key."' value='".$item."' />";
+//                }
+//                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
                 return true;
             }else{
                 $msg = '需要支付的订单已经不存在。';
@@ -242,14 +256,30 @@ class paylink extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
-                'msg'=>'需要支付的订单已经不存在 / 订单不存在 / 订单超出了规定时间内付款，已作废. ...',
+                'msg'=>'未登录 / 需要支付的订单已经不存在 / 订单不存在 / 订单超出了规定时间内付款，已作废. ...',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
-                'msg'=>'支付页面获取成功',
+                'msg'=>'支付获取成功',
                 'data'=>array(
-                    'html'=>'支付宝支付html页面',
+                    'request_args'=>array(
+                        'service'=>'',
+                        'partner'=>'',
+                        'seller_id'=>'',
+                        'payment_type'=>'',
+                        'notify_url'=>'',
+                        'return_url'=>'',
+                        'out_trade_no'=>'',
+                        'subject'=>'',
+                        'total_fee'=>'',
+                        'show_url'=>'',
+                        '_input_charset'=>'',
+                        'sign'=>'',
+                        'sign_type'=>'',
+                    ),
+                    'request_method'=>'请求方法 GET/POST',
+                    'request_action'=>'https://mapi.alipay.com/gateway.do?_input_charset=utf-8',
                 ),
             )
         );

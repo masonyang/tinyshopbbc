@@ -630,10 +630,15 @@ class carts extends baseapi
     protected function checkout()
     {
 
-
         $return = array();
 
         $userid = $this->params['uid'];
+
+        if(empty($userid)){
+            $this->output['msg'] = '会员不能为空';
+            $this->output();
+            exit;
+        }
 
         $addressModel = new Model('address');
         $addrData = $addressModel->where('user_id='.$userid)->findAll();
@@ -665,7 +670,6 @@ class carts extends baseapi
 
             }
 
-
         }else{
             $this->output['msg'] = '请先去添加收货地址';
             $this->output();
@@ -679,6 +683,12 @@ class carts extends baseapi
         $cart = Cart::getCart($this->params['uid']);
 
         $all = $cart->all();
+
+        if(empty($all)){
+            $this->output['msg'] = '购物车中没有商品';
+            $this->output();
+            exit;
+        }
 
         $i = 0;
         foreach($all as $k=>$item){
@@ -765,6 +775,33 @@ class carts extends baseapi
     //创建订单
     protected function docheckout()
     {
+
+        if(empty($this->params['uid'])){
+            $this->output['msg'] = '会员不能为空';
+            $this->output();
+            exit;
+        }
+
+        $orderCache = new Model('cache');
+
+        $unqiKey = 'checkout_'.$this->params['uid'];
+
+        $cacheData = $orderCache->fields('content')->where('key="'.$unqiKey.'"')->find();
+
+        $time = time();
+
+        if($cacheData){
+            if(($time - $cacheData['content']) > 30){
+                $cacheData->data(array('content'=>time()))->where('key="'.$unqiKey.'"')->update();
+            }else{
+                $this->output['msg'] = '不能重复提交订单';
+                $this->output();
+                exit;
+            }
+        }else{
+            $cacheData->data(array('key'=>$unqiKey,'content'=>time()))->insert();
+        }
+
         try{
             $address_id = Filter::int($this->params['addr_id']);
             $payment_id = Filter::int($this->params['paymentid']);
