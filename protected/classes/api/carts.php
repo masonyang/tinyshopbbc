@@ -786,13 +786,13 @@ class carts extends baseapi
 
         $unqiKey = 'checkout_'.$this->params['uid'];
 
-        $cacheData = $orderCache->fields('content')->where('key="'.$unqiKey.'"')->find();
+        $cacheData = $orderCache->fields('content')->where('`key`="'.$unqiKey.'"')->find();
 
         $time = time();
 
         if($cacheData){
             if(($time - $cacheData['content']) > 30){
-                $cacheData->data(array('content'=>time()))->where('key="'.$unqiKey.'"')->update();
+                $cacheData->data(array('content'=>time()))->where('`key`="'.$unqiKey.'"')->update();
             }else{
                 $this->output['msg'] = '不能重复提交订单';
                 $this->output();
