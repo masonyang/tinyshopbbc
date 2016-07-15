@@ -219,15 +219,13 @@ class paylink extends baseapi
 
                 $url = '';
 
-                header("Content-type:text/html;charset=utf-8");
-
                 $msg = '';
 
 
                 foreach($sendData as $key=>$item){
                     $url .= "&".$key."=".$item;
                 }
-                $payData['alipay_url'] = $action.$url;
+                $payData['alipay_url'] = baseapi::getApiUrl().'index.php?con=payment&act=paymobile&payment_id='.$paymentid.'&order_id='.$orderid;
 //                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
                 return true;
             }else{

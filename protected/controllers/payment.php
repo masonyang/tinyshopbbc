@@ -524,4 +524,23 @@ class PaymentController extends Controller
             }
         }
     }
+
+    function paymobile()
+    {
+        $payment_id = Filter::int(Req::args('payment_id'));
+        $order_id = Filter::int(Req::args('order_id'));
+        $extendDatas = Req::args();
+
+        $payment = new Payment($payment_id);
+        $paymentPlugin = $payment->getPaymentPlugin();
+
+        $packData = $payment->getPaymentInfo('order',$order_id);
+        $packData = array_merge($extendDatas,$packData);
+        $sendData = $paymentPlugin->packData($packData);
+
+        $this->assign("paymentPlugin",$paymentPlugin);
+        $this->assign("sendData",$sendData);
+        $this->redirect('pay_form',false);
+    }
+
 }
