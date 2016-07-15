@@ -61,16 +61,8 @@ class paylink extends baseapi
     public static $responsetParams = array(
         'paylink'=>array(
             array(
-                'colum'=>'request_args',
-                'content'=>'请求参数, 一位数组 是请求到 支付宝支付所需要的参数 必填',
-            ),
-            array(
-                'colum'=>'request_method',
-                'content'=>'请求方法 GET/POST',
-            ),
-            array(
-                'colum'=>'request_action',
-                'content'=>'请求支付宝支付的url',
+                'colum'=>'alipay_url',
+                'content'=>'返回支付宝支付url',
             ),
         ),
     );
@@ -225,7 +217,7 @@ class paylink extends baseapi
                 $action = $paymentPlugin->submitUrl();
                 $method = $paymentPlugin->method;
 
-//                $_sendData = '';
+                $url = '';
 
                 $payData['request_args'] = $sendData;
                 $payData['request_action'] = $action;
@@ -233,9 +225,11 @@ class paylink extends baseapi
 
                 $msg = '';
 
-//                foreach($sendData as $key=>$item){
-//                    $_sendData .= "<input type='hidden' name='".$key."' value='".$item."' />";
-//                }
+
+                foreach($sendData as $key=>$item){
+                    $url .= "&".$key."=".$item;
+                }
+                $payData['alipay_url'] = $action.$url;
 //                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
                 return true;
             }else{
@@ -263,23 +257,7 @@ class paylink extends baseapi
                 'status'=>'succ',
                 'msg'=>'支付获取成功',
                 'data'=>array(
-                    'request_args'=>array(
-                        'service'=>'',
-                        'partner'=>'',
-                        'seller_id'=>'',
-                        'payment_type'=>'',
-                        'notify_url'=>'',
-                        'return_url'=>'',
-                        'out_trade_no'=>'',
-                        'subject'=>'',
-                        'total_fee'=>'',
-                        'show_url'=>'',
-                        '_input_charset'=>'',
-                        'sign'=>'',
-                        'sign_type'=>'',
-                    ),
-                    'request_method'=>'请求方法 GET/POST',
-                    'request_action'=>'https://mapi.alipay.com/gateway.do?_input_charset=utf-8',
+                    'alipay_url'=>'',
                 ),
             )
         );
