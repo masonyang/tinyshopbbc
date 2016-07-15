@@ -792,14 +792,14 @@ class carts extends baseapi
 
         if($cacheData){
             if(($time - $cacheData['content']) > 30){
-                $cacheData->data(array('content'=>time()))->where('`key`="'.$unqiKey.'"')->update();
+                $orderCache->data(array('content'=>time()))->where('`key`="'.$unqiKey.'"')->update();
             }else{
                 $this->output['msg'] = '不能重复提交订单';
                 $this->output();
                 exit;
             }
         }else{
-            $cacheData->data(array('key'=>$unqiKey,'content'=>time()))->insert();
+            $orderCache->data(array('key'=>$unqiKey,'content'=>time()))->insert();
         }
 
         try{
