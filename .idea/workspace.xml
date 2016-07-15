@@ -810,13 +810,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/views/payment/pay_form.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.39404553" vertical-offset="0" max-vertical-offset="571">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="56" selection-start="595" selection-end="595" vertical-scroll-proportion="0.184514" vertical-offset="263" max-vertical-offset="870">
@@ -940,6 +933,13 @@
     <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="225" column="18" selection-start="9067" selection-end="9067" vertical-scroll-proportion="131.66667" vertical-offset="6535" max-vertical-offset="8280">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/payment/pay_form.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.37878788" vertical-offset="0" max-vertical-offset="594">
           <folding />
         </state>
       </provider>
