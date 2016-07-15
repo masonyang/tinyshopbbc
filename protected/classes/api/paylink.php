@@ -219,9 +219,7 @@ class paylink extends baseapi
 
                 $url = '';
 
-                $payData['request_args'] = $sendData;
-                $payData['request_action'] = $action;
-                $payData['request_method'] = $method;
+                header("Content-type:text/html;charset=utf-8");
 
                 $msg = '';
 
