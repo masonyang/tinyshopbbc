@@ -23,61 +23,75 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="carts.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/classes/api/carts.php">
+      <file leaf-file-name="products.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/classes/api/products.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="781" column="10" selection-start="27793" selection-end="27793" vertical-scroll-proportion="0.0" vertical-offset="11485" max-vertical-offset="16965">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="paylink.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="206" column="0" selection-start="7320" selection-end="7320" vertical-scroll-proportion="0.0" vertical-offset="2961" max-vertical-offset="4005">
+            <state line="188" column="47" selection-start="7222" selection-end="7254" vertical-scroll-proportion="-6.875" vertical-offset="2655" max-vertical-offset="5595">
               <folding>
-                <marker date="1468583071000" expanded="true" signature="323:588" placeholder="..." />
-                <marker date="1468583071000" expanded="true" signature="344:580" placeholder="..." />
-                <marker date="1468583071000" expanded="true" signature="449:480" placeholder="..." />
-                <marker date="1468583071000" expanded="true" signature="516:572" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="232:1179" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1291:1459" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1390:1440" placeholder="..." />
+                <marker date="1468830907000" expanded="false" signature="1511:1527" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1591:5423" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1612:5404" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1637:2087" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1688:2061" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1741:2030" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="1870:1995" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2112:2564" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2163:2538" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2216:2507" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2344:2472" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2589:2999" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2640:2973" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2693:2942" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="2821:2907" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3024:3469" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3075:3443" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3128:3412" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3256:3377" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3494:3900" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3545:3874" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3598:3843" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3726:3808" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="3958:5382" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4009:5356" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4062:5325" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4190:5290" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4234:5136" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4295:5091" placeholder="..." />
+                <marker date="1468830907000" expanded="false" signature="4352:4378" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4379:4526" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4575:4814" placeholder="..." />
+                <marker date="1468830907000" expanded="false" signature="4871:4897" placeholder="..." />
+                <marker date="1468830907000" expanded="true" signature="4898:5045" placeholder="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="orders.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/protected/classes/api/orders.php">
+      <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="157" column="29" selection-start="4769" selection-end="4830" vertical-scroll-proportion="3.116197" vertical-offset="585" max-vertical-offset="10215">
-              <folding>
-                <marker date="1468815462000" expanded="true" signature="207:1233" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="267:623" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="326:594" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="527:563" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="771:1001" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="894:970" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="1312:1521" placeholder="..." />
-                <marker date="1468815462000" expanded="true" signature="1371:1494" placeholder="..." />
-                <marker date="1468815462000" expanded="false" signature="1432:1451" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="mapper_qqcapp.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/config/mapper_qqcapp.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="87" column="39" selection-start="2908" selection-end="2922" vertical-scroll-proportion="-11.916667" vertical-offset="1019" max-vertical-offset="1650">
+            <state line="1112" column="40" selection-start="46541" selection-end="46541" vertical-scroll-proportion="0.6969697" vertical-offset="16206" max-vertical-offset="16815">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="payment.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
+      <file leaf-file-name="goods_spec_show.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/views/goods/goods_spec_show.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="225" column="18" selection-start="9067" selection-end="9067" vertical-scroll-proportion="131.66667" vertical-offset="6535" max-vertical-offset="8280">
+            <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="10.625" vertical-offset="255" max-vertical-offset="1050">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="prouduct_desc.html" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/views/index/prouduct_desc.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="120">
               <folding />
             </state>
           </provider>
@@ -93,9 +107,6 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/protected/classes/oauth/QqOAuth.php" />
-        <option value="$PROJECT_DIR$/framework/web/model/query_class.php" />
-        <option value="$PROJECT_DIR$/protected/views/order/order_list.html" />
         <option value="$PROJECT_DIR$/protected/views/orderscanner/scannerorder.html" />
         <option value="$PROJECT_DIR$/protected/classes/Log.php" />
         <option value="$PROJECT_DIR$/protected/views/order/order_view.html" />
@@ -108,7 +119,6 @@
         <option value="$PROJECT_DIR$/protected/services/ordernotice.php" />
         <option value="$PROJECT_DIR$/themes/mobile_default/views/index/index.html" />
         <option value="$PROJECT_DIR$/protected/extensions/ControllerExt.php" />
-        <option value="$PROJECT_DIR$/framework/web/controller/controller_class.php" />
         <option value="$PROJECT_DIR$/protected/classes/Config.php" />
         <option value="$PROJECT_DIR$/protected/services/config.php" />
         <option value="$PROJECT_DIR$/protected/config/system.php" />
@@ -126,7 +136,6 @@
         <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
         <option value="$PROJECT_DIR$/protected/controllers/api.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/goods.php" />
-        <option value="$PROJECT_DIR$/protected/classes/api/products.php" />
         <option value="$USER_HOME$/workevn/index.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/arealist.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/cservice.php" />
@@ -137,13 +146,18 @@
         <option value="$PROJECT_DIR$/protected/controllers/error.php" />
         <option value="$PROJECT_DIR$/data/branchstore.sql" />
         <option value="$PROJECT_DIR$/protected/classes/Cart.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/index.php" />
         <option value="$PROJECT_DIR$/themes/mobile_default/views/simple/cart.html" />
         <option value="$PROJECT_DIR$/protected/classes/api/carts.php" />
         <option value="$PROJECT_DIR$/protected/views/payment/pay_form.html" />
         <option value="$PROJECT_DIR$/protected/classes/api/paylink.php" />
         <option value="$PROJECT_DIR$/protected/controllers/payment.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/orders.php" />
+        <option value="$PROJECT_DIR$/protected/views/goods/prouduct_desc.html" />
+        <option value="$PROJECT_DIR$/framework/web/controller/controller_class.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/goods.php" />
+        <option value="$PROJECT_DIR$/protected/classes/api/products.php" />
+        <option value="$PROJECT_DIR$/protected/views/index/prouduct_desc.html" />
+        <option value="$PROJECT_DIR$/protected/controllers/index.php" />
       </list>
     </option>
   </component>
@@ -180,7 +194,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -196,86 +209,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile_default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile_default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="ucenter" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="themes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mobile_default" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -343,7 +276,29 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="payment" />
+              <option name="myItemId" value="index" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="goods" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -379,47 +334,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="config" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
               <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="payments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -447,6 +362,7 @@
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -468,11 +384,11 @@
       <recent name="$PROJECT_DIR$/static/images" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/protected/views/index" />
       <recent name="$PROJECT_DIR$/jobs" />
       <recent name="$PROJECT_DIR$/themes/mobile_default/views/goods" />
       <recent name="$PROJECT_DIR$/protected/classes" />
       <recent name="$PROJECT_DIR$/themes/mobile_default/images" />
-      <recent name="$PROJECT_DIR$/themes/default/images" />
     </key>
   </component>
   <component name="RunManager">
@@ -526,7 +442,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979185" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.31666666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32166666" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -560,36 +476,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protected/classes/oauth/RenrenOAuth.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="37" selection-start="1558" selection-end="1558" vertical-scroll-proportion="0.22734761" vertical-offset="387" max-vertical-offset="1605" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/tiny.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="111" column="17" selection-start="2558" selection-end="2558" vertical-scroll-proportion="0.479798" vertical-offset="1305" max-vertical-offset="11610" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/lib/util/captcha_class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="153" column="8" selection-start="4129" selection-end="4129" vertical-scroll-proportion="0.6363636" vertical-offset="1842" max-vertical-offset="5250" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="38" column="4" selection-start="799" selection-end="836" vertical-scroll-proportion="0.34676006" vertical-offset="297" max-vertical-offset="11340" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/customer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="30" selection-start="616" selection-end="616" vertical-scroll-proportion="0.5555556" vertical-offset="0" max-vertical-offset="6015" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/base/application_class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="18" selection-start="3857" selection-end="3857" vertical-scroll-proportion="0.35492957" vertical-offset="1869" max-vertical-offset="3120" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/lib/util/cookie_class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="137" column="28" selection-start="2688" selection-end="2688" vertical-scroll-proportion="0.4293478" vertical-offset="1822" max-vertical-offset="2190" />
@@ -705,11 +591,6 @@
         <state line="357" column="27" selection-start="16258" selection-end="16258" vertical-scroll-proportion="0.22535211" vertical-offset="5275" max-vertical-offset="17805" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="165" column="5" selection-start="5828" selection-end="5828" vertical-scroll-proportion="0.39404553" vertical-offset="2190" max-vertical-offset="16560" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/themes/mobile_default/views/simple/cart.html">
       <provider selected="true" editor-type-id="text-editor">
         <state line="245" column="37" selection-start="9927" selection-end="9927" vertical-scroll-proportion="0.116161615" vertical-offset="3606" max-vertical-offset="4200" />
@@ -728,11 +609,6 @@
     <entry file="file://$PROJECT_DIR$/protected/classes/api/cservice.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="69" column="0" selection-start="1526" selection-end="1526" vertical-scroll-proportion="-0.0" vertical-offset="1035" max-vertical-offset="1905" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/products.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="296" column="23" selection-start="11419" selection-end="11419" vertical-scroll-proportion="0.0" vertical-offset="4287" max-vertical-offset="5595" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/goodscat.php">
@@ -777,13 +653,6 @@
         <state line="67" column="35" selection-start="1737" selection-end="1737" vertical-scroll-proportion="0.41919193" vertical-offset="756" max-vertical-offset="1350" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/carts.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="781" column="10" selection-start="27793" selection-end="27793" vertical-scroll-proportion="0.0" vertical-offset="11485" max-vertical-offset="16965">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/PaymentPlugin.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="15" column="14" selection-start="416" selection-end="416" vertical-scroll-proportion="0.33333334" vertical-offset="27" max-vertical-offset="1395" />
@@ -799,46 +668,137 @@
         <state line="15" column="0" selection-start="565" selection-end="565" vertical-scroll-proportion="0.37878788" vertical-offset="0" max-vertical-offset="594" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/orders.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="206" column="0" selection-start="7320" selection-end="7320" vertical-scroll-proportion="0.0" vertical-offset="2961" max-vertical-offset="4005">
-          <folding>
-            <marker date="1468583071000" expanded="true" signature="323:588" placeholder="..." />
-            <marker date="1468583071000" expanded="true" signature="344:580" placeholder="..." />
-            <marker date="1468583071000" expanded="true" signature="449:480" placeholder="..." />
-            <marker date="1468583071000" expanded="true" signature="516:572" placeholder="..." />
-          </folding>
+        <state line="46" column="0" selection-start="1739" selection-end="1739" vertical-scroll-proportion="0.23767605" vertical-offset="555" max-vertical-offset="10215" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/carts.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="781" column="10" selection-start="27793" selection-end="27793" vertical-scroll-proportion="0.3872054" vertical-offset="11485" max-vertical-offset="16965">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/config/mapper_qqcapp.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="39" selection-start="2908" selection-end="2922" vertical-scroll-proportion="-11.916667" vertical-offset="1019" max-vertical-offset="1650">
+        <state line="87" column="39" selection-start="2908" selection-end="2922" vertical-scroll-proportion="0.47116968" vertical-offset="1019" max-vertical-offset="1650">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="227" column="98" selection-start="8006" selection-end="8015" vertical-scroll-proportion="0.64646465" vertical-offset="3021" max-vertical-offset="4005">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="225" column="18" selection-start="9067" selection-end="9067" vertical-scroll-proportion="131.66667" vertical-offset="6535" max-vertical-offset="8280">
+        <state line="541" column="8" selection-start="22515" selection-end="22594" vertical-scroll-proportion="0.7222222" vertical-offset="7686" max-vertical-offset="8280">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/orders.php">
+    <entry file="file://$PROJECT_DIR$/protected/views/goods/goods_type_list.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="157" column="29" selection-start="4769" selection-end="4830" vertical-scroll-proportion="3.116197" vertical-offset="585" max-vertical-offset="10215">
+        <state line="22" column="36" selection-start="1323" selection-end="1323" vertical-scroll-proportion="0.5555556" vertical-offset="0" max-vertical-offset="594">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/goods.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="877" column="0" selection-start="31331" selection-end="31331" vertical-scroll-proportion="0.9089317" vertical-offset="12636" max-vertical-offset="13245">
           <folding>
-            <marker date="1468815462000" expanded="true" signature="207:1233" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="267:623" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="326:594" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="527:563" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="771:1001" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="894:970" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="1312:1521" placeholder="..." />
-            <marker date="1468815462000" expanded="true" signature="1371:1494" placeholder="..." />
-            <marker date="1468815462000" expanded="false" signature="1432:1451" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1468830907000" expanded="true" signature="-1:-1" placeholder="insert into ..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="113" column="0" selection-start="3107" selection-end="3107" vertical-scroll-proportion="0.6060606" vertical-offset="1260" max-vertical-offset="11340">
+          <folding>
+            <marker date="1468830907000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1468830907000" expanded="false" signature="-1:-1" placeholder="..." />
+            <marker date="1468830907000" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/products.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="188" column="47" selection-start="7222" selection-end="7254" vertical-scroll-proportion="-6.875" vertical-offset="2655" max-vertical-offset="5595">
+          <folding>
+            <marker date="1468830907000" expanded="true" signature="232:1179" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1291:1459" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1390:1440" placeholder="..." />
+            <marker date="1468830907000" expanded="false" signature="1511:1527" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1591:5423" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1612:5404" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1637:2087" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1688:2061" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1741:2030" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="1870:1995" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2112:2564" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2163:2538" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2216:2507" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2344:2472" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2589:2999" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2640:2973" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2693:2942" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="2821:2907" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3024:3469" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3075:3443" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3128:3412" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3256:3377" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3494:3900" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3545:3874" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3598:3843" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3726:3808" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="3958:5382" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4009:5356" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4062:5325" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4190:5290" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4234:5136" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4295:5091" placeholder="..." />
+            <marker date="1468830907000" expanded="false" signature="4352:4378" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4379:4526" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4575:4814" placeholder="..." />
+            <marker date="1468830907000" expanded="false" signature="4871:4897" placeholder="..." />
+            <marker date="1468830907000" expanded="true" signature="4898:5045" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/index/help_index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="17" selection-start="1018" selection-end="1018" vertical-scroll-proportion="0.6060606" vertical-offset="0" max-vertical-offset="594">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/goods/goods_spec_show.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="10.625" vertical-offset="255" max-vertical-offset="1050">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/views/index/prouduct_desc.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="4" selection-start="4" selection-end="4" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="607">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="1112" column="40" selection-start="46541" selection-end="46541" vertical-scroll-proportion="0.6969697" vertical-offset="16206" max-vertical-offset="16815">
+          <folding />
         </state>
       </provider>
     </entry>

@@ -1099,4 +1099,21 @@ class IndexController extends Controller{
     public function noRight(){
         $this->redirect("/simple/login");
     }
+
+
+    public function prouduct_desc()
+    {
+        $id = intval(Req::args('id'));
+
+        $goodsModel = new Model('goods');
+
+        $goods = $goodsModel->fields('content')->where('id='.$id)->find();
+
+        if($goods){
+            echo $goods['content'];exit;
+        }else{
+            echo "商品不存在";exit;
+        }
+    }
+
 }

@@ -306,7 +306,7 @@ class products extends baseapi
         $return['goods_no'] = $goods['goods_no'];
         $return['pro_no'] = $goods['pro_no'];
         $return['unit'] = $goods['unit'];
-        $return['content'] = $goods['content'];
+        $return['content'] = baseapi::getApiUrl().'index.php?con=index&act=prouduct_desc&id='.$goods['id'];
         $return['imgs'] = array();
 
         $i = 0;
