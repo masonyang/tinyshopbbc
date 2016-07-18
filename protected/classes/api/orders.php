@@ -269,6 +269,7 @@ class orders extends baseapi
         $data['accept_name'] = $addrData['accept_name'];
         $data['real_freight'] = $orders['real_freight'];
         $data['order_amount'] = $orders['order_amount'];
+        $data['payment_id'] = $orders['payment'];
         $data['payment'] = '支付宝[手机支付]';
         $data['products'] = $products;
         $data['status'] = $status;
