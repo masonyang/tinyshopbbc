@@ -220,14 +220,6 @@ class products extends baseapi
                                 'value'=>$sval['value'][1],
                             );
                         }
-                    }else{
-                        $sys_attrprice[0] = array(
-                            'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
-                            'pro_no'=>$val['pro_no'],
-                            'store_num'=>$val['store_nums'],
-                            'name'=>'',
-                            'value'=>'',
-                        );
                     }
 
                 }
