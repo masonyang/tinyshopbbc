@@ -102,6 +102,10 @@ class orders extends baseapi
                 'content'=>'商品总重量',
             ),
             array(
+                'colum'=>'payable_freight',
+                'content'=>'配送费用',
+            ),
+            array(
                 'colum'=>'order_amount',
                 'content'=>'订单总金额',
             ),
@@ -187,7 +191,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id')->where('id='.$orderid)->find();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id,payable_freight')->where('id='.$orderid)->find();
 
         $orderDetailModel = new Model('order_goods');
 
@@ -268,6 +272,7 @@ class orders extends baseapi
         $data['accept_mobile'] = $addrData['mobile'];
         $data['accept_name'] = $addrData['accept_name'];
         $data['real_freight'] = $orders['real_freight'];
+        $data['payable_freight'] = $orders['payable_freight'];
         $data['order_amount'] = $orders['order_amount'];
         $data['payment_id'] = $orders['payment'];
         $data['payment'] = '支付宝[手机支付]';
