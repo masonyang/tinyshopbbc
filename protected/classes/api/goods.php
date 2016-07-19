@@ -156,7 +156,8 @@ class goods extends baseapi
             $this->output['msg'] = '商品列表获取成功';
             $this->output($_data);
         }else{
-            $this->output['msg'] = '商品列表获取失败';
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '暂无商品';
             $this->output();
         }
 
