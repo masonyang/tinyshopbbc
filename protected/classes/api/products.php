@@ -207,22 +207,31 @@ class products extends baseapi
             foreach($products as $val){
                 if($val['spec']){
                     $spec = unserialize($val['spec']);
-                    foreach($spec as $k=>$sval){
-                        $spec_arr[$k]['name'] = $sval['name'];
-                        $spec_arr[$k]['id'] = $sval['id'];
-                        $spec_arr[$k]['value'] = $sval['value'][1];
-                        $sys_attrprice[$sval['id']] = array(
+                    if($spec){
+                        foreach($spec as $k=>$sval){
+                            $spec_arr[$k]['name'] = $sval['name'];
+                            $spec_arr[$k]['id'] = $sval['id'];
+                            $spec_arr[$k]['value'] = $sval['value'][1];
+                            $sys_attrprice[$sval['id']] = array(
+                                'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
+                                'pro_no'=>$val['pro_no'],
+                                'store_num'=>$val['store_nums'],
+                                'name'=>$sval['name'],
+                                'value'=>$sval['value'][1],
+                            );
+                        }
+                    }else{
+                        $sys_attrprice[0] = array(
                             'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
                             'pro_no'=>$val['pro_no'],
                             'store_num'=>$val['store_nums'],
-                            'name'=>$sval['name'],
-                            'value'=>$sval['value'][1],
+                            'name'=>'',
+                            'value'=>'',
                         );
                     }
 
                 }
             }
-
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '商品详情获取成功';
