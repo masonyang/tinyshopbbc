@@ -1110,7 +1110,15 @@ class IndexController extends Controller{
         $goods = $goodsModel->fields('content')->where('id='.$id)->find();
 
         if($goods){
-            echo $goods['content'];exit;
+            echo $goods['content']."<script src='http://libs.baidu.com/jquery/2.0.0/jquery.js'></script>
+<script>
+    if($('img')){
+        $('img').each(function(){
+            $(this).css('width','720px');
+            $(this).css('height','720px');
+        });
+    }
+</script>";exit;
         }else{
             echo "商品不存在";exit;
         }
