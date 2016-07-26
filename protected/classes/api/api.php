@@ -13,6 +13,8 @@ class baseapi
 
     const APIURL = 'http://192.168.1.101/';//192.168.1.100
 
+    public static $test = false;
+
     protected $output = array(
         'status'=>'fail',
         'msg'=>'',
@@ -25,23 +27,28 @@ class baseapi
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
-        if($params['sign']){
+        if(self::$test){
 
-            $json = $this->verifySign($params['sign']);
+        }else{
+            if($params['sign']){
 
-            if(!$json){
+                $json = $this->verifySign($params['sign']);
+
+                if(!$json){
+                    $this->output['msg'] = '验签失败';
+                    $this->output();
+                    exit;
+                }
+
+                $params = array_merge($params,$json);
+
+            }else{
                 $this->output['msg'] = '验签失败';
                 $this->output();
                 exit;
             }
-
-            $params = array_merge($params,$json);
-
-        }else{
-            $this->output['msg'] = '验签失败';
-            $this->output();
-            exit;
         }
+
 
         $this->params = $params;
 

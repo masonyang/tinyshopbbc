@@ -55,15 +55,12 @@ class apilist extends baseapi
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
-        $json = json_decode($params['data'],1);
-
-        $params = array_merge($params,$json);
-
         $this->params = $params;
     }
 
     public function index()
     {
+
         switch($this->params['source']){
             case 'detail':
                 $this->detail($this->params['apiname'],$this->params['ailas']);
@@ -94,7 +91,7 @@ class apilist extends baseapi
             }
 
 
-            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
+            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&apilist=1&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
         }
 
         $html .= '</table>';
@@ -130,6 +127,10 @@ class apilist extends baseapi
         $appname = $this->apiname;
 
         $ailas = $this->ailas;
+
+        if($this->params['apilist']){
+            $appname::$test = true;
+        }
 
         $html = '<a href="/index.php?con=api&act=index&method=apilist">返回</a><table align="center" border="0" width="100%">';
 
