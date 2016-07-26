@@ -148,6 +148,8 @@
 "searchany"=>"api/searchany.php",//搜索
 "apilist"=>"api/apilist.php",//api文档
 /**********************API INTERFACE************************************/
+
+"DES3"=>"DES3.php",
 );
 
 /*

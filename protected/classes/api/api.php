@@ -25,7 +25,26 @@ class baseapi
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
+        if($params['sign']){
+
+            $json = $this->verifySign($params['sign']);
+
+            if(!$json){
+                $this->output['msg'] = '验签失败';
+                $this->output();
+                exit;
+            }
+
+            $params = array_merge($params,$json);
+
+        }else{
+            $this->output['msg'] = '验签失败';
+            $this->output();
+            exit;
+        }
+
         $this->params = $params;
+
     }
 
     public function index()
@@ -50,4 +69,20 @@ class baseapi
     {
         return 'http://'.$_SERVER['HTTP_HOST'].'/';
     }
+
+    public function verifySign($sign)
+    {
+        $des = new DES3();
+
+        $verify = $des->decrypt($sign);
+
+
+        if(!$verify){
+            return false;
+        }
+
+        return json_decode($verify,1);
+    }
+
 }
+

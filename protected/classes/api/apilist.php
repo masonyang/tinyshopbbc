@@ -46,7 +46,21 @@ class apilist extends baseapi
 
     private $detail_html = array();
 
-    private $notices = '接口已完成，不过部分还没细测，等我一周出差 回来后 再弄。';
+//    private $notices = '接口已完成，不过部分还没细测，等我一周出差 回来后 再弄。';
+    private $notices = '';
+
+    public function __construct($params = array())
+    {
+        header('Content-type:text/html;charset=utf-8');
+        header('Access-Control-Allow-Origin:*');
+//        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
+
+        $json = json_decode($params['data'],1);
+
+        $params = array_merge($params,$json);
+
+        $this->params = $params;
+    }
 
     public function index()
     {
@@ -138,7 +152,7 @@ class apilist extends baseapi
 
         $html = "<tr><td style='font-size: 16px;'>请求地址:".$appname::$requestUrl[$ailas]." &nbsp;&nbsp;&nbsp;&nbsp; 【所有请求参数POST提交】</td></tr>";
 
-        $html .= "<tr><td style='font-size: 16px;'>生成sign签名规则 后续完善</td></tr>";
+        $html .= "<tr><td style='font-size: 16px;'>生成sign签名规则 3DES</td></tr>";
 
 //        $html .= "<tr><td><table border=1 width='100%'>
 //        <tr><td>请求的参数key value拼接 后 md5<br/>
