@@ -16,10 +16,12 @@ class OrderNoticeService
      * */
     public function sendCreateOrder($orderInfo = array(),$orderItem = array())
     {
+
         $zdOrderModel = new Model('order','zd','master');
         $zdOrderGoodsModel = new Model('order_goods','zd','master');
 
         $order_id = $zdOrderModel->data($orderInfo)->insert();
+
 
         foreach($orderItem as $tem_data){
             $tem_data['order_id'] = $order_id;

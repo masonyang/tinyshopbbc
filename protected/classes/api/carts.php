@@ -913,7 +913,7 @@ class carts extends baseapi
 
             $customer = $customerModel->where('user_id='.$this->params['uid'])->find();
 
-            $uname = $customer['real_name'];
+            $uname = $customer['real_name'] ? $customer['real_name'] : $customer['mobile'];
 
             //写入订单数据
             $orderModel = new Model('order');
@@ -947,17 +947,16 @@ class carts extends baseapi
                 $orderItems[] = $tem_data;
             }
 
+            //清空购物车与表单缓存
+            $cart = Cart::getCart($this->params['uid'],$serverName['top']);
+            $cart->clear();
+            Session::clear("order_status");
+
             Log::orderlog($order_id,'会员:'.$uname,'创建订单','创建订单','success',$serverName['top']);
 
             //推送新建订单到总店后台
             $OrderNoticeService = new OrderNoticeService();
             $OrderNoticeService->sendCreateOrder($orderInfo,$orderItems);
-
-
-            //清空购物车与表单缓存
-            $cart = Cart::getCart($this->params['uid']);
-            $cart->clear();
-            Session::clear("order_status");
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '订单创建成功';

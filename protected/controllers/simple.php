@@ -975,6 +975,13 @@ class SimpleController extends Controller{
                         $orderItems[] = $tem_data;
                     }
 
+                    //清空购物车与表单缓存
+                    if($order_type==0){
+                        $cart = Cart::getCart($this->user['id']);
+                        $cart->clear();
+                        Session::clear("order_status");
+                    }
+
                     Log::orderlog($order_id,'会员:'.$this->user['name'],'创建订单','创建订单','success',$serverName['top']);
 
                     //推送新建订单到总店后台
@@ -989,12 +996,7 @@ class SimpleController extends Controller{
                     if(!empty($voucher)){
                         $model->table("voucher")->where("id=$voucher_id and user_id=".$this->user['id'])->data(array('status'=>2))->update();
                     }
-                    //清空购物车与表单缓存
-                    if($order_type==0){
-                        $cart = Cart::getCart($this->user['id']);
-                        $cart->clear();
-                        Session::clear("order_status");
-                    }
+
                     $payment = new Payment($payment_id);
                     $payment_plugin = $payment->getPaymentPlugin();
 

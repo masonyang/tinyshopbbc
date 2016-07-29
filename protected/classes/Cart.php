@@ -159,7 +159,7 @@ class Cart{
 
 
 	public function clear() {
-        $this->cartModel->where('uid='.$this->uid)->delete();
+        $this->cartModel->fields('id')->where('uid='.$this->uid)->delete();
 //		$this->items = array();
 	}
 }
