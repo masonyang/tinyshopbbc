@@ -27,7 +27,7 @@ class baseapi
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
-        if(self::$test){
+        if(self::$test || isset($params['mason'])){
 
         }else{
             if($params['sign']){

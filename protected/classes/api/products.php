@@ -204,7 +204,7 @@ class products extends baseapi
 
             $sys_attrprice = array();
             $spec_arr = array();
-            foreach($products as $val){
+            foreach($products as $pk=>$val){
                 if($val['spec']){
                     $spec = unserialize($val['spec']);
                     if($spec){
@@ -212,7 +212,7 @@ class products extends baseapi
                             $spec_arr[$k]['name'] = $sval['name'];
                             $spec_arr[$k]['id'] = $sval['id'];
                             $spec_arr[$k]['value'] = $sval['value'][1];
-                            $sys_attrprice[$sval['id']] = array(
+                            $sys_attrprice[$pk] = array(
                                 'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
                                 'pro_no'=>$val['pro_no'],
                                 'store_num'=>$val['store_nums'],
