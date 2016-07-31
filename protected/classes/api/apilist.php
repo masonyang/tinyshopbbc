@@ -14,6 +14,8 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'articlelist'=>'articlelist',
+        'articledetail'=>'articlelist',
         'addcart'=>'carts',
         'paylink'=>'paylink',
         'docheckout'=>'carts',
@@ -37,7 +39,6 @@ class apilist extends baseapi
         'arealist'=>'arealist',
         'orderdetail'=>'orders',
         'morders'=>'orders',
-
     );
 
     private $apiname = '';

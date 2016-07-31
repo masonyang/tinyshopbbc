@@ -146,6 +146,7 @@
 "arealist"=>"api/arealist.php",//区域筛选器
 "captchacode"=>"api/captchacode.php",//验证码
 "searchany"=>"api/searchany.php",//搜索
+"articlelist"=>"api/articlelist.php",//公告
 "apilist"=>"api/apilist.php",//api文档
 /**********************API INTERFACE************************************/
 

@@ -1124,4 +1124,19 @@ class IndexController extends Controller{
         }
     }
 
+    public function articledetail()
+    {
+        $id = intval(Req::args('aid'));
+
+        $model = new Model('article','zd','salve');
+
+        $article = $model->where("id = ".$id)->find();
+
+        if($article){
+            echo $article['content'];exit;
+        }else{
+            echo "文章不存在";exit;
+        }
+    }
+
 }
