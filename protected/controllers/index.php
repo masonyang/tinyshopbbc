@@ -1114,8 +1114,7 @@ class IndexController extends Controller{
 <script>
     if($('img')){
         $('img').each(function(){
-            $(this).css('width','700px');
-            $(this).css('height','720px');
+            $(this).css('width','750px');
         });
     }
 </script>";exit;
