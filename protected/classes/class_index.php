@@ -148,6 +148,8 @@
 "searchany"=>"api/searchany.php",//搜索
 "articlelist"=>"api/articlelist.php",//公告
 "apilist"=>"api/apilist.php",//api文档
+"siteconf"=>"api/siteconf.php",//店铺基本信息
+
 /**********************API INTERFACE************************************/
 
 "DES3"=>"DES3.php",
