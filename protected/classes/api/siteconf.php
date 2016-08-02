@@ -78,7 +78,7 @@ class siteconf extends baseapi
 
     }
 
-    public function articlelist_demo()
+    public function siteconf_demo()
     {
         return array(
             'fail'=>array(

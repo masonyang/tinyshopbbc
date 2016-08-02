@@ -26,7 +26,7 @@
       <file leaf-file-name="siteconf.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/siteconf.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="61" column="0" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.65656567" vertical-offset="525" max-vertical-offset="1575">
+            <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.37878788" vertical-offset="975" max-vertical-offset="1575">
               <folding />
             </state>
           </provider>
@@ -732,7 +732,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/siteconf.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="61" column="0" selection-start="1303" selection-end="1303" vertical-scroll-proportion="0.65656567" vertical-offset="525" max-vertical-offset="1575">
+        <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.37878788" vertical-offset="975" max-vertical-offset="1575">
           <folding />
         </state>
       </provider>
