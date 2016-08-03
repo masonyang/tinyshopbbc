@@ -48,6 +48,14 @@ class captchacode extends baseapi
         'captchacode'=>'     /index.php?con=api&act=index&method=captchacode'
     );
 
+    public function __construct($params)
+    {
+        header('Content-type:text/html;charset=utf-8');
+        header('Access-Control-Allow-Origin:*');
+
+        $this->params = $params;
+    }
+
     public function index()
     {
         ob_start();

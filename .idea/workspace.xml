@@ -26,7 +26,7 @@
       <file leaf-file-name="siteconf.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/siteconf.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="-10.625" vertical-offset="945" max-vertical-offset="1575">
+            <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1575">
               <folding />
             </state>
           </provider>
@@ -35,7 +35,16 @@
       <file leaf-file-name="api.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="9" column="13" selection-start="165" selection-end="172" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1515">
+            <state line="52" column="32" selection-start="476" selection-end="1211" vertical-scroll-proportion="-16.875" vertical-offset="375" max-vertical-offset="1515">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="captchacode.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="54" column="0" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.31698775" vertical-offset="629" max-vertical-offset="1470">
               <folding />
             </state>
           </provider>
@@ -59,10 +68,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1116" column="41" selection-start="46708" selection-end="46708" vertical-scroll-proportion="0.36868685" vertical-offset="16461" max-vertical-offset="17145">
+            <state line="1116" column="41" selection-start="46708" selection-end="46708" vertical-scroll-proportion="-7.3333335" vertical-offset="16504" max-vertical-offset="17145">
               <folding />
             </state>
           </provider>
@@ -114,8 +123,6 @@
         <option value="$USER_HOME$/workevn/index.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/advert.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/arealist.php" />
-        <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
-        <option value="$PROJECT_DIR$/protected/classes/api/api.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/products.php" />
         <option value="$PROJECT_DIR$/protected/services/ordernotice.php" />
         <option value="$PROJECT_DIR$/framework/web/model/model_class.php" />
@@ -129,6 +136,8 @@
         <option value="$PROJECT_DIR$/protected/classes/class_index.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/siteconf.php" />
         <option value="$PROJECT_DIR$/protected/controllers/index.php" />
+        <option value="$PROJECT_DIR$/protected/classes/api/api.php" />
+        <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
       </list>
     </option>
   </component>
@@ -216,6 +225,46 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="tinyshop" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="protected" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="classes" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="api" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
     </panes>
@@ -297,7 +346,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24979185" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.35785952" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.36371237" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
@@ -305,11 +354,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32776934" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -517,11 +566,6 @@
         <state line="309" column="107" selection-start="12108" selection-end="12186" vertical-scroll-proportion="0.50087565" vertical-offset="4349" max-vertical-offset="5610" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="49" column="0" selection-start="1069" selection-end="1069" vertical-scroll-proportion="0.5271454" vertical-offset="434" max-vertical-offset="1350" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/class_index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="150" column="9" selection-start="6301" selection-end="6309" vertical-scroll-proportion="0.752883" vertical-offset="1793" max-vertical-offset="2625" />
@@ -552,13 +596,6 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.7676767" vertical-offset="1050" max-vertical-offset="1740" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/extensions/ControllerExt.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="83" selection-start="1517" selection-end="2453" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="990">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/admin.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="25" column="0" selection-start="758" selection-end="758" vertical-scroll-proportion="0.63131315" vertical-offset="0" max-vertical-offset="16815" />
@@ -569,13 +606,6 @@
         <state line="25" column="31" selection-start="519" selection-end="519" vertical-scroll-proportion="0.6454389" vertical-offset="0" max-vertical-offset="645" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/articlelist.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="122" column="59" selection-start="3207" selection-end="3311" vertical-scroll-proportion="0.0" vertical-offset="1830" max-vertical-offset="3015">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/Config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="12" column="27" selection-start="250" selection-end="250" vertical-scroll-proportion="-0.6818182" vertical-offset="585" max-vertical-offset="1200">
@@ -583,23 +613,44 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/siteconf.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="9" column="13" selection-start="165" selection-end="172" vertical-scroll-proportion="0.0" vertical-offset="900" max-vertical-offset="1515">
+        <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="0.0" vertical-offset="945" max-vertical-offset="1575">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/siteconf.php">
+    <entry file="file://$PROJECT_DIR$/protected/extensions/ControllerExt.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="80" column="28" selection-start="1733" selection-end="1733" vertical-scroll-proportion="-10.625" vertical-offset="945" max-vertical-offset="1575">
+        <state line="48" column="83" selection-start="1517" selection-end="2453" vertical-scroll-proportion="0.0" vertical-offset="195" max-vertical-offset="990">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/articlelist.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="122" column="59" selection-start="3207" selection-end="3311" vertical-scroll-proportion="0.0" vertical-offset="1830" max-vertical-offset="3015">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1116" column="41" selection-start="46708" selection-end="46708" vertical-scroll-proportion="0.36868685" vertical-offset="16461" max-vertical-offset="17145">
+        <state line="1116" column="41" selection-start="46708" selection-end="46708" vertical-scroll-proportion="-7.3333335" vertical-offset="16504" max-vertical-offset="17145">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/api.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="32" selection-start="476" selection-end="1211" vertical-scroll-proportion="-16.875" vertical-offset="375" max-vertical-offset="1515">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/captchacode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="54" column="0" selection-start="1222" selection-end="1222" vertical-scroll-proportion="0.31698775" vertical-offset="629" max-vertical-offset="1470">
           <folding />
         </state>
       </provider>
