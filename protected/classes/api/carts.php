@@ -465,7 +465,7 @@ class carts extends baseapi
                     $less_num = $product['store_nums'] - $cart_nums;
 
                     $less_num = $less_num - $num;
-                    
+
                     if(($product['store_nums'] > 0) && ($less_num > 0)){
                         $cart->addItem($product['id'],$num);
                         $this->output['status'] = 'succ';
