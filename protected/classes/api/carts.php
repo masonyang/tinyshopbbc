@@ -439,6 +439,15 @@ class carts extends baseapi
                 $this->cartIndex();
                 break;
             case 'addcart'://添加商品到购物车
+
+                if($this->params['uid'] == 0){
+                    $data['count'] = 0;
+                    $data['goods_amount'] = 0;
+                    $this->output['msg'] = '请先登录';
+                    $this->output($data);
+                    exit;
+                }
+
                 $data = array();
                 $cart = Cart::getCart($this->params['uid']);
                 $num = $this->params['pro_num'];
