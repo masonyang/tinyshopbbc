@@ -69,7 +69,7 @@ class captchacode extends baseapi
         $captcha = new Captcha($w,$h,$l,$bc,$c);
         $captcha->createImage($code);
 
-        $rand = md5($this->captchaKey.$this->params['rand']);
+        $rand = $this->captchaKey.$this->params['rand'];
 
         $cacheModel = new Model('cache');
 
