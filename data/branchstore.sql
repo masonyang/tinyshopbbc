@@ -25,7 +25,7 @@ CREATE TABLE `tiny_brand` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='品牌表';
 DROP TABLE IF EXISTS `tiny_cache`;
 CREATE TABLE `tiny_cache` (
-  `key` varchar(40) NOT NULL ,
+  `key` varchar(50) NOT NULL ,
   `content` text NOT NULL ,
   `delay` int(11) NOT NULL ,
   PRIMARY KEY (`key`)

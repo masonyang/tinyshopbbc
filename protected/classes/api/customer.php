@@ -702,7 +702,7 @@ class customer extends baseapi
 
                     $_data = array();
                     $_data['user_id'] = $user_id;
-                    $data['user_name'] = $mobile;
+                    $_data['user_name'] = $mobile;
                     $this->output['status'] = 'succ';
                     $this->output['msg'] = '注册成功';
                     $this->output($_data);

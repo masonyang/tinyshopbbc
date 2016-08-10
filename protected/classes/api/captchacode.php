@@ -74,7 +74,7 @@ class captchacode extends baseapi
         $cacheModel = new Model('cache');
 
         $as = $cacheModel->where('`key`="'.$rand.'"')->find();
-
+//verifyCode3a466d6d-ce54-4ae0-875d-8ee1c5ff6411
         if($as){
             $cacheModel->data(array('content'=>$code))->where('`key`="'.$rand.'"')->update();
         }else{
