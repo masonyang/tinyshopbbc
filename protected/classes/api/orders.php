@@ -155,6 +155,10 @@ class orders extends baseapi
                 'colum'=>'goods_count',
                 'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
             ),
+            array(
+                'colum'=>'img',
+                'content'=>'商品图片',
+            ),
         ),
     );
 
@@ -353,6 +357,7 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
 
             }
             $this->output['status'] = 'succ';
@@ -400,7 +405,7 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
-
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
 
             $this->output['status'] = 'succ';
@@ -450,7 +455,7 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
-
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
             $this->output['status'] = 'succ';
             $this->output['msg'] = '会员订单获取成功';
@@ -499,7 +504,7 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
-
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
             $this->output['status'] = 'succ';
             $this->output['msg'] = '会员订单获取成功';
@@ -548,7 +553,7 @@ class orders extends baseapi
                 $result[$k]['status'] = $status;
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
-
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
 
             $this->output['status'] = 'succ';
@@ -562,6 +567,18 @@ class orders extends baseapi
 
         }
 
+    }
+
+    public function getFistOrderImg($order_id){
+        $orderDetailModel = new Model('order_goods');
+
+        $goodsModel = new Model('goods');
+
+        $odDatas = $orderDetailModel->fields('goods_id')->where('order_id='.$order_id)->find();
+
+        $gData = $goodsModel->fields('img')->where('id='.$odDatas['goods_id'])->find();
+
+        return self::getApiUrl().$gData['img'];
     }
 
 //    private function status($item = array())
@@ -667,6 +684,7 @@ class orders extends baseapi
                         'order_amount'=>'订单总金额',
                         'status'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
                         'goods_count'=>10,
+                        'img'=>'http://www.baidu.com/123123.jpg',
                     ),
                 ),
             )
