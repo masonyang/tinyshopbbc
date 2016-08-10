@@ -390,6 +390,7 @@ CREATE TABLE `tiny_products` (
   `pro_no` varchar(20) DEFAULT NULL ,
   `spec` text ,
   `store_nums` int(11) DEFAULT '0' ,
+  `freeze_nums` int(11) DEFAULT '0' ,
   `warning_line` int(11) DEFAULT '0' ,
   `branchstore_sell_price` float(10,2) DEFAULT '0.00' COMMENT '分店自定义销售价',
   `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',

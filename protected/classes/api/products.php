@@ -303,7 +303,6 @@ class products extends baseapi
 
         $return['name'] = $goods['branchstore_goods_name'] ? $goods['branchstore_goods_name'] : $goods['name'];
         $return['price'] = $goods['branchstore_sell_price'] ? $goods['branchstore_sell_price'] : $goods['sell_price'];
-        $return['store_nums'] = $goods['store_nums'];
         $return['goods_no'] = $goods['goods_no'];
         $return['pro_no'] = $goods['pro_no'];
         $return['unit'] = $goods['unit'];
@@ -311,11 +310,36 @@ class products extends baseapi
         $return['imgs'] = array();
 
         $i = 0;
+        $store_nums = 0;
         $attrprice = array();
+        $productsModel = new Model('products');
+        $cartSessionModel = new Model('cart_session');
+
+
         foreach($sys_attrprice as $val){
+
+            $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
+
+            $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
+
+            $cart_nums = 0;
+
+            if($carts){
+                foreach($carts as $c){
+                    $cart_nums += $c['num'];
+                }
+            }
+
+            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'] -  $cart_nums;
+
+            $store_nums += $val['store_nums'];
+
             $attrprice[$i] = $val;
             $i++;
         }
+
+        $return['store_nums'] = ($store_nums > 0) ? $store_nums : $goods['store_nums'];
+
         $return['sys_attrprice'] = $attrprice;
 
         foreach($imgs as $k=>$val){

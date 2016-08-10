@@ -471,7 +471,7 @@ class carts extends baseapi
                         }
                     }
 
-                    $less_num = $product['store_nums'] - $cart_nums;
+                    $less_num = $product['store_nums'] - $product['freeze_nums'] - $cart_nums;
 
                     $less_num = $less_num - $num;
 
@@ -956,6 +956,15 @@ class carts extends baseapi
                 $tem_data['spec'] = serialize($item['spec']);
                 $orderGoodsModel->data($tem_data)->insert();
                 $orderItems[] = $tem_data;
+            }
+
+            //$product['freeze_nums']
+            $cart = Cart::getCart($this->params['uid']);
+            $order_products = $cart->all();
+
+            $pModel = new Model('products');
+            foreach($order_products as $productid =>$item){
+                $pModel->where("id=".$productid)->data(array('freeze_nums'=>"`freeze_nums`+".$item['num']))->update();
             }
 
             //清空购物车与表单缓存
