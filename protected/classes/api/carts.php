@@ -485,7 +485,7 @@ class carts extends baseapi
 
                     }else{
                         $info = '该商品库存不足';
-                        $data['less_nums'] = $less_num;
+                        $data['less_nums'] = ($less_num < 0) ? 0 : $less_num;
                     }
 
                 }else{
