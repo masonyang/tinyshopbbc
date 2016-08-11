@@ -461,17 +461,17 @@ class carts extends baseapi
                 if($product['id'] && ($num>=1)){
 
                     $cartSessionModel = new Model('cart_session');
-                    $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
+//                    $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
+//
+//                    $cart_nums = 0;
+//
+//                    if($carts){
+//                        foreach($carts as $c){
+//                            $cart_nums += $c['num'];
+//                        }
+//                    }
 
-                    $cart_nums = 0;
-
-                    if($carts){
-                        foreach($carts as $c){
-                            $cart_nums += $c['num'];
-                        }
-                    }
-
-                    $less_num = $product['store_nums'] - $product['freeze_nums'] - $cart_nums;
+                    $less_num = $product['store_nums'] - $product['freeze_nums'];
 
                     $less_num = $less_num - $num;
 

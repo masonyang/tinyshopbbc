@@ -313,24 +313,24 @@ class products extends baseapi
         $store_nums = 0;
         $attrprice = array();
         $productsModel = new Model('products');
-        $cartSessionModel = new Model('cart_session');
+//        $cartSessionModel = new Model('cart_session');
 
 
         foreach($sys_attrprice as $val){
 
             $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
 
-            $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
+//            $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
 
-            $cart_nums = 0;
+//            $cart_nums = 0;
+//
+//            if($carts){
+//                foreach($carts as $c){
+//                    $cart_nums += $c['num'];
+//                }
+//            }
 
-            if($carts){
-                foreach($carts as $c){
-                    $cart_nums += $c['num'];
-                }
-            }
-
-            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'] -  $cart_nums;
+            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];// -  $cart_nums;
 
             $store_nums += $val['store_nums'];
 
