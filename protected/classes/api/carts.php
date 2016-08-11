@@ -853,13 +853,28 @@ class carts extends baseapi
             $real_amount = 0.00;
             $weight=0;
             $point = 0;
+            $errormsg = '';
+
+            $productModel = new Model('products');
             foreach ($order_products as $item) {
+                $products = $productModel->fields('pro_no,store_nums,freeze_nums')->where('id = '.$item['id'])->find();
+
+                if($item['num'] > ($products['store_nums'] - $products['freeze_nums'])){
+                    $errormsg .= $products['pro_no'].',';
+                }
+
                 $payable_amount+=$item['sell_total'];
                 $real_amount+=$item['amount'];
                 $weight += $item['weight']*$item['num'];
                 $point += $item['point']*$item['num'];
             }
 
+            if(!empty($errormsg)){
+                $this->output['msg'] = rtrim($errormsg,',').'库存不足,下单失败!';
+                $this->output(array());
+                exit;
+            }
+            
             //计算运费
             $fare = new Fare($weight);
             $payable_freight = $fare->calculate($address_id);
