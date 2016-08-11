@@ -473,9 +473,9 @@ class carts extends baseapi
 
                     $less_num = $product['store_nums'] - $product['freeze_nums'];
 
-                    $less_num = $less_num - $num;
+//                    $less_num = $less_num - $num;
 
-                    if(($product['store_nums'] > 0) && ($less_num > 0)){
+                    if(($product['store_nums'] > 0) && ($less_num >= $num)){
                         $cart->addItem($product['id'],$num);
                         $this->output['status'] = 'succ';
 
@@ -874,7 +874,7 @@ class carts extends baseapi
                 $this->output(array());
                 exit;
             }
-            
+
             //计算运费
             $fare = new Fare($weight);
             $payable_freight = $fare->calculate($address_id);
