@@ -29,7 +29,7 @@
     {list:}
         {set:$grade_name[$item['id']]=$item['name']}
     {/list}
-    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and $where id=$obj page=1 desc }
+    {query:name=customer as c,user as u domain=$domain where=c.user_id eq u.id and $where id=$obj page=1 order= c.user_id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-coin" href="javascript:customer_view({$item['user_id']});"> 查看</a></li>
