@@ -42,7 +42,7 @@ class arealist extends baseapi
         $this->params = $params;
 
     }
-
+ 
     public function index()
     {
 
