@@ -61,7 +61,7 @@
         <ul style="text-align:left">
             <li><label class='caption'>用户名：</label><input name="name" /></li>
             <li><label class='caption'>密&nbsp;&nbsp;码：</label><input type="password" name="password" /></li>
-            <li><label class='caption'>验证码：</label><input name="verifyCode"  style="width:100px;"/><img id="captcha_img" src='{url:/admin/captcha/h/40/w/120/bc/3f4657/c/ffffff}'/><label><a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/bc/3f4657/c/ffffff/random/}'+Math.random()">换一张</a></label></li>
+            <li><label class='caption'>验证码：</label><input name="verifyCode"  style="width:100px;"/><img id="captcha_img" src='{url:/admin/captcha/h/40/w/120/bc/3f4657/c/ffffff/rand/1}'/><label><a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/bc/3f4657/c/ffffff/random/}'+Math.random()+'&rand='+Math.random()">换一张</a></label></li>
             <li style="text-align:right;margin-right:4em;"><input class='button' type="submit" style="width:auto;" value='登 录'/> <input type="reset" class='button'  style="width:auto;" value='重 置'/></li>
         </ul>
         

@@ -231,6 +231,17 @@ class Controller extends Object
      */
     public function captcha()
     {
+        $rand = Req::args('rand');
+
+        if(isset($rand)){
+            $this->api_captcha();
+        }else{
+            $this->custom_captcha();
+        }
+    }
+
+    private function custom_captcha()
+    {
         ob_start();
         $this->layout = null;
         $w=Req::args('w')===null?120:intval(Req::args('w'));
@@ -241,10 +252,42 @@ class Controller extends Object
         $captcha = new Captcha($w,$h,$l,$bc,$c);
         $captcha->createImage($code);
 
-        $this->safebox = Safebox::getInstance();
+        $this->safebox = Safebox::getInstance('cookie');
         $this->safebox->set($this->captchaKey,$code);
         ob_end_flush();
     }
+
+    private function api_captcha()
+    {
+        ob_start();
+        $this->layout = null;
+
+        $w=Req::args('w')===null?120:intval(Req::args('w'));
+        $h=Req::args('h')===null?50:intval(Req::args('h'));
+        $l=Req::args('l')===null?4:intval(Req::args('l'));
+        $bc=Req::args('bc')===null?array(255,255,255):'#'.Req::args('bc');
+        $c=Req::args('c')===null?null:'#'.Req::args('c');
+        $captcha = new Captcha($w,$h,$l,$bc,$c);
+        $captcha->createImage($code);
+
+        $rand = $this->captchaKey.$_SERVER['HTTP_USER_AGENT'].Chips::getIP();
+
+        $rand = md5($rand);
+
+        $cacheModel = new Model('cache');
+
+        $as = $cacheModel->where('`key`="'.$rand.'"')->find();
+
+        if($as){
+            $cacheModel->data(array('content'=>$code))->where('`key`="'.$rand.'"')->update();
+        }else{
+            $cacheModel->data(array('key'=>$rand,'content'=>$code))->insert();
+        }
+
+        ob_end_flush();
+
+    }
+
     /**
      * 检测权限
      *

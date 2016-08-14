@@ -85,10 +85,21 @@ class AdminController extends Controller
 	public  function check()
     {
 
-        $this->safebox = Safebox::getInstance();
+//        $this->safebox = Safebox::getInstance('cookie');
         $this->title='后台登录';
 
-        $code = $this->safebox->get($this->captchaKey);
+//        $code = $this->safebox->get($this->captchaKey);
+
+        $cacheModel = new Model('cache');
+
+        $rand = $this->captchaKey.$_SERVER['HTTP_USER_AGENT'].Chips::getIP();
+
+        $rand = rand($rand);
+
+        $content = $cacheModel->where('`key`="'.$rand.'"')->find();
+
+        $code = $content['content'];
+
         if($code != strtolower(Req::args($this->captchaKey)))
         {
             $this->msg='验证码错误！';
@@ -97,6 +108,8 @@ class AdminController extends Controller
         }
         else
         {
+            $cacheModel->where('`key`="'.$rand.'"')->delete();
+
             $manager = new Manager(Req::args('name'),Req::args('password'));
             $this->msg='验证码错误！';
             if($manager->getStatus() == 'online')
