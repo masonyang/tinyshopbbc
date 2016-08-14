@@ -94,7 +94,7 @@ class AdminController extends Controller
 
         $rand = $this->captchaKey.$_SERVER['HTTP_USER_AGENT'].Chips::getIP();
 
-        $rand = rand($rand);
+        $rand = md5($rand);
 
         $content = $cacheModel->where('`key`="'.$rand.'"')->find();
 
