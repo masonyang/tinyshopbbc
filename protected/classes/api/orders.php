@@ -428,7 +428,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4')->order('unix_timestamp(completion_time) desc')->findAll();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4 or (status=3 and delivery_status=1)')->order('unix_timestamp(completion_time) desc')->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
