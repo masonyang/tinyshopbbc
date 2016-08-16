@@ -204,6 +204,9 @@ class products extends baseapi
 
             $sys_attrprice = array();
             $spec_arr = array();
+
+            $freeze = 0;
+
             foreach($products as $pk=>$val){
                 if($val['spec']){
                     $spec = unserialize($val['spec']);
@@ -220,9 +223,16 @@ class products extends baseapi
                                 'value'=>$sval['value'][1],
                             );
                         }
+                    }else{
+                        $freeze += $val['freeze_nums'];
                     }
 
                 }
+            }
+
+            if($freeze){
+                $goods['store_nums'] = $goods['store_nums'] - $freeze;
+                $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
             }
 
             $this->output['status'] = 'succ';

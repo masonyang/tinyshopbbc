@@ -178,7 +178,7 @@ class orders extends baseapi
                     $this->getWaitPayOrders();
                 }elseif($this->params['status'] == 'delivery'){
                     $this->getDeliveryOrders();
-                }elseif($this->params['status'] == 'finish'){
+                }elseif($this->params['status'] == 'finish'){//已发货接口
                     $this->getFinishOrders();
                 }elseif($this->params['status'] == 'cancel'){
                     $this->getCancelOrders();
@@ -420,7 +420,7 @@ class orders extends baseapi
 
     }
 
-    //已完成订单
+    //已完成订单(已经改为已发货接口)
     protected function getFinishOrders()
     {
 
@@ -428,7 +428,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=4 or (status=3 and delivery_status=1)')->order('unix_timestamp(completion_time) desc')->findAll();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and delivery_status=1')->order('unix_timestamp(create_time) desc')->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
