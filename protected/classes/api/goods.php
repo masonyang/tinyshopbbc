@@ -238,7 +238,32 @@ class goods extends baseapi
             if($this->params['filter'] == 0){
                 $return['where'] = '';
             }else{
-                $return['where'] = $this->params['filter'] ? 'and category_id = '.$this->params['filter'] : '';
+
+                if($this->params['filter']){
+
+                    $cat_ids = 0;
+
+                    $goodsCategoryModel = new Model('goods_category');
+
+                    $cate = $goodsCategoryModel->fields('id')->where("`parent_id`!=0 and path like '%,".$this->params['filter'].",%'")->findAll();
+
+                    if($cate){
+
+                        foreach($cate as $val){
+                            $cat_ids[] = $val['id'];
+                        }
+
+                        $return['where'] = 'and category_id in ('.implode(',',$cat_ids).')';
+                    }else{
+                        $return['where'] = 'and category_id = '.$this->params['filter'];
+                    }
+
+                }else{
+                    $return['where'] = '';
+                }
+
+
+
             }
 
 
