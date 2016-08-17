@@ -23,19 +23,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Order.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/protected/classes/Order.php">
+      <file leaf-file-name="order.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="99" column="33" selection-start="3734" selection-end="3734" vertical-scroll-proportion="-61.875" vertical-offset="0" max-vertical-offset="3135">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="payment.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="523" column="20" selection-start="21992" selection-end="21992" vertical-scroll-proportion="0.74747473" vertical-offset="7401" max-vertical-offset="8760">
+            <state line="377" column="45" selection-start="14968" selection-end="14968" vertical-scroll-proportion="0.065656565" vertical-offset="5616" max-vertical-offset="14415">
               <folding />
             </state>
           </provider>
@@ -55,7 +46,6 @@
         <option value="$PROJECT_DIR$/protected/services/config.php" />
         <option value="$PROJECT_DIR$/protected/config/system.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/docheckout.log" />
-        <option value="$PROJECT_DIR$/protected/controllers/order.php" />
         <option value="$PROJECT_DIR$/framework/tiny.php" />
         <option value="$PROJECT_DIR$/framework/lib/util/captcha_class.php" />
         <option value="$PROJECT_DIR$/framework/lib/util/session_class.php" />
@@ -102,6 +92,7 @@
         <option value="$PROJECT_DIR$/protected/classes/api/products.php" />
         <option value="$PROJECT_DIR$/protected/classes/Order.php" />
         <option value="$PROJECT_DIR$/protected/controllers/payment.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/order.php" />
       </list>
     </option>
   </component>
@@ -204,24 +195,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="controllers" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -590,13 +563,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="558" column="38" selection-start="21248" selection-end="21248" vertical-scroll-proportion="8.348485" vertical-offset="3411" max-vertical-offset="13515">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/products.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="233" column="0" selection-start="8951" selection-end="8951" vertical-scroll-proportion="0.65656567" vertical-offset="3105" max-vertical-offset="6255">
@@ -666,16 +632,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/Order.php">
+    <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="99" column="33" selection-start="3734" selection-end="3734" vertical-scroll-proportion="-61.875" vertical-offset="0" max-vertical-offset="3135">
+        <state line="528" column="5" selection-start="22017" selection-end="22017" vertical-scroll-proportion="0.3939394" vertical-offset="7686" max-vertical-offset="8280">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/Order.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="523" column="20" selection-start="21992" selection-end="21992" vertical-scroll-proportion="0.74747473" vertical-offset="7401" max-vertical-offset="8760">
+        <state line="16" column="21" selection-start="501" selection-end="501" vertical-scroll-proportion="-1.3383838" vertical-offset="1035" max-vertical-offset="3135">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/order.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="377" column="45" selection-start="14968" selection-end="14968" vertical-scroll-proportion="0.065656565" vertical-offset="5616" max-vertical-offset="14415">
           <folding />
         </state>
       </provider>

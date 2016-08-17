@@ -373,8 +373,68 @@ class OrderController extends Controller
             $orderInvoiceModel->data($oi)->insert();
         }
 
+        $this->minBranchRealStore($order_info['outer_id'],$distrInfo['site_url']);
+
+        $this->minHeadRealStore($order_id,'zd');
+
 		echo "<script>parent.send_dialog_close();</script>";
 	}
+
+    private function minHeadRealStore($orderid,$siteurl)
+    {
+        $orderGoodsModel = new Model('order_goods',$siteurl);
+        $productsModel = new Model('products',$siteurl);
+        $goodsModel = new Model('goods',$siteurl);
+
+        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
+
+        $goods_ids = array();
+        foreach ($products as $pro) {
+            //更新货品中的库存信息
+            $goods_nums = $pro['goods_nums'];
+            $product_id = $pro['product_id'];
+            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
+        }
+
+        //更新商品表里的库存信息
+        foreach ($goods_ids as $id) {
+            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
+            if($objs){
+                $num = $objs[0]['store_nums'];
+                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
+            }
+        }
+
+    }
+
+    private function minBranchRealStore($orderid,$siteurl)
+    {
+        $orderGoodsModel = new Model('order_goods',$siteurl);
+        $productsModel = new Model('products',$siteurl);
+        $goodsModel = new Model('goods',$siteurl);
+
+        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
+
+        $goods_ids = array();
+        foreach ($products as $pro) {
+            //更新货品中的库存信息
+            $goods_nums = $pro['goods_nums'];
+            $product_id = $pro['product_id'];
+            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
+        }
+
+        //更新商品表里的库存信息
+        foreach ($goods_ids as $id) {
+            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
+            if($objs){
+                $num = $objs[0]['store_nums'];
+                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
+            }
+        }
+
+    }
 
 	public function order_list(){
 		$condition = Req::args("condition");
