@@ -445,6 +445,8 @@ class PaymentController extends Controller
 
                         $serverName = Tiny::getServerName();
 
+                        $this->minRealStore($order_id);
+
                         Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
 
                         if(ControllerExt::$isMobile){
@@ -518,11 +520,41 @@ class PaymentController extends Controller
 
                     Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
 
+                    $this->minRealStore($order_id);
+                    
                     $paymentPlugin->asyncStop();
                     exit;
                 }
             }
         }
+    }
+
+    private function minRealStore($orderid)
+    {
+        $orderGoodsModel = new Model('order_goods');
+        $productsModel = new Model('products');
+        $goodsModel = new Model('goods');
+
+        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
+
+        $goods_ids = array();
+        foreach ($products as $pro) {
+            //更新货品中的库存信息
+            $goods_nums = $pro['goods_nums'];
+            $product_id = $pro['product_id'];
+            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
+        }
+
+        //更新商品表里的库存信息
+        foreach ($goods_ids as $id) {
+            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
+            if($objs){
+                $num = $objs[0]['store_nums'];
+                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
+            }
+        }
+
     }
 
     function paymobile()

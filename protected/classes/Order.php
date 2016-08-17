@@ -35,25 +35,25 @@ class Order{
 
 			//商品中优惠券的处理
 			$products = $model->table("order_goods")->where("order_id=".$order['id'])->findAll();
-			$goods_ids = array();
-			foreach ($products as $pro) {
-				$prom = unserialize($pro['prom_goods']);
-				if(isset($prom['prom'])){
-					$prom = $prom['prom'];
-					//商品中优惠券的处理
-					if(isset($prom['type']) && $prom['type']==3 && $order['type']==0){
-						$voucher_template_id = $prom['expression'];
-						$voucher_template = $model->table("voucher_template")->where("id=".$voucher_template_id)->find();
-						Common::paymentVoucher($voucher_template,$order['user_id']);
-						//优惠券发放日志
-					}
-				}
-				//更新货品中的库存信息
-				$goods_nums = $pro['goods_nums'];
-				$product_id = $pro['product_id'];
-				$model->table("products")->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
-				$goods_ids[$pro['goods_id']] = $pro['goods_id'];
-			}
+//			$goods_ids = array();
+//			foreach ($products as $pro) {
+//				$prom = unserialize($pro['prom_goods']);
+//				if(isset($prom['prom'])){
+//					$prom = $prom['prom'];
+//					//商品中优惠券的处理
+//					if(isset($prom['type']) && $prom['type']==3 && $order['type']==0){
+//						$voucher_template_id = $prom['expression'];
+//						$voucher_template = $model->table("voucher_template")->where("id=".$voucher_template_id)->find();
+//						Common::paymentVoucher($voucher_template,$order['user_id']);
+//						//优惠券发放日志
+//					}
+//				}
+////				//更新货品中的库存信息
+////				$goods_nums = $pro['goods_nums'];
+////				$product_id = $pro['product_id'];
+////				$model->table("products")->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+////				$goods_ids[$pro['goods_id']] = $pro['goods_id'];
+//			}
 
 
 			//发货提醒
@@ -68,14 +68,14 @@ class Order{
             $NoticeService = new NoticeService();
             $NoticeService->send('payment_order',$template_data);
 
-			//更新商品表里的库存信息
-			foreach ($goods_ids as $id) {
-				$objs = $model->table('products')->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
-				if($objs){
-					$num = $objs[0]['store_nums'];
-					$model->table('goods')->data(array('store_nums'=>$num))->where('id='.$id)->update();
-				}
-			}
+//			//更新商品表里的库存信息
+//			foreach ($goods_ids as $id) {
+//				$objs = $model->table('products')->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
+//				if($objs){
+//					$num = $objs[0]['store_nums'];
+//					$model->table('goods')->data(array('store_nums'=>$num))->where('id='.$id)->update();
+//				}
+//			}
 
 			//普通订单的处理
 			if($order['type']==0){
