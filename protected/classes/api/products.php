@@ -214,13 +214,13 @@ class products extends baseapi
                         foreach($spec as $k=>$sval){
                             $spec_arr[$k]['name'] = $sval['name'];
                             $spec_arr[$k]['id'] = $sval['id'];
-                            $spec_arr[$k]['value'] = $sval['value'][1];
+                            $spec_arr[$k]['value'] = $sval['value'][2];
                             $sys_attrprice[$pk] = array(
                                 'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
                                 'pro_no'=>$val['pro_no'],
                                 'store_num'=>$val['store_nums'],
                                 'name'=>$sval['name'],
-                                'value'=>$sval['value'][1],
+                                'value'=>$sval['value'][2],
                             );
                         }
                     }else{

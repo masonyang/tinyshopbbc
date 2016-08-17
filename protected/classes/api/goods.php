@@ -241,7 +241,7 @@ class goods extends baseapi
 
                 if($this->params['filter']){
 
-                    $cat_ids = 0;
+                    $cat_ids = array();
 
                     $goodsCategoryModel = new Model('goods_category');
 
