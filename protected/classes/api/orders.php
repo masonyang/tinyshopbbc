@@ -635,6 +635,7 @@ class orders extends baseapi
                     'ship_addr'=>'收货地址',
                     'goods_amount'=>'商品总金额',
                     'real_freight'=>'商品总重量',
+                    'payable_freight'=>'配送费用',
                     'order_amount'=>'订单总金额',
                     'payment'=>'支付宝[手机支付]',
                     'accept_mobile' => '收货人手机号',

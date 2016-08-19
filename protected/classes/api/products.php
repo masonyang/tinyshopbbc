@@ -218,7 +218,7 @@ class products extends baseapi
 
                             $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
 
-                            if($freeze_nums > 0){
+                            //if($freeze_nums > 0){
                                 $sys_attrprice[$pk] = array(
                                     'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
                                     'pro_no'=>$val['pro_no'],
@@ -226,7 +226,7 @@ class products extends baseapi
                                     'name'=>$sval['name'],
                                     'value'=>$sval['value'][2],
                                 );
-                            }
+                            //}
 
                         }
 
