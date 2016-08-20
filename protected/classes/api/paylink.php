@@ -134,7 +134,7 @@ class paylink extends baseapi
 
             $time = strtotime("-".$order_delay." Minute");
             $create_time = strtotime($order['create_time']);
-            if(true){   //todo
+            if($create_time>=$time){
                 //取得所有订单商品
                 $order_goods = $model->table('order_goods')->fields("product_id,goods_nums")->where('order_id='.$orderid)->findAll();
                 $product_ids = array();
@@ -202,6 +202,18 @@ class paylink extends baseapi
 
             }else{
                 $model->data(array('status'=>6))->where('id='.$orderid)->update();
+
+                $orderGoodsModel = new Model('order_goods');
+                $productsModel = new Model('products');
+
+                $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
+
+                foreach ($products as $pro) {
+                    //更新货品中的库存信息
+                    $goods_nums = $pro['goods_nums'];
+                    $product_id = $pro['product_id'];
+                    $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`+".$goods_nums))->update();
+                }
 
                 $zdOrderModel = new Model('order','zd','master');
 
