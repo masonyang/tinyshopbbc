@@ -67,7 +67,9 @@
                 {if:$item['delivery_status'] == 0}
                 <li><a class="icon-truck" href="javascript:;" onclick="send({$item['id']})"> 发货</a></li>
                 {/if}
+                {if: $local_domain == 'zd'}
                 <li><a class="icon-switch"  href="javascript:;" onclick="finish_status({$item['id']},4,null)"> 完成</a></li>
+                {/if}
                 {/if}
                 {if:$item['status'] <= 4}
                 <li><a class="icon-remove" href="javascript:;" onclick="change_status({$item['id']},6,null)"> 作废</a></li>
