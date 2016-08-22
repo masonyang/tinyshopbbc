@@ -646,7 +646,7 @@ class OrderController extends Controller
                             //更新货品中的库存信息
                             $goods_nums = $pro['goods_nums'];
                             $product_id = $pro['product_id'];
-                            $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`+".$goods_nums))->update();
+                            $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
                         }
 
                         $orderInvoiceModel = new Model('order_invoice');
