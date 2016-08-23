@@ -80,6 +80,8 @@ class IndexController extends Controller{
     public function pay_msg()
     {
 
+        $this->layout='';
+
         $type = $this->type==null?'fail':$this->type;
         $msg = $this->msg==null?'失败':$this->msg;
         $content = $this->content==null?'':$this->content;

@@ -10,7 +10,7 @@ class PaymentController extends Controller
     public $layout='';
     public $model = null;
     private $user;
-    public $needRightActions = array('dopay'=>true,'callback'=>true);
+    public $needRightActions = array('dopay'=>true,'callback'=>false);
 
     public function init(){
         header("Content-type: text/html; charset=".$this->encoding);
@@ -19,16 +19,15 @@ class PaymentController extends Controller
         $this->user = $safebox->get('user');
     }
     public function checkRight($actionId){
-        return true;
 
-//        $rights = $this->needRightActions;
-//        if(isset($rights[$actionId]) && $rights[$actionId]){
-//            if(isset($this->user['name']) && $this->user['name']!=null)
-//            return true;
-//            else return false;
-//        }else{
-//            return true;
-//        }
+        $rights = $this->needRightActions;
+        if(isset($rights[$actionId]) && $rights[$actionId]){
+            if(isset($this->user['name']) && $this->user['name']!=null)
+            return true;
+            else return false;
+        }else{
+            return true;
+        }
 
     }
     public function noRight(){
@@ -379,6 +378,7 @@ class PaymentController extends Controller
     }
 
     public function callback(){
+
         //从URL中获取支付方式
         $payment_id      = Filter::int(Req::get('payment_id'));
         $payment = new Payment($payment_id);
