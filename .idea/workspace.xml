@@ -23,10 +23,19 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="payment.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="payment.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="474" column="38" selection-start="20563" selection-end="20563" vertical-scroll-proportion="0.6212121" vertical-offset="6741" max-vertical-offset="8535">
+            <state line="476" column="43" selection-start="20664" selection-end="20671" vertical-scroll-proportion="-16.625" vertical-offset="6741" max-vertical-offset="8535">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.6212121" vertical-offset="756" max-vertical-offset="17355">
               <folding />
             </state>
           </provider>
@@ -125,6 +134,7 @@
             <state line="8" column="6" selection-start="333" selection-end="333" vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="210">
               <folding>
                 <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+                <marker date="1471956675000" expanded="true" signature="48:332" placeholder="..." />
               </folding>
             </state>
           </provider>
@@ -170,7 +180,6 @@
         <option value="$PROJECT_DIR$/protected/classes/api/apilist.php" />
         <option value="$PROJECT_DIR$/protected/classes/class_index.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/siteconf.php" />
-        <option value="$PROJECT_DIR$/protected/controllers/index.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/api.php" />
         <option value="$PROJECT_DIR$/data/branchstore.sql" />
         <option value="$PROJECT_DIR$/protected/classes/api/arealist.php" />
@@ -191,6 +200,7 @@
         <option value="$PROJECT_DIR$/protected/classes/api/customer.php" />
         <option value="$PROJECT_DIR$/protected/views/index/pay_msg.html" />
         <option value="$PROJECT_DIR$/protected/controllers/payment.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/index.php" />
       </list>
     </option>
   </component>
@@ -313,29 +323,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="classes" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="api" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -535,11 +523,6 @@
         <state line="11" column="27" selection-start="182" selection-end="182" vertical-scroll-proportion="0.30898875" vertical-offset="55" max-vertical-offset="435" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="171" column="48" selection-start="6116" selection-end="6116" vertical-scroll-proportion="-5.7083335" vertical-offset="2368" max-vertical-offset="17145" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/Config.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="18" column="0" selection-start="441" selection-end="441" vertical-scroll-proportion="0.2275281" vertical-offset="189" max-vertical-offset="1200" />
@@ -714,7 +697,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state line="10" column="31" selection-start="365" selection-end="365" vertical-scroll-proportion="0.25252524" vertical-offset="0" max-vertical-offset="594">
           <folding>
-            <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -809,13 +792,21 @@
         <state line="8" column="6" selection-start="333" selection-end="333" vertical-scroll-proportion="-5.0" vertical-offset="0" max-vertical-offset="210">
           <folding>
             <element signature="n#style#0;n#div#0;n#!!top" expanded="true" />
+            <marker date="1471956675000" expanded="true" signature="48:332" placeholder="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="474" column="38" selection-start="20563" selection-end="20563" vertical-scroll-proportion="0.6212121" vertical-offset="6741" max-vertical-offset="8535">
+        <state line="476" column="43" selection-start="20664" selection-end="20671" vertical-scroll-proportion="-16.625" vertical-offset="6741" max-vertical-offset="8535">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.6212121" vertical-offset="756" max-vertical-offset="17355">
           <folding />
         </state>
       </provider>

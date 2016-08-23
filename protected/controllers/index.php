@@ -77,6 +77,20 @@ class IndexController extends Controller{
         $this->assign("redirect",$redirect);
         $this->redirect();
     }
+    public function pay_msg()
+    {
+
+        $type = $this->type==null?'fail':$this->type;
+        $msg = $this->msg==null?'失败':$this->msg;
+        $content = $this->content==null?'':$this->content;
+        $redirect = $this->redirect==null?'':$this->redirect;
+
+        $this->assign("type",$type);
+        $this->assign("msg",$msg);
+        $this->assign("content",$content);
+        $this->assign("redirect",$redirect);
+        $this->redirect();
+    }
     public function img_upload()
     {
         $path = APP_ROOT;
