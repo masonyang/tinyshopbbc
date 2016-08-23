@@ -19,14 +19,16 @@ class PaymentController extends Controller
         $this->user = $safebox->get('user');
     }
     public function checkRight($actionId){
-        $rights = $this->needRightActions;
-        if(isset($rights[$actionId]) && $rights[$actionId]){
-            if(isset($this->user['name']) && $this->user['name']!=null)
-            return true;
-            else return false;
-        }else{
-            return true;
-        }
+        return true;
+
+//        $rights = $this->needRightActions;
+//        if(isset($rights[$actionId]) && $rights[$actionId]){
+//            if(isset($this->user['name']) && $this->user['name']!=null)
+//            return true;
+//            else return false;
+//        }else{
+//            return true;
+//        }
 
     }
     public function noRight(){

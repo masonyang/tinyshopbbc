@@ -23,19 +23,64 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="payment.php" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="payment.php" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="476" column="43" selection-start="20664" selection-end="20671" vertical-scroll-proportion="-16.625" vertical-offset="6741" max-vertical-offset="8535">
+            <state line="33" column="27" selection-start="884" selection-end="891" vertical-scroll-proportion="0.704028" vertical-offset="93" max-vertical-offset="8565">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.php" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="controller_class.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="300" column="87" selection-start="8151" selection-end="8158" vertical-scroll-proportion="-3.62" vertical-offset="4244" max-vertical-offset="11985">
+              <folding>
+                <marker date="1471218527000" expanded="true" signature="2491:2510" placeholder="..." />
+                <marker date="1471218527000" expanded="true" signature="2982:3001" placeholder="..." />
+                <marker date="1471218527000" expanded="true" signature="3298:3317" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pay_alipaymobile.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/classes/payments/pay_alipaymobile.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="112" column="28" selection-start="3081" selection-end="3089" vertical-scroll-proportion="-3.1666667" vertical-offset="1604" max-vertical-offset="4950">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="paylink.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="239" column="98" selection-start="8553" selection-end="8562" vertical-scroll-proportion="-15.083333" vertical-offset="3223" max-vertical-offset="4185">
+              <folding>
+                <marker date="1471848655000" expanded="true" signature="323:588" placeholder="..." />
+                <marker date="1471848655000" expanded="true" signature="344:580" placeholder="..." />
+                <marker date="1471848655000" expanded="true" signature="449:480" placeholder="..." />
+                <marker date="1471848655000" expanded="true" signature="516:572" placeholder="..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PaymentPlugin.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/protected/classes/PaymentPlugin.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="22" column="92" selection-start="656" selection-end="664" vertical-scroll-proportion="-9.375" vertical-offset="105" max-vertical-offset="1395">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.6212121" vertical-offset="756" max-vertical-offset="17355">
+            <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="-15.375" vertical-offset="756" max-vertical-offset="17355">
               <folding />
             </state>
           </provider>
@@ -187,7 +232,6 @@
         <option value="$PROJECT_DIR$/protected/classes/api/captchacode.php" />
         <option value="$PROJECT_DIR$/protected/views/admin/login.html" />
         <option value="$PROJECT_DIR$/protected/controllers/admin.php" />
-        <option value="$PROJECT_DIR$/framework/web/controller/controller_class.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/goods.php" />
         <option value="$USER_HOME$/workevn/index.php" />
         <option value="$PROJECT_DIR$/protected/classes/Order.php" />
@@ -199,8 +243,9 @@
         <option value="$PROJECT_DIR$/protected/controllers/order.php" />
         <option value="$PROJECT_DIR$/protected/classes/api/customer.php" />
         <option value="$PROJECT_DIR$/protected/views/index/pay_msg.html" />
-        <option value="$PROJECT_DIR$/protected/controllers/payment.php" />
         <option value="$PROJECT_DIR$/protected/controllers/index.php" />
+        <option value="$PROJECT_DIR$/framework/web/controller/controller_class.php" />
+        <option value="$PROJECT_DIR$/protected/controllers/payment.php" />
       </list>
     </option>
   </component>
@@ -283,7 +328,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="classes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -301,29 +346,11 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="classes" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="index" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="tinyshop" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="protected" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
+              <option name="myItemId" value="payments" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -443,11 +470,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/protected/views/customer/customer_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="31" column="112" selection-start="1527" selection-end="1527" vertical-scroll-proportion="0.49912435" vertical-offset="180" max-vertical-offset="1650" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/framework/lib/util/cookie_class.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="55" column="8" selection-start="1133" selection-end="1133" vertical-scroll-proportion="0.43493152" vertical-offset="496" max-vertical-offset="2190" />
@@ -657,11 +679,6 @@
         <state line="4" column="39" selection-start="52" selection-end="64" vertical-scroll-proportion="-0.17676768" vertical-offset="165" max-vertical-offset="3135" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="214" column="103" selection-start="7755" selection-end="7755" vertical-scroll-proportion="0.0" vertical-offset="3210" max-vertical-offset="4185" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/protected/classes/api/customer.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="804" column="5" selection-start="23684" selection-end="23684" vertical-scroll-proportion="0.08080808" vertical-offset="12012" max-vertical-offset="15480">
@@ -671,24 +688,6 @@
             <marker date="1471935749000" expanded="true" signature="-1:-1" placeholder="..." />
             <marker date="1471935749000" expanded="true" signature="-1:-1" placeholder="..." />
             <marker date="1471935749000" expanded="true" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/protected/classes/payments/pay_alipaymobile.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="28" selection-start="1004" selection-end="1012" vertical-scroll-proportion="-6.2916665" vertical-offset="479" max-vertical-offset="4950">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="660" column="20" selection-start="19026" selection-end="19026" vertical-scroll-proportion="0.17003366" vertical-offset="9724" max-vertical-offset="11985">
-          <folding>
-            <marker date="1471218527000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1471218527000" expanded="false" signature="-1:-1" placeholder="..." />
-            <marker date="1471218527000" expanded="false" signature="-1:-1" placeholder="..." />
           </folding>
         </state>
       </provider>
@@ -797,16 +796,53 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
+    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="476" column="43" selection-start="20664" selection-end="20671" vertical-scroll-proportion="-16.625" vertical-offset="6741" max-vertical-offset="8535">
+        <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="-15.375" vertical-offset="756" max-vertical-offset="17355">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/protected/controllers/index.php">
+    <entry file="file://$PROJECT_DIR$/protected/classes/PaymentPlugin.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="79" column="27" selection-start="2955" selection-end="2955" vertical-scroll-proportion="0.6212121" vertical-offset="756" max-vertical-offset="17355">
+        <state line="22" column="92" selection-start="656" selection-end="664" vertical-scroll-proportion="-9.375" vertical-offset="105" max-vertical-offset="1395">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/api/paylink.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="239" column="98" selection-start="8553" selection-end="8562" vertical-scroll-proportion="-15.083333" vertical-offset="3223" max-vertical-offset="4185">
+          <folding>
+            <marker date="1471848655000" expanded="true" signature="323:588" placeholder="..." />
+            <marker date="1471848655000" expanded="true" signature="344:580" placeholder="..." />
+            <marker date="1471848655000" expanded="true" signature="449:480" placeholder="..." />
+            <marker date="1471848655000" expanded="true" signature="516:572" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/classes/payments/pay_alipaymobile.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="112" column="28" selection-start="3081" selection-end="3089" vertical-scroll-proportion="-3.1666667" vertical-offset="1604" max-vertical-offset="4950">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/framework/web/controller/controller_class.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="300" column="87" selection-start="8151" selection-end="8158" vertical-scroll-proportion="-3.62" vertical-offset="4244" max-vertical-offset="11985">
+          <folding>
+            <marker date="1471218527000" expanded="true" signature="2491:2510" placeholder="..." />
+            <marker date="1471218527000" expanded="true" signature="2982:3001" placeholder="..." />
+            <marker date="1471218527000" expanded="true" signature="3298:3317" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/protected/controllers/payment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="33" column="27" selection-start="884" selection-end="891" vertical-scroll-proportion="0.704028" vertical-offset="93" max-vertical-offset="8565">
           <folding />
         </state>
       </provider>
