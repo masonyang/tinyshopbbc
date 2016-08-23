@@ -447,6 +447,14 @@ class PaymentController extends Controller
 
                         Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
 
+                        $model = new Model("order");
+                        $order = $model->where("order_no='".$orderNo."'")->find();
+
+                        $msg = array('type'=>'success','msg'=>'支付成功！','content'=>'订单号：'.$orderNo.',已支付金额：'.$order['order_amount'],'redirect'=>'');
+
+                        $this->redirect('/index/pay_msg',false,$msg);
+                        exit;
+
                         if(ControllerExt::$isMobile){
                             $this->redirect("/ucenter/order/status/3");
                         }else{
@@ -464,8 +472,18 @@ class PaymentController extends Controller
         //支付失败
         else
         {
-            $message = $message ? $message : '支付失败';
+
+            $msg = array('type'=>'success','msg'=>'支付失败！','content'=>$orderNo.',订单支付失败','redirect'=>'');
+
+            $this->redirect('/index/pay_msg',false,$msg);
+            exit;
+
             $msg = array('type'=>'fail','msg'=>$message);
+
+            $this->redirect('/index/pay_msg',false,$msg);
+            exit;
+
+
             $this->redirect('/index/msg',false,$msg);
             exit;
         }
