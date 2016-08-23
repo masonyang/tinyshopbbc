@@ -472,8 +472,7 @@ class PaymentController extends Controller
         //支付失败
         else
         {
-
-            $msg = array('type'=>'success','msg'=>'支付失败！','content'=>$orderNo.',订单支付失败','redirect'=>'');
+            $msg = array('type'=>'fail','msg'=>'支付失败！','content'=>$orderNo.',订单支付失败','redirect'=>'');
 
             $this->redirect('/index/pay_msg',false,$msg);
             exit;
