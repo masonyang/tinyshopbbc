@@ -830,11 +830,12 @@ class customer extends baseapi
             $this->output['msg'] = '地址不能为空';
             $this->output();
             exit;
-        }elseif(empty($zip)){
-            $this->output['msg'] = '邮编不能为空';
-            $this->output();
-            exit;
         }
+//        elseif(empty($zip)){
+//            $this->output['msg'] = '邮编不能为空';
+//            $this->output();
+//            exit;
+//        }
 
         $addressModel = new Model('address');
 
