@@ -683,10 +683,6 @@ class carts extends baseapi
 
             }
 
-        }else{
-            $this->output['msg'] = '请先去添加收货地址';
-            $this->output();
-            exit;
         }
 
         $total = 0;
