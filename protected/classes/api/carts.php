@@ -271,6 +271,13 @@ class carts extends baseapi
                 'type'=>'string',
                 'content'=>'会员id',
             ),
+            array(
+                'colum'=>'addr_id',
+                'required'=>'可选',
+                'type'=>'string',
+                'content'=>'收货地址id,当会员在结算页面中更改了收货地址。需要重新请求结算页面api并带上选定的addr_id',
+            ),
+
         ),
         'scount'=>array(
             array(
@@ -647,43 +654,56 @@ class carts extends baseapi
 
         $userid = $this->params['uid'];
 
+        $addrid = $this->params['addr_id'];
+
         if(empty($userid)){
             $this->output['msg'] = '会员不能为空';
             $this->output();
             exit;
         }
 
+        $addrData = false;
+
         $addressModel = new Model('address');
-        $addrData = $addressModel->where('user_id='.$userid)->findAll();
 
-        if($addrData){
-            $default_addr_id = $addrData[0]['id'];
-            foreach($addrData as $k=>$val){
+        if($addrid){
+            $addrData = $addressModel->where('id='.$addrid)->find();
+            $default_addr_id = $addrData['id'];
+        }
 
-                if($val['is_default'] == 1){
-                    $default_addr_id = $val['id'];
-                    $return['shouhuo'][0]['mobile'] = $val['mobile'];
-                    $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
-                    $return['shouhuo'][0]['addr_id'] = $val['id'];
-                    $return['shouhuo'][0]['is_default'] = $val['is_default'];
-                    $addr = $this->consignee($val);
+        if(!$addrData){
+            $addrData = $addressModel->where('user_id='.$userid)->findAll();
 
-                    $return['shouhuo'][0]['address'] = $addr;
-                    break;
-                }else{
-                    $return['shouhuo'][0]['mobile'] = $val['mobile'];
-                    $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
-                    $return['shouhuo'][0]['addr_id'] = $val['id'];
-                    $return['shouhuo'][0]['is_default'] = $val['is_default'];
-                    $addr = $this->consignee($val);
+            if($addrData){
+                $default_addr_id = $addrData[0]['id'];
+                foreach($addrData as $k=>$val){
 
-                    $return['shouhuo'][0]['address'] = $addr;
+                    if($val['is_default'] == 1){
+                        $default_addr_id = $val['id'];
+                        $return['shouhuo'][0]['mobile'] = $val['mobile'];
+                        $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
+                        $return['shouhuo'][0]['addr_id'] = $val['id'];
+                        $return['shouhuo'][0]['is_default'] = $val['is_default'];
+                        $addr = $this->consignee($val);
+
+                        $return['shouhuo'][0]['address'] = $addr;
+                        break;
+                    }else{
+                        $return['shouhuo'][0]['mobile'] = $val['mobile'];
+                        $return['shouhuo'][0]['accept_name'] = $val['accept_name'];
+                        $return['shouhuo'][0]['addr_id'] = $val['id'];
+                        $return['shouhuo'][0]['is_default'] = $val['is_default'];
+                        $addr = $this->consignee($val);
+
+                        $return['shouhuo'][0]['address'] = $addr;
+                    }
+
+
                 }
 
-
             }
-
         }
+
 
         $total = 0;
         $goods_info = '';
