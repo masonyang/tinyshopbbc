@@ -759,7 +759,7 @@ class carts extends baseapi
             $this->output['msg'] = '获取成功';
             $this->output($return);
         }else{
-            $this->output['msg'] = '获取失败';
+            $this->output['msg'] = '请先去添加收货地址';
             $this->output();
         }
 
