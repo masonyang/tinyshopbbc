@@ -165,6 +165,10 @@ class products extends baseapi
             ),
             array(
                 'colum'=>'content',
+                'content'=>'商品描述(link形式)',
+            ),
+            array(
+                'colum'=>'content_data',
                 'content'=>'商品描述',
             ),
             array(
@@ -293,6 +297,7 @@ class products extends baseapi
                         'pro_no' => '111111_1',
                         'unit' => '件',
                         'content' => '',
+                        'content_data' => '',
                         'imgs' => array(
                             array(
                                 'url' => 'http://a.tinyshop.com/data/uploads/2014/04/30/b8f4125b967911e08f7115f8d2b3f684.jpg',
@@ -326,6 +331,14 @@ class products extends baseapi
         $return['pro_no'] = $goods['pro_no'];
         $return['unit'] = $goods['unit'];
         $return['content'] = baseapi::getApiUrl().'index.php?con=index&act=prouduct_desc&id='.$goods['id'];
+        $return['content_data'] = $goods['content']."<script src='http://libs.baidu.com/jquery/2.0.0/jquery.js'></script>
+<script>
+    if($('img')){
+        $('img').each(function(){
+            $(this).css('width','750px');
+        });
+    }
+</script>";
         $return['imgs'] = array();
 
         $i = 0;
