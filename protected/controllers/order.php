@@ -389,12 +389,15 @@ class OrderController extends Controller
         $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
 
         $goods_ids = array();
+        $sync_goods = array();
+
         foreach ($products as $pro) {
             //更新货品中的库存信息
             $goods_nums = $pro['goods_nums'];
             $product_id = $pro['product_id'];
             $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums))->update();
             $goods_ids[$pro['goods_id']] = $pro['goods_id'];
+            $sync_goods[$pro['goods_id']][] = $product_id;
         }
 
         //更新商品表里的库存信息
@@ -403,8 +406,30 @@ class OrderController extends Controller
             if($objs){
                 $num = $objs[0]['store_nums'];
                 $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
+
             }
         }
+
+        //同步商品库存到分店
+        if($sync_goods){
+            foreach($sync_goods as $gid =>$proids){
+                $ginfo = $goodsModel->fields('store_nums')->where('id='.$gid)->find();
+                foreach($proids as $pid){
+                    $proInfo = $productsModel->fields('store_nums')->where('id='.$pid)->find();
+                    $data = array();
+                    $data['id'] = $ginfo['$id'];
+                    $data['store_nums'] = $ginfo['store_nums'];
+                    $pupdate['id='.$pid] = array(
+                        'store_nums'=>$proInfo['store_nums']
+                    );
+                    $params['products'] = array(
+                        'update'=>$pupdate,
+                    );
+                    syncGoods::getInstance()->setParams($params,'update')->sync();
+                }
+            }
+        }
+
 
     }
 
