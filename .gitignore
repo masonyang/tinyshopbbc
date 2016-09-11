@@ -4,6 +4,7 @@ themes-sass/
 installcomplete/
 cache/
 runtime/
+protected/config/mapper_local.php
 
 .idea
 .tags

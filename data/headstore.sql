@@ -420,7 +420,7 @@ CREATE TABLE `tiny_goods_category` (
   `seo_keywords` varchar(255) DEFAULT NULL ,
   `seo_description` varchar(255) DEFAULT NULL ,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`), add column
+  KEY `name` (`name`),
   KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 ALTER TABLE `tiny_goods_category` add INDEX parent_id (parent_id);
