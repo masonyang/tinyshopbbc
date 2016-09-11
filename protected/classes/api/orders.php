@@ -195,7 +195,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id,payable_freight')->where('id='.$orderid)->find();
+        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id,payable_freight,accept_name,mobile')->where('id='.$orderid)->find();
 
         $orderDetailModel = new Model('order_goods');
 
@@ -273,8 +273,8 @@ class orders extends baseapi
         $data['create_time'] = $orders['create_time'];
         $data['ship_addr'] = $ship_addr;
         $data['goods_amount'] = $goods_amount;
-        $data['accept_mobile'] = $addrData['mobile'];
-        $data['accept_name'] = $addrData['accept_name'];
+        $data['accept_mobile'] = $orders['mobile'] ? $orders['mobile'] : $addrData['mobile'];
+        $data['accept_name'] = $orders['accept_name'] ? $orders['accept_name'] : $addrData['accept_name'];
         $data['real_freight'] = $orders['real_freight'];
         $data['payable_freight'] = $orders['payable_freight'];
         $data['order_amount'] = $orders['order_amount'];
