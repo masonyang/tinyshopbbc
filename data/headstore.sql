@@ -521,7 +521,7 @@ CREATE TABLE `tiny_manager` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 ALTER TABLE `tiny_manager` add INDEX idx_name (`name`);
-insert into tiny_manager(`name`,`roles`,`password`,`validcode`) values('admin','administrator','8d9199f9af00a180c621fe05c0cca2d4','Vj%eOsPw');
+insert into tiny_manager(`name`,`roles`,`password`,`validcode`) values('admin','administrator','b74893a3b2d0e1f078e8212aa2e7fcb1','h10Y!2P8');
 DROP TABLE IF EXISTS `tiny_message`;
 CREATE TABLE `tiny_message` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,

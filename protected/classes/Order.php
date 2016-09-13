@@ -30,7 +30,7 @@ class Order{
             $serverName = Tiny::getServerName();
             if($serverName['top'] != 'zd'){
                 $zdModel = new Model('order','zd','master');
-                $zdModel->data($data)->where("outer_id=".$order['id'])->update();
+                $zdModel->data($data)->where('outer_id='.$order['id'].' and site_url="'.$serverName['top'].'"')->update();
             }
 
 			//商品中优惠券的处理
