@@ -5,6 +5,7 @@ installcomplete/
 cache/
 runtime/
 protected/config/mapper_local.php
+protected/config/config_local.php
 
 .idea
 .tags
