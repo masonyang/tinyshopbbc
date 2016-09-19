@@ -63,7 +63,7 @@ class Model
      *
      * @access public
      * @param string $arg
-     * @return void
+     * @return $this
      */
     public function fields($arg)
     {
@@ -75,7 +75,7 @@ class Model
      *
      * @access public
      * @param string $str
-     * @return void
+     * @return $this
      */
     public function join($str)
     {
@@ -89,7 +89,7 @@ class Model
      *
      * @access public
      * @param string $str
-     * @return void
+     * @return $this
      */
     public function where($str)
     {
@@ -101,7 +101,7 @@ class Model
      *
      * @access public
      * @param string $name
-     * @return void
+     * @return $this
      */
     public function table($name)
     {
@@ -129,8 +129,8 @@ class Model
      * 分组信息
      *
      * @access public
-     * @param string $name
-     * @return void
+     * @param string $str
+     * @return $this
      */
     public function group($str)
     {
@@ -142,7 +142,7 @@ class Model
      *
      * @access public
      * @param String $str
-     * @return void
+     * @return $this
      */
     public function having($str)
     {
@@ -154,7 +154,7 @@ class Model
      *
      * @access public
      * @param String $str
-     * @return void
+     * @return $this
      */
     public function order($str)
     {
@@ -166,7 +166,7 @@ class Model
      *
      * @access public
      * @param String $str
-     * @return void
+     * @return $this
      */
     public function limit($str)
     {
@@ -178,7 +178,7 @@ class Model
      *
      * @access public
      * @param String $str
-     * @return void
+     * @return $this
      */
     public function distinct($str='')
     {
@@ -190,8 +190,8 @@ class Model
      * 数据信息
      *
      * @access public
-     * @param String $str
-     * @return void
+     * @param array $data
+     * @return $this
      */
     public function data($data = array())
     {
@@ -202,7 +202,6 @@ class Model
      * select查询
      *
      * @access public
-     * @param String $str
      * @return source
      */
     public function select()
@@ -213,7 +212,6 @@ class Model
      * 查询一条记录
      *
      * @access public
-     * @param String $str
      * @return Obj
      */
     public function find()
@@ -231,8 +229,7 @@ class Model
      * 查询所有记录
      *
      * @access public
-     * @param String $str
-     * @return resouce
+     * @return mixed
      */
     public function findAll()
     {
@@ -248,7 +245,7 @@ class Model
      * @param int $type
      * @param bool $ajax
      * @param string $ajaxFunction
-     * @return source
+     * @return array
      */
     public function findPage($page, $list_num=20,$type=1,$ajax=false,$ajaxFunction='')
     {
@@ -290,8 +287,9 @@ class Model
      * 简单分页查询
      *
      * @access public
-     * @param String $str
-     * @return void
+     * @param int $page
+     * @param int $list_num
+     * @return array
      */
     public function getPage($page, $list_num=20)
     {
@@ -323,7 +321,7 @@ class Model
      * 统计
      *
      * @access public
-     * @return number
+     * @return int
      */
     public function count()
     {
@@ -337,7 +335,7 @@ class Model
      * 插入记录
      *
      * @access public
-     * @return void
+     * @return mixed
      */
     public function insert()
     {
@@ -378,7 +376,7 @@ class Model
      * 添加记录
      *
      * @access public
-     * @return void
+     * @return mixed
      */
     public function add()
     {
