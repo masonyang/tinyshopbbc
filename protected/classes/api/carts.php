@@ -332,6 +332,10 @@ class carts extends baseapi
                 'content'=>'已选购数量',
             ),
             array(
+                'colum'=>'current_goods_amount',
+                'content'=>'当前商品的小计',
+            ),
+            array(
                 'colum'=>'goods_amount',
                 'content'=>'商品总金额',
             )
@@ -422,6 +426,10 @@ class carts extends baseapi
                 'content'=>'已选购数量',
             ),
             array(
+                'colum'=>'current_goods_amount',
+                'content'=>'当前商品的小计',
+            ),
+            array(
                 'colum'=>'goods_amount',
                 'content'=>'商品总金额',
             )
@@ -490,7 +498,7 @@ class carts extends baseapi
 
                         $buyNum = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'" and uid = '.$this->params['uid'])->find();
 
-                        $data['buy_num'] = $buyNum['num'];
+                        $data['buy_num'] = intval($buyNum['num']);
 
                     }else{
                         $info = '该商品库存不足';
@@ -502,13 +510,20 @@ class carts extends baseapi
                 }
 
                 $goods_amount = 0;
+                $current_goods_amount = 0;
                 $all = $cart->all();
 
                 foreach($all as $val){
+
+                    if($product['id'] == $val['id']){
+                        $current_goods_amount = $val['sell_total'] * $val['num'];
+                    }
+
                     $goods_amount += $val['sell_total'];
                 }
 
                 $data['count'] = count($all);
+                $data['current_goods_amount'] = $current_goods_amount;
                 $data['goods_amount'] = $goods_amount;
                 $this->output['msg'] = $info;
                 $this->output($data);
@@ -535,7 +550,7 @@ class carts extends baseapi
 
                             $buyNum = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'" and uid = '.$this->params['uid'])->find();
 
-                            $data['buy_num'] = $buyNum['num'] ? $buyNum['num'] : 0;
+                            $data['buy_num'] = $buyNum['num'] ? intval($buyNum['num']) : 0;
 
                         }else{
                             $info = '该商品库存不足';
@@ -554,13 +569,21 @@ class carts extends baseapi
 
                 $goods_amount = 0;
 
+                $current_goods_amount = 0;
+
                 $all = $cart->all();
 
                 foreach($all as $val){
+
+                    if($product['id'] == $val['id']){
+                        $current_goods_amount = $val['sell_total'] * $val['num'];
+                    }
+
                     $goods_amount += $val['sell_total'];
                 }
 
                 $data['count'] = count($all);
+                $data['current_goods_amount'] = $current_goods_amount;
                 $data['goods_amount'] = $goods_amount;
                 $this->output['msg'] = $info;
                 $this->output($data);
@@ -1038,6 +1061,7 @@ class carts extends baseapi
                 'data'=>array(
                     'count'=>12,
                     'buy_num'=>'已选购数量',
+                    'current_goods_amount'=>'当前商品的小计',
                     'goods_amount'=>'商品总金额'
                 ),
             )
@@ -1169,6 +1193,7 @@ class carts extends baseapi
                 'data'=>array(
                     'count'=>12,
                     'buy_num'=>'已选购数量',
+                    'current_goods_amount'=>'当前商品的小计',
                     'goods_amount'=>'商品总金额'
                 ),
             )
