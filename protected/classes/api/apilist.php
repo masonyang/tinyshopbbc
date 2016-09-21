@@ -14,6 +14,9 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'list'=>'attention',
+        'add'=>'attention',
+        'cancel'=>'attention',
         'siteconf'=>'siteconf',
         'articlelist'=>'articlelist',
         'articledetail'=>'articlelist',
