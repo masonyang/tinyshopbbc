@@ -163,6 +163,10 @@ class OrderController extends Controller
 		$this->assign("id",$id);
 		$this->redirect();
 	}
+	
+	/**
+	 * 订单发货
+	 */
 	public function doc_invoice_save(){
 		Req::post("admin",$this->manager['name']);
 		Req::post("create_time",date('Y-m-d H:i:s'));
