@@ -476,17 +476,17 @@ class carts extends baseapi
                 if($product['id'] && ($num>=1)){
 
                     $cartSessionModel = new Model('cart_session');
-//                    $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
-//
-//                    $cart_nums = 0;
-//
-//                    if($carts){
-//                        foreach($carts as $c){
-//                            $cart_nums += $c['num'];
-//                        }
-//                    }
+                    $carts = $cartSessionModel->fields('num')->where('product_id="'.$product['id'].'"')->findAll();
 
-                    $less_num = $product['store_nums'] - $product['freeze_nums'];
+                    $cart_nums = 0;
+
+                    if($carts){
+                        foreach($carts as $c){
+                            $cart_nums += $c['num'];
+                        }
+                    }
+
+                    $less_num = $product['store_nums'] - $product['freeze_nums'] - $cart_nums;
 
 //                    $less_num = $less_num - $num;
                     if($less_num <= 0){
@@ -516,7 +516,7 @@ class carts extends baseapi
                 foreach($all as $val){
 
                     if($product['id'] == $val['id']){
-                        $current_goods_amount = $val['sell_total'] * $val['num'];
+                        $current_goods_amount = $val['sell_total'];
                     }
 
                     $goods_amount += $val['sell_total'];
@@ -576,7 +576,7 @@ class carts extends baseapi
                 foreach($all as $val){
 
                     if($product['id'] == $val['id']){
-                        $current_goods_amount = $val['sell_total'] * $val['num'];
+                        $current_goods_amount = $val['sell_total'];
                     }
 
                     $goods_amount += $val['sell_total'];
