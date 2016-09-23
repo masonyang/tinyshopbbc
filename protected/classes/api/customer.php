@@ -650,7 +650,7 @@ class customer extends baseapi
 
         $mobile = Filter::sql($this->params['mobile']);
 
-        $_vaildcode = $this->params['vaildcode'];
+        $_vaildcode = strtolower($this->params['vaildcode']);
 
         $this->params['rand'] = trim($this->params['rand']);
 
