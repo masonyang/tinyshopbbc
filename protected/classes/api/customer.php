@@ -490,7 +490,7 @@ class customer extends baseapi
             $this->output($data);
 
         }else{
-            $this->output['msg'] = '还没添加收获地址';
+            $this->output['msg'] = '还没添加收货地址';
             $this->output();
         }
 
