@@ -89,6 +89,16 @@
         'name' => '客户服务',
         'parent' => 'config',
       ),
+      '/content/adposition_list' =>
+      array (
+         'name' => '广告位管理',
+         'parent' => 'config',
+      ),
+      '/content/adposition_edit' =>
+      array (
+         'name' => '编辑广告位',
+         'parent' => 'config',
+      ),
       '/admin/clear' => 
       array (
         'name' => '清除缓存',

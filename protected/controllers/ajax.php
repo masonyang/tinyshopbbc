@@ -239,4 +239,34 @@ class AjaxController extends Controller
         }
     }
 
+    public function goodslist()
+    {
+
+        $query = trim(Req::args('query'));
+
+        $result = array('query'=>$query,'suggestions'=>array());
+
+        if(!empty($query)){
+            $where = 'goods_no like "%'.$query.'%"';
+
+            $goodsModel = new Model('goods');
+            $goodsData = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,branchstore_sell_price,sell_price')->where($where)->findAll();
+
+            if($goodsData){
+                $i = 0;
+                foreach($goodsData as $goods){
+                    $result['suggestions'][$i]['gid'] = $goods['id'];
+                    $result['suggestions'][$i]['value'] = $goods['goods_no'];
+                    $result['suggestions'][$i]['gname'] = $goods['branchstore_goods_name'] ? $goods['branchstore_goods_name'] : $goods['name'];
+                    $result['suggestions'][$i]['price'] = $goods['branchstore_sell_price'] ? $goods['branchstore_sell_price'] : $goods['sell_price'];
+                    $i++;
+                }
+            }
+        }
+
+        echo json_encode($result);
+
+        exit;
+    }
+
 }

@@ -1,0 +1,40 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+{echo:JS::import('form');}
+{echo:JS::import('date');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+        <a  class="icon-plus" href="{url:/content/adposition_edit}" title="添加"> 添加</a><a href="javascript:;" class="icon-loop-2" onclick="tools_reload()"> 刷新</a>
+
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:30px">选择</th>
+            <th style="width:70px">操作</th>
+            <th>名称</th>
+        </tr>
+        {query:name=adposition id=$obj page=1 where=$where}
+        <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
+            <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-pencil" href="{url:/content/adposition_edit/id/$item[id]}"> 编辑</a></li>
+            </ul></div></div> </td>
+            <td >{$item['name']}</td>
+        </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+<script type="text/javascript">
+    function change_open(id,is_open){
+        $.post("{url:/content/change_open}",{id:id,is_open:is_open},function(data){
+            if(data['status']=='success')tools_reload();
+            else art.dialog.tips("<p class='fail'>"+data['msg']+"</p>");
+        },'json');
+    }
+    function ad_show(id){
+        art.dialog.open("{url:/content/ad_show/id/}"+id,{id:'edit_dialog',title:'调用代码',resize:false});
+    }
+</script>

@@ -63,11 +63,12 @@
         <dl class="lineD">
         <dt><b class="red">*</b> 广告类型：</dt>
         <dd><select name="type" id="ad_type">
-          <option value="1">普通广告</option>
+          <!--<option value="1">普通广告</option>-->
           <option value="2">多图轮播</option>
-          <option value="3">文字</option>
-          <option value="4">悬浮</option>
-          <option value="5">代码</option>
+          <!--<option value="3">文字</option>-->
+          <!--<option value="4">悬浮</option>-->
+          <!--<option value="5">代码</option>-->
+          <!--<option value="6">广告位</option>-->
         </select>
           <div id="table_option" >
             {if:isset($type) && ($type==4) && preg_match('/^[Oa]:\d+:/',$content)}
@@ -85,7 +86,7 @@
         </dl>
         <div id="ad_content" class="mt10">
           <table class="default" id="table_img">
-            {if:isset($type) && ($type==1||$type==2||$type==4) && preg_match('/^[Oa]:\d+:/',$content)}
+          {if:isset($type) && ($type==1||$type==2||$type==4||$type==6) && preg_match('/^[Oa]:\d+:/',$content)}
             {set:$contents = unserialize($content)}
             {list:items=$contents}
           <tr>
@@ -129,14 +130,14 @@
     $("#ad_content table textarea").attr("disabled","disabled");
     if(type==4) $('#table_option').css("display","");
     else $('#table_option').css("display","none");
-    if(type==2)
+    if(type==2||type==6)
         $("#btn_add").css("display","");
       else
         $("#btn_add").css("display","none");
-    if(type==1||type==2||type==4){
+    if(type==1||type==2||type==4 || type==6){
       $("#table_img input").removeAttr("disabled");
       $("#table_img").css("display","");
-      if(type==2){
+      if(type==2 || type==6){
         $("#table_img tr").css("display","");
       }
       else{

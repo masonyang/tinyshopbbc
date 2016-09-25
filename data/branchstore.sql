@@ -658,3 +658,21 @@ CREATE TABLE `tiny_cart_session` (
   `num` int(11) DEFAULT '0' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='会员购物车存储表';
+DROP TABLE IF EXISTS `tiny_adposition`;
+CREATE TABLE `tiny_adposition` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `name` varchar(50) NOT NULL ,
+  `type` tinyint(1) DEFAULT NULL ,
+  `number` varchar(32) DEFAULT NULL ,
+  `link` varchar(255) DEFAULT NULL ,
+  `order` int(6) DEFAULT NULL ,
+  `width` int(11) DEFAULT NULL ,
+  `height` int(11) DEFAULT NULL ,
+  `start_time` date DEFAULT NULL ,
+  `end_time` date DEFAULT NULL ,
+  `content` text ,
+  `description` varchar(255) DEFAULT NULL ,
+  `is_open` tinyint(1) DEFAULT '1' ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_adposition` add INDEX idx_n_s_e (number,start_time,end_time);

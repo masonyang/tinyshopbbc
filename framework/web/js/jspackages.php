@@ -52,6 +52,10 @@ class JS
 			'js'=>array('mutiselect/jquery.ui.core.js','mutiselect/jquery.ui.widget.js','mutiselect/prettify.js','mutiselect/jquery.multiselect.js'),
 			'css'=>array('mutiselect/jquery.multiselect.css','mutiselect/prettify.css','mutiselect/jquery-ui.css'),
 		),
+        'autocomplete'=>array(
+            'js'=>array('autocomplete/jquery-1.8.2.min.js','autocomplete/jquery.mockjax.js','autocomplete/autocomplete.js'),
+            'css'=>array('autocomplete/autocomplete.css'),
+        ),
     );
     private static $createfiles = array();
     /**
