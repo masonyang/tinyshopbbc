@@ -1125,4 +1125,13 @@ class AdminController extends Controller
         }
         $this->redirect('cservice',true,'保存成功');
     }
+	
+	/**
+	 * 快递公司列表
+	 */
+//    public function express_company_list()
+//    {
+//	    //$this->assign("cservice",$cservice);
+//	    $this->redirect();
+//    }
 }

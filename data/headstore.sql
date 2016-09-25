@@ -297,6 +297,11 @@ CREATE TABLE `tiny_express_company` (
   `name` varchar(255) NOT NULL ,
   `url` varchar(255) DEFAULT NULL ,
   `sort` tinyint(3) DEFAULT '0' ,
+  `is_ess` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '是否使用电子面单',
+  `customer_name` varchar(200) NOT NULL DEFAULT '' ,
+  `customer_pwd` VARCHAR(200) NOT NULL DEFAULT '' ,
+  `month_code` VARCHAR(200) NOT NULL DEFAULT '' ,
+  `send_site` VARCHAR(200) NOT NULL DEFAULT '' ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8 ;
 INSERT INTO `tiny_express_company` (`id`,`code`,`alias`,`name`,`url`,`sort`) VALUES ('1','CNEMS','ems','中国邮政','http://www.ems.com.cn','0'),('2','CNST','shentong','申通快递','http://www.sto.cn','0'),('3','CNTT','tiantian','天天快递','http://www.ttkd.cn','0'),('4','CNYT','yuantong','圆通速递','http://www.yto.net.cn','0'),('5','CNSF','shunfeng','顺丰速运','http://www.sf-express.com','0'),('6','CNYD','yunda','韵达快递','http://www.yundaex.com','0'),('7','CNZT','zhongtong','中通速递','http://www.zto.cn','0'),('8','CNLB','longbanwuliu','龙邦物流','http://www.lbex.com.cn','0'),('9','CNZJS','zhaijisong','宅急送','http://www.zjs.com.cn','0'),('10','CNQY','quanyikuaidi','全一快递','http://www.apex100.com','0'),('11','CNHT','huitongkuaidi','汇通速递','http://www.htky365.com','0'),('12','CNMH','minghangkuaidi','民航快递','http://www.cae.com.cn','0'),('13','CNYF','yafengsudi','亚风速递','http://www.airfex.cn','0'),('14','CNKJ','kuaijiesudi','快捷速递','http://www.fastexpress.com.cn','0'),('15','DDS','dsukuaidi','DDS快递','http://www.qc-dds.net','0'),('16','CNHY','tiandihuayu','华宇物流','http://www.hoau.net','0'),('17','CNZY','zhongtiewuliu','中铁快运','http://www.cre.cn','0'),('18','FEDEX','fedex','FedEx','http://www.fedex.com/cn','0'),('19','UPS','ups','UPS','http://www.ups.com','0'),('20','DHL','dhl','DHL','http://www.cn.dhl.com','0');

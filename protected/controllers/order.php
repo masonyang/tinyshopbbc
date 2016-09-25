@@ -164,6 +164,11 @@ class OrderController extends Controller
 		$this->redirect();
 	}
 	
+	public function test()
+	{
+		echo 'test' . PHP_EOL;
+	}
+	
 	/**
 	 * 订单发货
 	 */
@@ -240,7 +245,7 @@ class OrderController extends Controller
 
         $model = new Model("doc_invoice",$order_info['site_url']);
 		$delivery_status = Req::args("delivery_status");
-		if($delivery_status==3){
+		if($delivery_status==Order::DELIVERY_STATUS_APPLY_REFUND){
             $data = array();
             $data['invoice_no'] = $invoice_no;
             $data['order_id'] = $order_info['outer_id'];
@@ -381,6 +386,9 @@ class OrderController extends Controller
 
         $this->minHeadRealStore($order_id,'zd');
 
+		// 请求第三方生成电子面单并会写发货单号
+		// TODO
+		
 		echo "<script>parent.send_dialog_close();</script>";
 	}
 
