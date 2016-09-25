@@ -516,7 +516,7 @@ class carts extends baseapi
                 foreach($all as $val){
 
                     if($product['id'] == $val['id']){
-                        $current_goods_amount = $val['sell_total'];
+                        $current_goods_amount = $val['sell_price'] * $val['num'];
                     }
 
                     $goods_amount += $val['sell_total'];
@@ -576,7 +576,7 @@ class carts extends baseapi
                 foreach($all as $val){
 
                     if($product['id'] == $val['id']){
-                        $current_goods_amount = $val['sell_total'];
+                        $current_goods_amount = $val['sell_price'] * $val['num'];
                     }
 
                     $goods_amount += $val['sell_total'];
