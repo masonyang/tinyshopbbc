@@ -748,6 +748,8 @@ class customer extends baseapi
         $is_default = isset($this->params['is_default']) ? $this->params['is_default'] : 0;
         $_act = isset($this->params['_act']) ? $this->params['_act'] : null;
 
+        $is_default = ($is_default == 'true') ? '1' : '0';
+
         if(!$_act || !$user_id){
             $this->output['msg'] = '异常错误';
             $this->output();
