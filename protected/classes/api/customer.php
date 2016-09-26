@@ -858,6 +858,10 @@ class customer extends baseapi
 
         $addressModel = new Model('address');
 
+        if($is_default == 1){
+            $addressModel->data(array('is_default'=>0))->where('user_id='.$user_id)->update();
+        }
+
         if($_act == 'add'){
 
             $data = array();
