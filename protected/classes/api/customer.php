@@ -898,7 +898,7 @@ class customer extends baseapi
             $data['phone'] = $phone;
             $data['is_default'] = $is_default;
 
-            $res = $addressModel->data($data)->where('id='.$id)->update();
+            $addressModel->data($data)->where('id='.$id)->update();
         }
 
         $area_ids = $data['province'].','.$data['city'].','.$data['county'];
@@ -914,7 +914,7 @@ class customer extends baseapi
         $data['city_name'] = $parse_area[$data['city']];
         $data['county_name'] = $parse_area[$data['county']];
 
-        if($res){
+        if($res || ($_act == 'edit')){
             $this->output['status'] = 'succ';
             $this->output['msg'] = $act.'成功';
             $this->output();
