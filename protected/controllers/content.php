@@ -440,4 +440,57 @@ class ContentController extends Controller
 		$model->data(array('is_open'=>$is_open))->where("id=$id")->update();
 		echo JSON::encode(array('status'=>'success'));
 	}
+
+    //广告位列表
+    public function adposition_list()
+    {
+        $parse_type = array('1'=>'普通广告','2'=>'多图轮播','3'=>'文字','4'=>'悬浮','5'=>'代码','6'=>'广告位');
+        $this->assign("parse_type",$parse_type);
+        $this->assign("where","type=6");
+        $this->redirect();
+    }
+
+    //广告位保存
+    public function adposition_save()
+    {
+        $rules = array('name:required:标题不能为空!');
+        $info = Validator::check($rules);
+        if($info==true) {
+            Filter::form(array('sql'=>'title','text'=>'content'));
+            $id = Req::args('id');
+            $model = new Model("adposition");
+
+            $path = Req::args('path');
+            $url = Req::args('url');
+            $title = Req::args('title');
+
+            $content = array();
+
+            foreach($path as $k=>$v){
+                $content[$k]['path'] = $v;
+                $content[$k]['url'] = $url[$k];
+                $content[$k]['title'] = $title[$k];
+            }
+
+            $data = array(
+                'name'=>Req::args('name'),
+                'type'=>Req::args('type'),
+                'content'=>$content,
+            );
+
+            if($id){
+                $model->data($data)->where("id=$id")->update();
+//                Log::op($this->manager['id'],"修改帮助","管理员[".$this->manager['name']."]:修改了帮助 ".Req::args('title'));
+            }else{
+                $model->data($data)->insert();
+//                Log::op($this->manager['id'],"添加帮助","管理员[".$this->manager['name']."]:添加了帮助 ".Req::args('title'));
+            }
+        }else if(is_array($info)){
+            $data = Req::args()+array('validator'=>$info);
+            $this->redirect('adposition_edit',false,$data);
+            exit;
+        }
+        $this->redirect("adposition_list");
+    }
+
 }

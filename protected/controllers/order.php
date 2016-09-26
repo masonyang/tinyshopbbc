@@ -163,6 +163,16 @@ class OrderController extends Controller
 		$this->assign("id",$id);
 		$this->redirect();
 	}
+	
+	public function test()
+	{
+		print_r( Order::genEssOrder( '20160404184031231030' ) );
+		echo 'test' . PHP_EOL;
+	}
+	
+	/**
+	 * 订单发货
+	 */
 	public function doc_invoice_save(){
 		Req::post("admin",$this->manager['name']);
 		Req::post("create_time",date('Y-m-d H:i:s'));
@@ -236,7 +246,7 @@ class OrderController extends Controller
 
         $model = new Model("doc_invoice",$order_info['site_url']);
 		$delivery_status = Req::args("delivery_status");
-		if($delivery_status==3){
+		if($delivery_status==Order::DELIVERY_STATUS_APPLY_REFUND){
             $data = array();
             $data['invoice_no'] = $invoice_no;
             $data['order_id'] = $order_info['outer_id'];
@@ -376,7 +386,10 @@ class OrderController extends Controller
         $this->minBranchRealStore($order_info['outer_id'],$distrInfo['site_url']);
 
         $this->minHeadRealStore($order_id,'zd');
-
+		
+		//发货回写快递鸟生成 电子面单模板和物流单号
+		// TODO
+		
 		echo "<script>parent.send_dialog_close();</script>";
 	}
 

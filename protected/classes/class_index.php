@@ -150,6 +150,7 @@
 "apilist"=>"api/apilist.php",//api文档
 "siteconf"=>"api/siteconf.php",//店铺基本信息
 "attention"=>"api/attention.php",//会员商品收藏api
+"adposition"=>"api/adposition.php",//广告位api
 
 /**********************API INTERFACE************************************/
 

@@ -30,6 +30,25 @@
         <label>快递公司主页地址</label>
       </dd>
       </dl>
+      <dl class="lineD">
+        <dt>标示：</dt>
+        <dd>
+          <input name="customer_name" type="text" class="small" value="{$customer_name}">
+        </dd>
+      </dl>
+        <dl class="lineD">
+            <dt>秘钥：</dt>
+            <dd>
+                <input name="customer_pwd" type="text" class="small" value="{$customer_pwd}">
+            </dd>
+        </dl>
+        <dl class="lineD">
+            <dt>是否开启电子面单：</dt>
+            <dd>
+                <input name="is_ess" type="radio" value="1" {if:$is_ess == 1}checked{/if} >是 &nbsp;&nbsp;
+                <input name="is_ess" type="radio" value="0" {if:$is_ess == 0}checked{/if} >否
+            </dd>
+        </dl>
 
     <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
     </form>

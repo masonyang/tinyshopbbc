@@ -509,6 +509,20 @@ class customer extends baseapi
 
         if($addrList){
             $data = $addrList;
+
+            $area_ids = $data['province'].','.$data['city'].','.$data['county'];
+
+            $areaModel = new Model('area','zd','salve');
+            if($area_ids!='')$areas = $areaModel->where("id in ($area_ids)")->findAll();
+            $parse_area = array();
+            foreach ($areas as $area) {
+                $parse_area[$area['id']] = $area['name'];
+            }
+
+            $data['province_name'] = $parse_area[$data['province']];
+            $data['city_name'] = $parse_area[$data['city']];
+            $data['county_name'] = $parse_area[$data['county']];
+
             $this->output['status'] = 'succ';
         }
 
@@ -734,6 +748,8 @@ class customer extends baseapi
         $is_default = isset($this->params['is_default']) ? $this->params['is_default'] : 0;
         $_act = isset($this->params['_act']) ? $this->params['_act'] : null;
 
+        $is_default = ($is_default == 'true') ? '1' : '0';
+
         if(!$_act || !$user_id){
             $this->output['msg'] = '异常错误';
             $this->output();
@@ -787,9 +803,12 @@ class customer extends baseapi
 
         if($is_default == 1){
             $addressModel->data(array('is_default'=>0))->where('user_id='.$user_id)->update();
+            $isdefault = '1';
+        }else{
+            $isdefault = '0';
         }
 
-        $res = $addressModel->data(array('is_default'=>$is_default))->where('id='.$id)->update();
+        $res = $addressModel->data(array('is_default'=>$isdefault))->where('id='.$id)->update();
 
         if($res){
             $this->output['status'] = 'succ';
@@ -839,6 +858,10 @@ class customer extends baseapi
 
         $addressModel = new Model('address');
 
+        if($is_default == 1){
+            $addressModel->data(array('is_default'=>0))->where('user_id='.$user_id)->update();
+        }
+
         if($_act == 'add'){
 
             $data = array();
@@ -877,6 +900,19 @@ class customer extends baseapi
 
             $res = $addressModel->data($data)->where('id='.$id)->update();
         }
+
+        $area_ids = $data['province'].','.$data['city'].','.$data['county'];
+
+        $areaModel = new Model('area','zd','salve');
+        if($area_ids!='')$areas = $areaModel->where("id in ($area_ids)")->findAll();
+        $parse_area = array();
+        foreach ($areas as $area) {
+            $parse_area[$area['id']] = $area['name'];
+        }
+
+        $data['province_name'] = $parse_area[$data['province']];
+        $data['city_name'] = $parse_area[$data['city']];
+        $data['county_name'] = $parse_area[$data['county']];
 
         if($res){
             $this->output['status'] = 'succ';

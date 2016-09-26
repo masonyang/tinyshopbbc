@@ -14,6 +14,7 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'adposition'=>'adposition',
         'list'=>'attention',
         'add'=>'attention',
         'cancel'=>'attention',

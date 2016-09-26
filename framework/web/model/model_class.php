@@ -26,7 +26,19 @@ class Model
     private $db = array();
 
 	private $md5key = null;
-
+	
+	/**
+	 * 获取对象
+	 * @param null $name
+	 * @param null $domain
+	 * @param string $issalve
+	 * @return Model
+	 */
+	public static function getInstance($name=null,$domain = null,$issalve = 'salve')
+	{
+		return new self($name , $domain , $issalve);
+	}
+	
     /**
      * 构造方法
      *

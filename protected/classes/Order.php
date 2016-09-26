@@ -1,7 +1,32 @@
 <?php
 //订单处理类
 class Order{
-
+	
+	/**
+	 * 发货状态(未发货)
+	 */
+	const DELIVERY_STATUS_NOT_SHIPPED = 0;
+	
+	/**
+	 * 发货状态(已发货)
+	 */
+	const DELIVERY_STATUS_SHIPPED = 1;
+	
+	/**
+	 * 发货状态(已签收)
+	 */
+	const DELIVERY_STATUS_RECEIVED = 2;
+	
+	/**
+	 * 发货状态(申请换货)
+	 */
+	const DELIVERY_STATUS_APPLY_REFUND = 3;
+	
+	/**
+	 * 发货状态(已换货)
+	 */
+	const DELIVERY_STATUS_HAS_REFUNDED = 4;
+	
 	public static function updateStatus($orderNo,$payment_id=0,$callback_info=null){
 		$model = new Model("order");
 		$order = $model->where("order_no='".$orderNo."'")->find();
@@ -199,5 +224,52 @@ class Order{
 			return false;
 		}
 	}
-
+	
+	/**
+	 * 获取订单信息
+	 * @param $orderNo
+	 * @return Obj
+	 */
+	public static function getOrderInfo( $orderNo )
+	{
+		return Model::getInstance( 'order' )
+			->where("order_no='".$orderNo."'")
+			->find();
+	}
+	
+	/**
+	 * 获取订单的电子面单
+	 * @param $orderNo
+	 * @return string
+	 */
+	public static function getEssTemplate( $orderNo )
+	{
+		return Model::getInstance('doc_invoice')
+			->where("order_no='".$orderNo."'")
+			->find()['ess_template'] ? : '';
+	}
+	
+	/**
+	 * TODO
+	 * @param $orderNo
+	 * @param array $params
+	 * @return bool|string
+	 */
+	public static function genEssOrder( $orderNo , $params = array() )
+	{
+		if( $essTemplate = self::getEssTemplate( $orderNo ) )
+		{
+			return $essTemplate;
+		}
+		
+		// 订单没选发货公司
+		if( !($orderInfo = self::getOrderInfo( $orderNo ))
+			|| (empty( $orderInfo['express'] ))
+		)
+		{
+			return false;
+		}
+		
+		
+	}
 }

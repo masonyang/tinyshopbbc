@@ -16,7 +16,8 @@ onclick="tools_reload()"> 刷新</a>
         <th style="width:100px">别名</th>
         <th style="width:120px">快递100Code</th>
         <th style="width:auto;">公司网址</th>
-        
+        <th style="width:auto;">是否开启电子点单</th>
+
     </tr>
     </table>
 <div style="overflow: auto; height: 480px;">
@@ -27,7 +28,15 @@ onclick="tools_reload()"> 刷新</a>
                 <li><a class="icon-pencil" href="{url:/admin/express_company_edit/id/$item[id]}"> 编辑</a></li>
                <li><a class="icon-close" href="javascript:;" onclick="confirm_action('{url:/admin/express_company_del/id/$item[id]}')"> 删除</a></li>
             </ul></div></div> </td>
-          <td style="width:120px;">{$item['name']}</td><td style="width:100px;">{$item['alias']}</td><td style="width:120px;">{$item['code']}</td><td style="width:auto;"><a href="{$item['url']}" target="_blank">{$item['url']}</a></td></tr>
+          <td style="width:120px;">{$item['name']}</td><td style="width:100px;">{$item['alias']}</td>
+            <td style="width:120px;">{$item['code']}</td>
+            <td style="width:auto;"><a href="{$item['url']}" target="_blank">{$item['url']}</a></td>
+            {if:$item['is_ess']==1}
+            <td style="width:120px;">是</td>
+            {else:}
+            <td style="width:120px;">否</td>
+            {/if}
+        </tr>
     {/query}
 </table>
 </div>
