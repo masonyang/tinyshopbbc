@@ -224,5 +224,52 @@ class Order{
 			return false;
 		}
 	}
-
+	
+	/**
+	 * 获取订单信息
+	 * @param $orderNo
+	 * @return Obj
+	 */
+	public static function getOrderInfo( $orderNo )
+	{
+		return Model::getInstance( 'order' )
+			->where("order_no='".$orderNo."'")
+			->find();
+	}
+	
+	/**
+	 * 获取订单的电子面单
+	 * @param $orderNo
+	 * @return string
+	 */
+	public static function getEssTemplate( $orderNo )
+	{
+		return Model::getInstance('doc_invoice')
+			->where("order_no='".$orderNo."'")
+			->find()['ess_template'] ? : '';
+	}
+	
+	/**
+	 * TODO
+	 * @param $orderNo
+	 * @param array $params
+	 * @return bool|string
+	 */
+	public static function genEssOrder( $orderNo , $params = array() )
+	{
+		if( $essTemplate = self::getEssTemplate( $orderNo ) )
+		{
+			return $essTemplate;
+		}
+		
+		// 订单没选发货公司
+		if( !($orderInfo = self::getOrderInfo( $orderNo ))
+			|| (empty( $orderInfo['express'] ))
+		)
+		{
+			return false;
+		}
+		
+		
+	}
 }

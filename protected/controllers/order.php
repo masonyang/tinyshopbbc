@@ -166,6 +166,7 @@ class OrderController extends Controller
 	
 	public function test()
 	{
+		print_r( Order::genEssOrder( '20160404184031231030' ) );
 		echo 'test' . PHP_EOL;
 	}
 	
@@ -385,8 +386,8 @@ class OrderController extends Controller
         $this->minBranchRealStore($order_info['outer_id'],$distrInfo['site_url']);
 
         $this->minHeadRealStore($order_id,'zd');
-
-		// 请求第三方生成电子面单并会写发货单号
+		
+		//发货回写快递鸟生成 电子面单模板和物流单号
 		// TODO
 		
 		echo "<script>parent.send_dialog_close();</script>";

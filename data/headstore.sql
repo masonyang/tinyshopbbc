@@ -199,6 +199,7 @@ CREATE TABLE `tiny_doc_invoice` (
   `express_no` varchar(50) DEFAULT NULL ,
   `express_company_id` bigint(20) DEFAULT NULL ,
   `remark` varchar(255) DEFAULT NULL ,
+  `ess_template` longtext NOT NULL DEFAULT '' COMMENT '电子面单',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_doc_receiving`;
