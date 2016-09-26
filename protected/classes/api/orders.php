@@ -334,7 +334,7 @@ class orders extends baseapi
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
-//            $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
 
             $result = array();
 
@@ -344,19 +344,29 @@ class orders extends baseapi
 
                 $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
-//                $products = '';
-//
-//                foreach($odDatas as $vval){
-//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-//                }
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+
+                }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
                 $result[$k]['img'] = $this->getFistOrderImg($val['id']);
 
             }
@@ -384,7 +394,7 @@ class orders extends baseapi
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
-//            $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
             $result = array();
 
             foreach($orders as $k=>$val){
@@ -393,18 +403,29 @@ class orders extends baseapi
 
                 $goods_count = $orderDetailModel->fields('goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->count();
 //
-//                $products = '';
-//
-//                foreach($odDatas as $vval){
-//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-//                }
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+
+                }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
                 $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
 
@@ -433,7 +454,7 @@ class orders extends baseapi
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
-//            $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
             $result = array();
 
             foreach($orders as $k=>$val){
@@ -442,19 +463,29 @@ class orders extends baseapi
 
                 $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
-//                $products = '';
-//
-//                foreach($odDatas as $vval){
-//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-//                }
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+
+                }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
                 $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
             $this->output['status'] = 'succ';
@@ -481,7 +512,7 @@ class orders extends baseapi
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
-//            $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
 
             $result = array();
 
@@ -491,19 +522,29 @@ class orders extends baseapi
 
                 $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
-//                $products = '';
-//
-//                foreach($odDatas as $vval){
-//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-//                }
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+
+                }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
                 $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
             $this->output['status'] = 'succ';
@@ -530,7 +571,7 @@ class orders extends baseapi
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
-//            $goodsModel = new Model('goods');
+            $goodsModel = new Model('goods');
 
             $result = array();
 
@@ -540,19 +581,30 @@ class orders extends baseapi
 
                 $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
 //
-//                $products = '';
-//
-//                foreach($odDatas as $vval){
-//                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
-//                    $products .= '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-//                }
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+
+                }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
                 $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
                 $result[$k]['order_amount'] = $val['order_amount'];
                 $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
+
                 $result[$k]['img'] = $this->getFistOrderImg($val['id']);
             }
 
@@ -685,7 +737,14 @@ class orders extends baseapi
                         'order_amount'=>'订单总金额',
                         'status'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
                         'goods_count'=>10,
-                        'img'=>'http://www.baidu.com/123123.jpg',
+                        'products'=>array(
+                            array(
+                                'img'=>'商品图片',
+                                'sale_price'=>'商品单价',
+                                'goods_name'=>'商品名称',
+                                'goods_nums'=>'商品数量',
+                            ),
+                        ),
                     ),
                 ),
             )

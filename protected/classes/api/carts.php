@@ -345,6 +345,18 @@ class carts extends baseapi
                 'colum'=>'orderid',
                 'content'=>'创建订单成功返回 订单号',
             ),
+            array(
+                'colum'=>'paymentid',
+                'content'=>'创建订单成功返回 支付id号',
+            ),
+            array(
+                'colum'=>'order_products',
+                'content'=>'商品总数量',
+            ),
+            array(
+                'colum'=>'create_time',
+                'content'=>'创建时间',
+            ),
         ),
         'checkout'=>array(
             array(
@@ -955,7 +967,7 @@ class carts extends baseapi
             $data['express'] = $ex['id'];
             $data['payable_freight'] = $payable_freight;
             $data['real_freight'] = $real_freight;
-            $data['create_time'] = date('Y-m-d H:i:s');
+            $data['create_time'] = $create_time = date('Y-m-d H:i:s');
             $data['user_remark'] = $user_remark ? $user_remark : '';
             $data['is_invoice'] = false;
             $data['invoice_title'] = '';
@@ -1036,8 +1048,8 @@ class carts extends baseapi
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '订单创建成功';
-            $this->output(array('orderid'=>$order_id));
-
+            $this->output(array('orderid'=>$order_id,'paymentid'=>$payment_id,'order_products'=>count($order_products),'create_time'=>$create_time));
+            //总金额、创建时间、商品总数量、
         }catch (Exception $e){
             $this->output['status'] = 'fail';
             $this->output['msg'] = $e->getMessage();
