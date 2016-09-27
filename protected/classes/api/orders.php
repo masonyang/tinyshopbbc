@@ -67,10 +67,16 @@ class orders extends baseapi
                 'content'=>'会员id',
             ),
             array(
+                'colum'=>'page',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'页码',
+            ),
+            array(
                 'colum'=>'status',
                 'required'=>'必须',
                 'type'=>'string',
-                'content'=>'订单状态 (waitpay:未支付,delivery:已支付,finish:已完成,cancel:已作废,不传:全部订单)',
+                'content'=>'订单状态 (waitcheck:待审核,waitpay:未支付,delivery:已支付,finish:已完成,cancel:已作废,不传:全部订单)',
             ),
         ),
     );
@@ -167,6 +173,8 @@ class orders extends baseapi
         'morders'=>'     /index.php?con=api&act=index&method=orders&source=morders',
     );
 
+    private $limit = 10;
+
     public function index()
     {
         switch($this->params['source']){
@@ -174,7 +182,18 @@ class orders extends baseapi
                 $this->orderDetail();
                 break;
             case 'morders':
-                if($this->params['status'] == 'waitpay'){
+
+                if(!isset($this->params['page'])){
+                    $this->params['page'] =  null;
+                }elseif($this->params['page'] <=0){
+                    $this->params['page'] = 0;
+                }else{
+                    $this->params['page'] = $this->limit * ($this->params['page']-1);
+                }
+
+                if($this->params['status'] == 'waitcheck'){
+                    $this->getWaitCheckOrders();
+                }elseif($this->params['status'] == 'waitpay'){
                     $this->getWaitPayOrders();
                 }elseif($this->params['status'] == 'delivery'){
                     $this->getDeliveryOrders();
@@ -322,19 +341,27 @@ class orders extends baseapi
     }
 
     //待支付订单
-    protected function getWaitPayOrders()
+    protected function getWaitCheckOrders()
     {
 
         $userid = $this->params['uid'];
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=0')->order('unix_timestamp(create_time) desc')->findAll();
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (1,2)')->order('unix_timestamp(create_time) desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
             $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
 
             $result = array();
 
@@ -350,11 +377,99 @@ class orders extends baseapi
 
                 foreach($odDatas as $k => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $products[$k]['img'] = self::getApiUrl().$gData['img'];
                     $products[$k]['goods_name'] = $gData['name'];
                     $products[$k]['goods_nums'] = $vval['goods_nums'];
                     $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
+
+                }
+//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+
+                $result[$k]['oid'] = $val['id'];
+                $result[$k]['order_no'] = $val['order_no'];
+                $result[$k]['status'] = $status;
+                $result[$k]['create_time'] = $val['create_time'];
+                $result[$k]['order_amount'] = $val['order_amount'];
+                $result[$k]['goods_count'] = $goods_count;
+
+                $result[$k]['products'] = $products;
+                $result[$k]['img'] = $this->getFistOrderImg($val['id']);
+
+            }
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '会员订单获取成功';
+            $this->output($result);
+        }else{
+            $this->output['msg'] = '暂无订单';
+            $this->output();
+
+        }
+
+    }
+
+    //待支付订单
+    protected function getWaitPayOrders()
+    {
+
+        $userid = $this->params['uid'];
+
+        $orderModel = new Model('order');
+
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=0')->order('unix_timestamp(create_time) desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
+
+        if($orders){
+            $orderDetailModel = new Model('order_goods');
+//
+            $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
+
+            $result = array();
+
+            foreach($orders as $k=>$val){
+
+                $status = $this->status($val);
+
+                $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
+//
+                $products = array();
+
+                $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
+
+                foreach($odDatas as $k => $vval){
+                    $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
+//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
+                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$k]['goods_name'] = $gData['name'];
+                    $products[$k]['goods_nums'] = $vval['goods_nums'];
+                    $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -389,12 +504,21 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=1 and delivery_status=0')->order('unix_timestamp(pay_time) desc')->findAll();
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and pay_status=1 and delivery_status=0')->order('unix_timestamp(pay_time) desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
             $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
+
             $result = array();
 
             foreach($orders as $k=>$val){
@@ -409,11 +533,21 @@ class orders extends baseapi
 
                 foreach($odDatas as $k => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $products[$k]['img'] = self::getApiUrl().$gData['img'];
                     $products[$k]['goods_name'] = $gData['name'];
                     $products[$k]['goods_nums'] = $vval['goods_nums'];
                     $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -449,12 +583,21 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and delivery_status=1')->order('unix_timestamp(create_time) desc')->findAll();
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and delivery_status=1')->order('unix_timestamp(create_time) desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
             $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
+
             $result = array();
 
             foreach($orders as $k=>$val){
@@ -469,11 +612,21 @@ class orders extends baseapi
 
                 foreach($odDatas as $k => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $products[$k]['img'] = self::getApiUrl().$gData['img'];
                     $products[$k]['goods_name'] = $gData['name'];
                     $products[$k]['goods_nums'] = $vval['goods_nums'];
                     $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -507,12 +660,20 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (5,6)')->order('unix_timestamp(create_time) desc')->findAll();
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (5,6)')->order('unix_timestamp(create_time) desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
             $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
 
             $result = array();
 
@@ -528,11 +689,21 @@ class orders extends baseapi
 
                 foreach($odDatas as $k => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $products[$k]['img'] = self::getApiUrl().$gData['img'];
                     $products[$k]['goods_name'] = $gData['name'];
                     $products[$k]['goods_nums'] = $vval['goods_nums'];
                     $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -566,12 +737,20 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc')->findAll();
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc');
+
+        if($this->params['page'] != null){
+            $orderModel->limit($this->params['page'].','.$this->limit);
+        }
+
+        $orders = $orderModel->findAll();
 
         if($orders){
             $orderDetailModel = new Model('order_goods');
 //
             $goodsModel = new Model('goods');
+
+            $productsModel = new Model('products');
 
             $result = array();
 
@@ -587,11 +766,21 @@ class orders extends baseapi
 
                 foreach($odDatas as $k => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
+
+                    $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+
+                    $spec = array();
+                    $specs = unserialize($items['spec']);
+                    foreach($specs as $_specs){
+                        $spec[] = $_specs['value'][2];
+                    }
+
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $products[$k]['img'] = self::getApiUrl().$gData['img'];
                     $products[$k]['goods_name'] = $gData['name'];
                     $products[$k]['goods_nums'] = $vval['goods_nums'];
                     $products[$k]['sale_price'] = $vval['real_price'];
+                    $products[$k]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);

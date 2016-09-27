@@ -40,6 +40,10 @@ class siteconf extends baseapi
                 'colum'=>'site_name',
                 'content'=>'网店名称',
             ),
+            array(
+                'colum'=>'adpositions',
+                'content'=>'广告位列表',
+            ),
         ),
     );
 
@@ -67,6 +71,18 @@ class siteconf extends baseapi
             $data['site_logo'] =$config['site_logo'] ? baseapi::getApiUrl().$config['site_logo'] : '';
             $data['site_name'] =$config['site_name'];
 
+            $adModel = new Model('adposition');
+
+            $ad = $adModel->findAll();
+
+            $adpositions = array();
+
+            foreach($ad as $val){
+                $adpositions[] = $val['id'];
+            }
+
+            $data['adpositions'] = $adpositions;
+
             $this->output['msg'] = '获取内容成功';
         }else{
             $this->output['msg'] = '获取失败';
@@ -91,7 +107,8 @@ class siteconf extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     'site_logo'=>'网上商城',
-                    'site_name'=>'http://www.baidu.com/123213.jpg'
+                    'site_name'=>'http://www.baidu.com/123213.jpg',
+                    'adpositions'=>array('1','2','3'),
                 ),
             )
         );

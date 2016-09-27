@@ -46,7 +46,7 @@ class adposition extends baseapi
     );
 
     public static $requestUrl = array(
-        'advert'=>'     /index.php?con=api&act=index&method=adposition'
+        'adposition'=>'     /index.php?con=api&act=index&method=adposition'
     );
 
     public function __construct($params = array())
