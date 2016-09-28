@@ -134,6 +134,12 @@ class products extends baseapi
                 'type'=>'int',
                 'content'=>'商品id',
             ),
+            array(
+                'colum'=>'uid',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'会员id 默认: 0',
+            ),
         ),
     );
 
@@ -179,6 +185,10 @@ class products extends baseapi
                 'colum'=>'sys_attrprice',
                 'content'=>'多规格商品存放',
             ),
+            array(
+                'colum'=>'attention',
+                'content'=>'是否收藏 [已收藏:fav,未收藏:nofav]（当存在会员id时候，使用）',
+            ),
         ),
     );
 
@@ -198,6 +208,8 @@ class products extends baseapi
     public function index()
     {
         $id = intval($this->params['id']);
+
+        $uid = $this->params['uid'];
 
         $data = array();
         $goods = $this->goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,imgs,unit,content,store_nums')->where('id='.$id)->find();
@@ -247,6 +259,20 @@ class products extends baseapi
                 $goods['store_nums'] = $goods['store_nums'] - $freeze;
                 $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
             }
+
+            $attention = 'nofav';
+
+            if($uid){
+                $attentionModel = new Model('attention');
+
+                $at = $attentionModel->where('`user_id`='.$uid.' and goods_id='.$id)->find();
+
+                if($at){
+                    $attention = 'fav';
+                }
+            }
+
+            $goods['attention'] = $attention;
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '商品详情获取成功';
@@ -298,6 +324,7 @@ class products extends baseapi
                         'unit' => '件',
                         'content' => '',
                         'content_data' => '',
+                        'attention'=>'已收藏:fav,未收藏:nofav',
                         'imgs' => array(
                             array(
                                 'url' => 'http://a.tinyshop.com/data/uploads/2014/04/30/b8f4125b967911e08f7115f8d2b3f684.jpg',
@@ -339,6 +366,9 @@ class products extends baseapi
         });
     }
 </script>";
+
+        $return['attention'] = $goods['attention'];
+
         $return['imgs'] = array();
 
         $i = 0;
