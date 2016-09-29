@@ -64,7 +64,7 @@ class adposition extends baseapi
             $this->output();
             exit;
         }
-        $model = new Model('adposition');
+        $model = new Model('adposition','zd','salve');
 
 
         $ad = $model->where("id = '$id'")->find();

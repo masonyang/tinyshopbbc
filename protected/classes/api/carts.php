@@ -197,6 +197,7 @@ class carts extends baseapi
         'scount'=>'获取会员购物车商品总数',
         'cindex'=>'购物车列表',
         'removecart'=>'从购物车中删除商品 /【购物车】中 删减商品数量',
+        'changecheckout'=>'根据 变更结算页面信息时候 触发价格等变更',
     );
 
     public static $lastmodify = array(
@@ -206,6 +207,7 @@ class carts extends baseapi
         'scount'=>'2016-6-28',
         'cindex'=>'2016-6-28',
         'removecart'=>'2016-6-28',
+        'changecheckout'=>'2016-9-29',
     );
 
     public static $notice = array(
@@ -215,6 +217,7 @@ class carts extends baseapi
         'scount'=>'<span style="color: red;">已更新 7/5</span>',
         'cindex'=>'<span style="color: red;">已更新 7/5</span>',
         'removecart'=>'<span style="color: red;">已更新 7/5</span>',
+        'changecheckout'=>'<span style="color: red;">已更新 9/29</span>',
     );
 
     public static $requestParams = array(
@@ -313,6 +316,20 @@ class carts extends baseapi
                 'required'=>'是',
                 'type'=>'string',
                 'content'=>'货号',
+            ),
+        ),
+        'changecheckout'=>array(
+            array(
+                'colum'=>'uid',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员id',
+            ),
+            array(
+                'colum'=>'addr_id',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'收货地址id',
             ),
         ),
     );
@@ -446,6 +463,12 @@ class carts extends baseapi
                 'content'=>'商品总金额',
             )
         ),
+        'changecheckout'=>array(
+            array(
+                'colum'=>'payable_freight',
+                'content'=>'配送费用',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
@@ -455,6 +478,7 @@ class carts extends baseapi
         'scount'=>'     /index.php?con=api&act=index&method=carts&source=scount',
         'cindex'=>'     /index.php?con=api&act=index&method=carts&source=cindex',
         'removecart'=>'     /index.php?con=api&act=index&method=carts&source=removecart',
+        'changecheckout' =>'     /index.php?con=api&act=index&method=carts&source=changecheckout',
     );
 
     public function index()
@@ -617,6 +641,9 @@ class carts extends baseapi
             break;
             case 'docheckout':
                 $this->docheckout();
+            break;
+            case 'changecheckout'://根据 变更结算页面信息时候 触发价格等变更
+                $this->changecheckout();
             break;
         }
     }
@@ -1055,6 +1082,72 @@ class carts extends baseapi
             $this->output['msg'] = $e->getMessage();
             $this->output(array());
         }
+    }
+
+    protected function changecheckout()
+    {
+
+        $userid = $this->params['uid'];
+
+        $addrid = $this->params['addr_id'];
+
+        if(empty($userid)){
+            $this->output['msg'] = '会员不能为空';
+            $this->output();
+            exit;
+        }elseif(empty($addrid)){
+            $this->output['msg'] = '收货地址不能为空';
+            $this->output();
+            exit;
+        }
+
+        $addressModel = new Model('address');
+
+        if($addrid){
+            $addrData = $addressModel->where('id='.$addrid)->find();
+            $default_addr_id = $addrData['id'];
+        }else{
+            $this->output['msg'] = '收货地址不存在';
+            $this->output();
+            exit;
+        }
+
+        $weight = 0;
+
+        $cart = Cart::getCart($this->params['uid']);
+
+        $all = $cart->all();
+
+        foreach($all as $k=>$item){
+
+            $weight += $item['weight']*$item['num'];
+        }
+        $fare = new Fare($weight);
+        $payable_freight = $fare->calculate($default_addr_id);
+
+        $this->output['status'] = 'succ';
+        $this->output['msg'] = '计算成功';
+        $this->output(array('payable_freight'=>$payable_freight));
+    }
+
+    public function changecheckout_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'会员不能为空 / 收货地址不能为空 / 收货地址不存在',
+                'data'=>array(
+
+                ),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'计算成功',
+                'data'=>array(
+                    'payable_freight'=>12
+                ),
+            )
+        );
     }
 
     public function addcart_demo()

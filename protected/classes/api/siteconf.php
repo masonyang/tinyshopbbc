@@ -75,7 +75,15 @@ class siteconf extends baseapi
             $data['site_logo'] =$config['site_logo'] ? baseapi::getApiUrl().$config['site_logo'] : '';
             $data['site_name'] =$config['site_name'];
 
-            $adModel = new Model('adposition');
+            $serverName = Tiny::getServerName();
+
+            $appObj = new Model('distributor','zd','salve');
+
+            $app_info = $appObj->fields('android_appversion,ios_appversion,ios_download_url,android_download_url')->where('site_url="'.$serverName['top'].'"')->find();
+
+            $data['app_info'] = $app_info;
+
+            $adModel = new Model('adposition','zd','salve');
 
             $ad = $adModel->findAll();
 
@@ -86,14 +94,6 @@ class siteconf extends baseapi
             }
 
             $data['adpositions'] = $adpositions;
-
-            $serverName = Tiny::getServerName();
-
-            $appObj = new Model('appinfo','zd','salve');
-
-            $app_info = $appObj->fields('appversion,ios_download_url,android_download_url')->where('domain="'.$serverName['top'].'"')->find();
-
-            $data['app_info'] = $app_info;
 
             $this->output['msg'] = '获取内容成功';
         }else{
@@ -122,7 +122,8 @@ class siteconf extends baseapi
                     'site_name'=>'http://www.baidu.com/123213.jpg',
                     'adpositions'=>array('1','2','3'),
                     'app_info'=>array(
-                        'appversion'=>'0.1',
+                        'ios_appversion'=>'0.1',
+                        'android_appversion'=>'1.0',
                         'ios_download_url'=>'http://ios.apple.com/sadfasfas',
                         'android_download_url'=>'http://android.google.com/sadfasfas',
                     ),

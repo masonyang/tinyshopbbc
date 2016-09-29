@@ -983,6 +983,8 @@ CREATE TABLE `tiny_distributor` (
   `catids` varchar(200) NOT NULL DEFAULT '' COMMENT '授权分类',
   `register_time` int(10) NOT NULL COMMENT '加入时间',
   `disabled` tinyint(1) DEFAULT '0' COMMENT '是否禁用 0:启用 1:禁用',
+  `android_appversion` varchar(50) NOT NULL ,
+  `ios_appversion` varchar(50) NOT NULL ,
   PRIMARY KEY (`distributor_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='分销商信息';
 ALTER TABLE `tiny_distributor` add INDEX idx_disabled (`disabled`);
@@ -1040,12 +1042,21 @@ CREATE TABLE `tiny_order_invoice` (
 ALTER TABLE `tiny_order_invoice` add INDEX order_no (order_no);
 ALTER TABLE `tiny_order_invoice` add INDEX express_no (express_no);
 
-DROP TABLE IF EXISTS `tiny_appinfo`;
-CREATE TABLE `tiny_appinfo` (
-  `app_id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `appversion` varchar(50) NOT NULL ,
-  `ios_download_url` varchar(255) NOT NULL ,
-  `android_download_url` varchar(255) NOT NULL ,
-  `domain` varchar(50) DEFAULT NULL ,
-  PRIMARY KEY (`app_id`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='app版本更新表';
+DROP TABLE IF EXISTS `tiny_adposition`;
+CREATE TABLE `tiny_adposition` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `name` varchar(50) NOT NULL ,
+  `type` tinyint(1) DEFAULT NULL ,
+  `number` varchar(32) DEFAULT NULL ,
+  `link` varchar(255) DEFAULT NULL ,
+  `order` int(6) DEFAULT NULL ,
+  `width` int(11) DEFAULT NULL ,
+  `height` int(11) DEFAULT NULL ,
+  `start_time` date DEFAULT NULL ,
+  `end_time` date DEFAULT NULL ,
+  `content` text ,
+  `description` varchar(255) DEFAULT NULL ,
+  `is_open` tinyint(1) DEFAULT '1' ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 ;
+ALTER TABLE `tiny_adposition` add INDEX idx_n_s_e (number,start_time,end_time);

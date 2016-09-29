@@ -89,16 +89,16 @@
         'name' => '客户服务',
         'parent' => 'config',
       ),
-      '/content/adposition_list' =>
-      array (
-         'name' => '广告位管理',
-         'parent' => 'config',
-      ),
-      '/content/adposition_edit' =>
-      array (
-         'name' => '编辑广告位',
-         'parent' => 'config',
-      ),
+//      '/content/adposition_list' =>
+//      array (
+//         'name' => '广告位管理',
+//         'parent' => 'config',
+//      ),
+//      '/content/adposition_edit' =>
+//      array (
+//         'name' => '编辑广告位',
+//         'parent' => 'config',
+//      ),
       '/admin/clear' => 
       array (
         'name' => '清除缓存',
@@ -496,6 +496,16 @@
         'name' => '编辑广告',
         'parent' => 'banner',
       ),
+      '/content/adposition_list' =>
+        array (
+            'name' => '广告位管理',
+            'parent' => 'banner',
+        ),
+      '/content/adposition_edit' =>
+        array (
+            'name' => '编辑广告位',
+            'parent' => 'banner',
+        ),
       '/content/tags_list' => 
       array (
         'name' => '标签管理',
@@ -620,11 +630,6 @@
       array (
         'name' => '分销商列表',
         'parent' => 'distributor',
-      ),
-      '/distributor/appinfo_list' =>
-      array (
-         'name' => 'app版本管理',
-         'parent' => 'distributor',
       ),
       '/orderscanner/scannersetting_list' => 
       array (

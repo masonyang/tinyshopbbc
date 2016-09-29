@@ -114,6 +114,8 @@ class DistributorController extends Controller
 		$site_url = Req::post('site_url');
 		$site_ios_url = Req::post('site_ios_url');
 		$site_android_url = Req::post('site_android_url');
+        $android_appversion = Req::post('android_appversion');
+        $ios_appversion = Req::post('ios_appversion');
 		$zip = Req::post('zip');
 		$site_keyword = Req::post('site_keyword');
 		$site_description = Req::post('site_description');
@@ -135,6 +137,8 @@ class DistributorController extends Controller
 		$data['site_url'] = $site_url;
 		$data['site_ios_url'] = $site_ios_url;
 		$data['site_android_url'] = $site_android_url;
+        $data['ios_appversion'] = $ios_appversion;
+        $data['android_appversion'] = $android_appversion;
         $data['zip'] = $zip;
 		$data['site_keyword'] = $site_keyword;
 		$data['site_description'] = $site_description;
