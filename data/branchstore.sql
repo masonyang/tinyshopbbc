@@ -676,3 +676,11 @@ CREATE TABLE `tiny_adposition` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8 ;
 ALTER TABLE `tiny_adposition` add INDEX idx_n_s_e (number,start_time,end_time);
+DROP TABLE IF EXISTS `tiny_attention`;
+CREATE TABLE `tiny_attention` (
+  `id` bigint(11) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(11) NOT NULL ,
+  `goods_id` bigint(11) NOT NULL ,
+  `time` datetime DEFAULT NULL ,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;

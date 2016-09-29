@@ -188,6 +188,7 @@ class attention extends baseapi
             $this->output();
 
         }else{
+            $this->output['status'] = 'succ';
             $this->output['msg'] = '已取消收藏';
             $this->output();
         }
