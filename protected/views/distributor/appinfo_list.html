@@ -1,0 +1,43 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+
+        <a class="icon-plus" href="{url:/distributor/distributor_edit}"> 添加分销商</a>
+
+        <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:30px">选择</th>
+            <th style="width:70px">操作</th>
+            <th style="width:100px">分销商网店名称</th>
+            <th style="width:70px">当前版本号 </th>
+            <th style="width:70px">ios下载地址 </th>
+            <th style="width:70px">android下载地址</th>
+        </tr>
+
+        {query:name=appinfo fields=app_id,appversion,ios_download_url,android_download_url,domain where=$where id=$obj page=1 }
+        <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['app_id']}"></td>
+            <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-pencil" href="{url:/distributor/appinfo_edit/id/}{$item['app_id']}"> 编辑</a></li>
+            </ul></div></div>
+            </td>
+            <td style="width:100px">{$item['domain']}.qqcapp.com</td>
+            <td style="width:70px">{$item['appversion']}</td>
+            <td style="width:70px">{$item['ios_download_url']}</td>
+            <td style="width:70px">{$item['android_download_url']}</td>
+        </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+<script type="text/javascript">
+
+    $("#condition").on("click",function(){
+        $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/distributor/distributor_list}',method:'get'});},data:{distributor_name:{name:'姓名'},site_name:{name:'站点名称'},mobile:{name:'手机号'}}});
+    })
+</script>

@@ -621,6 +621,11 @@
         'name' => '分销商列表',
         'parent' => 'distributor',
       ),
+      '/distributor/appinfo_list' =>
+      array (
+         'name' => 'app版本管理',
+         'parent' => 'distributor',
+      ),
       '/orderscanner/scannersetting_list' => 
       array (
         'name' => '扫描枪设置',

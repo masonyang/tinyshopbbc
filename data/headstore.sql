@@ -1039,3 +1039,13 @@ CREATE TABLE `tiny_order_invoice` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单、物流单关联表';
 ALTER TABLE `tiny_order_invoice` add INDEX order_no (order_no);
 ALTER TABLE `tiny_order_invoice` add INDEX express_no (express_no);
+
+DROP TABLE IF EXISTS `tiny_appinfo`;
+CREATE TABLE `tiny_appinfo` (
+  `app_id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `appversion` varchar(50) NOT NULL ,
+  `ios_download_url` varchar(255) NOT NULL ,
+  `android_download_url` varchar(255) NOT NULL ,
+  `domain` varchar(50) DEFAULT NULL ,
+  PRIMARY KEY (`app_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='app版本更新表';

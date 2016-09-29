@@ -375,7 +375,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -387,11 +387,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -453,7 +453,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -465,11 +465,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -531,7 +531,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -543,11 +543,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -610,7 +610,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -622,11 +622,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -687,7 +687,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -699,11 +699,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
@@ -764,7 +764,7 @@ class orders extends baseapi
 
                 $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$val['id'])->findAll();
 
-                foreach($odDatas as $k => $vval){
+                foreach($odDatas as $kk => $vval){
                     $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
                     $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
@@ -776,11 +776,11 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$k]['img'] = self::getApiUrl().$gData['img'];
-                    $products[$k]['goods_name'] = $gData['name'];
-                    $products[$k]['goods_nums'] = $vval['goods_nums'];
-                    $products[$k]['sale_price'] = $vval['real_price'];
-                    $products[$k]['spec'] = implode(',',$spec);
+                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $products[$kk]['goods_name'] = $gData['name'];
+                    $products[$kk]['goods_nums'] = $vval['goods_nums'];
+                    $products[$kk]['sale_price'] = $vval['real_price'];
+                    $products[$kk]['spec'] = implode(',',$spec);
 
                 }
 //                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);

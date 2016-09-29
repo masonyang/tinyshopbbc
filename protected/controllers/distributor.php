@@ -298,4 +298,13 @@ class DistributorController extends Controller
 
         echo JSON::encode($info);
     }
+
+    public function appinfo_list()
+    {
+
+       $this->redirect();
+
+    }
+
+
 }

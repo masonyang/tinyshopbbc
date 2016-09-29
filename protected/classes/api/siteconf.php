@@ -44,6 +44,10 @@ class siteconf extends baseapi
                 'colum'=>'adpositions',
                 'content'=>'广告位列表',
             ),
+            array(
+                'colum'=>'app_info',
+                'content'=>'app信息',
+            ),
         ),
     );
 
@@ -83,6 +87,14 @@ class siteconf extends baseapi
 
             $data['adpositions'] = $adpositions;
 
+            $serverName = Tiny::getServerName();
+
+            $appObj = new Model('appinfo','zd','salve');
+
+            $app_info = $appObj->fields('appversion,ios_download_url,android_download_url')->where('domain="'.$serverName['top'].'"')->find();
+
+            $data['app_info'] = $app_info;
+
             $this->output['msg'] = '获取内容成功';
         }else{
             $this->output['msg'] = '获取失败';
@@ -109,6 +121,11 @@ class siteconf extends baseapi
                     'site_logo'=>'网上商城',
                     'site_name'=>'http://www.baidu.com/123213.jpg',
                     'adpositions'=>array('1','2','3'),
+                    'app_info'=>array(
+                        'appversion'=>'0.1',
+                        'ios_download_url'=>'http://ios.apple.com/sadfasfas',
+                        'android_download_url'=>'http://android.google.com/sadfasfas',
+                    ),
                 ),
             )
         );
