@@ -272,11 +272,14 @@ class products extends baseapi
                 }
             }
 
-            $goods['attention'] = $attention;
+
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '商品详情获取成功';
             $data = $this->geJson($goods,$spec_arr,$sys_attrprice);
+
+            $data['attention'] = $attention;
+
             $this->output($data);
         }else{
             $this->output['msg'] = '商品详情获取失败';
@@ -366,8 +369,6 @@ class products extends baseapi
         });
     }
 </script>";
-
-        $return['attention'] = $goods['attention'];
 
         $return['imgs'] = array();
 
