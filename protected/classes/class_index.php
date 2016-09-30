@@ -18,6 +18,7 @@
 "OpenShop"=>"OpenShop.php",
 "ScannerSetting"=>"ScannerSetting.php",
 "OrderScanner"=>"OrderScanner.php",
+"EssExpress"=>"EssExpress.php",
 "DataSync"=>"DataSync.php",
 "syncBrand"=>"datasync/syncBrand.php",
 "syncCategory"=>"datasync/syncCategory.php",

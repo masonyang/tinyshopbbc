@@ -180,9 +180,9 @@ class attention extends baseapi
         $at = $attentionModel->where('`user_id`='.$this->params['uid'].' and goods_id='.$this->params['gid'])->find();
 
         if($at){
-            $data = array('user_id'=>$this->params['uid'],'goods_id'=>$this->params['gid'],'time'=>date('Y-m-d H:i:s'));
+//            $data = array('user_id'=>$this->params['uid'],'goods_id'=>$this->params['gid'],'time'=>date('Y-m-d H:i:s'));
 
-            $attentionModel->data($data)->update();
+            $attentionModel->where("user_id=".$this->params['uid'].' and goods_id='.$this->params['gid'])->delete();
             $this->output['status'] = 'succ';
             $this->output['msg'] = '取消收藏成功';
             $this->output();
