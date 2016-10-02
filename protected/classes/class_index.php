@@ -110,7 +110,7 @@
 "pay_tenpay"=>"payments/pay_tenpay.php",
 "pay_alipaymobile"=>"payments/pay_alipaymobile.php",
 "DXSMS"=>"standard/sms/DXSMS.php",
-"SMS"=>"sms/SMS.php",
+//"SMS"=>"sms/SMS.php",
 "SMSInterface"=>"standard/sms/SMSInterface.php",
 
 
@@ -152,21 +152,69 @@
 "siteconf"=>"api/siteconf.php",//店铺基本信息
 "attention"=>"api/attention.php",//会员商品收藏api
 "adposition"=>"api/adposition.php",//广告位api
+"sms"=>"api/sms.php",//短信api
 
 /**********************API INTERFACE************************************/
 
 "DES3"=>"DES3.php",
+
+
+    /**********************  图片裁剪 ************************************/
+"ImageClipper"=>"ImageClipper.php", //图片裁剪类
+"ThumbBase"=>"thumb/ThumbBase.inc.php",
+"PhpThumbFactory"=>"thumb/PhpThumbFactory.class.php",
+"PhpThumb"=>"thumb/PhpThumb.inc.php",
+"GdThumb"=>"thumb/GdThumb.inc.php",
+"GdReflectionLib"=>"thumb/thumb_plugins/gd_reflection.inc.php",
+    /**********************  图片裁剪 ************************************/
+
+
+    /**********************  阿里大于短信 ************************************/
+"TaobaoSms"=>"TaobaoSms.php",
+"AliyunClient"=>"sms/aliyun/AliyunClient.php",
+"TopLogger"=>"sms/top/TopLogger.php",
+"TopClient"=>"sms/top/TopClient.php",
+"SpiUtils"=>"sms/top/SpiUtils.php",
+"ResultSet"=>"sms/top/ResultSet.php",
+"RequestCheckUtil"=>"sms/top/RequestCheckUtil.php",
+"HttpdnsGetRequest"=>"sms/top/HttpdnsGetRequest.php",
+"ClusterTopClient"=>"sms/top/ClusterTopClient.php",
+"ApplicationVar"=>"sms/top/ApplicationVar.php",
+
+
+"AlibabaAliqinFcFlowChargeProvinceRequest"=>"sms/top/request/AlibabaAliqinFcFlowChargeProvinceRequest.php",
+"AlibabaAliqinFcFlowChargeRequest"=>"sms/top/request/AlibabaAliqinFcFlowChargeRequest.php",
+"AlibabaAliqinFcFlowGradeRequest"=>"sms/top/request/AlibabaAliqinFcFlowGradeRequest.php",
+"AlibabaAliqinFcFlowQueryRequest"=>"sms/top/request/AlibabaAliqinFcFlowQueryRequest.php",
+"AlibabaAliqinFcSmsNumQueryRequest"=>"sms/top/request/AlibabaAliqinFcSmsNumQueryRequest.php",
+"AlibabaAliqinFcSmsNumSendRequest"=>"sms/top/request/AlibabaAliqinFcSmsNumSendRequest.php",
+"AlibabaAliqinFcTtsNumSinglecallRequest"=>"sms/top/request/AlibabaAliqinFcTtsNumSinglecallRequest.php",
+"AlibabaAliqinFcVoiceNumDoublecallRequest"=>"sms/top/request/AlibabaAliqinFcVoiceNumDoublecallRequest.php",
+"AlibabaAliqinFcVoiceNumSinglecallRequest"=>"sms/top/request/AlibabaAliqinFcVoiceNumSinglecallRequest.php",
+"AppipGetRequest"=>"sms/top/request/AppipGetRequest.php",
+"AreasGetRequest"=>"sms/top/request/AreasGetRequest.php",
+//"HttpdnsGetRequest"=>"sms/top/request/HttpdnsGetRequest.php",
+"KfcKeywordSearchRequest"=>"sms/top/request/KfcKeywordSearchRequest.php",
+"TimeGetRequest"=>"sms/top/request/TimeGetRequest.php",
+"TopatsResultGetRequest"=>"sms/top/request/TopatsResultGetRequest.php",
+"TopatsTaskDeleteRequest"=>"sms/top/request/TopatsTaskDeleteRequest.php",
+"TopAuthTokenCreateRequest"=>"sms/top/request/TopAuthTokenCreateRequest.php",
+"TopAuthTokenRefreshRequest"=>"sms/top/request/TopAuthTokenRefreshRequest.php",
+"TopIpoutGetRequest"=>"sms/top/request/TopIpoutGetRequest.php",
+"TopSdkFeedbackUploadRequest"=>"sms/top/request/TopSdkFeedbackUploadRequest.php",
+"TopSecretGetRequest"=>"sms/top/request/TopSecretGetRequest.php",
+"TopSecretRegisterRequest"=>"sms/top/request/TopSecretRegisterRequest.php",
+
+"Area"=>"sms/top/domain/Area.php",
+"BizResult"=>"sms/top/domain/BizResult.php",
+"FcPartnerSmsDetailDto"=>"sms/top/domain/FcPartnerSmsDetailDto.php",
+"KfcSearchResult"=>"sms/top/domain/KfcSearchResult.php",
+"Result"=>"sms/top/domain/Result.php",
+"Subtask"=>"sms/top/domain/Subtask.php",
+"Task"=>"sms/top/domain/Task.php",
+
+
+/**********************  阿里大于短信 ************************************/
 );
-
-/*
- *
- * 手机验证码 接口
- * 商品详情  多规格、加入购物车
- * 购物车
- * 结算
- * 创建订单
- *
- * */
-
 
 ?>

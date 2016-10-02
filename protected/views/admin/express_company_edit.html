@@ -6,21 +6,25 @@
     <dl class="lineD">
       <dt><b class="red">*</b> 快递公司：</dt>
       <dd>
-        <input name="name" type="text" pattern="required" value="{$name}" />
+          <select name="name" id="select_crop" pattern="required">
+              {list:items=$areaType}
+              <option customername="{$item['CustomerName']}" customerpwd="{$item['CustomerPwd']}" monthcode="{$item['MonthCode']}" sendsite="{$item['SendSite']}" crop_name="{$item[2]}" value="{$item[0]}"  {if: $name == $item[0]} selected {/if} >{$item[1]}
+              {/list}
+          </select>
         <label> </label>
       </dd>
       </dl>
       <dl class="lineD">
       <dt><b class="red">*</b>别名：</dt>
       <dd>
-        <input name="alias" type="text" class="small"  value="{$alias}"> 
+        <input name="alias" id="corp_whole_name" type="text" class="small"  value="{$alias}">
         <label>别名</label>
       </dd>
       </dl>
       <dl class="lineD">
-      <dt><b class="red">*</b>CODE：</dt>
+      <dt><b class="red">*</b>物流编码：</dt>
       <dd>
-        <input name="code" type="text" class="small"  value="{$code}"> 
+        <input name="code" id="code" type="text" class="small"  value="{$code}">
         <label></label>
       </dd>
       </dl><dl class="lineD">
@@ -30,16 +34,28 @@
         <label>快递公司主页地址</label>
       </dd>
       </dl>
-      <dl class="lineD">
-        <dt>标示：</dt>
+      <dl class="lineD" id="CustomerName">
+        <dt id="_CustomerName">物流公司网址：</dt>
         <dd>
-          <input name="customer_name" type="text" class="small" value="{$customer_name}">
+          <input name="customer_name" id="cn" type="text" class="small" value="{$customer_name}">
         </dd>
       </dl>
-        <dl class="lineD">
-            <dt>秘钥：</dt>
+        <dl class="lineD" id="CustomerPwd">
+            <dt id="_CustomerPwd">物流公司网址：</dt>
             <dd>
-                <input name="customer_pwd" type="text" class="small" value="{$customer_pwd}">
+                <input name="customer_pwd" id="cp" type="text" class="small" value="{$customer_pwd}">
+            </dd>
+        </dl>
+        <dl class="lineD" id="MonthCode">
+            <dt id="_MonthCode">物流公司网址：</dt>
+            <dd>
+                <input name="month_code" id="mc" type="text" class="small" value="{$month_code}">
+            </dd>
+        </dl>
+        <dl class="lineD" id="SendSite">
+            <dt id="_SendSite">物流公司网址：</dt>
+            <dd>
+                <input name="send_site" id="ss" type="text" class="small" value="{$send_site}">
             </dd>
         </dl>
         <dl class="lineD">
@@ -53,3 +69,90 @@
     <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
     </form>
 </div>
+
+<script>
+
+    $('#CustomerName').css('display','none');
+    $('#CustomerPwd').css('display','none');
+    $('#MonthCode').css('display','none');
+    $('#SendSite').css('display','none');
+
+    function addChange(){
+
+        $('#corp_whole_name').val($('#select_crop').find("option:selected").text());
+
+        var selecValue = $('#select_crop').find("option:selected").val();
+
+            $('#url').val($('#select_crop').find("option:selected").attr('crop_name'));
+
+            var CustomerName = $('#select_crop').find("option:selected").attr('customername');
+            var CustomerPwd = $('#select_crop').find("option:selected").attr('customerpwd');
+            var MonthCode = $('#select_crop').find("option:selected").attr('monthcode');
+            var SendSite = $('#select_crop').find("option:selected").attr('sendsite');
+            var flag1 = false;
+            var flag2 = false;
+            var flag3 = false;
+            var flag4 = false;
+
+            if(selecValue != '{$name}'){
+                $('#cn').val('');
+                $('#cp').val('');
+                $('#mc').val('');
+                $('#ss').val('');
+                $('#code').val(selecValue);
+            }else{
+                $('#cn').val('{$customer_name}');
+                $('#cp').val('{$customer_pwd}');
+                $('#mc').val('{$month_code}');
+                $('#ss').val('{$send_site}');
+                $('#code').val('{$code}');
+            }
+
+            if(CustomerName){
+                $('#_CustomerName').html(CustomerName);
+                $('#CustomerName').css('display','block');
+                flag1 = true;
+            }else{
+                $('#CustomerName').css('display','none');
+                flag1 = false;
+            }
+
+            if(CustomerPwd){
+                $('#_CustomerPwd').html(CustomerPwd);
+                $('#CustomerPwd').css('display','block');
+                flag2 = true;
+            }else{
+                $('#CustomerPwd').css('display','none');
+                flag2 = false;
+            }
+
+            if(MonthCode){
+                $('#_MonthCode').html(MonthCode);
+                $('#MonthCode').css('display','block');
+                flag3 = true;
+            }else{
+                $('#MonthCode').css('display','none');
+                flag3 = false;
+            }
+
+            if(SendSite){
+                $('#_SendSite').html(SendSite);
+                $('#SendSite').css('display','block');
+                flag4 = true;
+            }else{
+                $('#SendSite').css('display','none');
+                flag4 = false;
+            }
+
+    }
+
+    {if: $name}
+        addChange();
+    {/if}
+
+    $('#select_crop').change(function (){
+        addChange();
+    });
+
+
+</script>

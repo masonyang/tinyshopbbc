@@ -114,6 +114,11 @@ class products extends baseapi
             <div class="col-100 tablet-50">{content}</div>';
 
 
+    protected $imageSize = array(
+        'width'=>'640',
+        'height'=>'640',
+    );
+
     public static $title = array(
         'products'=>'商品详情'
     );
@@ -406,7 +411,12 @@ class products extends baseapi
         $return['sys_attrprice'] = $attrprice;
 
         foreach($imgs as $k=>$val){
-            $return['imgs'][$k]['url'] = self::getApiUrl().$val;
+
+            $filename = self::getApiUrl().$val;
+
+            $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+            $return['imgs'][$k]['url'] = $image['src'];
 
         }
 

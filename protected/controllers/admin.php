@@ -1135,24 +1135,24 @@ class AdminController extends Controller
 //	    $this->redirect();
 //    }
 
-//    public function express_company_edit()
-//    {
-//        $params = Req::get();
-//
-//        $model = new Model('express_company');
-//
-//        $express = $model->fields('*')->where('id = '.$params['id'])->find();
-//
-//        if($express){
-//            foreach($express as $k=>$val){
-//                $this->assign($k,$val);
-//            }
-//        }
-//
-////        $areaType = EssExpress::_getAreaType();
-////
-////        echo "<pre>";
-////        print_r($areaType);exit;
-//        $this->redirect();
-//    }
+    public function express_company_edit()
+    {
+        $params = Req::get();
+
+        $model = new Model('express_company');
+
+        $express = $model->fields('*')->where('id = '.$params['id'])->find();
+
+        if($express){
+            foreach($express as $k=>$val){
+                $this->assign($k,$val);
+            }
+        }
+
+        $areaType = EssExpress::_getAreaType();
+
+        $this->assign('areaType',$areaType);
+
+        $this->redirect();
+    }
 }

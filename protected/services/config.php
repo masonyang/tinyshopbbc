@@ -16,10 +16,14 @@ class ConfigService
 			'site_icp'=>Req::args('site_icp'),
 			'site_url'=>Req::args('site_url'),
 			'site_addr'=>Req::args('site_addr'),
+            'site_contacter'=>Req::args('site_contacter'),
 			'site_mobile'=>Req::args('site_mobile'),
 			'site_email'=>Req::args('site_email'),
 			'site_zip'=>Req::args('site_zip'),
-			'site_phone'=>Req::args('site_phone')
+			'site_phone'=>Req::args('site_phone'),
+            'province'=>Req::args('province'),
+            'city'=>Req::args('city'),
+            'county'=>Req::args('county'),
 		);
 
         $this->config->sethead('system','globals',$globals);

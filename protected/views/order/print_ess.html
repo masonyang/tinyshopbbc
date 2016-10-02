@@ -1,0 +1,16 @@
+{echo:JS::import('form');}
+
+<div class="panel">
+{list: items=$print_template}
+    {$item}
+{/list}
+<div style="text-align: center;"><input class="button noprint" type="submit" onclick="window.print();" value="打印" /></div>
+</div>
+<script type="text/javascript">
+    if($("img.logo")){
+        $("img.logo").each(function(img){
+            img.css('display','none');
+        });
+    }
+
+</script>

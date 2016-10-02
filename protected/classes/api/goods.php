@@ -104,6 +104,12 @@ class goods extends baseapi
                 </div>
                 </a>
             </div>';
+
+    protected $imageSize = array(
+        'width'=>'280',
+        'height'=>'280',
+    );
+
 //<div class="card-content"> <img src="http://a.qqcapp.com/{img}" width="100%"/></div>
 //<div class="card-footer no-border"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
     public function __construct($params = array())
@@ -144,10 +150,14 @@ class goods extends baseapi
             foreach($goodsLists as $val){
                 $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
                 $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
-                $img = self::getApiUrl().$val['img'];
+
+                $filename = self::getApiUrl().$val['img'];
+
+                $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
                 $_data['goods'][$i]['gid'] = $val['id'];
                 $_data['goods'][$i]['name'] = $name;
-                $_data['goods'][$i]['img'] = $img;
+                $_data['goods'][$i]['img'] = $image['src'];
                 $_data['goods'][$i]['price'] = $price;
                 $i++;
             }

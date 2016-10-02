@@ -35,23 +35,39 @@ class orders extends baseapi
                         </div>
                     </div>';
 
+    protected $imageSize = array(
+        'width'=>'120',
+        'height'=>'120',
+    );
+
     public static $title = array(
         'orderdetail'=>'订单详情',
+        'ordercancel'=>'订单取消',
         'morders'=>'我的订单',
     );
 
     public static $lastmodify = array(
         'orderdetail'=>'2016-6-28',
+        'ordercancel'=>'2016-9-30',
         'morders'=>'201-6-28',
     );
 
     public static $notice = array(
         'orderdetail'=>'',
+        'ordercancel'=>'',
         'morders'=>'',
     );
 
     public static $requestParams = array(
         'orderdetail'=>array(
+            array(
+                'colum'=>'oid',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'订单id（订单主键id）',
+            ),
+        ),
+        'ordercancel'=>array(
             array(
                 'colum'=>'oid',
                 'required'=>'必须',
@@ -140,6 +156,12 @@ class orders extends baseapi
                 'content'=>'购买的商品 列表 多维数组',
             ),
         ),
+        'ordercancel'=>array(
+            array(
+                'colum'=>'无',
+                'content'=>'无',
+            ),
+        ),
         'morders'=>array(
             array(
                 'colum'=>'oid',
@@ -205,6 +227,9 @@ class orders extends baseapi
                     $this->getMyOrders();
                 }
                 break;
+            case 'ordercancel':
+                $this->ordercancel();
+                break;
         }
     }
 
@@ -249,7 +274,12 @@ class orders extends baseapi
                 $spec[] = $_specs['value'][2];
             }
 
-            $products[$k]['img'] = self::getApiUrl().$gData['img'];
+            $filename = self::getApiUrl().$gData['img'];
+
+            $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+
+            $products[$k]['img'] = $image['src'];
             $products[$k]['sale_price'] = $vval['real_price'];
             $products[$k]['goods_name'] = $gData['name'];
             $products[$k]['goods_nums'] = $vval['goods_nums'];
@@ -387,7 +417,12 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -465,7 +500,12 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -543,7 +583,12 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -622,7 +667,13 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -699,7 +750,13 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -776,7 +833,13 @@ class orders extends baseapi
                     }
 
 //                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-                    $products[$kk]['img'] = self::getApiUrl().$gData['img'];
+
+                    $filename = self::getApiUrl().$gData['img'];
+
+                    $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+
+                    $products[$kk]['img'] = $image['src'];
                     $products[$kk]['goods_name'] = $gData['name'];
                     $products[$kk]['goods_nums'] = $vval['goods_nums'];
                     $products[$kk]['sale_price'] = $vval['real_price'];
@@ -856,6 +919,63 @@ class orders extends baseapi
 //            return '已作废';
 //        }
 //    }
+
+    protected function ordercancel()
+    {
+        $oid = $this->params['oid'];
+
+        $oid = trim($oid);
+
+        if(empty($oid)){
+            $this->output['msg'] = '订单号不存在';
+            $this->output();
+            exit;
+        }
+
+        $serverName = Tiny::getServerName();
+
+        $orderGoodsModel = new Model('order_goods');
+        $productsModel = new Model('products');
+
+        $products = $orderGoodsModel->where("order_id=".$oid)->findAll();
+
+        foreach ($products as $pro) {
+            //更新货品中的库存信息
+            $goods_nums = $pro['goods_nums'];
+            $product_id = $pro['product_id'];
+            $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+        }
+
+        $orderModel = new Model('order');
+        $orderModel->where("id=".$oid)->data(array('status'=>6))->update();
+
+        $zdOrderModel = new Model('order','zd','salve');
+        $zdOrderModel->where("outer_id=".$oid." and site_url='".$serverName['top']."'")->data(array('status'=>6))->update();
+
+        $this->output['status'] = 'succ';
+        $this->output['msg'] = '订单取消成功';
+
+        $this->output();
+    }
+
+    public function ordercancel_demo()
+    {
+        $return = array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'订单号不存在/订单取消失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'订单取消成功',
+                'data'=>array(
+                ),
+            )
+        );
+
+        return $return;
+    }
 
     public function orderdetail_demo()
     {

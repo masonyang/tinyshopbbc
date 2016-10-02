@@ -236,7 +236,7 @@ class Order{
 			->where("order_no='".$orderNo."'")
 			->find();
 	}
-	
+
 	/**
 	 * 获取订单的电子面单
 	 * @param $orderNo
@@ -244,9 +244,10 @@ class Order{
 	 */
 	public static function getEssTemplate( $orderNo )
 	{
-		return Model::getInstance('doc_invoice')
+		$template = Model::getInstance('doc_invoice')
 			->where("order_no='".$orderNo."'")
-			->find()['ess_template'] ? : '';
+			->find();
+        return $template['ess_template'] ? base64_decode($template['ess_template']) : '';
 	}
 	
 	/**
@@ -270,6 +271,92 @@ class Order{
 			return false;
 		}
 		
-		
+		//todo
+        $expressModel = new Model('express_company');
+
+        $express = $expressModel->fields('*')->where('id='.$orderInfo['express'])->find();
+
+        if($express['is_ess'] == 0){
+            return false;
+        }
+
+        $eorder = array();
+        $eorder["ShipperCode"] = $express['name'];//"SF";
+        $eorder["OrderCode"] = $orderNo;
+        $eorder["PayType"] = 1;
+        $eorder["ExpType"] = 1;
+
+        if($express['customer_name']){
+            $eorder["CustomerName"] = $express['customer_name'];
+        }
+
+        if($express['customer_pwd']){
+            $eorder["CustomerPwd"] = $express['customer_pwd'];
+        }
+
+        if($express['month_code']){
+            $eorder["MonthCode"] = $express['month_code'];
+        }
+
+        if($express['send_site']){
+            $eorder["SendSite"] = $express['send_site'];
+        }
+
+        $config = Config::getInstance();
+
+        $globals = $config->get('globals');
+
+        $sender["ProvinceName"] = $globals['province'];
+        $sender["CityName"] = $globals['city'];
+        $sender["ExpAreaName"] = $globals['county'];
+        $sender["Name"]= $globals['site_contacter'];
+        $sender["Mobile"] = $globals['site_phone'] ?  $globals['site_phone'] : $globals['site_mobile'];
+
+        $sender["Address"] = $globals['site_addr'];
+
+        $receiver = array();//收货人
+
+        $receiver["ProvinceName"] = $orderInfo['province'];
+        $receiver["CityName"] = $orderInfo['city'];
+        $receiver["ExpAreaName"] = $orderInfo['county'];
+
+        $receiver["Name"] = $orderInfo['accept_name'];
+        $receiver["Mobile"] = $orderInfo['mobile'];
+
+        $receiver["Address"] = $orderInfo['addr'];
+
+        $commodityOne = array();
+        $commodityOne["GoodsName"] = '家居用品';
+        $commodity = array();
+        $commodity[] = $commodityOne;
+
+        $eorder["Sender"] = $sender;
+        $eorder["Receiver"] = $receiver;
+        $eorder["Commodity"] = $commodity;
+        $eorder["IsReturnPrintTemplate"] = 1;
+
+        $result = EssExpress::getInstance()->submitEOrder($eorder,true);//todo
+
+        if($result){
+
+            $invoiceSiteModel = new Model('doc_invoice',$orderInfo['site_url']);
+
+            $set = array(
+                'invoice_no'=>$result['Order']['LogisticCode'],
+                'express_no'=>$result['Order']['LogisticCode'],
+            );
+            $invoiceSiteModel->data($set)->where('order_id='.$orderInfo['id'])->update();
+
+            $invoiceModel = new Model('doc_invoice');
+
+            $set = array(
+                'invoice_no'=>$result['Order']['LogisticCode'],
+                'express_no'=>$result['Order']['LogisticCode'],
+                'ess_template'=>base64_encode($result['PrintTemplate']),
+            );
+            $invoiceModel->data($set)->where('order_id='.$orderInfo['id'])->update();
+        }
+
+        return '';
 	}
 }

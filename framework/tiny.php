@@ -696,13 +696,17 @@ class Tiny
         'SMTP'=>'extend/phpmailer/class.smtp.php'
     );
 
-	public static function getServerName()
+	public static function getServerName($fullServerName = false)
 	{
         if(isset($_SERVER['HTTP_HOST'])){
             $serverName = ($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['SERVER_NAME'];
 
             if(!isset($serverName)){
                 return false;
+            }
+
+            if($fullServerName){
+                return 'http://'.$serverName;
             }
 
             if(in_array($serverName,array('192.168.1.112','192.168.1.101','192.168.1.100','192.168.1.102','192.168.1.103'))){

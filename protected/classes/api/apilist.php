@@ -14,7 +14,9 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'sms'=>'sms',
         'changecheckout'=>'carts',
+        'ordercancel'=>'orders',
         'adposition'=>'adposition',
         'list'=>'attention',
         'add'=>'attention',

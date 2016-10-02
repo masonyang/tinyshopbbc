@@ -12,11 +12,15 @@
     'site_description' => '工匠精神、细节、点滴、开源、高效、安全',
     'site_icp' => '',
     'site_url' => '',
-    'site_addr' => '',
+    'site_addr' => '联系地址联系地址联系地址',
+    'site_contacter' => '联系人联系人',
     'site_mobile' => '',
     'site_email' => '',
     'site_zip' => '',
     'site_phone' => '',
+    'province' => '370000',
+    'city' => '371300',
+    'county' => '371324',
   ),
   'safe' => 
   array (

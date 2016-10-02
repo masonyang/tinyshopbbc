@@ -68,6 +68,13 @@
       </dd>
     </dl>
     <dl class="lineD">
+        <dt>联系人：</dt>
+        <dd>
+            <input name="site_contacter" type="text" size=40 value=""/>
+            <span>  </span>
+        </dd>
+    </dl>
+    <dl class="lineD">
       <dt>联系电话：</dt>
       <dd>
         <input name="site_phone" type="text" size=40 value=""/>
@@ -80,6 +87,15 @@
         <input name="site_zip" type="text" size=40 value=""/>
         <span>  </span>
       </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>地区：</dt>
+        <dd >
+            <div id="area">
+                <select id="province"  name="province" ><option value="0">==省份/直辖市==</option></select>
+                <select id="city" name="city"><option value="0">==市==</option></select>
+                <select id="county" name="county"><option value="0">==县/区==</option></select><input pattern="^\d+,\d+,\d+$" id="test" type="text" style="visibility:hidden;width:0;" value="{$province},{$city},{$county}" alt="请选择完整地区信息！"><label></label></div>
+        </dd>
     </dl>
     <dl class="lineD">
       <dt>联系地址：</dt>
@@ -103,6 +119,8 @@
 	var data = {echo:JSON::encode($config->get('globals'))};
 	form.init(data);
 
+    $('#test').val(data.province+','+data.city+','+data.county);
+
   $(".select_button").on("click",function(){
       uploadFile();
       return false;
@@ -116,5 +134,18 @@ function setImg(value){
   $("#img-show").html("<img height='50' src='"+img+"'>");
   art.dialog({id:'upimg_dialog'}).close();
 }
+
+    $("#area").Linkage({ url:"{url:/ajax/area_data}",selected:[data.province,data.city,data.county],callback:function(data){
+        var text = new Array();
+        var value = new Array();
+        for(i in data[0]){
+            if(data[0][i]!=0){
+                text.push(data[1][i]);
+                value.push(data[0][i]);
+            }
+        }
+        $("#test").val(value.join(','));
+        FireEvent(document.getElementById("test"),"change");
+    }});
 
 </script>

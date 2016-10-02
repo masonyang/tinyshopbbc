@@ -56,7 +56,13 @@ class customer extends baseapi
                 'colum'=>'vaildcode',
                 'required'=>'是',
                 'type'=>'string',
-                'content'=>'验证码',
+                'content'=>'图片验证码',
+            ),
+            array(
+                'colum'=>'smscode',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'短信验证码',
             ),
             array(
                 'colum'=>'rand',
@@ -88,7 +94,13 @@ class customer extends baseapi
                 'colum'=>'vaildcode',
                 'required'=>'是',
                 'type'=>'string',
-                'content'=>'验证码',
+                'content'=>'图片验证码',
+            ),
+            array(
+                'colum'=>'smscode',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'短信验证码',
             ),
             array(
                 'colum'=>'rand',
@@ -610,7 +622,7 @@ class customer extends baseapi
 
             $cacheModel = new Model('cache');
 
-            $md5 = md5($this->captchaKey.$this->params['rand']);
+            $md5 = $this->captchaKey.$this->params['rand'];
 
             $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 
@@ -618,6 +630,26 @@ class customer extends baseapi
 
             if($_vaildcode != $_code){
                 $this->output['msg'] = '验证码不正确';
+                $this->output();
+                exit;
+            }
+
+            $cacheModel->where('`key`="'.$md5.'"')->delete();
+        }
+
+        if(isset($this->params['smscode'])){
+            $smscode = $this->params['smscode'];
+
+            $cacheModel = new Model('cache');
+
+            $md5 = 'smscode'.$this->params['rand'];
+
+            $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+
+            $_code = $code['content'];
+
+            if($smscode != $_code){
+                $this->output['msg'] = '短信验证码不正确';
                 $this->output();
                 exit;
             }
@@ -677,12 +709,36 @@ class customer extends baseapi
         $_code = $code['content'];
 
         if($_vaildcode != $_code){
-            $this->output['msg'] = '验证码不正确';
+            $this->output['msg'] = '图片验证码不正确';
             $this->output();
             exit;
         }
 
         $cacheModel->where('`key`="'.$md5.'"')->delete();
+
+
+        if(isset($this->params['smscode'])){
+
+            $smscode = trim($this->params['smscode']);
+
+            $this->params['rand'] = trim($this->params['rand']);
+
+            $cacheModel = new Model('cache');
+
+            $md5 = 'smscode'.$this->params['rand'];
+
+            $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+
+            $_code = $code['content'];
+
+            if($smscode != $_code){
+                $this->output['msg'] = '短信验证码不正确';
+                $this->output();
+                exit;
+            }
+
+            $cacheModel->where('`key`="'.$md5.'"')->delete();
+        }
 
         if(Validator::mobi($mobile)){
 

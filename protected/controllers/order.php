@@ -1003,4 +1003,55 @@ class OrderController extends Controller
 
     }
 
+    //电子面单打印
+    public function print_ess()
+    {
+        $this->layout = 'blank';
+        $this->title = '电子面单打印';
+        $ids = Filter::int(Req::args("id"));
+
+        if(is_array($ids)){
+            $aInput = $ids;
+        }elseif(is_numeric($ids)){
+            $aInput = array($ids);
+        }else{
+            echo "打印失败：订单参数传递出错";
+            exit();
+        }
+
+        $print_template = array();
+
+        $orderModel = new Model('order');
+
+        foreach($aInput as $id){
+            $order = $orderModel->where('id='.$id)->find();
+
+            if($order['delivery_status'] == 1){
+                $_printT = Order::genEssOrder($order['order_no']);
+                if($_printT){
+                    $origin = array(
+                        '时间：',
+                        '<td width="61" rowspan="2"></td>',
+                        '已验视',
+                    );
+                    $replace = array(
+                        '时间：'.date('Y-m-d'),
+                        '<td width="61" rowspan="2">家居用品</td>',
+                        '订单号:'.$order['order_no'].'&nbsp;&nbsp;已验视',
+                    );
+                    $print_template[] = str_replace($origin,$replace,$_printT);
+                }
+            }
+        }
+
+        if(empty($print_template)){
+            echo "打印失败：该订单没开启电子面单打印功能 或者 物流单号不存在";
+            exit();
+        }
+
+        $this->assign("print_template",$print_template);
+        $this->redirect();
+
+    }
+
 }
