@@ -18,6 +18,7 @@ class customer extends baseapi
         'addaddr'=>'获取单个收货地址信息',
         'doaddr'=>'添加/编辑/删除/设置默认收货地址',
         'uinfo'=>'获取会员信息',
+        'forgetpwd'=>'忘记密码',
     );
 
     public static $notice = array(
@@ -27,6 +28,7 @@ class customer extends baseapi
         'addaddr'=>'',
         'doaddr'=>'',
         'uinfo'=>'',
+        'forgetpwd'=>'',
     );
 
     public static $lastmodify = array(
@@ -36,6 +38,7 @@ class customer extends baseapi
         'addaddr'=>'2016-6-27',
         'doaddr'=>'2016-6-27',
         'uinfo'=>'2016-6-27',
+        'forgetpwd'=>'2016-10-8',
     );
 
     public static $requestParams = array(
@@ -131,6 +134,32 @@ class customer extends baseapi
                 'required'=>'是',
                 'type'=>'int',
                 'content'=>'会员id',
+            ),
+        ),
+        'forgetpwd'=>array(
+            array(
+                'colum'=>'mobile',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'会员手机号',
+            ),
+            array(
+                'colum'=>'smscode',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'短信验证码',
+            ),
+            array(
+                'colum'=>'password',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'新密码',
+            ),
+            array(
+                'colum'=>'rand',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'随机串为 手机序列号',
             ),
         ),
         'doaddr'=>array(
@@ -304,6 +333,12 @@ class customer extends baseapi
                 'content'=>'-',
             ),
         ),
+        'forgetpwd'=>array(
+            array(
+                'colum'=>'-',
+                'content'=>'-',
+            ),
+        ),
         'uinfo'=>array(
             array(
                 'colum'=>'real_name',
@@ -351,6 +386,7 @@ class customer extends baseapi
         'addaddr'=>'     /index.php?con=api&act=index&method=customer&source=addaddr',
         'doaddr'=>'     /index.php?con=api&act=index&method=customer&source=doaddr',
         'uinfo'=>'     /index.php?con=api&act=index&method=customer&source=uinfo',
+        'forgetpwd'=>'     /index.php?con=api&act=index&method=customer&source=forgetpwd',
     );
 
 
@@ -394,6 +430,9 @@ class customer extends baseapi
                 break;
             case 'doaddr':
                 $this->doaddr();
+                break;
+            case 'forgetpwd':
+                $this->forgetpwd();
                 break;
         }
     }
@@ -978,6 +1017,88 @@ class customer extends baseapi
             $this->output['msg'] = $act.'失败';
             $this->output();
         }
+    }
+
+    private function forgetpwd()
+    {
+
+        $mobile = $this->params['mobile'];
+
+
+        $smscode = trim($this->params['smscode']);
+
+        $this->params['rand'] = trim($this->params['rand']);
+
+        $cacheModel = new Model('cache');
+
+        $md5 = 'smscode'.$this->params['rand'];
+
+        $code = $cacheModel->where('`key`="'.$md5.'"')->find();
+
+        $_code = $code['content'];
+
+        if($smscode != $_code){
+            $this->output['msg'] = '短信验证码不正确';
+            $this->output();
+            exit;
+        }
+
+
+
+        if(Validator::mobi($mobile)){
+
+            $password = trim($this->params['password']);
+
+            if(empty($password)){
+                $this->output['msg'] = '密码不能为空';
+                $this->output();
+                exit;
+            }else{
+                $userModel = new Model('user');
+
+                $userData = $userModel->where('name="'.$mobile.'"')->find();
+
+                if($userData){
+                    $validcode = CHash::random(8);
+                    $data = array('password'=>CHash::md5($password,$validcode),'validcode'=>$validcode);
+
+                    $userModel->data($data)->where('id='.$userData['id'])->update();
+
+                    $cacheModel->where('`key`="'.$md5.'"')->delete();
+
+                    $this->output['status'] = 'succ';
+                    $this->output['msg'] = '重置成功';
+                    $this->output();
+
+                }else{
+                    $this->output['msg'] = '手机号不存在';
+                    $this->output();
+                    exit;
+                }
+            }
+
+        }else{
+            $this->output['msg'] = '手机格式不正确';
+            $this->output();
+            exit;
+        }
+    }
+
+    public function forgetpwd_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'手机号不存在 / 短信验证码不正确 / 密码修改失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'重置成功',
+                'data'=>array(
+                ),
+            )
+        );
     }
 
     public function login_demo()
