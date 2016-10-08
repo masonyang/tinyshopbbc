@@ -11,6 +11,7 @@ class PaymentPlugin
     public $version     = 1.0;//版本
     public $callbackUrl = null;//支付完成后，回调地址
     public $asyncCallbackUrl = null;//异步通知地址
+    public $asyncNativeCallbackUrl = null;//native app方式 异步通知地址
     protected $classConfig   = null;//支付插件配置信息
     protected $paymentId = null;
 	protected $needSubmit = true;
@@ -24,6 +25,10 @@ class PaymentPlugin
 
         //异步回调地址
         $this->asyncCallbackUrl = str_replace('plugins/','',Url::fullUrlFormat("/payment/async_callback/payment_id/{$paymentId}"));
+
+        //native app方式 异步通知地址
+        $this->asyncNativeCallbackUrl = str_replace('plugins/','',Url::fullUrlFormat("/payment/async_native_callback/payment_id/{$paymentId}"));
+
         $this->paymentId = $paymentId;
     }
 

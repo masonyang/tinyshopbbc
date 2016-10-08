@@ -562,4 +562,46 @@ class PaymentController extends Controller
         $this->redirect('pay_form',false);
     }
 
+    //支付宝native app异步处理方法
+    function async_native_callback()
+    {
+        //从URL中获取支付方式
+        $payment_id      = Filter::int(Req::args('payment_id'));
+        $payment = new Payment($payment_id);
+        $paymentPlugin = $payment->getPaymentNativePlugin();
+
+        if(!is_object($paymentPlugin)){
+            echo "fail";
+        }
+
+        //初始化参数
+        $money   = '';
+        $message = '支付失败';
+        $orderNo = '';
+
+        //执行接口回调函数
+        $callbackData = Req::args();//array_merge($_POST,$_GET);
+        unset($callbackData['con']);
+        unset($callbackData['act']);
+        unset($callbackData['payment_id']);
+        $return = $paymentPlugin->asyncCallback($callbackData,$payment_id,$money,$message,$orderNo);
+
+        //支付成功
+        if($return == 1)
+        {
+
+            $order_id = Order::updateStatus($orderNo,$payment_id,$callbackData);
+            if($order_id)
+            {
+                $serverName = Tiny::getServerName();
+
+                Log::orderlog($order_id,'会员:'.$this->user['name'],'订单已完成在线支付','订单已支付','success',$serverName['top']);
+
+                $paymentPlugin->asyncStop();
+                exit;
+            }
+
+        }
+    }
+
 }

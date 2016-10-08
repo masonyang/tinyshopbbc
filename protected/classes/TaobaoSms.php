@@ -31,9 +31,13 @@ class TaobaoSms
         $c->appkey = $this->appkey;
         $c->secretKey = $this->secret;
         $c->format = 'json';
-        //全球仓
+        //手机移动商店
         if($isTest){
             $c->isTest = true;
+        }
+
+        if(empty($clientSign)){
+            $clientSign = '手机移动商店';
         }
 
         $req = new AlibabaAliqinFcSmsNumSendRequest();

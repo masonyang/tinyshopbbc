@@ -39,7 +39,7 @@
                     </svg>
                     <input name="verifyCode" class="login__input pass" placeholder="验 证 码"/>
 
-                    <a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/bc/3f4657/c/ffffff/random/}'+Math.random()"><img id="captcha_img" src='{url:/admin/captcha/h/40/w/120/bc/3f4657/c/ffffff}'/></a>
+                    <a href="javascript:void(0)" class="red" onclick="document.getElementById('captcha_img').src='{url:/simple/captcha/h/40/w/120/bc/3f4657/c/ffffff/rand/1/random/}'+Math.random()"><img id="captcha_img" src='{url:/admin/captcha/h/40/w/120/bc/3f4657/c/ffffff/rand/1}'/></a>
                 </div>
                 <input type="submit" class="login__submit" value="登 录">
 
@@ -50,7 +50,7 @@
 </div>
 
 <script src='{url:#js/stopExecutionOnTimeout.js?t=1}'></script>
-<script src='http://libs.useso.com/js/jquery/1.11.0/jquery.min.js'></script>
+<script src='{url:#js/jquery-1.11.0.js}'></script>
 <script>
     $(document).ready(function () {
         var animating = false, submitPhase1 = 1100, submitPhase2 = 400, logoutPhase1 = 800, $login = $('.login'), $app = $('.app');

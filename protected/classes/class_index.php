@@ -109,6 +109,7 @@
 "pay_received"=>"payments/pay_received.php",
 "pay_tenpay"=>"payments/pay_tenpay.php",
 "pay_alipaymobile"=>"payments/pay_alipaymobile.php",
+"nativepay_alipaymobile"=>"payments/nativepay_alipaymobile.php",
 "DXSMS"=>"standard/sms/DXSMS.php",
 //"SMS"=>"sms/SMS.php",
 "SMSInterface"=>"standard/sms/SMSInterface.php",
@@ -153,6 +154,9 @@
 "attention"=>"api/attention.php",//会员商品收藏api
 "adposition"=>"api/adposition.php",//广告位api
 "sms"=>"api/sms.php",//短信api
+
+
+"paylinkv1"=>"api/version/1.0/paylink.php",//支付前验证订单信息，并返回支付相关信息 以便前端调用支付方式
 
 /**********************API INTERFACE************************************/
 

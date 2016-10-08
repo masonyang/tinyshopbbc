@@ -14,6 +14,8 @@
 class apilist extends baseapi
 {
     protected $apilist = array(
+        'paylinkv'=>'paylinkv1',
+        'syncdopay'=>'paylinkv1',
         'sms'=>'sms',
         'changecheckout'=>'carts',
         'ordercancel'=>'orders',

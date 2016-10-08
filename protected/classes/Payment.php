@@ -32,6 +32,23 @@ class Payment{
         }
 	}
 
+    /**
+     * @brief native app 方式获取 相关支付插件类
+     * @return 返回支付插件类对象
+     */
+    public function getPaymentNativePlugin()
+    {
+        if($this->payment){
+            $class_name = 'nativepay_'.$this->payment['class_name'];
+            $newClass = new $class_name($this->payment_id);
+            $newClass->setClassConfig($this->_config);
+            return $newClass;
+        }else{
+            return null;
+        }
+    }
+
+
 	/**
 	 * @brief 根据支付方式配置编号  获取该插件的详细配置信息
 	 * @param int	支付方式配置编号
