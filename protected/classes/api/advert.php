@@ -23,10 +23,10 @@ class advert extends baseapi
     public static $requestParams = array(
         'advert'=>array(
             array(
-                'colum'=>'无',
-                'required'=>'无',
-                'type'=>'无',
-                'content'=>'无',
+                'colum'=>'v',
+                'required'=>'可选',
+                'type'=>'string',
+                'content'=>'版本号',
             ),
         ),
     );
@@ -46,6 +46,11 @@ class advert extends baseapi
 
     public static $requestUrl = array(
         'advert'=>'     /index.php?con=api&act=index&method=advert'
+    );
+
+    protected $imageSize = array(
+        'width'=>'650',
+        'height'=>'340',
     );
 
     public function __construct($params = array())
@@ -71,7 +76,21 @@ class advert extends baseapi
         $i = 0;
         foreach ($ad['content'] as $item) {
             $data[$i]['url'] =$item['url'];
-            $data[$i]['img_path'] = Url::fullUrlFormat('@'.$item['path']);
+
+            $filename = Url::fullUrlFormat('@'.$item['path']);
+
+
+            if(isset($this->params['v'])){
+
+                $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+
+                $data[$i]['img_path'] = $image['src'];
+
+            }else{
+                $data[$i]['img_path'] = $filename;
+            }
+
+
             $i++;
         }
 
