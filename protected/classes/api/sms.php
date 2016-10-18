@@ -53,13 +53,13 @@ class sms extends baseapi
         'sms'=>'     /index.php?con=api&act=index&method=sms'
     );
 
-    public function __construct($params)
-    {
-        header('Content-type:text/html;charset=utf-8');
-        header('Access-Control-Allow-Origin:*');
-
-        $this->params = $params;
-    }
+//    public function __construct($params)
+//    {
+//        header('Content-type:text/html;charset=utf-8');
+//        header('Access-Control-Allow-Origin:*');
+//
+//        $this->params = $params;
+//    }
 
     public function index()
     {
