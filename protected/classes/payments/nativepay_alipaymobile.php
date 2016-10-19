@@ -13,7 +13,7 @@ class nativepay_alipaymobile extends PaymentPlugin
 
     private $private_key_path = 'rsa_private_key.pem';//商户的私钥
 
-    private $ali_public_key_path = 'alipay_public_key.pem';//支付宝公钥
+    private $ali_public_key_path = 'rsa_public_key.pem';//支付宝公钥
 
     private $cacert = 'cacert.pem';//ca证书路径地址
 
@@ -330,7 +330,7 @@ class nativepay_alipaymobile extends PaymentPlugin
 
     private function dataPath()
     {
-        return dirname(__FILE__).'/../../../data/cert/alipaymobile/';
+        return dirname(__FILE__).'/../../../data/cert/nativepay_alipaymobile/';
     }
 
     private function cacertUrl()
