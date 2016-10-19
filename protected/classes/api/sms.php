@@ -72,11 +72,11 @@ class sms extends baseapi
 
         $code = $this->GetRandomCaptchaText(4);
 
-        $templateCode = '';//大于模板编号
+        $templateCode = 'SMS_16675953';//大于模板编号
 
         $istest = false;//是否走测试环境
 
-        $result = TaobaoSms::getInstance()->send($istest,'',array('code'=>$code),$this->params['mobile'],$templateCode);
+        $result = TaobaoSms::getInstance()->send($istest,'手机app',array('code'=>$code),$this->params['mobile'],$templateCode);
 
         if($result){
             $rand = 'smscode'.$this->params['rand'];
