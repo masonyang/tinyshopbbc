@@ -306,7 +306,14 @@ class AdminController extends Controller
 		$plugin_id = Filter::int(Req::args('plugin_id'));
 		$model = new Model("pay_plugin");
 		$pay_plugin = $model->where("id=$plugin_id")->find();
-		$class_name = 'pay_'.$pay_plugin['class_name'];
+
+        if(in_array($plugin_id,array(10))){
+            $class_name = 'nativepay_'.$pay_plugin['class_name'];
+        }else{
+            $class_name = 'pay_'.$pay_plugin['class_name'];
+        }
+
+//		$class_name = 'pay_'.$pay_plugin['class_name'];
 		$fields = call_user_func(array("$class_name","config"));//$class_name::config();
 		$config = array();
 		foreach($fields as $field)
@@ -324,7 +331,13 @@ class AdminController extends Controller
     		$model = new Model("payment");
     		$payment = $model->where("id = $id")->find();
 			$pay_plugin = $model->table("pay_plugin")->where("id=".$payment['plugin_id'])->find();
-			$class_name = 'pay_'.$pay_plugin['class_name'];
+
+            if(in_array($payment['plugin_id'],array(10))){
+                $class_name = 'nativepay_'.$pay_plugin['class_name'];
+            }else{
+                $class_name = 'pay_'.$pay_plugin['class_name'];
+            }
+
 			$this->assign("config_form",call_user_func(array("$class_name","config")));
     		$this->assign("pay_plugin",$pay_plugin);
 
@@ -332,7 +345,13 @@ class AdminController extends Controller
     	}else if($plugin_id){
     		$model = new Model("pay_plugin");
     		$pay_plugin = $model->where("id=$plugin_id")->find();
-			$class_name = 'pay_'.$pay_plugin['class_name'];
+
+            if(in_array($plugin_id,array(10))){
+                $class_name = 'nativepay_'.$pay_plugin['class_name'];
+            }else{
+                $class_name = 'pay_'.$pay_plugin['class_name'];
+            }
+
 			$this->assign("config_form",call_user_func(array("$class_name","config")));
     		if($pay_plugin){
 	    		$this->assign("pay_plugin",$pay_plugin);

@@ -873,25 +873,6 @@ class carts extends baseapi
             exit;
         }
 
-        $orderCache = new Model('cache');
-
-        $unqiKey = 'checkout_'.$this->params['uid'];
-
-        $cacheData = $orderCache->fields('content')->where('`key`="'.$unqiKey.'"')->find();
-
-        $time = time();
-
-        if($cacheData){
-            if(($time - $cacheData['content']) > 30){
-                $orderCache->data(array('content'=>time()))->where('`key`="'.$unqiKey.'"')->update();
-            }else{
-                $this->output['msg'] = '不能重复提交订单';
-                $this->output();
-                exit;
-            }
-        }else{
-            $orderCache->data(array('key'=>$unqiKey,'content'=>time()))->insert();
-        }
 
         try{
             $address_id = Filter::int($this->params['addr_id']);
@@ -926,6 +907,26 @@ class carts extends baseapi
                 $this->output['msg'] = '非法提交订单！';
                 $this->output(array());
                 exit;
+            }
+
+            $orderCache = new Model('cache');
+
+            $unqiKey = 'checkout_'.$this->params['uid'];
+
+            $cacheData = $orderCache->fields('content')->where('`key`="'.$unqiKey.'"')->find();
+
+            $time = time();
+
+            if($cacheData){
+                if(($time - $cacheData['content']) > 30){
+                    $orderCache->data(array('content'=>time()))->where('`key`="'.$unqiKey.'"')->update();
+                }else{
+                    $this->output['msg'] = '30秒内不能重复提交';
+                    $this->output();
+                    exit;
+                }
+            }else{
+                $orderCache->data(array('key'=>$unqiKey,'content'=>time()))->insert();
             }
 
             //商品总金额,重量,积分计算
