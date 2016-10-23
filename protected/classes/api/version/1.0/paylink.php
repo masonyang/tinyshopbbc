@@ -77,6 +77,7 @@ class paylinkv1 extends paylink
 
     public function index()
     {
+
         switch($this->params['source']){
             case 'paylinkv':
                 $this->paylinkv();
@@ -91,7 +92,7 @@ class paylinkv1 extends paylink
     protected function syncdopay()
     {
         //从URL中获取支付方式
-        $payment_id      = Filter::int($this->params['payment_id']);
+        $payment_id      = Filter::int($this->params['paymentid']);
         $payment = new Payment($payment_id);
         $paymentPlugin = $payment->getPaymentNativePlugin();
 
@@ -111,7 +112,7 @@ class paylinkv1 extends paylink
         $callbackData = $this->params;//array_merge($_POST,$_GET);
         unset($callbackData['con']);
         unset($callbackData['act']);
-        unset($callbackData['payment_id']);
+        unset($callbackData['paymentid']);
         unset($callbackData['tiny_token_redirect']);
         $return = $paymentPlugin->callback($callbackData,$payment_id,$money,$message,$orderNo);
 
@@ -165,6 +166,11 @@ class paylinkv1 extends paylink
         $extendDatas = $this->params;
 
         $data = array();
+//        $this->output['msg'] = $extendDatas;
+//        $this->output(array());
+//        exit;
+//        error_log(var_export($extendDatas,1),3,TINY_ROOT.'data/extendDatas.log');
+//        exit;
 
         if($userid && $paymentid && $orderid){
             $return = $this->genatePayLink($paymentid,$orderid,$extendDatas,$msg,$payData);

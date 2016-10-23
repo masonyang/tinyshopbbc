@@ -193,6 +193,7 @@ class orders extends baseapi
     public static $requestUrl = array(
         'orderdetail'=>'     /index.php?con=api&act=index&method=orders&source=orderdetail',
         'morders'=>'     /index.php?con=api&act=index&method=orders&source=morders',
+        'ordercancel'=>'     /index.php?con=api&act=index&method=orders&source=ordercancel',
     );
 
     private $limit = 10;
