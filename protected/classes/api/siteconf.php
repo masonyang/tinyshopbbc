@@ -68,9 +68,15 @@ class siteconf extends baseapi
 
         $config = $model->fields('site_name,site_logo')->where('id=1')->find();
 
+        $cserviceModel = new Model('cservice');
+
+        $list = $cserviceModel->where('id=1')->find();
+
         $data = array();
 
         if($config){
+
+            $data['mobile'] = $list['mobile'];
 
             $data['site_logo'] =$config['site_logo'] ? baseapi::getApiUrl().$config['site_logo'] : '';
             $data['site_name'] =$config['site_name'];

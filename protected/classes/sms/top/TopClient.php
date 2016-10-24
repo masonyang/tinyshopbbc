@@ -299,7 +299,7 @@ class TopClient
 			return $result;
 		}
 
-		unset($apiParams);
+		//unset($apiParams);
 		unset($fileFields);
 		//解析TOP返回结果
 		$respWellFormed = false;
@@ -340,7 +340,7 @@ class TopClient
 			$logger->conf["log_file"] = rtrim(TOP_SDK_WORK_DIR, '\\/') . '/' . "logs/top_biz_err_" . $this->appkey . "_" . date("Y-m-d") . ".log";
 			$logger->log(array(
 				date("Y-m-d H:i:s"),
-				$resp
+				$resp.'--'.json_encode($apiParams).'--'.$requestUrl
 			));
 		}
 		return $respObject;
