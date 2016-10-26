@@ -41,6 +41,10 @@ class siteconf extends baseapi
                 'content'=>'网店名称',
             ),
             array(
+                'colum'=>'mobile',
+                'content'=>'客服电话',
+            ),
+            array(
                 'colum'=>'adpositions',
                 'content'=>'广告位列表',
             ),
@@ -125,6 +129,7 @@ class siteconf extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     'site_logo'=>'网上商城',
+                    'mobile'=>'13622718349',
                     'site_name'=>'http://www.baidu.com/123213.jpg',
                     'adpositions'=>array('1','2','3'),
                     'app_info'=>array(

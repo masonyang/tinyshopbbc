@@ -60,7 +60,7 @@ class sms extends baseapi
 //
 //        $this->params = $params;
 //    }
-
+//a.qqcapp.com/index.php?con=api&act=index&method=sms&mason=1&mobile=13191868165&rand=13191868165
     public function index()
     {
 
@@ -106,24 +106,17 @@ class sms extends baseapi
     private function GetRandomCaptchaText($length = null)
     {
 
-        $words  = "0123456789bcdfghjklmnpqrstuvwxyz";
-        $vocals = "aeiou";
-
-        $text  = "";
-        $vocal = mt_rand(0, 1);
+        $chars = array(
+            "0", "1", "2","3", "4", "5", "6", "7", "8", "9"
+        );
+        $charsLen = count($chars) - 1;
+        shuffle($chars);
+        $output = "";
         for ($i=0; $i<$length; $i++)
         {
-            if ($vocal)
-            {
-                $text .= substr($vocals, mt_rand(0, 4), 1);
-            }
-            else
-            {
-                $text .= substr($words, mt_rand(0, 21), 1);
-            }
-            $vocal = !$vocal;
+            $output .= $chars[mt_rand(0, $charsLen)];
         }
-        return $text;
+        return $output;
     }
 
     public function sms_demo()
