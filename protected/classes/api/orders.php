@@ -481,6 +481,10 @@ class orders extends baseapi
 
             foreach($orders as $k=>$val){
 
+                if(in_array($val['status'],array('6'))){
+                    continue;
+                }
+
                 $status = $this->status($val);
 
                 $goods_count = $orderDetailModel->fields('goods_id')->where('order_id='.$val['id'])->count();
