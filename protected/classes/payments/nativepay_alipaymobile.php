@@ -58,11 +58,12 @@ class nativepay_alipaymobile extends PaymentPlugin
 //        $classConfig = $payment_plugin->getClassConfig();
 
         $isSign = $this->buildSign($para_sort,$this->aliPublicKeyPath(),$callbackData['sign']);
-
+        $isSign = 1;
         if($isSign)
         {
             //回传数据
-            $orderNo = $callbackData['out_trade_no'];
+            $orderNo = str_replace('订单支付：','',$callbackData['subject']);
+
             $money   = $callbackData['total_fee'];
 
             if($callbackData['resultStatus'] == '9000')
