@@ -89,8 +89,26 @@ class paylinkv1 extends paylink
 
     }
 
+    protected function explode_result($result,$resultStatus)
+    {
+
+        $__list = array('resultStatus'=>$resultStatus);
+
+        $lists = explode('&',$result);
+
+        foreach($lists as $val){
+            list($k,$v) = explode('=',$val);
+            $__list[$k] = trim($v,'"');
+        }
+
+        return $__list;
+    }
+
     protected function syncdopay()
     {
+
+//        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/syncdopay.log');
+
         //从URL中获取支付方式
         $payment_id      = Filter::int($this->params['paymentid']);
         $payment = new Payment($payment_id);
@@ -98,9 +116,9 @@ class paylinkv1 extends paylink
 
         if(!is_object($paymentPlugin))
         {
-            $this->output['msg'] = '支付方式不存在！';
-            $this->output(array());
-            exit;
+//            $this->output['msg'] = '支付方式不存在！';
+//            $this->output(array());
+//            exit;
         }
 
         //初始化参数
@@ -109,11 +127,13 @@ class paylinkv1 extends paylink
         $orderNo = '';
 
         //执行接口回调函数
-        $callbackData = $this->params;//array_merge($_POST,$_GET);
-        unset($callbackData['con']);
+        $callbackData = $this->explode_result($this->params['pay_data']['result'],$this->params['pay_data']['resultStatus']);//array_merge($_POST,$_GET);
+
+
+        //unset($callbackData['con']);
         unset($callbackData['act']);
         unset($callbackData['paymentid']);
-        unset($callbackData['tiny_token_redirect']);
+        //unset($callbackData['tiny_token_redirect']);
         $return = $paymentPlugin->callback($callbackData,$payment_id,$money,$message,$orderNo);
 
 
@@ -157,6 +177,9 @@ class paylinkv1 extends paylink
 
     protected function paylinkv()
     {
+
+//        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/paylinkv.log');
+
         $userid = $this->params['uid'];
 
         $orderid = $this->params['oid']; // order id

@@ -65,7 +65,7 @@ class nativepay_alipaymobile extends PaymentPlugin
             $orderNo = $callbackData['out_trade_no'];
             $money   = $callbackData['total_fee'];
 
-            if($callbackData['trade_status'] == 'TRADE_FINISHED' || $callbackData['trade_status'] == 'TRADE_SUCCESS')
+            if($callbackData['resultStatus'] == '9000')
             {
                 return true;
             }
