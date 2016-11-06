@@ -973,6 +973,8 @@ CREATE TABLE `tiny_distributor` (
   `site_url` varchar(255) NOT NULL COMMENT '站点网址',
   `site_ios_url` varchar(255) NOT NULL COMMENT 'ios下载地址',
   `site_android_url` varchar(255) NOT NULL COMMENT 'android下载地址',
+  `ios_content` text DEFAULT NULL COMMENT 'ios更新内容',
+  `android_content` text DEFAULT NULL COMMENT 'android更新内容',
   `email` varchar(255) NOT NULL COMMENT '邮箱',
   `site_keyword` varchar(255) NOT NULL COMMENT '关键字',
   `site_description` varchar(255) NOT NULL COMMENT '描述信息',

@@ -10,7 +10,7 @@
 		{/list}
 
 <div id="obj_form" class="form2">
-{query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,email,disabled,register_time,province,city,county,addr,phone,site_logo,site_icp,site_ios_url,site_android_url,zip,site_keyword,disabled  where=distributor_id eq $id item=$dist}
+{query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,email,disabled,register_time,province,city,county,addr,phone,site_logo,site_icp,site_ios_url,site_android_url,zip,site_keyword,disabled,ios_content,android_content  where=distributor_id eq $id item=$dist}
       <dl class="lineD">
       <dt>授权分类：</dt>
       <dd>
@@ -95,11 +95,23 @@
         <label>{$dist['site_ios_url']}</label>
       </dd>
     </dl>
+    <dl class="lineD">
+        <dt>ios更新内容：</dt>
+        <dd>
+            <label>{$dist['ios_content']}</label>
+        </dd>
+    </dl>
 	<dl class="lineD">
       <dt>android下载地址：</dt>
       <dd>
         <label>{$dist['site_android_url']}</label>
       </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>android更新内容：</dt>
+        <dd>
+            <label>{$dist['android_content']}</label>
+        </dd>
     </dl>
 	<dl class="lineD">
       <dt>邮政编码：</dt>

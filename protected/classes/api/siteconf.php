@@ -89,7 +89,7 @@ class siteconf extends baseapi
 
             $appObj = new Model('distributor','zd','salve');
 
-            $app_info = $appObj->fields('android_appversion,ios_appversion,site_ios_url,site_android_url')->where('site_url="'.$serverName['top'].'"')->find();
+            $app_info = $appObj->fields('android_appversion,ios_appversion,site_ios_url,site_android_url,ios_content,android_content')->where('site_url="'.$serverName['top'].'"')->find();
 
             $app_info['ios_download_url'] = $app_info['site_ios_url'];
             $app_info['android_download_url'] = $app_info['site_android_url'];
@@ -140,6 +140,8 @@ class siteconf extends baseapi
                         'android_appversion'=>'1.0',
                         'ios_download_url'=>'http://ios.apple.com/sadfasfas',
                         'android_download_url'=>'http://android.google.com/sadfasfas',
+                        'ios_content'=>'',
+                        'android_content'=>'',
                     ),
                 ),
             )
