@@ -72,7 +72,21 @@ class sms extends baseapi
 
         $code = $this->GetRandomCaptchaText(4);
 
-        $templateCode = 'SMS_16675953';//大于模板编号
+        if(in_array($this->params['source_type'],array('reg','resetpwd'))){
+            switch($this->params['source_type']){
+                case 'reg'://注册验证码
+                    $templateCode = 'SMS_25715133';//注册验证码
+                break;
+                case 'resetpwd'://重置密码
+                    $templateCode = 'SMS_16675953';//重置密码
+                break;
+            }
+        }else{
+            $this->output['msg'] = '来源有误';
+            $this->output();
+            exit;
+        }
+
 
         $istest = false;//是否走测试环境
 
