@@ -78,7 +78,7 @@ class sms extends baseapi
                     $templateCode = 'SMS_25715133';//注册验证码
                 break;
                 case 'resetpwd'://重置密码
-                    $templateCode = 'SMS_16675953';//重置密码
+                    $templateCode = 'SMS_25815032';//重置密码
                 break;
             }
         }else{
