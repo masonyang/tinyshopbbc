@@ -44,6 +44,12 @@ class goods extends baseapi
                 'content'=>'排序方式:1-最新  2-价格  3-销量  4-人气',
             ),
             array(
+                'colum'=>'sort',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'排序顺序:desc、asc',
+            ),
+            array(
                 'colum'=>'limit',
                 'required'=>'必须',
                 'type'=>'int',
@@ -226,13 +232,17 @@ class goods extends baseapi
 
             $return['type'] = 'categroy';
 
+            if(!isset($this->params['sort']) || !in_array($this->params['sort'],array('desc','asc'))){
+                $this->params['sort'] = 'desc';
+            }
+
             switch($this->params['order']){
                 case 0:
                 case 1: //最新
-                    $order = 'create_time desc';
+                    $order = 'create_time '.$this->params['sort'];
                 break;
                 case 2://价格
-                    $order = 'sell_price desc,branchstore_sell_price desc';
+                    $order = 'sell_price '.$this->params['sort'].',branchstore_sell_price '.$this->params['sort'];
                 break;
 //                case 3://销量
 //                    $order = ''; //todo 暂无
