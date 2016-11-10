@@ -35,11 +35,15 @@ class advert extends baseapi
         'advert'=>array(
             array(
                 'colum'=>'url',
-                'content'=>'链接地址',
+                'content'=>'链接地址/商品ID/商品分类ID',
             ),
             array(
                 'colum'=>'img_path',
                 'content'=>'轮播图 图片地址',
+            ),
+            array(
+                'colum'=>'s_type',
+                'content'=>'类型 link、goods、category',
             ),
         ),
     );
@@ -76,6 +80,7 @@ class advert extends baseapi
         $i = 0;
         foreach ($ad['content'] as $item) {
             $data[$i]['url'] =$item['url'];
+            $data[$i]['s_type'] =$item['s_type'];
 
             $filename = Url::fullUrlFormat('@'.$item['path']);
 

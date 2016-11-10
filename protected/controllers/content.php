@@ -392,13 +392,14 @@ class ContentController extends Controller
 			$path = Req::args('path');
 			$url = Req::args('url');
 			$title = Req::args('title');
+            $s_type= Req::args('s_type');
 			$content = array();
 			if($type==2){
 				foreach ($path as $key => $value) {
-					$content[$key] = array('path'=>$value,'url'=>$url[$key],'title'=>$title[$key]);
+					$content[$key] = array('path'=>$value,'s_type'=>$s_type[$key],'url'=>$url[$key],'title'=>$title[$key]);
 				}
 			}else{
-				$content[0] = array('path'=>$path[0],'url'=>$url[0],'title'=>$title[0]);
+				$content[0] = array('path'=>$path[0],'s_type'=>$s_type[0],'url'=>$url[0],'title'=>$title[0]);
 				if($type == 4){
 					$content[0]['position'] = Req::args("position");
 					$content[0]['is_close'] = Req::args('is_close')?1:0;
