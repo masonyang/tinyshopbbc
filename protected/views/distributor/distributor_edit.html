@@ -1,4 +1,5 @@
 {echo:JS::import('form');}
+{echo:JS::import('editor');}
 {echo:JS::import('date');}
 {echo:JS::import('dialog?skin=brief');}
 {echo:JS::import('dialogtools');}
@@ -12,6 +13,16 @@
 {set:$categorys[$item['id']] = $item['name'];}
 {/if}
 {/list}
+
+
+<script>
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('textarea[name="ios_content"],textarea[name="android_content"]', {
+            uploadJson : '{url:/admin/upload_image}'
+        });
+    });
+</script>
 
 <h1 class="page_title">分销商编辑</h1>
 <div id="obj_form" class="form2">
@@ -210,7 +221,7 @@
         <dl class="lineD">
             <dt>ios更新内容：</dt>
             <dd>
-                <textarea name="ios_content" cols="10" rows="50">{$ios_content}</textarea>
+                <textarea name="ios_content" id="ios_content" cols="10" rows="50">{$ios_content}</textarea>
                 <span>  </span>
             </dd>
         </dl>
@@ -231,7 +242,7 @@
     <dl class="lineD">
         <dt>android更新内容：</dt>
         <dd>
-            <textarea name="android_content" cols="10" rows="50">{$android_content}</textarea>
+            <textarea name="android_content" id="android_content" cols="10" rows="50">{$android_content}</textarea>
             <span>  </span>
         </dd>
     </dl>
