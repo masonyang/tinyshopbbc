@@ -6,7 +6,20 @@
 
 	<a class="icon-plus" href="{url:/distributor/distributor_edit}"> 添加分销商</a>
 
-    <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+    <span class="fr">
+        <form action="{url:/goods/goods_list}" method="post">
+            <select name="condition">
+                <option value="distributor_name" {if: $condition == 'distributor_name'} selected{/if} >姓名</option>
+                <option value="site_url" {if: $condition == 'site_url'} selected{/if} >站点名称</option>
+                <option value="mobile" {if: $condition == 'mobile'} selected{/if} >手机号</option>
+            </select>
+            <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
+            <button class="icon-search" >&nbsp;</button>
+        </form>
+
+    </span>
+
+    <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
 </div>
 <table class="default" >
     <tr>

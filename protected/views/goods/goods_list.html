@@ -10,7 +10,18 @@
     <a href='javascript:;' onclick="tools_submit({action:'{url:/goods/set_online/status/1}'});" class="icon-point-down" > 下架</a>
     <a class="icon-delicious" href="{url:/goods/goods_list}"> 全部商品</a>
 
-    <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+    <span class="fr">
+            <form action="{url:/goods/goods_list}" method="post">
+                <select name="condition">
+                    <option value="name" {if: $condition == 'name'} selected{/if} >商品名称</option>
+                    <option value="goods_no" {if: $condition == 'goods_no'} selected{/if} >商品编号</option>
+                </select>
+                <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
+                <button class="icon-search" >&nbsp;</button>
+            </form>
+
+        </span>
+    <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
 </div>
 <table class="default" >
     <tr>

@@ -293,11 +293,22 @@ class CustomerController extends Controller
 	}
 	function customer_list()
 	{
-		$condition = Req::args("condition");
-		$condition_str = Common::str2where($condition);
-		if($condition_str) $this->assign("where",$condition_str);
-		else $this->assign("where","1=1");
-		$this->assign("condition",$condition);
+        $condition = Req::args("condition");
+        $condition_input = Req::args("condition_input");
+
+        if($condition && $condition_input){
+            switch($condition){
+                case 'mobile':
+                    $where = 'mobile like "'.trim($condition_input).'%"';
+                    break;
+            }
+        }else{
+            $where = "1=1";
+        }
+
+        $this->assign("where",$where);
+        $this->assign("condition",$condition);
+        $this->assign("condition_input",$condition_input);
 		$this->redirect();
 	}
 	public function customer_edit()

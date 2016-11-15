@@ -789,14 +789,27 @@ class GoodsController extends Controller
 		$this->redirect("goods_list",false,array('msg'=> $msg));
 	}
 	function goods_list(){
+//        $condition = Req::args("condition");
+//        $condition_str =  Common::str2where($condition);
+
         $condition = Req::args("condition");
-        $condition_str =  Common::str2where($condition);
-        if($condition_str){
-            $where = $condition_str;
+        $condition_input = Req::args("condition_input");
+
+        if($condition && $condition_input){
+            switch($condition){
+                case 'name':
+                    $where = 'name like "'.trim($condition_input).'%"';
+                    break;
+                case 'goods_no':
+                    $where = 'goods_no like "'.trim($condition_input).'%"';
+                    break;
+            }
         }else{
             $where = "1=1";
         }
+
         $this->assign("condition",$condition);
+        $this->assign("condition_input",$condition_input);
 
 		$this->assign("where",$where);
 		$this->redirect();

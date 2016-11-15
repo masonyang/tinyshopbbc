@@ -7,7 +7,18 @@
     <a  class="icon-remove-2" href="javascript:;" onclick="tools_submit({action:'{url:/customer/customer_del}',msg:'删除后无法恢复，你真的删除吗？'})" title="删除"> 删除</a>
     <a href='{url:/customer/customer_edit}' class="icon-plus" > 添加</a>
     <a class="icon-delicious" href="{url:/customer/customer_list}"> 全部用户</a>
-    <span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>
+
+    <span class="fr">
+        <form action="{url:/goods/goods_list}" method="post">
+            <select name="condition">
+                <option value="mobile" {if: $condition == 'mobile'} selected{/if} >会员手机号</option>
+            </select>
+            <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
+            <button class="icon-search" >&nbsp;</button>
+        </form>
+
+    </span>
+    <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
 </div>
 <table class="default" >
     <tr>

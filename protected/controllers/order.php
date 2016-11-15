@@ -486,6 +486,14 @@ class OrderController extends Controller
                     $condition_str = 'order_no like "'.trim($condition_input).'%"';
                     $orderby = 'unix_timestamp(create_time) desc';
                 break;
+                case 'accept_name':
+                    $condition_str = 'accept_name like "'.trim($condition_input).'%"';
+                    $orderby = 'unix_timestamp(create_time) desc';
+                break;
+                case 'mobile':
+                    $condition_str = 'mobile like "'.trim($condition_input).'%"';
+                    $orderby = 'unix_timestamp(create_time) desc';
+                break;
             }//20160404184031231030
         }
 

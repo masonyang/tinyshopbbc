@@ -37,16 +37,32 @@ class DistributorController extends Controller
 
 	public function distributor_list()
 	{
-		$condition = Req::args('condition');
-		$condition_str = Common::str2where($condition);
-		if($condition_str)$this->assign("where",$condition_str);
-		else $this->assign("where","1=1");
+        $condition = Req::args("condition");
+        $condition_input = Req::args("condition_input");
+
+        if($condition && $condition_input){
+            switch($condition){
+                case 'distributor_name':
+                    $where = 'distributor_name like "'.trim($condition_input).'%"';
+                    break;
+                case 'site_url':
+                    $where = 'site_url like "'.trim($condition_input).'%"';
+                    break;
+                case 'mobile':
+                    $where = 'mobile like "'.trim($condition_input).'%"';
+                    break;
+            }
+        }else{
+            $where = "1=1";
+        }
 
 		$serverName = Tiny::getServerName();
 		$domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
 		$this->assign("domain",$domain);
 
-		$this->assign("condition",$condition);
+        $this->assign("where",$where);
+        $this->assign("condition",$condition);
+        $this->assign("condition_input",$condition_input);
 		$this->redirect();
 	}
 

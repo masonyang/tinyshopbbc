@@ -13,7 +13,9 @@
         <span class="fr">
             <form action="{url:/order/order_list}" method="post">
                 <select name="condition">
-                    <option value="order_no">订单号</option>
+                    <option value="order_no" {if: $condition == 'order_no'} selected{/if} >订单号</option>
+                    <option value="accept_name" {if: $condition == 'accept_name'} selected{/if} >收货人姓名</option>
+                    <option value="mobile" {if: $condition == 'mobile'} selected{/if} >手机号</option>
                 </select>
                 <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
                 <button class="icon-search" >&nbsp;</button>
