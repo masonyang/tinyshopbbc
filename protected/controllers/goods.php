@@ -803,6 +803,9 @@ class GoodsController extends Controller
                 case 'goods_no':
                     $where = 'goods_no like "'.trim($condition_input).'%"';
                     break;
+                case 'tag_ids':
+                    $where = 'tag_ids like "'.trim($condition_input).'%"';
+                    break;
             }
         }else{
             $where = "1=1";

@@ -283,6 +283,7 @@ class orders extends baseapi
             $products[$k]['img'] = $image['src'];
             $products[$k]['sale_price'] = $vval['real_price'];
             $products[$k]['goods_name'] = $gData['name'];
+            $products[$k]['gid'] = $vval['goods_id'];
             $products[$k]['goods_nums'] = $vval['goods_nums'];
             $products[$k]['specs'] = implode(',',$spec);
 

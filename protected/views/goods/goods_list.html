@@ -14,6 +14,7 @@
             <form action="{url:/goods/goods_list}" method="post">
                 <select name="condition">
                     <option value="name" {if: $condition == 'name'} selected{/if} >商品名称</option>
+                    <option value="tag_ids" {if: $condition == 'tag_ids'} selected{/if} >商品关键词</option>
                     <option value="goods_no" {if: $condition == 'goods_no'} selected{/if} >商品编号</option>
                 </select>
                 <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
