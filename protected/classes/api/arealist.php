@@ -63,17 +63,59 @@ class arealist extends baseapi
 
     private function areas()
     {
-        $areas_json = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'/areas.json';
 
-        $items = file_get_contents($areas_json);
+        if(isset($this->params['v'])){
+            $areas_json = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'/areas.json';
 
-        if($items == null)
-        {
-            $items = JSON::encode($this->_AreaInit(0));
-            file_put_contents($areas_json,$items);
+            $items = file_get_contents($areas_json);
+
+            if($items == null)
+            {
+                $items = JSON::encode($this->_AreaInit(0));
+                file_put_contents($areas_json,$items);
+            }
+        }else{
+            $items = JSON::encode($this->_AreaInitOld(0));
         }
 
+
         return $items;
+    }
+
+    private function _AreaInitOld($id, $level = '0') {
+        $model = new Model('area','zd','salve');
+        $result = $model->where("parent_id=".$id)->order('sort')->findAll();
+        $list = array();
+
+        if($result) {
+
+            foreach($result as$key => $value) {
+
+                $id = "o_".$value['id'];
+                $list[$key]['id'] = $value['id'];
+                $list[$key]['name'] = $value['name'];
+
+                if($value['parent_id'] ==  0)
+                {
+                    $model2 = new Model('area','zd','salve');
+                    $rr = $model2->where("parent_id=".$value['id'])->order('sort')->findAll();
+                    $list[$key]['city'] = $rr;
+                    //---
+                    $area = array();
+                    foreach($rr as $kk => $vv)
+                    {
+                        $model3 = new Model('area','zd','salve');
+                        $area = $model3->where("parent_id=".$vv['id'])->order('sort')->findAll();
+                        $rr[$kk]['area'] = $area;
+                    }
+                    $list[$key]['city'] = $rr;
+                    //$list[$key]['city']['area'] =$area;
+                    //---
+                }
+            }
+        }
+
+        return $list;
     }
 
     private function _AreaInit($id, $level = '0') {
@@ -93,7 +135,6 @@ class arealist extends baseapi
                 {
                     $model2 = new Model('area','zd','salve');
                     $rr = $model2->where("parent_id=".$value['id'])->order('sort')->findAll();
-                    $list[$key]['city'] = $rr;
                     $list[$key]['sub'] = $rr;
                     //---
                     $area = array();
@@ -101,10 +142,8 @@ class arealist extends baseapi
                     {
                         $model3 = new Model('area','zd','salve');
                         $area = $model3->where("parent_id=".$vv['id'])->order('sort')->findAll();
-                        $rr[$kk]['area'] = $area;
                         $rr[$kk]['sub'] = $area;
                     }
-                    $list[$key]['city'] = $rr;
                     $list[$key]['sub'] = $rr;
                     //$list[$key]['city']['area'] =$area;
                     //---
@@ -112,35 +151,8 @@ class arealist extends baseapi
             }
         }
 
-        /*
-
-               if($result) {
-
-                    foreach($result as $value) {
-                        $id = "o_".$value['id'];
-                        $list["$id"]['t'] = $value['name'];
-                        if($level<2)$list[$id]['c'] = $this->_AreaInit($value['id'], $level + 1);
-                    }
-                }
-
-        */
         return $list;
     }
-//
-//    private function _AreaInit($id, $level = '0') {
-//        $model = new Model('area','zd','salve');
-//        $result = $model->where("parent_id=".$id)->order('sort')->findAll();
-//        $list = array();
-//        if($result) {
-//
-//            foreach($result as $value) {
-//                $id = "o_".$value['id'];
-//                $list["$id"]['t'] = $value['name'];
-//                if($level<2)$list[$id]['c'] = $this->_AreaInit($value['id'], $level + 1);
-//            }
-//        }
-//        return $list;
-//    }
 
 
     public function arealist_demo()
