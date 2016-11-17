@@ -63,14 +63,16 @@ class arealist extends baseapi
 
     private function areas()
     {
-        $cache = CacheFactory::getInstance();
-        $items = $cache->get("_AreaData");
-        $items = null;
+        $areas_json = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'/areas.json';
+
+        $items = file_get_contents($areas_json);
+
         if($items == null)
         {
             $items = JSON::encode($this->_AreaInit(0));
-            $cache->set("_AreaData",$items,315360000);
+            file_put_contents($areas_json,$items);
         }
+
         return $items;
     }
 

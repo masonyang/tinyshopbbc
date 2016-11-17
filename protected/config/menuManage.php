@@ -230,11 +230,11 @@
         'link' => '/content/article_list',
         'name' => '内容管理',
       ),
-//      'count'=>
-//      array(
-//        'link'=>'/count/index',
-//        'name'=>'统计报表'
-//      ),
+      'count'=>
+      array(
+        'link'=>'/count/index',
+        'name'=>'统计报表'
+      ),
       'system' => 
       array (
         'link' => '/admin/index',
@@ -313,11 +313,11 @@
         'name' => '扫描枪配置',
         'parent' => 'order',
       ),
-//      'count'=>
-//      array(
-//            'name'=>'销售统计',
-//            'parent'=>'count'
-//      ),
+      'count'=>
+      array(
+            'name'=>'销售统计 (开发中)',
+            'parent'=>'count'
+      ),
     ),
     'nodes' => 
     array (
@@ -656,26 +656,26 @@
         'name' => '单据扫描',
         'parent' => 'order',
       ),
-//      '/count/index'=>
-//      array(
-//        'name'=>'订单统计',
-//        'parent'=>'count'
-//      ),
-//      '/count/hot'=>
-//      array(
-//        'name'=>'热销统计',
-//        'parent'=>'count'
-//      ),
-//      '/count/area_buy'=>
-//      array(
-//        'name'=>'地区统计',
-//        'parent'=>'count'
-//      ),
-//      '/count/user_reg'=>
-//      array(
-//        'name'=>'会员分布统计',
-//        'parent'=>'customer_count'
-//      ),
+      '/count/index'=>
+      array(
+        'name'=>'订单统计',
+        'parent'=>'count'
+      ),
+      '/count/hot'=>
+      array(
+        'name'=>'热销统计',
+        'parent'=>'count'
+      ),
+      '/count/area_buy'=>
+      array(
+        'name'=>'地区统计',
+        'parent'=>'count'
+      ),
+      '/count/user_reg'=>
+      array(
+        'name'=>'会员分布统计',
+        'parent'=>'customer_count'
+      ),
     ),
   ),
 );
