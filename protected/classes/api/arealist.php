@@ -94,7 +94,7 @@ class arealist extends baseapi
                     $model2 = new Model('area','zd','salve');
                     $rr = $model2->where("parent_id=".$value['id'])->order('sort')->findAll();
                     $list[$key]['city'] = $rr;
-
+                    $list[$key]['sub'] = $rr;
                     //---
                     $area = array();
                     foreach($rr as $kk => $vv)
@@ -102,8 +102,10 @@ class arealist extends baseapi
                         $model3 = new Model('area','zd','salve');
                         $area = $model3->where("parent_id=".$vv['id'])->order('sort')->findAll();
                         $rr[$kk]['area'] = $area;
+                        $rr[$kk]['sub'] = $area;
                     }
                     $list[$key]['city'] = $rr;
+                    $list[$key]['sub'] = $rr;
                     //$list[$key]['city']['area'] =$area;
                     //---
                 }
