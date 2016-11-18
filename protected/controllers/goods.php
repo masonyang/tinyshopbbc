@@ -798,7 +798,7 @@ class GoodsController extends Controller
         if($condition && $condition_input){
             switch($condition){
                 case 'name':
-                    $where = 'name like "'.trim($condition_input).'%"';
+                    $where = 'name like "%'.trim($condition_input).'%"';
                     break;
                 case 'goods_no':
                     $where = 'goods_no like "'.trim($condition_input).'%"';
