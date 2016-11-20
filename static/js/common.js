@@ -141,9 +141,9 @@ function tools_submit(obj){
 	if(confirm_flag){
 		var select_id = "id";
 		if(obj['select_id']!=undefined) select_id = obj['select_id'];
-		art.dialog.confirm('你确认删除操作？', function(){
+		art.dialog.confirm(obj['msg'], function(){
 			if($("input[name='"+select_id+"[]']:checked").size()>0)form.submit();
-			else art.dialog.tips("<p class='warning'>没有选择任何项目，无法删除</p>");
+			else art.dialog.tips("<p class='warning'>没有选择任何项目，无法操作</p>");
 		});
 	}else{
 		form.submit();

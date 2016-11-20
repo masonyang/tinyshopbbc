@@ -9,13 +9,11 @@
     <a class="icon-delicious" href="{url:/customer/customer_list}"> 全部用户</a>
 
     <span class="fr">
-        <form action="{url:/goods/goods_list}" method="post">
             <select name="condition">
                 <option value="mobile" {if: $condition == 'mobile'} selected{/if} >会员手机号</option>
             </select>
             <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
             <button class="icon-search" >&nbsp;</button>
-        </form>
 
     </span>
     <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->

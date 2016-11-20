@@ -180,299 +180,36 @@ class OrderController extends Controller
 		$order_id = Filter::int(Req::args("order_id"));
 		$express_no = Filter::str(Req::args("express_no"));
 		$express_company_id = Filter::int(Req::args('express_company_id'));
-        $invoice_no = date('YmdHis').rand(100,999);
-        Req::post("invoice_no",$invoice_no);
-        //处理发货之前,先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货
 
-        //订单所有产品的批发价之和  == 分销商预存款金额 比较
+        $delivery_status = Req::args("delivery_status");
+        $remark = Req::post("remark");
+        $accept_name = Req::post("accept_name");
+        $province = Req::post("province");
+        $city = Req::post("city");
+        $county = Req::post("county");
+        $zip = Req::post("zip");
+        $addr = Req::post("addr");
+        $phone = Req::post("phone");
+        $mobile = Req::post("mobile");
 
-        //同步发货信息
+        $safeBoxManager = $this->safebox->get('manager');
 
-        $orderModel = new Model('order');
-        $order_info = $orderModel->where("id=$order_id")->find();
+        $res = Order::delivery($safeBoxManager,$order_id,$express_no,$express_company_id,$remark,$accept_name,$province,$city,$county,$zip,$addr,$phone,$mobile,$delivery_status);
 
-        $paymentModel = new Model("payment as pa");
-        $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
-
-        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
-            $is_onlinepay = true;
-        }else{
-            $is_onlinepay = false;
+        switch($res['res']){
+            case 'fail':
+                    if($res['type'] == 'no_depost'){
+                        echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
+                        exit;
+                    }
+                break;
+            case 'succ':
+                    echo "<script>parent.send_dialog_close();</script>";
+                break;
         }
 
-        if(!$is_onlinepay){
-            $orderGoodsModelObj = new Model('order_goods');
-            $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
-            $manager = $managerObj->fields('deposit,distributor_id,site_url')->where('roles="administrator"')->find();
-
-            //todo 需要在order_goods 表加上trade price 批发价 字段，并在结算时候 写入trade_price
-            $ordergoods = $orderGoodsModelObj->fields('goods_nums,trade_price')->where('order_id='.$order_id)->findAll();
-
-            $tradeprice = 0;
-            foreach($ordergoods as $og){
-                $tradeprice += $og['trade_price'] * $og['goods_nums'];
-            }
-
-            $depost = $manager['deposit'] - $tradeprice;
-
-            if(($depost) <= 0){
-                echo "<script> alert('分销商预存款不足,发货失败!'); parent.send_dialog_close();</script>";
-                exit;
-            }else{
-                $zdModel = new Model("distributor","zd","master");
-                $distrInfo = $zdModel->where("distributor_id=".$manager['distributor_id'])->find();
-                $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $tradeprice))->where("distributor_id=".$manager['distributor_id'])->update();
-
-                //同步预存款金额到分店
-                $managerObj = new Model("manager",$manager['site_url'],"master");
-                $distrInfo = $managerObj->where("distributor_id=".$manager['distributor_id'])->find();
-                $distrInfo['deposit'] -= $tradeprice;
-
-                $managerObj->data(array('deposit'=>$distrInfo['deposit']))->where("id=".$distrInfo['id'])->update();
-
-                $manager = $this->safebox->get('manager');
-                $data['op_name'] = $manager['name'];
-                $data['op_time'] = time();
-                $data['op_id'] = $manager['id'];
-                $data['money'] = $tradeprice;
-                $data['action'] = 'minus';
-                $data['op_ip'] = Chips::getIP();
-                $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 扣除'.$tradeprice.'元, 充值后 预存款剩余金额:'.$distrInfo['deposit'].'元';
-                Log::rechange($data,$distrInfo['site_url']);
-
-            }
-        }
-
-
-        $model = new Model("doc_invoice",$order_info['site_url']);
-		$delivery_status = Req::args("delivery_status");
-		if($delivery_status==Order::DELIVERY_STATUS_APPLY_REFUND){
-            $data = array();
-            $data['invoice_no'] = $invoice_no;
-            $data['order_id'] = $order_info['outer_id'];
-            $data['order_no'] = $order_info['order_no'];
-            $data['admin'] = $this->manager['name'];
-            $data['create_time'] = date('Y-m-d H:i:s');
-            $data['express_no'] = $express_no;
-            $data['express_company_id'] = $express_company_id;
-            $data['remark'] = Req::post("remark");
-            $data['accept_name'] = Req::post("accept_name");
-            $data['province'] = Req::post("province");
-            $data['city'] = Req::post("city");
-            $data['county'] = Req::post("county");
-            $data['zip'] = Req::post("zip");
-            $data['addr'] = Req::post("addr");
-            $data['phone'] = Req::post("phone");
-            $data['mobile'] = Req::post("mobile");
-			$model->data($data)->insert();
-		}
-		else{
-
-            $data = array();
-
-            $data['admin'] = $this->manager['name'];
-            $data['create_time'] = date('Y-m-d H:i:s');
-            $data['express_no'] = $express_no;
-            $data['express_company_id'] = $express_company_id;
-            $data['remark'] = Req::post("remark");
-            $data['accept_name'] = Req::post("accept_name");
-            $data['province'] = Req::post("province");
-            $data['city'] = Req::post("city");
-            $data['county'] = Req::post("county");
-            $data['zip'] = Req::post("zip");
-            $data['addr'] = Req::post("addr");
-            $data['phone'] = Req::post("phone");
-            $data['mobile'] = Req::post("mobile");
-
-			$obj = $model->where("order_id=".$order_info['outer_id'])->find();
-			if($obj){
-				$model->data($data)->where("order_id=".$order_info['outer_id'])->update();
-			}else{
-                $data['invoice_no'] = $invoice_no;
-                $data['order_id'] = $order_info['outer_id'];
-                $data['order_no'] = $order_info['order_no'];
-				$model->data($data)->insert();
-			}
-		}
-
-		if($order_info){
-			if($order_info['trading_info']!=''){
-				$payment_id = $order_info['payment'];
-				$payment = new Payment($payment_id);
-				$payment_plugin = $payment->getPaymentPlugin();
-                $exModel = new Model('express_company');
-				$express_company = $exModel->where('id='.$express_company_id)->find();
-				if($express_company) $express = $express_company['name'];
-				else $express = $express_company_id;
-				//处理同步发货
-				$delivery = $payment_plugin->afterAsync();
-				if($delivery!=null && method_exists($delivery, "send")) $delivery->send($order_info['trading_info'],$express,'express_no');
-			}
-		}
-        $send_time = date('Y-m-d H:i:s');
-        $zdOrderModel = new Model('order');
-        $zdOrderModel->data(array('delivery_status'=>1,'send_time'=>$send_time))->where("id=".$order_info['id'])->update();
-
-        $odModel = new Model("order",$order_info['site_url']);
-
-        $odModel->where("id=".$order_info['outer_id'])->data(array('delivery_status'=>1,'send_time'=>$send_time))->update();
-
-        //处理发货之后,计算收益逻辑 并加入到预存款中，并生成一条添加预存款记录
-
-        /*
-         * new
-         *
-         * 线上支付：
-         * 分销商批发价格 = 所有产品的批发价之和1
-	     * 发货时候，计算收益＝订单金额*（1-0.006）-分销商批发价
-         * 线下支付：
-	     * 发货时候，先看下分销商预存款里是否有充足的余额 来扣除，有的话则 扣除预存款 并生成预存款扣除记录，然后再发货。（订单所有产品的批发价之和  == 分销商预存款金额 比较）
-         * */
-        $orderGoodsModelObj = new Model('order_goods');
-        $ordergoods = $orderGoodsModelObj->fields('goods_nums,trade_price')->where('order_id='.$order_id)->findAll();
-
-        $tradeprice = 0;
-        foreach($ordergoods as $og){
-            $tradeprice += $og['trade_price'] * $og['goods_nums'];
-        }
-
-        $manager = $this->safebox->get('manager');
-
-        if($is_onlinepay){
-            //$payfee = 1 - ($paymentInfo['pay_fee']/100);
-
-            //$income = ($order_info['order_amount'] * $payfee) - $tradeprice;
-
-            $income = $order_info['order_amount'] - $order_info['payable_freight'] - $tradeprice;
-
-            $managerObj = new Model('manager',$order_info['site_url']);//去分店 manager表中的数据
-            $fxmanager = $managerObj->fields('deposit,distributor_id,site_url,id')->where('roles="administrator"')->find();
-
-            $zdModel = new Model("distributor","zd","master");
-            $distrInfo = $zdModel->where("distributor_id=".$fxmanager['distributor_id'])->find();
-            $zdModel->data(array('deposit'=>$distrInfo['deposit'] + $income))->where("distributor_id=".$fxmanager['distributor_id'])->update();
-
-            $fxmanager['deposit'] += $income;
-
-            $testObj = new Model('manager',$order_info['site_url']);
-            $testObj->data(array('deposit'=>$fxmanager['deposit']))->where("id=".$fxmanager['id'])->update();
-
-            $data['op_name'] = $manager['name'];
-            $data['op_time'] = time();
-            $data['op_id'] = $manager['id'];
-            $data['money'] = $income;
-            $data['action'] = 'add';
-            $data['op_ip'] = Chips::getIP();
-            $data['memo'] = '操作人【'.$manager['name'].'】对订单 '.$order_info['order_no'].'进行发货 增加'.$income.'元, 充值后 预存款剩余金额:'.$fxmanager['deposit'].'元';
-            Log::rechange($data,$distrInfo['site_url']);
-        }
-
-
-
-        Log::orderlog($order_info['outer_id'],'操作人:'.$manager['name'],'订单已完成发货','订单已发货','success',$order_info['site_url']);
-
-        $orderInvoiceModel = new Model('order_invoice');
-        $oi = array();
-        $oi['order_no'] = $order_info['order_no'];
-        $oi['express_no'] = $express_no;
-        $oi['site_url'] = $distrInfo['site_url'];
-        $oiData = $orderInvoiceModel->fields('id')->where('order_no="'.$order_info['order_no'].'" and site_url="'.$distrInfo['site_url'].'"')->find();
-        if($oiData){
-            $orderInvoiceModel->data(array('express_no="'.$express_no.'"'))->where('id='.$oiData['id'])->update();
-        }else{
-            $orderInvoiceModel->data($oi)->insert();
-        }
-
-        $this->minBranchRealStore($order_info['outer_id'],$distrInfo['site_url']);
-
-        $this->minHeadRealStore($order_id,'zd');
-		
-		//发货回写快递鸟生成 电子面单模板和物流单号
-		// TODO
-		
-		echo "<script>parent.send_dialog_close();</script>";
 	}
 
-    private function minHeadRealStore($orderid,$siteurl)
-    {
-        $orderGoodsModel = new Model('order_goods',$siteurl);
-        $productsModel = new Model('products',$siteurl);
-        $goodsModel = new Model('goods',$siteurl);
-
-        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
-
-        $goods_ids = array();
-        $sync_goods = array();
-
-        foreach ($products as $pro) {
-            //更新货品中的库存信息
-            $goods_nums = $pro['goods_nums'];
-            $product_id = $pro['product_id'];
-            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums))->update();
-            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
-            $sync_goods[$pro['goods_id']][] = $product_id;
-        }
-
-        //更新商品表里的库存信息
-        foreach ($goods_ids as $id) {
-            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
-            if($objs){
-                $num = $objs[0]['store_nums'];
-                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
-
-            }
-        }
-
-        //同步商品库存到分店
-        if($sync_goods){
-            foreach($sync_goods as $gid =>$proids){
-                $ginfo = $goodsModel->fields('store_nums')->where('id='.$gid)->find();
-                foreach($proids as $pid){
-                    $proInfo = $productsModel->fields('store_nums')->where('id='.$pid)->find();
-                    $data = array();
-                    $data['id'] = $ginfo['$id'];
-                    $data['store_nums'] = $ginfo['store_nums'];
-                    $pupdate['id='.$pid] = array(
-                        'store_nums'=>$proInfo['store_nums']
-                    );
-                    $params['products'] = array(
-                        'update'=>$pupdate,
-                    );
-                    syncGoods::getInstance()->setParams($params,'update')->sync();
-                }
-            }
-        }
-
-
-    }
-
-    private function minBranchRealStore($orderid,$siteurl)
-    {
-        $orderGoodsModel = new Model('order_goods',$siteurl);
-        $productsModel = new Model('products',$siteurl);
-        $goodsModel = new Model('goods',$siteurl);
-
-        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
-
-        $goods_ids = array();
-        foreach ($products as $pro) {
-            //更新货品中的库存信息
-            $goods_nums = $pro['goods_nums'];
-            $product_id = $pro['product_id'];
-            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
-            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
-        }
-
-        //更新商品表里的库存信息
-        foreach ($goods_ids as $id) {
-            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
-            if($objs){
-                $num = $objs[0]['store_nums'];
-                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
-            }
-        }
-
-    }
 
 	public function order_list(){
 		$condition = Req::args("condition");
@@ -729,6 +466,7 @@ class OrderController extends Controller
 		}
 		echo JSON::encode($info);
 	}
+
 	//订单编辑 todo 二期
 	public function order_save(){
 		$model = new Model("order",$this->domain);
@@ -1027,36 +765,81 @@ class OrderController extends Controller
             exit();
         }
 
-        $print_template = array();
+        list( $error_orders,$print_template) = Order::print_ess($aInput);
 
-        $orderModel = new Model('order');
+        $this->layout = "blank";
+        $this->title = "电子面单打印";
+        $this->assign("error_orders",$error_orders);
+        $this->assign("print_template",$print_template);
+        $this->redirect();
 
-        foreach($aInput as $id){
-            $order = $orderModel->where('id='.$id)->find();
+    }
 
-            if($order['delivery_status'] == 1){
-                $_printT = Order::genEssOrder($order['order_no']);
-                if($_printT){
-                    $origin = array(
-                        '时间：',
-                        '<td width="61" rowspan="2"></td>',
-                        '已验视',
-                    );
-                    $replace = array(
-                        '时间：'.date('Y-m-d'),
-                        '<td width="61" rowspan="2">家居用品</td>',
-                        '订单号:'.$order['order_no'].'&nbsp;&nbsp;已验视',
-                    );
-                    $print_template[] = str_replace($origin,$replace,$_printT);
-                }
-            }
+    //批量发货
+    public function batch_delivery()
+    {
+        $id = Req::args("id");
+        if(is_array($id)){
+            $ids = implode(',', $id);
+        }else{
+            echo "订单信息错误，发货失败!";
+            exit;
         }
 
-        if(empty($print_template)){
-            echo "打印失败：该订单没开启电子面单打印功能 或者 物流单号不存在";
+        $succ_orders = array();
+
+        $error_orders = array();
+
+        $exModel = new Model('express_company');
+        $express_company = $exModel->find();
+
+        $express_company_id = $express_company['id'];
+
+        $safeBoxManager = $this->safebox->get('manager');
+
+        foreach($ids as $order_id){
+
+            $res = Order::delivery($safeBoxManager,$order_id,'',$express_company_id);
+
+            switch($res['res']){
+                case 'fail':
+                    if($res['type'] == 'no_depost'){
+                        $error_orders[] = $res['order_no']." 因为分销商预存款不足,发货失败!";
+                    }
+                    break;
+                case 'succ':
+                    $succ_orders[] = $res['order_no'].'发货成功';
+                    break;
+            }
+
+            sleep(1);
+        }
+
+        $this->layout = "blank";
+        $this->title = "批量发货";
+        $this->assign("error_orders",$error_orders);
+        $this->assign("succ_orders",$succ_orders);
+        $this->redirect();
+    }
+
+    //批量打印电子面单
+    public function batch_print_ess()
+    {
+        $id = Req::args("id");
+
+        if(is_array($id)){
+            $aInput = $id;
+        }else{
+            echo "打印失败：订单参数传递出错";
             exit();
         }
 
+
+        list( $error_orders,$print_template) = Order::print_ess($aInput);
+
+        $this->layout = "blank";
+        $this->title = "电子面单打印";
+        $this->assign("error_orders",$error_orders);
         $this->assign("print_template",$print_template);
         $this->redirect();
 

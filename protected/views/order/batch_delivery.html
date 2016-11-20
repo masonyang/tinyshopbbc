@@ -1,0 +1,14 @@
+
+
+{if: $error_orders}
+    {list: items=$error_orders}
+        <span style="color: red;">{$item}  <br></span>
+    {/list}
+{/if}
+
+
+{if: $succ_orders}
+    {list: items=$succ_orders}
+        <span style="color: green;">{$item}  <br></span>
+    {/list}
+{/if}

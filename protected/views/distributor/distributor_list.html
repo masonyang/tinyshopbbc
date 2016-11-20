@@ -7,7 +7,6 @@
 	<a class="icon-plus" href="{url:/distributor/distributor_edit}"> 添加分销商</a>
 
     <span class="fr">
-        <form action="{url:/goods/goods_list}" method="post">
             <select name="condition">
                 <option value="distributor_name" {if: $condition == 'distributor_name'} selected{/if} >姓名</option>
                 <option value="site_url" {if: $condition == 'site_url'} selected{/if} >站点名称</option>
@@ -15,7 +14,6 @@
             </select>
             <input id="condition_input" type="text" name="condition_input" value="{$condition_input}">
             <button class="icon-search" >&nbsp;</button>
-        </form>
 
     </span>
 
