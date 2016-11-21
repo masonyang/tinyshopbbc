@@ -788,6 +788,7 @@ class GoodsController extends Controller
 		$msg = array('success',"成功删除商品 ".$str);
 		$this->redirect("goods_list",false,array('msg'=> $msg));
 	}
+
 	function goods_list(){
 //        $condition = Req::args("condition");
 //        $condition_str =  Common::str2where($condition);
