@@ -754,7 +754,10 @@ class GoodsController extends Controller
 
         syncGoods::getInstance()->setParams($params,$action)->sync();
 
-		$this->redirect("goods_list");
+        $p = Req::args('p');
+
+        $p = isset($p) ? $p : 1;
+        $this->redirect('goods/goods_list/p/'.$p);
 	}
 	function goods_del()
 	{

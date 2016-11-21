@@ -67,6 +67,7 @@ class Action extends BaseAction
                         }else{
                             $action = 'add';
                         }
+
                         DataSync::service($modelName,Req::args(),$action);
 
                         $p = Req::args('p');
