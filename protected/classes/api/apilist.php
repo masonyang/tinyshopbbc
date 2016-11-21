@@ -103,7 +103,7 @@ class qqclistapi extends baseapi
             }
 
 
-            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&apilist=1&method=apilist&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
+            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&apilist=1&method=qqclistapi&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
         }
 
         $html .= '</table>';

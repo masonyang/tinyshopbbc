@@ -811,6 +811,13 @@ class GoodsController extends Controller
             $where = "1=1";
         }
 
+        $p = Req::args("p");
+
+        if(isset($p) && (intval($p) > 0)){
+            $this->assign("p",$p);
+        }else{
+            $this->assign("p",1);
+        }
         $this->assign("condition",$condition);
         $this->assign("condition_input",$condition_input);
 
