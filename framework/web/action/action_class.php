@@ -68,7 +68,7 @@ class Action extends BaseAction
                             $action = 'add';
                         }
                         DataSync::service($modelName,Req::args(),$action);
-                        $controller->redirect($modelName.'_list');
+                        $controller->redirect($modelName.'_list',null,false,array('p'=>Req::args('p')));
                     }
                     else
                     {
