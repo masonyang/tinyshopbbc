@@ -11,10 +11,10 @@ class ApiController extends Controller
     {
         $args = Req::args();
 
-        $obj = isset($args['method']) ? $args['method'] : 'apilist';
+        $obj = isset($args['method']) ? $args['method'] : '';
 
         unset($args['method']);
-
+        //qqclistapi
 //        if($args['data']){
 //
 //            $json = json_decode($args['data'],1);
@@ -22,9 +22,15 @@ class ApiController extends Controller
 //            $args = array_merge($args,$json);
 //        }
 
-        $class = new $obj($args);
+        try{
+            $class = new $obj($args);
 
-        return $class->index();
+            return $class->index();
+        }catch (Exception $e){
+            echo $e->getMessage();exit;
+            return false;
+        }
+
     }
 
 }

@@ -11,7 +11,7 @@
  * http://a.tinyshop.com/index.php?con=api&act=index&method=apilist
  *
  */
-class apilist extends baseapi
+class qqclistapi extends baseapi
 {
     protected $apilist = array(
         'forgetpwd'=>'customer',

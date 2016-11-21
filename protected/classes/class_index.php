@@ -149,7 +149,7 @@
 "captchacode"=>"api/captchacode.php",//验证码
 "searchany"=>"api/searchany.php",//搜索
 "articlelist"=>"api/articlelist.php",//公告
-"apilist"=>"api/apilist.php",//api文档
+"qqclistapi"=>"api/apilist.php",//api文档
 "siteconf"=>"api/siteconf.php",//店铺基本信息
 "attention"=>"api/attention.php",//会员商品收藏api
 "adposition"=>"api/adposition.php",//广告位api

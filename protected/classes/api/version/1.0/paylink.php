@@ -58,13 +58,13 @@ class paylinkv1 extends paylink
     public static $responsetParams = array(
         'paylinkv'=>array(
             array(
-                'colum'=>'alipay_data',
+                'colum'=>'pay_data',
                 'content'=>'支付宝相关参数',
             ),
         ),
         'syncdopay'=>array(
             array(
-                'colum'=>'alipay_data',
+                'colum'=>'pay_data',
                 'content'=>'支付宝相关参数',
             ),
         ),
@@ -348,7 +348,9 @@ class paylinkv1 extends paylink
 
                 $msg = '';
 
-                $payData['alipay_data'] = $sendData;
+                $sendData['payment_id'] = $paymentid;
+
+                $payData['pay_data'] = $sendData;
 
                 return true;
             }else{
@@ -376,7 +378,7 @@ class paylinkv1 extends paylink
                 'status'=>'succ',
                 'msg'=>'支付获取成功',
                 'data'=>array(
-                    'alipay_data'=>array(),
+                    'pay_data'=>array(),
                 ),
             )
         );
@@ -394,7 +396,7 @@ class paylinkv1 extends paylink
                 'status'=>'succ',
                 'msg'=>'支付获取成功',
                 'data'=>array(
-                    'alipay_data'=>array(),
+                    'pay_data'=>array(),
                 ),
             )
         );
