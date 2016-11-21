@@ -40,6 +40,8 @@ class GoodsController extends Controller
 
         $this->other_tradeprice_rate = $config['other_tradeprice_rate'] ? $config['other_tradeprice_rate'] : 0;
         $this->assign("other_tradeprice_rate",$this->other_tradeprice_rate);
+
+        $this->assign('p',Req::get('p'));
 	}
 	public function noRight()
 	{

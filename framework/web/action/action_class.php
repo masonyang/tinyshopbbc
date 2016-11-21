@@ -97,12 +97,20 @@ class Action extends BaseAction
                 }
                 case 'edit':
                 {
-                	$data = isset($data)?$data:array();
+                    if(isset($data)){
+                        $data['p'] = Req::args('p');
+
+                    }else{
+                        $data = array();
+                    }
+
                     if(isset($data)){
                         DataSync::service($modelName,Req::args(),'update');
                     }else{
                         $data = array();
                     }
+
+//                    echo "<pre>";print_r($data);exit;
 					$controller->redirect($modelName.'_edit',false,$data);
                     break;
                 }
