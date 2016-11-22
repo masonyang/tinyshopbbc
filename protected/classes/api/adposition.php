@@ -35,12 +35,16 @@ class adposition extends baseapi
     public static $responsetParams = array(
         'adposition'=>array(
             array(
-                'colum'=>'gid',
-                'content'=>'商品id',
+                'colum'=>'url',
+                'content'=>'链接地址/商品ID/商品分类ID',
             ),
             array(
                 'colum'=>'img_path',
-                'content'=>'图片地址',
+                'content'=>'轮播图 图片地址',
+            ),
+            array(
+                'colum'=>'s_type',
+                'content'=>'类型 link、goods、category',
             ),
         ),
     );
@@ -71,14 +75,13 @@ class adposition extends baseapi
         if($ad){
             $ad['content'] = unserialize($ad['content']);
 
-            $gModel = new Model('goods');
 
             $data = array();
 
             $i = 0;
             foreach ($ad['content'] as $item) {
-                $gData = $gModel->fields('id')->where('goods_no = "'.$item['url'].'"')->find();
-                $data[$i]['gid'] =$gData['id'];
+                $data[$i]['url'] =$item['url'];
+                $data[$i]['s_type'] =$item['s_type'];
                 $data[$i]['img_path'] = Url::fullUrlFormat('@'.$item['path']);
                 $i++;
             }
@@ -107,11 +110,8 @@ class adposition extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
-                        'gid'=>1,
-                        'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
-                    ),
-                    array(
-                        'gid'=>2,
+                        's_type'=>'link、goods、category',
+                        'url'=>'http://www.baidu.com',
                         'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),
                 ),

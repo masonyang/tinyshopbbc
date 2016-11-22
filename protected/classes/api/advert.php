@@ -117,10 +117,12 @@ class advert extends baseapi
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
+                        's_type'=>'link、goods、category',
                         'url'=>'http://www.baidu.com',
                         'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),
                     array(
+                        's_type'=>'link、goods、category',
                         'url'=>'http://www.baidu.com',
                         'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),

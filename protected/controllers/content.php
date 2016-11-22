@@ -464,6 +464,7 @@ class ContentController extends Controller
             $path = Req::args('path');
             $url = Req::args('url');
             $title = Req::args('title');
+            $s_type = Req::args('s_type');
 
             $content = array();
 
@@ -471,11 +472,12 @@ class ContentController extends Controller
                 $content[$k]['path'] = $v;
                 $content[$k]['url'] = $url[$k];
                 $content[$k]['title'] = $title[$k];
+                $content[$k]['s_type'] = $s_type[$k];
             }
 
             $data = array(
                 'name'=>Req::args('name'),
-                'type'=>Req::args('type'),
+                'type'=>6,
                 'content'=>$content,
             );
 
