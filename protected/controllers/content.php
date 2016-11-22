@@ -496,4 +496,35 @@ class ContentController extends Controller
         $this->redirect("adposition_list");
     }
 
+    //广告位删除
+    public function adposition_del()
+    {
+        $id = Req::args("id");
+        $model = new Model("adposition");
+        $str = '';
+
+        if(is_array($id)){
+            $id = implode(',',$id);
+            $goods = $model->where("id in ($id) and `type`=6")->findAll();
+            $model->where("id in ($id) and `type`=6")->delete();
+        }else if(is_numeric($id)){
+            $goods = $model->where("id = $id  and `type`=6")->findAll();
+            $model->where("id = $id and `type`=6")->delete();
+        }
+        foreach ($goods as $gd) {
+            $str .= $gd['name'].'、';
+        }
+        $str = trim($str,'、');
+        Log::op($this->manager['id'],"删除广告位","管理员[".$this->manager['name']."]:删除了广告位 ".$str);
+
+        $params = array();
+        $params['id'] = $id;
+        $params['products'] = $id;
+        $params['spec_attr'] = $id;
+        syncGoods::getInstance()->setParams($params,'del')->sync();
+
+        $msg = array('success',"成功删除广告位 ".$str);
+        $this->redirect("adposition_list",false,array('msg'=> $msg));
+    }
+
 }
