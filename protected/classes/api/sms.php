@@ -70,15 +70,17 @@ class sms extends baseapi
             exit;
         }
 
+        $templateCode = '';
+
         $code = $this->GetRandomCaptchaText(4);
 
         if(in_array($this->params['source_type'],array('reg','resetpwd'))){
             switch($this->params['source_type']){
                 case 'reg'://注册验证码
-                    $templateCode = 'SMS_25715133';//注册验证码
+                    $templateCode = Config::getInstance('config')->get('sms_reg_template');;//注册验证码
                 break;
                 case 'resetpwd'://重置密码
-                    $templateCode = 'SMS_25815032';//重置密码
+                    $templateCode = Config::getInstance('config')->get('sms_resetpwd_template');//重置密码
                 break;
             }
         }else{
@@ -87,10 +89,19 @@ class sms extends baseapi
             exit;
         }
 
+        if(empty($templateCode)){
+            $this->output['msg'] = '来源有误';
+            $this->output();
+            exit;
+        }
+
+        $appkey = Config::getInstance('config')->get('sms_key');
+
+        $secret = Config::getInstance('config')->get('sms_secret');
 
         $istest = false;//是否走测试环境
 
-        $result = TaobaoSms::getInstance()->send($istest,'手机app',array('code'=>$code),$this->params['mobile'],$templateCode);
+        $result = TaobaoSms::getInstance($appkey,$secret)->send($istest,'手机app',array('code'=>$code),$this->params['mobile'],$templateCode);
 
         if($result){
             $rand = 'smscode'.$this->params['rand'];

@@ -1,0 +1,56 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+{echo:JS::import('form');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+
+        <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:30px;">选择</th>
+            <th style="width:70px;">操作</th>
+            <th style="width:60px;">名称</th>
+            <th style="width:60px;">创建时间</th>
+            <th style="width:60px;">更新时间</th>
+            <th style="width:60px;">类型</th>
+            <th style="width:60px;">状态</th>
+        </tr>
+        {query:name=export_queue order=queue_id }
+            <tr ><td style="width:30px;"><input type="checkbox" name="id[]" value="{$item['queue_id']}"></td>
+                <td style="width:70px">
+                    {if: $item['status'] == 'succ'}
+                        <a class="icon-point-up" href="{url:/admin/export_download/id/$item[queue_id]}"> 下载</a>
+                    {/if}
+                </td>
+                <td style="width:60px;">{$item['export_name']}</td>
+                <td style="width:60px;">{if: $item['create_time']} {echo: date('Y-m-d H:i:s',$item['create_time'])} {/if}</td>
+                <td style="width:60px;">{if: $item['modify_time']} {echo: date('Y-m-d H:i:s',$item['modify_time'])} {/if}</td>
+                <td style="width:60px;">
+                    {if: $item['export_type'] == 'goods'}
+                        商品
+                    {/if}
+                </td>
+                <td style="width:60px;">
+                    {if: $item['status'] == 'ready'}
+                        准备中
+                    {/if}
+                    {if: $item['status'] == 'succ'}
+                    下载成功
+                    {/if}
+                    {if: $item['status'] == 'fail'}
+                    下载失败
+                    {/if}
+                    {if: $item['status'] == 'ing'}
+                    下载中
+                    {/if}
+                </td>
+            </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+

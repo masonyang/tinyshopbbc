@@ -9,21 +9,27 @@
 class TaobaoSms
 {
 
-    private $appkey = '23352957';
+    private $appkey = '';
 
-    private $secret = '0eabb49be76012fcfb54d920a3cca9ab';
+    private $secret = '';
 
     private static $instance = null;
 
-    public static function getInstance()
+    public static function getInstance($appkey,$secret)
     {
         if(self::$instance === null){
-            self::$instance = new self();
+            self::$instance = new self($appkey,$secret);
         }
 
         return self::$instance;
     }
 
+    private function __construct($appkey,$secret)
+    {
+        $this->appkey = $appkey;
+
+        $this->secret = $secret;
+    }
 
     public function send($isTest = false,$clientSign = '',$smsParams = array(),$mobile = '',$templateCode = '')
     {

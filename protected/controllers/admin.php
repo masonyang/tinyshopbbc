@@ -1175,7 +1175,38 @@ class AdminController extends Controller
         $this->redirect();
     }
 
+    //商品导出队列
+    public function export_queue()
+    {
 
+        $this->redirect();
+    }
+
+    public function export_download()
+    {
+
+        $export_dir = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR;
+
+        $params = Req::args();
+
+        $model = new Model('export_queue','zd','salve');
+
+        $data = $model->where('queue_id="'.$params['id'].'" and status="succ"')->find();
+
+        if(!$data){
+            return false;
+        }
+
+        $filename  = $export_dir.$data['export_name'].".csv";
+
+
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename=' . $data['export_name'].".csv");
+        header('Content-Transfer-Encoding: binary');
+        header('Content-Length: ' . filesize($filename));
+
+        readfile($filename);
+    }
 //    public function express_company_validator()
 //    {
 //        $req = Req::args();

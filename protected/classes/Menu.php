@@ -68,6 +68,7 @@ class Menu
         foreach($this->nodes as $key => $nodes){
             $this->_subMenu[$nodes['parent']][] = array('link'=>$key,'name'=>$nodes['name'],'display'=>isset($nodes['name'])?$nodes['name']:true);
         }
+
         foreach($this->subMenu as $key => $subMenu){
             $this->_menu[$subMenu['parent']][] = array('link'=>$key,'name'=>$subMenu['name']);
         }

@@ -10,6 +10,10 @@
   ),
   'theme' => 'default',
   'themes_mobile' => 'mobile_default',
+    'sms_key'=>'23352957',//测试用
+    'sms_secret'=>'0eabb49be76012fcfb54d920a3cca9ab',
+    'sms_reg_template'=>'SMS_25715133',//注册验证码
+    'sms_resetpwd_template'=>'SMS_25815032',//重置密码
   'urlFormat' => 'get',
   'db' => 
   array (

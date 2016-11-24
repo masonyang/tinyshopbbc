@@ -366,6 +366,11 @@
         'name' => '提醒管理',
         'parent' => 'config',
       ),
+      '/admin/export_queue' =>
+        array (
+            'name' => '导出队列',
+            'parent' => 'config',
+        ),
       '/admin/notice_template_edit' => 
       array (
         'name' => '提醒编辑',

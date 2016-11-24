@@ -34,6 +34,7 @@ class GoodsController extends Controller
         $this->assign("domain",$serverName['top']);
 
 		$currentNode = $menu->currentNode();
+
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
 
         $config = Config::getInstance()->get("other");
@@ -902,5 +903,36 @@ class GoodsController extends Controller
 
         echo json_encode(array('res'=>'success'));
     }
+
+    //商品导出
+    public function goods_export()
+    {
+        $id = Req::args("id");
+        $model = new Model('export_queue');
+
+        if(is_array($id)){
+            $ids = $id;
+        }else if(is_numeric($id)){
+            $ids = array($id);
+        }else{
+            $this->msg = array("warning","操作失败！");
+            $this->redirect("goods_list",false);
+            exit;
+        }
+
+        $data = array(
+            'content'=>serialize($ids),
+            'export_type'=>'goods',
+            'export_name'=>'export-goods-'.time(),
+            'create_time'=>time(),
+            'status'=>'ready',
+        );
+
+        $model->data($data)->insert();
+
+        $msg = array('success',"已成功加入导出队列 请去“系统设置”->“导出队列” 下载");
+        $this->redirect("goods_list",false,array('msg'=> $msg));
+    }
+
 
 }
