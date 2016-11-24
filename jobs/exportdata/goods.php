@@ -110,9 +110,11 @@ class exportdata_goodsJob
 
             $pData = self::$productsModel->where('goods_id='.$id)->findAll();
 
-            $products = array();
+
 
             foreach($pData as $k=>$v){
+
+                $products = array();
 
                 foreach(self::$goods_columns as $kk=>$vv){
                     if(isset($pData[$k][$kk])){
