@@ -121,10 +121,10 @@ class exportdata_goodsJob
                         $products[] = '';
                     }
                 }
-
+                self::writeCsv(array($products),$filename,true);
             }
 
-            self::writeCsv(array($products),$filename,true);
+
         }
 
         $exportdata = array(
