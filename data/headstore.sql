@@ -1073,3 +1073,4 @@ CREATE TABLE `tiny_export_queue` (
   `export_type` enum('goods') DEFAULT 'goods',
   PRIMARY KEY (`queue_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='导出队列';
+ALTER TABLE `tiny_export_queue` add INDEX idx_n_s_e (export_type,status);

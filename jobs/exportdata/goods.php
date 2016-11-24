@@ -6,6 +6,9 @@
  * Time: 下午10:54
  *
  * /usr/local/Cellar/php54/5.4.45_3/bin/php job.php exportJob --exporttype=goods
+ *
+ *
+ *      * * * * * /usr/bin/php  /var/www/html/qqc/jobs/job.php exportJob --exporttype=goods >/dev/null
  */
 
 define('EXPORT_DIR',APP_ROOT.'data'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR);
@@ -42,6 +45,8 @@ class exportdata_goodsJob
 
     private static $categoryModel = null;
 
+    private static $brandModel = null;
+
     public static function run($data,$exportModel)
     {
         if(empty($data)){
@@ -62,6 +67,8 @@ class exportdata_goodsJob
         self::$productsModel = new Model('products','zd','salve');
 
         self::$categoryModel = new Model('goods_category','zd','salve');
+
+        self::$brandModel = new Model('brand','zd','salve');
 
         $title = array();
 
@@ -87,6 +94,12 @@ class exportdata_goodsJob
 
                 }elseif($k == 'is_online'){
                     $gData[$k] = ($gData[$k] == 0) ? '是' : '否';
+                }elseif($k == 'brand_id'){
+
+                    $branddata = self::$brandModel->where('id='.$gData[$k])->find();
+
+                    $gData[$k] = $branddata['name'];
+
                 }
 
                 $gData[$k] =iconv('utf-8','gb2312',$gData[$k]);
