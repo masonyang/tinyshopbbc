@@ -114,10 +114,12 @@ class exportdata_goodsJob
 
             foreach($pData as $k=>$v){
 
-                if(isset(self::$goods_columns[$k])){
-                    $products[] =iconv('utf-8','gb2312',$v);
-                }else{
-                    $products[] = '';
+                foreach(self::$goods_columns as $kk=>$vv){
+                    if(isset($pData[$k][$kk])){
+                        $products[] =iconv('utf-8','gb2312',$pData[$k][$kk]);
+                    }else{
+                        $products[] = '';
+                    }
                 }
 
             }
