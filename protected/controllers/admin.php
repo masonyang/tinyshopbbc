@@ -1216,7 +1216,7 @@ class AdminController extends Controller
         $data = $model->where("queue_id=$id")->find();
 
         $export_dir = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR;
-        
+
         $filename  = $export_dir.$data['export_name'].".csv";
 
         @unlink($filename);

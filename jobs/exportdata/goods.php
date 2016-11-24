@@ -108,7 +108,7 @@ class exportdata_goodsJob
             }
             self::writeCsv(array($goods),$filename,true);
 
-            $pData = self::$productsModel->where('goods_id='.$id)->find();
+            $pData = self::$productsModel->where('goods_id='.$id)->findAll();
 
             $products = array();
 
