@@ -1207,6 +1207,24 @@ class AdminController extends Controller
 
         readfile($filename);
     }
+
+    public function export_queue_del()
+    {
+        $id = Req::args('id');
+        $model = new Model('export_queue','zd','salve');
+
+        $data = $model->where("queue_id=$id")->find();
+
+        $export_dir = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'export'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR;
+        
+        $filename  = $export_dir.$data['export_name'].".csv";
+
+        @unlink($filename);
+
+        $model->where("queue_id=$id")->delete();
+        $this->redirect("export_queue");
+    }
+
 //    public function express_company_validator()
 //    {
 //        $req = Req::args();

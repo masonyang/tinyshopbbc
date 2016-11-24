@@ -16,6 +16,7 @@
             <th style="width:60px;">更新时间</th>
             <th style="width:60px;">类型</th>
             <th style="width:60px;">状态</th>
+            <th style="width:60px;">删除</th>
         </tr>
         {query:name=export_queue order=queue_id }
             <tr ><td style="width:30px;"><input type="checkbox" name="id[]" value="{$item['queue_id']}"></td>
@@ -46,6 +47,7 @@
                     下载中
                     {/if}
                 </td>
+                <td style="width:60px;"><a class="icon-close" href="javascript:;" onclick="confirm_action('{url:/admin/export_queue_del/id/$item[queue_id]}')"> 删除</a></td>
             </tr>
         {/query}
     </table>
