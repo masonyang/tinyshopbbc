@@ -818,6 +818,9 @@ class GoodsController extends Controller
             $where = "1=1";
         }
 
+        $limit = Req::args('limit');
+        $limit = $limit ? $limit : 20;
+
         $p = Req::args("p");
 
         if(isset($p) && (intval($p) > 0)){
@@ -827,6 +830,8 @@ class GoodsController extends Controller
         }
         $this->assign("condition",$condition);
         $this->assign("condition_input",$condition_input);
+
+        $this->assign('limit',$limit);
 
 		$this->assign("where",$where);
 		$this->redirect();
