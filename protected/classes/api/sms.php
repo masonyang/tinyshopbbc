@@ -99,9 +99,11 @@ class sms extends baseapi
 
         $secret = Config::getInstance('config')->get('sms_secret');
 
+        $clientSign = Config::getInstance('config')->get('sms_clientsign');
+
         $istest = false;//是否走测试环境
 
-        $result = TaobaoSms::getInstance($appkey,$secret)->send($istest,'手机app',array('code'=>$code),$this->params['mobile'],$templateCode);
+        $result = TaobaoSms::getInstance($appkey,$secret)->send($istest,$clientSign,array('code'=>$code),$this->params['mobile'],$templateCode);
 
         if($result){
             $rand = 'smscode'.$this->params['rand'];

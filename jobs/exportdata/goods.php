@@ -130,7 +130,8 @@ class exportdata_goodsJob
         }
 
         $exportdata = array(
-            'status'=>'succ'
+            'status'=>'succ',
+            'modify_time'=>time()
         );
         $exportModel->data($exportdata)->where('queue_id='.$data['queue_id'])->update();
 

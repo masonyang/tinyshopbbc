@@ -14,6 +14,7 @@
     'sms_secret'=>'0eabb49be76012fcfb54d920a3cca9ab',
     'sms_reg_template'=>'SMS_25715133',//注册验证码
     'sms_resetpwd_template'=>'SMS_25815032',//重置密码
+    'sms_clientsign'=>'手机app',//验证码短信签名
     'urlFormat' => 'get',
     'db' =>
         array (

@@ -14,6 +14,7 @@
     'sms_secret'=>'3760897087f10c86ccb6c5952fdb39a6',
     'sms_reg_template'=>'SMS_29145046',//注册验证码
     'sms_resetpwd_template'=>'SMS_29205006',//重置密码
+    'sms_clientsign'=>'居家百货APP',//验证码短信签名
     'urlFormat' => 'get',
     'db' =>
         array (

@@ -38,13 +38,13 @@
                         准备中
                     {/if}
                     {if: $item['status'] == 'succ'}
-                    下载成功
+                    执行成功
                     {/if}
                     {if: $item['status'] == 'fail'}
-                    下载失败
+                    执行失败
                     {/if}
                     {if: $item['status'] == 'ing'}
-                    下载中
+                    执行中
                     {/if}
                 </td>
                 <td style="width:60px;"><a class="icon-close" href="javascript:;" onclick="confirm_action('{url:/admin/export_queue_del/id/$item[queue_id]}')"> 删除</a></td>
