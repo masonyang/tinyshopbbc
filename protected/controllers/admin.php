@@ -1175,7 +1175,7 @@ class AdminController extends Controller
         $this->redirect();
     }
 
-    //商品导出队列
+    //导出队列
     public function export_queue()
     {
 
@@ -1225,6 +1225,28 @@ class AdminController extends Controller
         $this->redirect("export_queue");
     }
 
+    //导入队列
+    public function import_queue()
+    {
+        $this->redirect();
+    }
+
+    public function import_queue_del()
+    {
+        $id = Req::args('id');
+        $model = new Model('import_queue','zd','salve');
+
+        $data = $model->where("queue_id=$id")->find();
+
+        $import_dir = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR;
+
+        $filename  = $import_dir.$data['import_name'].".csv";
+
+        @unlink($filename);
+
+        $model->where("queue_id=$id")->delete();
+        $this->redirect("import_queue");
+    }
 //    public function express_company_validator()
 //    {
 //        $req = Req::args();

@@ -387,7 +387,7 @@ class Order{
                     );
                     $print_template[] = str_replace($origin,$replace,$_printT);
                 }else{
-                    $error_orders[] = $order['order_no'].'为获取到物流单号';
+                    $error_orders[] = $order['order_no'].'未获取到物流单号';
                 }
             }else{
                 $error_orders[] = $order['order_no'].'未发货';

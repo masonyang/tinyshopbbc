@@ -18,7 +18,7 @@
             <th style="width:60px;">状态</th>
             <th style="width:60px;">删除</th>
         </tr>
-        {query:name=export_queue order=queue_id }
+        {query:name=export_queue order=queue_id desc }
             <tr ><td style="width:30px;"><input type="checkbox" name="id[]" value="{$item['queue_id']}"></td>
                 <td style="width:70px">
                     {if: $item['status'] == 'succ'}
@@ -47,7 +47,9 @@
                     执行中
                     {/if}
                 </td>
-                <td style="width:60px;"><a class="icon-close" href="javascript:;" onclick="confirm_action('{url:/admin/export_queue_del/id/$item[queue_id]}')"> 删除</a></td>
+
+                <td style="width:60px;">{if: $item['status'] != 'ready'}<a class="icon-close" href="javascript:;" onclick="confirm_action('{url:/admin/export_queue_del/id/$item[queue_id]}')"> 删除</a>{/if}</td>
+
             </tr>
         {/query}
     </table>

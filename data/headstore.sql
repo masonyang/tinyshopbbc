@@ -1074,3 +1074,16 @@ CREATE TABLE `tiny_export_queue` (
   PRIMARY KEY (`queue_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='导出队列';
 ALTER TABLE `tiny_export_queue` add INDEX idx_n_s_e (export_type,status);
+DROP TABLE IF EXISTS `tiny_import_queue`;
+CREATE TABLE `tiny_import_queue` (
+  `queue_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '队列id',
+  `import_name` varchar(100) DEFAULT NULL COMMENT '名称',
+  `origin_name` varchar(100) DEFAULT NULL COMMENT '原始上传名称',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `modify_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `status` enum('ready', 'succ', 'fail', 'ing') DEFAULT 'ready',
+  `import_type` enum('goods') DEFAULT 'goods',
+  `content` text COMMENT '返回信息',
+  PRIMARY KEY (`queue_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='导入队列';
+ALTER TABLE `tiny_import_queue` add INDEX idx_n_s_e (import_type,status);

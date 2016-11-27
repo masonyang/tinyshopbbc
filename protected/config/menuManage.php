@@ -371,6 +371,11 @@
             'name' => '导出队列',
             'parent' => 'config',
         ),
+      '/admin/import_queue' =>
+        array (
+            'name' => '导入队列',
+            'parent' => 'config',
+        ),
       '/admin/notice_template_edit' => 
       array (
         'name' => '提醒编辑',

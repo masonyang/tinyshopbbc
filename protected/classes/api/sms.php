@@ -60,7 +60,7 @@ class sms extends baseapi
 //
 //        $this->params = $params;
 //    }
-//a.qqcapp.com/index.php?con=api&act=index&method=sms&mason=1&mobile=13191868165&rand=13191868165
+//a.qqcapp.com/index.php?con=api&act=index&method=sms&mason=1&mobile=13611673482&rand=13611673482&source_type=reg
     public function index()
     {
 

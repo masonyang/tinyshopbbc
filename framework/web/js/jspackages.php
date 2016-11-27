@@ -56,6 +56,7 @@ class JS
             'js'=>array('autocomplete/jquery-1.8.2.min.js','autocomplete/jquery.mockjax.js','autocomplete/autocomplete.js'),
             'css'=>array('autocomplete/autocomplete.css'),
         ),
+        'jqfileupload'=>'jquery.uploadfile.min.js',
     );
     private static $createfiles = array();
     /**

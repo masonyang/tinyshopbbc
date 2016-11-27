@@ -1,0 +1,29 @@
+{echo:JS::import('jqfileupload');}
+
+<style>
+    #fileuploader{
+        font-size: 16px;
+        margin: 40px 90px;
+    }
+
+    #notice{
+        color: green;
+        margin:20px 10px;
+    }
+</style>
+<div id="notice">文件上传成功后,请去“系统设置”->“导入队列” 下载"</div>
+<div id="fileuploader">上传csv</div>
+
+
+<script>
+$(document).ready(function() {
+	$("#fileuploader").uploadFile({
+		url:"{url:/goods/goods_import}",
+		fileName:"importfile",
+		allowedTypes:"csv",
+		dragDrop:false,
+        uploadStr:'上传csv',
+        extErrorStr: "不支持. 请上传类型为: "
+	});
+});
+</script>

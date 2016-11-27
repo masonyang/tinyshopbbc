@@ -1,4 +1,5 @@
 <?php
+///usr/local/Cellar/php54/5.4.45_3/bin/php job.php  workerJob --syncdirect=headtobranch --db=a --limit=10
 class workerJob extends syncdataJob
 {
 	private $syncDirect = null;

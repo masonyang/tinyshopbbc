@@ -53,9 +53,9 @@ class DataSync
 
 
     //设置接手参数
-    public function setParams($params = array(),$action = 'add',$action_type = 'normal')
+    public function setParams($params = array(),$action = 'add',$action_type = 'normal',$direct = '',$domain = '')
     {
-        $this->syncDirect();
+        $this->syncDirect($direct,$domain);
 
         $this->syncAction = $action;
 
@@ -65,7 +65,6 @@ class DataSync
 
         return self::$instance;
     }
-
 
     protected function getDomain()
     {
@@ -99,12 +98,18 @@ class DataSync
         $model->data($data)->add();
     }
 
-    protected function syncDirect()
+    protected function syncDirect($direct = '',$domain = '')
     {
-        $serverName = Tiny::getServerName();
-        $mapper = Config::getInstance('mapper')->get($serverName['top']);
-        $this->domain = $serverName['top'];
-        $this->syncDirect = ($mapper['menu'] == 'headstore') ? 'headtobranch' : 'branchtohead';
+        if(empty($direct)){
+            $serverName = Tiny::getServerName();
+            $mapper = Config::getInstance('mapper')->get($serverName['top']);
+            $this->domain = $serverName['top'];
+            $this->syncDirect = ($mapper['menu'] == 'headstore') ? 'headtobranch' : 'branchtohead';
+        }else{
+            $this->domain = $domain;
+            $this->syncDirect = $direct;
+        }
+
     }
 
     //验证传入的参数

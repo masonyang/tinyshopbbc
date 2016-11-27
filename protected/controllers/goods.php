@@ -939,5 +939,79 @@ class GoodsController extends Controller
         $this->redirect("goods_list",false,array('msg'=> $msg));
     }
 
+    //商品导入
+    public function goods_import()
+    {
+        if(isset($_FILES["importfile"])){
+
+           $ret = $this->goods_import_file();
+
+           echo json_encode($ret);
+           exit;
+
+        }else{
+            $this->layout = 'blank';
+
+            $this->redirect();
+        }
+
+    }
+
+    private function goods_import_file()
+    {
+        $output_dir = APP_ROOT.'data'.DIRECTORY_SEPARATOR.'import'.DIRECTORY_SEPARATOR.'goods'.DIRECTORY_SEPARATOR;
+        if(isset($_FILES["importfile"]))
+        {
+            $ret = array();
+
+//	This is for custom errors;
+            /*	$custom_error= array();
+                $custom_error['jquery-upload-file-error']="File already exists";
+                echo json_encode($custom_error);
+                die();
+            */
+//            $error =$_FILES["myfile"]["error"];
+            //You need to handle  both cases
+            //If Any browser does not support serializing of multiple files using FormData()
+            if(!is_array($_FILES["importfile"]["name"])) //single file
+            {
+
+                $oldfilename = $_FILES["importfile"]["name"];
+
+                $ext = pathinfo($oldfilename);
+
+                $fileName = md5($oldfilename.time());
+
+                move_uploaded_file($_FILES["importfile"]["tmp_name"],$output_dir.$fileName.'.'.$ext['extension']);
+
+                $model = new Model('import_queue');
+
+                $data = array(
+                    'import_type'=>'goods',
+                    'origin_name'=>$oldfilename,
+                    'import_name'=>$fileName,
+                    'create_time'=>time(),
+                    'status'=>'ready',
+                );
+
+                $model->data($data)->insert();
+
+                $ret[]= $oldfilename;
+            }
+            //else  //Multiple files, file[]
+            //{
+//                $fileCount = count($_FILES["importfile"]["name"]);
+//                for($i=0; $i < $fileCount; $i++)
+//                {
+//                    $fileName = $_FILES["importfile"]["name"][$i];
+//                    move_uploaded_file($_FILES["importfile"]["tmp_name"][$i],$output_dir.$fileName);
+//                    $ret[]= $fileName;
+//                }
+
+           // }
+            return $ret;
+
+        }
+    }
 
 }
