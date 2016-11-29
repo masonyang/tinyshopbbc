@@ -28,7 +28,7 @@ class syncProducts extends DataSync
     {
         //总店同步到分店
         //获取分销商列表
-        $distrObj = new Model('distributor','zd','slave');
+        $distrObj = new Model('distributor','zd','salve');
         $distrInfos = $distrObj->fields('catids,distributor_id')->where('disabled = 0')->findAll();
         //根据 分销商id 获取授权 cat_ids
         //根据cat_id 去找 goods_id 或者 product_id
