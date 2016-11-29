@@ -720,19 +720,22 @@ class Tiny
 
             return array('top'=>$top,'domain'=>$domain,'ext'=>$ext);
         }else{
+
+            return array('top'=>'','domain'=>'qqcapp','ext'=>'');
+
             //$ip = Chips::getLocalIp();
-            $ip = '10.24.35.30'; //todo 临时解决 job同步问题
-
-            //$ip = '127.0.0.1';
-//            $ip = '192.168.1.101';
-            $allowips = array_keys(self::$allowIps);
-
-            if(in_array($ip,$allowips)){
-                $domain = self::$allowIps[$ip];
-                return array('top'=>'','domain'=>$domain,'ext'=>'');
-            }
-
-            return false;
+//            $ip = '10.24.35.30'; //todo 临时解决 job同步问题
+//
+//            $ip = '127.0.0.1';
+////            $ip = '192.168.1.101';
+//            //$allowips = array_keys(self::$allowIps);
+//
+//            if(in_array($ip,$allowips)){
+//                $domain = self::$allowIps[$ip];
+//                return array('top'=>'','domain'=>$domain,'ext'=>'');
+//            }
+//
+//            return false;
         }
 
 	}
