@@ -996,7 +996,7 @@ class GoodsController extends Controller
 
                 $model->data($data)->insert();
 
-                $ret[]= $oldfilename;
+                $ret[]= $oldfilename.'  上传成功';
             }
             //else  //Multiple files, file[]
             //{
