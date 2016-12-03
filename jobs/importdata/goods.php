@@ -74,12 +74,12 @@ class importdata_goodsJob
             $params['goods_no'] = empty($val[0]) ? 0 :$val[0];
             $params['pro_no'] = empty($val[1]) ? 0 : $val[1];
             $params['name'] = empty($val[2]) ? '' : $val[2];
-            $params['category_id'] = empty($val[3]) ? 0 : $val[3];
+            //$params['category_id'] = empty($val[3]) ? 0 : $val[3];
             $params['trade_price'] = empty($val[4]) ? 0 : $val[4];
             $params['cost_price'] = empty($val[5]) ? 0 : $val[5];
             $params['sell_price'] = empty($val[6]) ? 0 : $val[6];
             $params['brand_id'] = empty($val[7]) ? 0 : $val[7];
-            $params['is_online'] = empty($val[8]) ? '' :$val[8];
+            //$params['is_online'] = empty($val[8]) ? '' :$val[8];
             $params['store_nums'] = empty($val[9]) ? 0 : $val[9];
             $params['weight'] = empty($val[10]) ? 0 : $val[10];
 
@@ -229,11 +229,11 @@ class importdata_goodsJob
             $params['brand_id'] = iconv('gb2312','utf-8',$params['brand_id']);
 
 
-            $params['is_online'] = ($params['is_online'] == '是') ? 0 : 1;
+            //$params['is_online'] = ($params['is_online'] == '是') ? 0 : 1;
 
-            $category = self::getCategory(array('name'=>'"'.$params['category_id'].'"'));
-
-            $params['category_id'] = $category['id'] ? $category['id'] : 0;
+//            $category = self::getCategory(array('name'=>'"'.$params['category_id'].'"'));
+//
+//            $params['category_id'] = $category['id'] ? $category['id'] : 0;
 
 
             $brands = self::getBand(array('name'=>'"'.$params['brand_id'].'"'));
@@ -244,12 +244,12 @@ class importdata_goodsJob
                 'goods_no'=>$params['goods_no'],
                 'pro_no'=>$params['pro_no'],
                 'name'=>$params['name'],
-                'category_id'=>$params['category_id'],
+                //'category_id'=>$params['category_id'],
                 'trade_price'=>$params['trade_price'],
                 'cost_price'=>$params['cost_price'],
                 'sell_price'=>$params['sell_price'],
                 'brand_id'=>$params['brand_id'],
-                'is_online'=>$params['is_online'],
+                //'is_online'=>$params['is_online'],
                 'store_nums'=>$params['store_nums'],
                 'weight'=>$params['weight'],
             );
@@ -261,12 +261,12 @@ class importdata_goodsJob
                 'goods_no'=>$params['goods_no'],
                 'pro_no'=>$params['pro_no'],
                 'name'=>$params['name'],
-                'category_id'=>$params['category_id'],
+                //'category_id'=>$params['category_id'],
                 'trade_price'=>$params['trade_price'],
                 'cost_price'=>$params['cost_price'],
                 'sell_price'=>$params['sell_price'],
                 'brand_id'=>$params['brand_id'],
-                'is_online'=>$params['is_online'],
+                //'is_online'=>$params['is_online'],
                 'store_nums'=>$params['store_nums'],
                 'weight'=>$params['weight'],
             );
