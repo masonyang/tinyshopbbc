@@ -493,6 +493,12 @@ class Tiny
                         include($fileName);
                         return true;
                     }
+                }else if(strrchr($className,'Bill')=='Bill'){
+                    $fileName = APP_CODE_ROOT.'bill/'.strtolower(substr($className,0,-4)).'.php';
+                    if(is_file($fileName)){
+                        include($fileName);
+                        return true;
+                    }
                 }elseif(strrchr($className,'Job')=='Job'){
                     $path = substr($className, 0,-3);
                     $path = str_replace('_', '/', $path);

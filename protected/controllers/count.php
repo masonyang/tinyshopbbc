@@ -105,8 +105,8 @@ class CountController extends Controller
 		$s_time = $cal['str'];
 
 		$model = new Model("order as od");
-//		$rows = $model->fields("count(*) as num, province,ae.name as pro_name")->join("left join area as ae on od.province = ae.id ")->where("pay_time between '$stime' and '$etime' and pay_status = 1")->group("od.province")->query();
-        $rows = $model->fields("count(*) as num, province,ae.name as pro_name")->join("left join area as ae on od.province = ae.id ")->group("od.province")->query();
+		$rows = $model->fields("count(*) as num, province,ae.name as pro_name")->join("left join area as ae on od.province = ae.id ")->where("create_time between '$stime' and '$etime'")->group("od.province")->query();
+        //$rows = $model->fields("count(*) as num, province,ae.name as pro_name")->join("left join area as ae on od.province = ae.id ")->group("od.province")->query();
 //        var_dump($rows);exit;
         $mapdata = array();
 		foreach ($rows as $row) {

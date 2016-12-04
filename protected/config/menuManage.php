@@ -232,7 +232,7 @@
       ),
       'count'=>
       array(
-        'link'=>'/count/index',
+        'link'=>'/ordercount/order_count',
         'name'=>'统计报表'
       ),
       'system' => 
@@ -313,9 +313,24 @@
         'name' => '扫描枪配置',
         'parent' => 'order',
       ),
-      'count'=>
+//      'count'=>
+//      array(
+//            'name'=>'销售统计 (开发中)',
+//            'parent'=>'count'
+//      ),
+      'ordercount'=>
       array(
-            'name'=>'销售统计 (开发中)',
+            'name'=>'订单统计',
+            'parent'=>'count'
+      ),
+      'membercount'=>
+      array(
+            'name'=>'会员统计',
+            'parent'=>'count'
+      ),
+      'goodscount'=>
+      array(
+            'name'=>'商品统计',
             'parent'=>'count'
       ),
     ),
@@ -666,26 +681,46 @@
         'name' => '单据扫描',
         'parent' => 'order',
       ),
-      '/count/index'=>
-      array(
-        'name'=>'订单统计',
-        'parent'=>'count'
-      ),
-      '/count/hot'=>
-      array(
-        'name'=>'热销统计',
-        'parent'=>'count'
-      ),
-      '/count/area_buy'=>
-      array(
-        'name'=>'地区统计',
-        'parent'=>'count'
-      ),
-      '/count/user_reg'=>
-      array(
-        'name'=>'会员分布统计',
-        'parent'=>'customer_count'
-      ),
+//      '/count/index'=>
+//      array(
+//        'name'=>'订单统计',
+//        'parent'=>'count'
+//      ),
+//      '/count/hot'=>
+//      array(
+//        'name'=>'热销统计',
+//        'parent'=>'count'
+//      ),
+//      '/count/area_buy'=>
+//      array(
+//        'name'=>'地区统计',
+//        'parent'=>'count'
+//      ),
+//      '/count/user_reg'=>
+//      array(
+//        'name'=>'会员分布统计',
+//        'parent'=>'customer_count'
+//      ),
+        '/ordercount/order_count'=>
+        array(
+            'name'=>'订单统计  (开发中)',
+            'parent'=>'ordercount'
+        ),
+        '/ordercount/order_area_stat'=>
+        array(
+            'name'=>'订单分布统计图',
+            'parent'=>'ordercount'
+        ),
+        '/membercount/member_count'=>
+        array(
+            'name'=>'会员统计  (开发中)',
+            'parent'=>'membercount'
+        ),
+        '/goodscount/goods_count'=>
+        array(
+            'name'=>'商品统计  (开发中)',
+            'parent'=>'goodscount'
+        ),
     ),
   ),
 );
