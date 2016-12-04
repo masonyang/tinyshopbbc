@@ -168,6 +168,9 @@ class Order{
 				'pay_status'=>1
 			);
 			$model->table("doc_receiving")->data($receivingData)->insert();
+
+
+
 			//统计会员规定时间内的消费金额,进行会员升级。
 			$config = Config::getInstance();
 			$config_other = $config->get('other');
@@ -181,6 +184,17 @@ class Order{
 					$model->table('customer')->data(array('group_id'=>$grade['id']))->where("user_id=".$order['user_id'])->update();
 				}
 			}
+
+            if($serverName['top'] != 'zd'){
+
+                $zdModel = new Model('order','zd','master');
+                $zdData = $zdModel->where('outer_id='.$order['id'].' and site_url="'.$serverName['top'].'"')->find();
+
+                self::minBranchRealStore($order['id'],$serverName['top']);
+
+                self::minHeadRealStore($zdData['id'],'zd');
+            }
+
 			return $order['id'];
 		}else{
 			return false;
@@ -640,10 +654,6 @@ class Order{
             $orderInvoiceModel->data($oi)->insert();
         }
 
-        self::minBranchRealStore($order_info['outer_id'],$distrInfo['site_url']);
-
-        self::minHeadRealStore($order_id,'zd');
-
         //发货回写快递鸟生成 电子面单模板和物流单号
         // TODO
         Order::genEssOrder($order_info['order_no']);
@@ -657,7 +667,7 @@ class Order{
     }
 
 
-    private static function minHeadRealStore($orderid,$siteurl)
+    public static function minHeadRealStore($orderid,$siteurl)
     {
         $orderGoodsModel = new Model('order_goods',$siteurl);
         $productsModel = new Model('products',$siteurl);
@@ -710,7 +720,7 @@ class Order{
 
     }
 
-    private static function minBranchRealStore($orderid,$siteurl)
+    public static function minBranchRealStore($orderid,$siteurl)
     {
         $orderGoodsModel = new Model('order_goods',$siteurl);
         $productsModel = new Model('products',$siteurl);

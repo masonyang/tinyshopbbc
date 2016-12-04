@@ -57,6 +57,15 @@ class OrdercountController extends Controller
     #订单统计
     public function order_count()
     {
+        $args = Req::args();
+
+        $data = OrdercountBill::getList($args);
+
+        foreach($data as $k=>$v){
+            $this->assign($k,$v);
+        }
+
+        $this->assign('storename',$args['storename']);
         $this->assign('select_branch',$this->showSelect());
         $this->redirect();
     }

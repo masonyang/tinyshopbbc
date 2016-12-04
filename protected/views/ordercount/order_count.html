@@ -16,6 +16,11 @@
         </span>
     </form>
 </div>
+
+<div style="margin: 30px;">
+    <div style="font-size: 16px;border: dashed; padding: 30px;width: 130px;">新增订单数:<br><span style="padding: 80px;">{$new_orders_num}</span></div>
+</div>
+
 <div id="container"></div>
 <script>
     $(function () {
@@ -24,7 +29,7 @@
                 type: 'areaspline'
             },
             title: {
-                text: '{$s_time}订单销售统计报表'
+                text: '{$s_time}订单统计报表'
             },
             xAxis: {
                 categories: [
@@ -42,7 +47,7 @@
             yAxis: {
                 min: 0,
                 title: {
-                    text: '销售额 (元)'
+                    text: '营业额 (元)'
                 }
             },
 
@@ -52,7 +57,7 @@
                 valueSuffix: '元'
             },
             series: [{
-                name: '订单总金额',
+                name: '营业额',
                 data: [{$real_data}],
                 dataLabels: {
                     enabled: true,
@@ -67,9 +72,6 @@
                         //textShadow: '0 0 3px black'
                     }
                 }
-            },{
-                name: '商品总金额',
-                data: [{$data}]
             }]
         });
     });

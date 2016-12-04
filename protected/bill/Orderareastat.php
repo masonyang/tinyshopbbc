@@ -56,6 +56,6 @@ class OrderareastatBill
         return $cal;
     }
 
-//    public static function
+
 }
 
