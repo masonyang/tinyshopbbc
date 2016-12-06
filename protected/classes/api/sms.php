@@ -95,6 +95,18 @@ class sms extends baseapi
             exit;
         }
 
+        if($this->params['source_type'] == 'reg'){
+            $userModel = new Model('user');
+            $userInfo = $userModel->fields('id')->where('name = "'.$this->params['mobile'].'"')->find();
+
+            if($userInfo){
+                $this->output['msg'] = '手机号已被注册';
+                $this->output();
+                exit;
+            }
+        }
+
+
         $appkey = Config::getInstance('config')->get('sms_key');
 
         $secret = Config::getInstance('config')->get('sms_secret');
