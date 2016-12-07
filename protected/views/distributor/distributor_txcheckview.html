@@ -1,0 +1,58 @@
+{echo:JS::import('form');}
+
+<div id="obj_form" class="form2">
+    {query:name=distributor_apply domain=zd fields=id,site_url,status,apply_money,create_time,modify_time,content,attach_file  where=id eq $id item=$dist}
+
+    <dl class="lineD">
+        <dt>网站地址：</dt>
+        <dd>
+            <label>{$dist['site_url']}{$domain}</label>
+        </dd>
+    </dl>
+
+    <dl class="lineD">
+        <dt>申请金额：</dt>
+        <dd>
+
+            <label>{$dist['apply_money']}</label>
+        </dd>
+    </dl>
+
+    <dl class="lineD">
+        <dt>申请状态：</dt>
+        <dd>
+            {if: $dist['status'] == 'apply'}
+            申请中
+            {/if}
+            {if: $dist['status'] == 'succ'}
+            申请通过
+            {/if}
+            {if: $dist['status'] == 'fail'}
+            申请失败
+            {/if}
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>申请时间：</dt>
+        <dd>
+            <label>{$dist['create_time']|date('Y-m-d H:i:s',$dist['create_time'])|'--'}</label>
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>更新时间：</dt>
+        <dd>
+            <label>{$dist['modify_time']|date('Y-m-d H:i:s',$dist['modify_time'])|'--'}</label>
+        </dd>
+    </dl>
+    <dl class="lineD">
+        <dt>原因：</dt>
+        <dd>
+            <label>{$dist['content']|'--'}</label>
+        </dd>
+    </dl>
+    {if: $dist['attach_file']}
+        <img src="/data/txapply/{$dist['attach_file']}">
+    {/if}
+    {/query}
+</div>
+

@@ -89,6 +89,11 @@
         'name' => '客户服务',
         'parent' => 'config',
       ),
+      '/distributor/distributor_txapplylist' =>
+      array (
+        'name' => '提现申请列表',
+        'parent' => 'config',
+      ),
 //      '/content/adposition_list' =>
 //      array (
 //         'name' => '广告位管理',
@@ -665,6 +670,11 @@
       array (
         'name' => '分销商列表',
         'parent' => 'distributor',
+      ),
+      '/distributor/distributor_txchecklist' =>
+      array (
+         'name' => '提现审核列表',
+         'parent' => 'distributor',
       ),
       '/orderscanner/scannersetting_list' => 
       array (

@@ -1,0 +1,84 @@
+{echo:JS::import('form');}
+{echo:JS::import('editor');}
+{echo:JS::import('date');}
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+
+<h1 class="page_title">提现申请</h1>
+<div id="obj_form" class="form2">
+    <form action="{url:/distributor/distributor_txchecksave}" method="post" enctype="multipart/form-data">
+        {if:isset($id)}<input type="hidden" name="id" id="objId" value="{$id}">{/if}
+        <dl class="lineD">
+            <dt>网店地址：</dt>
+            <dd>
+                <label>{$site_url}{$domain}</label>
+            </dd>
+        </dl>
+
+        <dl class="lineD">
+            <dt>申请金额：</dt>
+            <dd>
+                <label>{$apply_money}</label>
+            </dd>
+        </dl>
+
+        <dl class="lineD">
+            <dt>审核状态：</dt>
+            <dd>
+                <label>
+                    {if: $status == 'apply'}
+                    申请中
+                    {/if}
+                    {if: $status == 'succ'}
+                    申请通过
+                    {/if}
+                    {if: $status == 'fail'}
+                    申请失败
+                    {/if}
+                </label>
+            </dd>
+        </dl>
+
+        <dl class="lineD">
+            <dt>上传附件：</dt>
+            <dd>
+                <input type="file" name="attach_file" value="">
+            </dd>
+        </dl>
+
+        <dl class="lineD">
+            <dt><b class="red">*</b>原因：</dt>
+            <dd>
+                <textarea name="content" cols="10" rows="20"></textarea>
+            </dd>
+        </dl>
+
+        <dl class="lineD">
+            <dt><b class="red">*</b>审核通过/拒绝</dt>
+            <dd>
+                <select name="status">
+                    <option value="">--请选择--</option>
+                    <option value="succ">审核通过</option>
+                    <option value="fail">审核拒绝</option>
+                </select>
+            </dd>
+        </dl>
+
+        <div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<a href="{url:/distributor/distributor_txchecklist}" class="button">返回审核列表</a></div>
+    </form>
+</div>
+
+<script type="text/javascript">
+    var form =  new Form();
+
+//    $(document).ready(function() {
+//        $("#fileuploader").uploadFile({
+//            url:"{url:/distributor/upattach_file}",
+//            fileName:"attach_file",
+//            allowedTypes:"jpg",
+//            dragDrop:false,
+//            uploadStr:'点击上传jpg图片',
+//            extErrorStr: "不支持. 请上传类型为: "
+//        });
+//    });
+</script>

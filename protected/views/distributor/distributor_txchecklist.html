@@ -1,0 +1,64 @@
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+<form action="" method="post">
+    <div class="tools_bar clearfix">
+        <a class="icon-checkbox-checked icon-checkbox-unchecked" href="javascript:;" onclick="tools_select('id[]',this)" title="全选" data="true"> 全选 </a>
+
+
+        <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
+    </div>
+    <table class="default" >
+        <tr>
+            <th style="width:30px">选择</th>
+            <th style="width:70px">操作</th>
+            <th style="width:70px">审核状态 </th>
+            <th style="width:70px">申请金额 </th>
+            <th style="width:70px">网店地址 </th>
+            <th style="width:70px">申请时间 </th>
+            <th style="width:70px">更新时间 </th>
+        </tr>
+
+        {query:name=distributor_apply domain=zd fields=id,site_url,status,apply_money,create_time,modify_time where=$where id=$obj page=1 order= id desc }
+        <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['distributor_id']}"></td>
+            <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
+                <li><a class="icon-eye" href="javascript:;" onclick="view({$item['id']})"> 查看</a></li>
+                {if: $item['status'] == 'apply'}
+                    <li><a class="icon-pencil" href="{url:/distributor/distributor_txcheckedit/id/}{$item['id']}"> 审核</a></li>
+                {/if}
+            </ul></div></div>
+            </td>
+            <td style="width:70px">
+                {if: $item['status'] == 'apply'}
+                    申请中
+                {/if}
+                {if: $item['status'] == 'succ'}
+                    申请通过
+                {/if}
+                {if: $item['status'] == 'fail'}
+                    申请失败
+                {/if}
+            </td>
+            <td style="width:70px">
+                {$item['apply_money']}
+            </td>
+            <td style="width:70px">{$item['site_url']}{$domain}</td>
+            <td style="width:70px">{$item['create_time']|date('Y-m-d H:i:s',$item['create_time'])|''}</td>
+            <td style="width:70px">{$item['modify_time']|date('Y-m-d H:i:s',$item['modify_time'])|''}</td>
+        </tr>
+        {/query}
+    </table>
+</form>
+<div class="page_nav">
+    {echo:$obj->pageBar()}
+</div>
+<script type="text/javascript">
+
+    function view(id){
+        art.dialog.open("{url:/distributor/distributor_txcheckview/id/}"+id,{id:'view_dialog',title:'查看提现申请信息',resize:false,width:900,height:450});
+    }
+
+
+    $("#condition").on("click",function(){
+        $("body").Condition({input:"#condition_input",okVal:'高级搜索',callback:function(data){tools_submit({action:'{url:/distributor/distributor_list}',method:'get'});},data:{distributor_name:{name:'姓名'},site_name:{name:'站点名称'},mobile:{name:'手机号'}}});
+    })
+</script>

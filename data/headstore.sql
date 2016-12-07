@@ -1097,3 +1097,15 @@ CREATE TABLE `tiny_order_count_stat` (
   PRIMARY KEY (`stat_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单统计';
 ALTER TABLE `tiny_order_count_stat` add INDEX idx_s_c (site_url,create_time);
+DROP TABLE IF EXISTS `tiny_distributor_apply`;
+CREATE TABLE `tiny_distributor_apply` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '队列id',
+  `attach_file` varchar(100) DEFAULT NULL COMMENT '附件地址',
+  `site_url` varchar(255) NOT NULL COMMENT '站点网址',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  `modify_time` int(11) DEFAULT NULL COMMENT '更新时间',
+  `apply_money` float(10,2) DEFAULT '0.00' COMMENT '申请金额',
+  `status` enum('apply', 'succ', 'fail') DEFAULT 'apply',
+  `content` text COMMENT '信息',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='提现申请表';

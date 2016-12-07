@@ -1,0 +1,29 @@
+{echo:JS::import('form');}
+{echo:JS::import('editor');}
+{echo:JS::import('date');}
+{echo:JS::import('dialog?skin=brief');}
+{echo:JS::import('dialogtools');}
+
+
+<h1 class="page_title">提现申请</h1>
+<div id="obj_form" class="form2">
+<form action="{url:/distributor/distributor_txapplysave}" method="post" >
+{if:isset($id)}<input type="hidden" name="id" id="objId" value="{$id}">{/if}
+
+
+<dl class="lineD">
+    <dt><b class="red">*</b>申请金额：</dt>
+    <dd>
+        <input name="apply_money" type="text" id="apply_money" pattern="required" alt="申请金额不能为空！"><span>(最多可提现金额{$deposit}元)</span>
+        <label></label>
+    </dd>
+</dl>
+
+<div style="text-align:center"><input type="submit" value="提交" class="button">&nbsp;&nbsp;&nbsp;&nbsp;<input type="reset" value="重置" class="button"></div>
+</form>
+</div>
+
+<script type="text/javascript">
+    var form =  new Form();
+
+</script>
