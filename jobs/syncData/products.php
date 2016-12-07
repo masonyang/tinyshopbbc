@@ -8,7 +8,7 @@
 class syncdata_productsJob extends billJob
 {
 
-    //总店信息同步到分店
+    //总店信息同步到分店   
     protected function hbDeal()
     {
 
