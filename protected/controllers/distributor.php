@@ -216,12 +216,19 @@ class DistributorController extends Controller
 			$model = new Model("distributor");
 			$validcode = CHash::random(8);
             $distributor_password = CHash::md5($password,$validcode);
+
+            $disInfo = $model->where("distributor_id=$id")->find();
 			$flag = $model->where("distributor_id=$id")->data(array('distributor_password'=>$distributor_password,'validcode'=>$validcode))->update();
 
-            $data['distributor_id'] = $id;
-            $data['password'] = $distributor_password;
-            $data['validcode'] = $validcode;
-            syncDistributorInfo::getInstance()->setParams($data,'update')->sync();
+//            $data['distributor_id'] = $id;
+//            $data['password'] = $distributor_password;
+//            $data['validcode'] = $validcode;
+
+            $mangeModel = new Model("manager",$disInfo['site_url']);
+
+            $mangeModel->data(array('password'=>$distributor_password,'validcode'=>$validcode))->where("id=1")->update();
+
+            //syncDistributorInfo::getInstance()->setParams($data,'update')->sync();
 			if($flag)$info = array('status'=>'success');
 		}
 		echo JSON::encode($info);
