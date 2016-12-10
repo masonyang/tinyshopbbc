@@ -14,3 +14,4 @@ protected/config/config_local.php
 update.txt
 *.zip
 *.tar
+.DS_Store
