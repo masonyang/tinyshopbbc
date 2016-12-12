@@ -650,7 +650,6 @@ class carts extends baseapi
             $return['payment']['payment_name'] = '支付宝[手机支付]';
         }
 
-
         if($addrData){
             $this->output['status'] = 'succ';
             $this->output['msg'] = '获取成功';

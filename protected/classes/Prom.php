@@ -25,22 +25,25 @@ class Prom{
 
 	//取得满足条件的规则
 	public function meetProms($user_group_id=0){
-		$model = new Model("prom_order");
+		$model = new Model("prom_order",'zd','master');
 		$time = date('Y-m-d H:i:s');
 		$where = " `money` <= ".$this->total_amount." and is_close=0 and start_time < '".$time."' and end_time > '".$time."'";
 
-        if($user_group_id){
-            $user['group_id'] = $user_group_id;
-        }else{
-            $safebox =  Safebox::getInstance();
-            $user = $safebox->get('user');
-        }
+//        if($user_group_id){
+//
+//        }else{
+//            $safebox =  Safebox::getInstance();
+//            $user = $safebox->get('user');
+//        }
+
+        $user['group_id'] = $user_group_id;
 
     	$group_id = ',0,';
     	if(isset($user['group_id'])) $group_id = ','.$user['group_id'].',';
 		if($group_id){
 			$where.=" and CONCAT(',',`group`,',') like '%".$group_id."%'";
 		}
+
 		$proms = $model->where($where)->order("type,cast(expression as decimal) desc")->findAll();
 		return $proms;
 	}
@@ -151,7 +154,9 @@ class Prom{
             foreach($proms as $prom){
                 $prom_order = $this->parsePorm($prom);
                 $promlist[] = $prom_order['note'];
-                if($prom_order['type']==4) $payable_freight = $prom_order['value'];
+                if($prom['type']==4){
+                    $payable_freight = $prom_order['value'];
+                }
 
             }
 
