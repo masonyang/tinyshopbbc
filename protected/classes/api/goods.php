@@ -99,25 +99,13 @@ class goods extends baseapi
         'goods'=>'     /index.php?con=api&act=index&method=goods'
     );
 
-    protected $template = '<div class="card ks-facebook-card">
-                <a href="product.html?id={id}" class="item-link">
-                    <div class="card-content"> <img src="{img}" width="100%"/></div>
-                </a>
-                <a href="product.html?id={id}" class="item-link">
-                <div class="card-header no-border">
-                    <div class="ks-facebook-name">{name}</div>
-                    <div class="ks-facebook-date">{price}</div>
-                </div>
-                </a>
-            </div>';
 
     protected $imageSize = array(
         'width'=>'280',
         'height'=>'280',
     );
 
-//<div class="card-content"> <img src="http://a.qqcapp.com/{img}" width="100%"/></div>
-//<div class="card-footer no-border"><a href="#" class="link">Like</a><a href="#" class="link">Comment</a><a href="#" class="link">Share</a></div>
+
     public function __construct($params = array())
     {
         parent::__construct($params);
@@ -177,7 +165,6 @@ class goods extends baseapi
             $this->output();
         }
 
-//        $this->getHtml($goodsLists);
     }
 
     public function goods_demo()
@@ -210,7 +197,7 @@ class goods extends baseapi
                 ),
             )
         );
-//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+
     }
 
 
@@ -304,20 +291,5 @@ class goods extends baseapi
         return $return;
     }
 
-    protected function getHtml($goods)
-    {
-
-        $html = '';
-
-        foreach($goods as $val){
-            $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
-            $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
-            $img = self::getApiUrl().$val['img'];
-            $id = $val['id'];
-            $html .= str_replace(array('{name}','{price}','{img}','{id}'),array($name,$price,$img,$id),$this->template);
-        }
-
-        echo $html;
-    }
 
 }

@@ -68,8 +68,7 @@ class Tiny
         '10.24.29.245' => 'qqcapp',
         '114.55.56.107' => 'qqcapp',
         '10.24.35.30' => 'qqcapp',
-        '101.200.188.77' => 'nst1688',
-        '10.44.140.108' => 'nst1688',
+        '42.51.4.226' => 'kaitukeji',
     );
     /**
      * 取得当前框架的版本号
@@ -715,19 +714,12 @@ class Tiny
                 return 'http://'.$serverName;
             }
 
-            if(in_array($serverName,array('192.168.1.112','192.168.1.101','192.168.1.100','192.168.1.102','192.168.1.103'))){
-                $top = 'a';
-                $domain = 'tinyshop';
-                $ext = 'com';
-            }else{
-                list($top,$domain,$ext) = explode('.',$serverName);
-            }
-
+            list($top,$domain,$ext) = explode('.',$serverName);
 
             return array('top'=>$top,'domain'=>$domain,'ext'=>$ext);
         }else{
 
-            return array('top'=>'','domain'=>'qqcapp','ext'=>'');
+            return array('top'=>'','domain'=>'qqcapp','ext'=>'');//qqcapp
 
             //$ip = Chips::getLocalIp();
 //            $ip = '10.24.35.30'; //todo 临时解决 job同步问题

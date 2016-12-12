@@ -380,7 +380,7 @@ $db['oo'] = array (
     'frontend' => 'oo.qqcapp.com',
     'backend' => 'oo.qqcapp.com/index.php?con=admin&act=index',
 );
-$db['p'] = array (
+$db['pp'] = array (
     'db' =>
         array (
             'type' => 'mysql',

@@ -27,12 +27,13 @@
         <th style="width:70px">联系方式 </th>
 		<th style="width:70px">网店地址 </th>
         <th style="width:70px">预存款</th>
+        <th style="width:70px">创建时间</th>
         <!--<th style="width:70px">会员总数</th>-->
         <!--<th style="width:80px">订单总数</th>-->
         <!--<th style="width:80px">已授权分类</th>-->
     </tr>
 
-    {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids where=$where id=$obj page=1 order= distributor_id desc }
+    {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,register_time where=$where id=$obj page=1 order= distributor_id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['distributor_id']}"></td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['distributor_id']})"> 查看</a></li>
@@ -44,6 +45,8 @@
 			<td style="width:70px">{$item['mobile']}</td>
 			<td style="width:70px">{$item['site_url']}{$domain}</td>
 			<td style="width:70px">{$item['deposit']}</td>
+            <td style="width:70px">{echo:date('Y/m/d H:i:s',$item['register_time'])}</td>
+
 			<!--<td style="width:80px">{$item['member_count']}</td>-->
 			<!--<td style="width:50px">{$item['order_count']}</td>-->
 		</tr>

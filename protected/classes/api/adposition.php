@@ -5,7 +5,7 @@
  * Date: 25/9/16
  * Time: 下午5:49
  * adposition 广告位
- * http://a.tinyshop.com/index.php?con=api&act=index&method=adposition&apid=32&mason=1
+ * http://a.test.com/index.php?con=api&act=index&method=adposition&apid=32&mason=1
  */
 class adposition extends baseapi
 {
@@ -112,11 +112,11 @@ class adposition extends baseapi
                     array(
                         's_type'=>'link、goods、category',
                         'url'=>'http://www.baidu.com',
-                        'img_path'=>'http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
+                        'img_path'=>'http:\/\/a.test.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg',
                     ),
                 ),
             )
         );
-//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+
     }
 }

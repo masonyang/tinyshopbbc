@@ -586,7 +586,7 @@ class OrderController extends Controller
 
         $contacter = $disData;
 
-        $contacter['site_logo'] = 'http://'.$order['site_url'].'.tinyshop.com/';
+        $contacter['site_logo'] = 'http://'.$order['site_url'].'.qqcapp.com/';
 
 
         $this->assign('contacter',$contacter);

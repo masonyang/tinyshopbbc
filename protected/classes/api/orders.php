@@ -8,33 +8,6 @@
 class orders extends baseapi
 {
 
-    protected $myOrderListTemplate = '<div class="card ks-facebook-card item-link">
-                        <a href="orderdetail.html?id={id}">
-                        <div class="no-border item-inner">
-                            <div class="item-title">&nbsp;&nbsp;订单 {order_no} <br/> &nbsp;&nbsp;<span class="badge bg-green">{status}</span> </div>
-                            <div class="item-after">
-
-                            </div>
-                        </div>
-                        </a>
-
-                        <div data-pagination=".swiper-pagination" data-pagination-hide="true" class="swiper-container swiper-init ks-demo-slider">
-                            <div class="swiper-pagination"></div>
-                            <div class="swiper-wrapper">
-                              {products}
-                            </div>
-                        </div>
-
-                        <div class="card-footer no-border"><a href="#" class="link"><span class="badge bg-green">立即支付</span></a><a href="#" class="link"><span class="badge bg-green">再次购买</span></a></div>
-                    </div>';
-
-    protected $myOrderListNoTemplate = '<div class="card ks-facebook-card">
-                        <div class="no-border item-inner">
-                            <div class="item-title" style="text-align: center;">暂无订单</div>
-
-                        </div>
-                    </div>';
-
     protected $imageSize = array(
         'width'=>'120',
         'height'=>'120',
@@ -418,8 +391,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-
                     $filename = self::getApiUrl().$gData['img'];
 
                     $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
@@ -431,7 +402,7 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
+
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -505,7 +476,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
 
                     $filename = self::getApiUrl().$gData['img'];
 
@@ -518,7 +488,6 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -592,7 +561,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
                     $filename = self::getApiUrl().$gData['img'];
 
                     $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
@@ -605,7 +573,6 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -676,7 +643,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
 
                     $filename = self::getApiUrl().$gData['img'];
 
@@ -690,7 +656,6 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -759,8 +724,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
-
                     $filename = self::getApiUrl().$gData['img'];
 
                     $image = ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
@@ -773,7 +736,6 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -842,7 +804,6 @@ class orders extends baseapi
                         $spec[] = $_specs['value'][2];
                     }
 
-//                    $products[$k]['img'] = '<div class="swiper-slide"><img src="'.self::getApiUrl().$gData['img'].'" width="100" height="100" /><span style="font-size:14px;">'.$gData['name'].'<br/>￥'.$vval['real_price'].'<br/> X '.$vval['goods_nums'].'</span></div>';
 
                     $filename = self::getApiUrl().$gData['img'];
 
@@ -856,7 +817,6 @@ class orders extends baseapi
                     $products[$kk]['spec'] = implode(',',$spec);
 
                 }
-//                $html .= str_replace(array('{id}','{order_no}','{status}','{products}'),array($val['id'],$val['order_no'],$status,$products),$this->myOrderListTemplate);
 
                 $result[$k]['oid'] = $val['id'];
                 $result[$k]['order_no'] = $val['order_no'];
@@ -895,40 +855,6 @@ class orders extends baseapi
         return self::getApiUrl().$gData['img'];
     }
 
-//    private function status($item = array())
-//    {
-//        if($item['status'] == '1'){
-//            return '等待付款';
-//        }elseif($item['status'] == '2'){
-//            if($item['pay_status'] == 1){
-//                return '等待审核';
-//            }else{
-//                $payment_info = Common::getPaymentInfo($item['payment']);
-//                if($payment_info['class_name']=='received'){
-//                    return '等待审核';
-//                }else{
-//                    return '等待付款';
-//                }
-//            }
-//        }elseif($item['status'] == '3'){
-//            if($item['delivery_status'] == 0){
-//                return '等待发货';
-//            }elseif($item['delivery_status'] == 1){
-//                return '已发货';
-//            }
-//
-//            if($item['pay_status'] == 3){
-//                return '已退款';
-//            }
-//
-//        }elseif($item['status'] == 4){
-//            return '已完成';
-//        }elseif($item['status'] == 5){
-//            return '已取消';
-//        }elseif($item['status'] == 6){
-//            return '已作废';
-//        }
-//    }
 
     protected function ordercancel()
     {

@@ -8,21 +8,6 @@
 class paylink extends baseapi
 {
 
-    protected $payFormTemplate = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head></head>
-<body>
-    <p>Please Wait...</p>
-    <form id="paysubmit" name="paysubmit" action="{action}" method="{method}">
-        {sendData}
-    </form>
-    <script type="text/javascript">
-    document.forms["paysubmit"].submit();
-    </script>
-</body>
-</html>
-';
-
     public static $title = array(
         'paylink'=>'支付宝手机支付页面'
     );
@@ -238,7 +223,7 @@ class paylink extends baseapi
                     $url .= "&".$key."=".$item;
                 }
                 $payData['alipay_url'] = baseapi::getApiUrl().'index.php?con=payment&act=paymobile&payment_id='.$paymentid.'&order_id='.$orderid;
-//                $msg = str_replace(array('{action}','{method}','{sendData}'),array($action,$method,$_sendData),$this->payFormTemplate);
+
                 return true;
             }else{
                 $msg = '需要支付的订单已经不存在。';

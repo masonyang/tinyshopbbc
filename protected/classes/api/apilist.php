@@ -6,9 +6,9 @@
  * Time: 下午9:55
  * api文档
  *
- * http://a.tinyshop.com/index.php?con=api&act=index&method=carts&source=scount
+ * http://a.test.com/index.php?con=api&act=index&method=carts&source=scount
  *
- * http://a.tinyshop.com/index.php?con=api&act=index&method=apilist
+ * http://a.test.com/index.php?con=api&act=index&method=apilist
  *
  */
 class qqclistapi extends baseapi

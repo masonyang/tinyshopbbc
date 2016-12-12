@@ -24,12 +24,18 @@ class Prom{
 	}
 
 	//取得满足条件的规则
-	public function meetProms($group_id=0){
+	public function meetProms($user_group_id=0){
 		$model = new Model("prom_order");
 		$time = date('Y-m-d H:i:s');
 		$where = " `money` <= ".$this->total_amount." and is_close=0 and start_time < '".$time."' and end_time > '".$time."'";
-		$safebox =  Safebox::getInstance();
-    	$user = $safebox->get('user');
+
+        if($user_group_id){
+            $user['group_id'] = $user_group_id;
+        }else{
+            $safebox =  Safebox::getInstance();
+            $user = $safebox->get('user');
+        }
+
     	$group_id = ',0,';
     	if(isset($user['group_id'])) $group_id = ','.$user['group_id'].',';
 		if($group_id){
@@ -128,4 +134,32 @@ class Prom{
 		}
 		return $result;
 	}
+
+    #处理前端api中的订单促销逻辑
+    public function dealPromOrderForApi($uid,$payable_freight)
+    {
+        $customerModel = new Model('customer');
+
+        $customers = $customerModel->fields('group_id')->where('user_id = '.$uid)->find();
+
+        $proms = $this->meetProms($customers['group_id']);
+
+        $promlist = array();
+
+        if($proms){
+
+            foreach($proms as $prom){
+                $prom_order = $this->parsePorm($prom);
+                $promlist[] = $prom_order['note'];
+                if($prom_order['type']==4) $payable_freight = $prom_order['value'];
+
+            }
+
+        }
+
+        return array(
+            'promlist'=>$promlist,
+            'payable_freight'=>$payable_freight,
+        );
+    }
 }

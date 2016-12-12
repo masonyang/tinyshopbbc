@@ -22,6 +22,6 @@ try {
 	echo $e->getMessage();
 }
 
-// branch to head:    
+// branch to head:
 // /usr/local/Cellar/php54/5.4.45_3/bin/php job.php dispatchJob --synctype=branchtohead
 // /usr/local/Cellar/php54/5.4.45_3/bin/php job.php syncdata_distributorInfoJob --synctype=branchtohead
