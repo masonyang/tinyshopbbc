@@ -759,8 +759,8 @@ class Tiny
     {
 
         switch($domain){
-            case 'nst1688':
-                $evn = 'nst1688';
+            case 'qqcapp':
+                $evn = 'qqcapp';
             break;
             case 'kaitukeji':
                 $evn = 'kaitukeji';
