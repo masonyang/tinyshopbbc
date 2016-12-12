@@ -762,8 +762,8 @@ class Tiny
             case 'nst1688':
                 $evn = 'nst1688';
             break;
-            case 'qqcapp':
-                $evn = 'qqcapp';
+            case 'kaitukeji':
+                $evn = 'kaitukeji';
             break;
             default:
                 $evn = 'local';
