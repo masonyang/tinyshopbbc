@@ -43,6 +43,10 @@ class GoodsController extends Controller
         $this->assign("other_tradeprice_rate",$this->other_tradeprice_rate);
 
         $this->assign('p',Req::get('p'));
+
+        $serverName = Tiny::getServerName();
+        $this->assign("local_domain",$serverName['top']);
+
 	}
 	public function noRight()
 	{
