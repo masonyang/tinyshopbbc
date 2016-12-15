@@ -1,6 +1,5 @@
 data/database/*
-data/uploads/head/*
-data/uploads/
+data/uploads
 themes-sass/
 installcomplete/
 cache/
