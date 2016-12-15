@@ -390,20 +390,6 @@ class customer extends baseapi
     );
 
 
-    protected $addrManageTemplate = '<li class="swipeout">
-            <div class="swipeout-content"><a href="#" class="item-link item-content">
-                <div class="item-inner">
-                    <div class="item-title-row">
-                        <div class="item-title">{name}</div>
-                        <div class="item-after">{mobile}</div>
-                    </div>
-                    <div class="item-subtitle">{address}&nbsp;&nbsp;{is_default}</div>
-                </div></a></div>
-            <div class="swipeout-actions-right"><a href="addaddress.html?id={id}" class="link">编辑</a><a aid="{id}" class="demo-mark set-default bg-orange">设为默认</a><a href="#" data-confirm="确定要删除吗?" aid="{id}" class="swipeout-delete swipeout-overswipe addr-delete">删除</a></div>
-        </li>';
-
-
-
     public function index()
     {
         switch($this->params['source']){
@@ -607,7 +593,6 @@ class customer extends baseapi
 
             $data[$k]['address'] = $parse_area[$province].$parse_area[$city].$parse_area[$county].$addr;
 
-//            $html .= str_replace(array('{id}','{name}','{mobile}','{address}','{is_default}'),array($id,$name,$mobile,$address,$is_default),$this->addrManageTemplate);
         }
 
         return $data;
@@ -726,8 +711,6 @@ class customer extends baseapi
 
 
     }
-
-    //a.tinyshop.com/index.php?con=api&act=index&method=customer&source=register&mobile=15500001235&password=q123456&repassword=q123456&vaildcode=uoke
 
     //注册
     protected function register()

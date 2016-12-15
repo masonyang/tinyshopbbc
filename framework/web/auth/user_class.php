@@ -7,7 +7,6 @@
  */
 /**
  * 用户类
- * www.tinyshop.com
  * @author Tiny
  * @class User
  */

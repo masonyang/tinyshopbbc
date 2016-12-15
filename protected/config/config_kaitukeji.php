@@ -21,9 +21,9 @@
     'type' => 'mysql',
     'tablePre' => 'tiny_',
     'host' => 'localhost:3306',
-    'user' => 'root',
-    'password' => 'Zhangweilong',
-    'name' => 'tinyshop',
+    'user' => 'qqc',
+    'password' => 'qqc',
+    'name' => 'qqc_zd',
   ),
   'headStore'=>'zd',
   'route' => 

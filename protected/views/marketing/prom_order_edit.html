@@ -25,10 +25,10 @@
         <dt><b class="red">*</b>促销活动类型：</dt>
         <dd>
           <select id="prom_type" name="type">
-            <option value="0">满额打折</option>
-            <option value="1">满额优惠金额</option>
-            <option value="2">满额送倍数积分</option>
-            <option value="3">满额送代金券</option>
+            <!--<option value="0">满额打折</option>-->
+            <!--<option value="1">满额优惠金额</option>-->
+            <!--<option value="2">满额送倍数积分</option>-->
+            <!--<option value="3">满额送代金券</option>-->
             <option value="4">满额免运费</option>
           </select>
         </dd>
@@ -119,7 +119,7 @@ function goods_del(id){
 
 
 var form = new Form();
-form.setValue('type', {$type|0});
+form.setValue('type', {$type|4});
 FireEvent(document.getElementById('prom_type'),'change');
 form.setValue('expression', '{$expression}');
 form.setValue('group[]', '{$group}');

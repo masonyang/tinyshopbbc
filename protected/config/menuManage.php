@@ -235,6 +235,11 @@
         'link' => '/content/article_list',
         'name' => '内容管理',
       ),
+      'marketing'=>
+      array(
+        'link'=>'/marketing/prom_order_list',
+        'name'=>'营销推广'
+      ),
       'count'=>
       array(
         'link'=>'/ordercount/order_count',
@@ -337,6 +342,11 @@
       array(
             'name'=>'商品统计',
             'parent'=>'count'
+      ),
+      'promotions'=>
+      array(
+          'name'=>'促销活动',
+          'parent'=>'marketing'
       ),
     ),
     'nodes' => 
@@ -731,6 +741,16 @@
             'name'=>'商品统计  (开发中)',
             'parent'=>'goodscount'
         ),
+//        '/marketing/prom_goods_list'=>array('name'=>'商品促销','parent'=>'promotions'),
+//        '/marketing/prom_goods_edit'=>array('name'=>'编辑商品促销','parent'=>'promotions'),
+        '/marketing/prom_order_list'=>array('name'=>'订单促销','parent'=>'promotions'),
+        '/marketing/prom_order_edit'=>array('name'=>'编辑订单促销','parent'=>'promotions'),
+//        '/marketing/bundling_list'=>array('name'=>'捆绑促销','parent'=>'promotions'),
+//        '/marketing/bundling_edit'=>array('name'=>'编辑捆绑促销','parent'=>'promotions'),
+//        '/marketing/groupbuy_list'=>array('name'=>'团购','parent'=>'promotions'),
+//        '/marketing/groupbuy_edit'=>array('name'=>'团购','parent'=>'promotions'),
+//        '/marketing/flash_sale_list'=>array('name'=>'限时抢购','parent'=>'promotions'),
+//        '/marketing/flash_sale_edit'=>array('name'=>'编辑限时抢购','parent'=>'promotions'),
     ),
   ),
 );

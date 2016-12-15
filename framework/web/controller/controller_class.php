@@ -123,8 +123,10 @@ class Controller extends Object
 
 
         $this->init();
+
         $id = Req::args('act');
         if($id ===null) $id = $this->defaultAction;
+
 
         //防止页面的循环调用
         if(!$this->module->popRequestStack($this->id.'@'.$id))$this->module->pushRequestStack($this->id.'@'.$id);

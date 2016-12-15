@@ -107,16 +107,6 @@ class paylinkv1 extends paylink
     protected function syncdopay()
     {
 
-//        $this->params['paymentid'] = 7;
-//        $this->params['pay_data'] =
-//            array (
-//                'resultStatus' => '9000',
-//                'result' => 'partner="2088602138538983"&seller_id="18632155211"&out_trade_no="1477834035083"&subject="订单支付：20161030212713587854"&body="109电子商务系统(订单号:20161030212713587854)"&total_fee="0.01"&notify_url="http://a.qqcapp.com/index.php?con=payment&act=async_native_callback&payment_id=7"&service="mobile.securitypay.pay"&payment_type="1"&_input_charset="utf-8"&it_b_pay="30m"&return_url="m.alipay.com"&success="true"&sign_type="RSA"&sign="WqAUDyaVwIt9F/v2jIKg0csIQmomIqbTp7omEg6hZsTXvICMCe1EEg9tTlUJNHv2lohqRBaIBESWtSOHBqHuy2gjBs/KynQ+VqbvVLXlTem3TM+dcOjWDEJYfxJH1LXAOe5TuUQOZYgXQ37FYK3HfftTpqTk/Z9dT4poy3rgH8g="',
-//                'memo' => '订单支付成功',
-//            );
-
-//        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/syncdopay.log');
-
         //从URL中获取支付方式
         $payment_id      = Filter::int($this->params['paymentid']);
         $payment = new Payment($payment_id);

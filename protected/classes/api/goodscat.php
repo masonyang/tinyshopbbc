@@ -108,13 +108,6 @@ class gcat extends baseapi
     {
         $catData = $this->catModel->where('parent_id=0')->order('sort desc')->findAll();
 
-//        $html = '';
-//
-//        $i = 3;
-//        foreach($catData as $val){
-//            $html .= '<div class="col-25"><a href="#tab'.$i.'" style="width:100%" class="button tab-link">'.$val['name'].'</a></div>&nbsp;';
-//            $i++;
-//        }
         if($catData){
             $_data = array();
             $i = 0;
@@ -183,7 +176,6 @@ class gcat extends baseapi
             $this->output();
         }
 
-//        $this->getHtml($tmpCat);
 
     }
 
@@ -242,7 +234,7 @@ class gcat extends baseapi
                 ),
             )
         );
-//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+
     }
 
     public function category_demo()
@@ -268,38 +260,7 @@ class gcat extends baseapi
                 ),
             )
         );
-//        '{"status":"succ","msg":"\u83b7\u53d6\u6210\u529f","data":[{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/b5cf5e20eda87a3ff77e4a2d33828947.jpg"},{"img_path":"http:\/\/a.tinyshop.com\/data\/uploads\/2014\/05\/13\/9670df531a008c75e7bed5b8967efd66.gif"}]}';
+
     }
 
-    protected function getHtml($goods_category)
-    {
-
-        $html = '';
-
-        foreach($goods_category as $val){
-            $html .= '<li class="accordion-item"><a href="#" class="item-link item-content">
-                        <div class="item-inner">
-                            <div class="item-title">'.$val['name'].'</div>
-                        </div></a>
-                        <div class="accordion-item-content">
-                            <div class="list-block">
-                                <ul>';
-            foreach($val['extends'] as $eval){
-                $html .= '<li>
-                                        <div class="item-content">
-                                            <div class="item-inner">
-                                                <div class="item-title">'.$eval['name'].'</div>
-                                            </div>
-
-                                        </div>
-                                    </li>';
-            }
-            $html .= '</ul>
-                            </div>
-                        </div>
-                    </li>';
-        }
-
-        echo $html;
-    }
 }

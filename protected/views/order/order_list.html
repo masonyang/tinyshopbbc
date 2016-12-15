@@ -7,11 +7,11 @@
         <a class="icon-delicious" href="{url:/order/order_list}"> 全部订单</a>
         <!--<a class="icon-delicious" href="javascript:;" onclick="batch_orders()"> 批量下单</a>-->
         <a class="icon-print" href="{url:/orderscanner/scannerorder}"> 单据扫描</a>
-
+        {if: $local_domain == 'zd'}
         <a href='javascript:;' onclick="tools_submit({action:'{url:/order/batch_delivery}',msg:'确定为选中的订单号，进行发货?'});"> 批量发货</a>
 
         <a href='javascript:;' onclick="tools_submit({action:'{url:/order/batch_print_ess}',msg:'确定为选中的订单号，进行电子面单打印?'});"> 批量打印(电)</a>
-
+        {/if}
         <!--<a class="icon-eye-blocked" href="{url:/order/order_list/status/2}"> 未审核</a>-->
         <!--<a class="icon-cogs" href="{url:/order/order_list/status/3}"> 执行中</a>-->
         <!--<span class="fr"><a href='javascript:;' id="condition" class="icon-search" style="" > 筛选条件</a><input id="condition_input" type="hidden" name="condition" value="{$condition}"></span>-->
