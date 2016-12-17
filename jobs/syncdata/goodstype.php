@@ -16,6 +16,13 @@ class syncdata_goodstypeJob extends billJob
 
         $params = $this->params['content'];
 
+        if($params['syncdata_type'] != 'goodstype'){
+
+            $this->return_msg['reason'] = '同步数据类型不对';
+
+            return $this->return_msg;
+        }
+
         $where = 'id='.$params['id'];
 
         $db = $this->params['domain'];

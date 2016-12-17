@@ -154,7 +154,7 @@ class orders extends baseapi
             ),//'goods_count'=>10,
             array(
                 'colum'=>'goods_count',
-                'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
+                'content'=>'商品总数量',
             ),
             array(
                 'colum'=>'img',

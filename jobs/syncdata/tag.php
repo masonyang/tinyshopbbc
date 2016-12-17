@@ -15,6 +15,13 @@ class syncdata_tagJob extends billJob
 
         $params = $this->params['content'];
 
+        if($params['syncdata_type'] != 'tags'){
+
+            $this->return_msg['reason'] = '同步数据类型不对';
+
+            return $this->return_msg;
+        }
+
         $where = 'id='.$params['id'];
 
         $db = $this->params['domain'];

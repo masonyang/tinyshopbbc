@@ -8,7 +8,7 @@
  *
  * http://a.test.com/index.php?con=api&act=index&method=carts&source=scount
  *
- * http://a.test.com/index.php?con=api&act=index&method=apilist
+ * http://a.test.com/index.php?con=api&act=index&method=qqclistapi
  *
  */
 class qqclistapi extends baseapi
@@ -61,6 +61,10 @@ class qqclistapi extends baseapi
 //    private $notices = '接口已完成，不过部分还没细测，等我一周出差 回来后 再弄。';
     private $notices = '';
 
+    protected $default_method = 'qqclistapi';
+
+    protected $apiTitle = '前台分店 API 文档';
+
     public function __construct($params = array())
     {
         header('Content-type:text/html;charset=utf-8');
@@ -87,7 +91,7 @@ class qqclistapi extends baseapi
     {
         $html = '<table align="center" border="1" width="20%">';
 
-        $html .= "<tr><td align='center'>API 文档</td></tr>";
+        $html .= "<tr><td align='center'>".$this->apiTitle."</td></tr>";
 
         if(!empty($this->notices)){
             $html .= "<tr><td align='center' style='color:red;'>".$this->notices."</td></tr>";
@@ -103,7 +107,7 @@ class qqclistapi extends baseapi
             }
 
 
-            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&apilist=1&method=qqclistapi&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
+            $html .= "<tr><td>".$api::$title[$ailas].'&nbsp;&nbsp; ----&nbsp;&nbsp; <a href="/index.php?con=api&act=index&apilist=1&method='.$this->default_method.'&source=detail&apiname='.$api.'&ailas='.$ailas.'">查看 </a>'.$notice."</td></tr>";
         }
 
         $html .= '</table>';
@@ -144,7 +148,7 @@ class qqclistapi extends baseapi
             $appname::$test = true;
         }
 
-        $html = '<a href="/index.php?con=api&act=index&method=apilist">返回</a><table align="center" border="0" width="100%">';
+        $html = '<a href="/index.php?con=api&act=index&method='.$this->default_method.'">返回</a><table align="center" border="0" width="100%">';
 
         $html .= "<tr><td align='center'>".$appname::$title[$ailas]." <br><h5>最后更新时间:".$appname::$lastmodify[$ailas]."</h5></td></tr>";
 

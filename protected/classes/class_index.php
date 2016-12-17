@@ -132,7 +132,7 @@
 "QRmask"=>"phpqrcode.php",
 "QRspec"=>"phpqrcode.php",
 "QRrsItem"=>"phpqrcode.php",
-/**********************API INTERFACE************************************/
+/**********************分店前台app端 API INTERFACE************************************/
 "baseapi"=>"api/api.php",
 "advert"=>"api/advert.php",//广告
 "gcat"=>"api/goodscat.php",//商品分类
@@ -157,7 +157,20 @@
 
 "paylinkv1"=>"api/version/1.0/paylink.php",//支付前验证订单信息，并返回支付相关信息 以便前端调用支付方式
 
-/**********************API INTERFACE************************************/
+/**********************分店前台app端 API INTERFACE************************************/
+
+
+    /**********************分店店掌柜app端 API INTERFACE************************************/
+"bsmapilist"=>"api/branchstoremanager/bsmapilist.php",   //分店店掌柜api列表
+"bsmmanager"=>"api/branchstoremanager/bsmmanager.php",   //管理员相关操作
+"bsmcustomer"=>"api/branchstoremanager/bsmcustomer.php", //会员相关操作
+"bsmgoods"=>"api/branchstoremanager/bsmgoods.php", //商品相关操作
+"bsmorders"=>"api/branchstoremanager/bsmorders.php", //订单相关操作
+"bsmcaptchacode"=>"api/branchstoremanager/bsmcaptchacode.php", //验证码
+
+    /**********************分店店掌柜app端 API INTERFACE************************************/
+
+
 
 "DES3"=>"DES3.php",
 

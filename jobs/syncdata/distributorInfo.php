@@ -16,6 +16,13 @@ class syncdata_distributorInfoJob extends billJob
 		
 		$params = $this->params['content'];//更新内容
 
+        if($params['syncdata_type'] != 'distributor'){
+
+            $this->return_msg['reason'] = '同步数据类型不对';
+
+            return $this->return_msg;
+        }
+
 		$where = 'distributor_id='.$params['distributor_id'];
 		
 		unset($params['distributor_id']);
@@ -33,6 +40,13 @@ class syncdata_distributorInfoJob extends billJob
         $op_type = $this->params['action'];
 
         $params = $this->params['content'];
+
+        if($params['syncdata_type'] != 'distributor'){
+
+            $this->return_msg['reason'] = '同步数据类型不对';
+
+            return $this->return_msg;
+        }
 
         $where = 'distributor_id='.$params['distributor_id'];
 
