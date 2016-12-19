@@ -16,7 +16,7 @@ class syncdata_goodstypeJob extends billJob
 
         $params = $this->params['content'];
 
-        if($params['syncdata_type'] != 'goodstype'){
+        if($params['syncdata_type'] != 'goods_type'){
 
             $this->return_msg['reason'] = '同步数据类型不对';
 
@@ -33,11 +33,16 @@ class syncdata_goodstypeJob extends billJob
 
         unset($params['con'],$params['act']);
 
-        $this->dealAttrValue($op_type,$params['attr_value'],$params['attr_value'],$db);
-        unset($params['attr_value']);
+        if($params['attr_value']){
+            $this->dealAttrValue($op_type,$params['attr_value'],$params['attr_value'],$db);
+            unset($params['attr_value']);
+        }
 
-        $this->dealGoodsAttr($op_type,$params['goods_attr'],$params['goods_attr'],$db);
-        unset($params['goods_attr']);
+        if($params['goods_attr']){
+            $this->dealGoodsAttr($op_type,$params['goods_attr'],$params['goods_attr'],$db);
+            unset($params['goods_attr']);
+        }
+
 
         headToBranchJob::getInstance()->deal($op_type,$params,$where,'goods_type',$db);
 

@@ -23,6 +23,7 @@ class syncPayment extends DataSync
         'fee_type'=>'',
         'sort'=>'',
         'status'=>'',
+        //'zd_outer_id'=>''
     );
 
     public function sync()

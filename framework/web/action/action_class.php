@@ -66,9 +66,12 @@ class Action extends BaseAction
                             $action = 'update';
                         }else{
                             $action = 'add';
+                            $p['id'] = $data;
                         }
 
-                        DataSync::service($modelName,Req::args(),$action);
+                        $syncdata = Req::args();
+                        $syncdata['syncdata_type'] = $modelName;
+                        DataSync::service($modelName,$syncdata,$action);
 
                         $p = Req::args('p');
                         if(isset($p)){
@@ -91,7 +94,9 @@ class Action extends BaseAction
                 }
                 case 'del':
                 {
-                    DataSync::service($modelName,Req::args(),'del');
+                    $syncdata = Req::args();
+                    $syncdata['syncdata_type'] = $modelName;
+                    DataSync::service($modelName,$syncdata,'del');
                     $controller->redirect($modelName.'_list');
                     break;
                 }
@@ -105,7 +110,9 @@ class Action extends BaseAction
                     }
 
                     if(isset($data)){
-                        DataSync::service($modelName,Req::args(),'update');
+                        $syncdata = Req::args();
+                        $syncdata['syncdata_type'] = $modelName;
+                        DataSync::service($modelName,$syncdata,'update');
                     }else{
                         $data = array();
                     }

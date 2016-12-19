@@ -20,7 +20,7 @@ class bsmapilist extends qqclistapi
     protected $apilist = array(
         'bsmcaptchacode'=>'bsmcaptchacode',
         'login'=>'bsmmanager',
-        'loginout'=>'bsmmanager',
+        //'loginout'=>'bsmmanager',
         'uck'=>'bsmmanager',
         'usrlist'=>'bsmcustomer',
         'goodslist'=>'bsmgoods',

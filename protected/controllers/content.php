@@ -364,6 +364,7 @@ class ContentController extends Controller
         $params['num'] = $tags['num'];
         $params['sort'] = $tags['sort'];
         $params['is_hot'] = $tags['is_hot'];
+        $params['syncdata_type'] = 'tags';
         syncTag::getInstance()->setParams($params,'update')->sync();
 
 		echo JSON::encode(array('status'=>'success'));
@@ -521,6 +522,7 @@ class ContentController extends Controller
         $params['id'] = $id;
         $params['products'] = $id;
         $params['spec_attr'] = $id;
+        $params['syncdata_type'] = 'tags';
         syncGoods::getInstance()->setParams($params,'del')->sync();
 
         $msg = array('success',"成功删除广告位 ".$str);

@@ -26,6 +26,8 @@ class syncdata_paymentJob extends billJob
 
         $db = $this->params['domain'];
 
+        unset($params['syncdata_type']);
+
         unset($params['id']);
 
         unset($params['distributor_id']);

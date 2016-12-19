@@ -32,9 +32,12 @@ class syncdata_goodsspecJob extends billJob
 
         unset($params['con'],$params['act']);
 
-        $this->dealSpecValue($op_type,$params['spec_value'],$params['spec_value'],$db);
+        if($params['spec_value']){
+            $this->dealSpecValue($op_type,$params['spec_value'],$params['spec_value'],$db);
 
-        unset($params['spec_value']);
+            unset($params['spec_value']);
+
+        }
 
         headToBranchJob::getInstance()->deal($op_type,$params,$where,'goods_spec',$db);
 

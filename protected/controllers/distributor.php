@@ -28,6 +28,9 @@ class DistributorController extends Controller
 
 		$currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
+
+        $serverName = Tiny::getServerName();
+        $this->assign("local_domain",$serverName['top']);
 	}
 
 	public function noRight()
@@ -177,6 +180,7 @@ class DistributorController extends Controller
 
             $data['distributor_id'] = $id;
             $data['before_catids'] = $distrInfo['catids'];
+            $data['syncdata_type'] = 'distributor';
             //同步分销商信息到分店
             syncDistributorInfo::getInstance()->setParams($data,'update')->sync();
 //            //同步商品分类
@@ -581,6 +585,55 @@ class DistributorController extends Controller
         }
 
         return true;
+    }
+
+    public function distributor_export()
+    {
+
+        $id = Req::args("id");
+
+        if(is_array($id)){
+            $ids = $id;
+        }else if(is_numeric($id)){
+            $ids = array($id);
+        }else{
+            $this->msg = array("warning","操作失败！");
+            $this->redirect("distributor_list",false);
+            exit;
+        }
+
+        $distributorModel = new Model('distributor');
+
+        $distrDatas = $distributorModel->where('distributor_id in ('.implode(',',$ids).')')->findAll();
+
+        if($distrDatas){
+
+            $serverName = Tiny::getServerName();
+
+            $domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
+
+            $data = "name,site_url\n";
+            foreach($distrDatas as $datas){
+                $distributor_name = $datas['distributor_name'];
+                $site_url = $datas['site_url'].$domain;
+
+                $data .= iconv('UTF-8','GB2312',"$distributor_name,$site_url\n");
+            }
+
+            $filename = '分销商列表';
+
+            header("Content-type:text/csv");
+            header("Content-Disposition:attachment;filename=".$filename.".csv"); //“生成文件名称”=自定义
+            header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
+            header('Expires:0');
+            header('Pragma:public');
+            echo $data;
+            exit;
+        }else{
+            $msg = array('warning',"暂无数据");
+            $this->redirect("distributor_list",false,array('msg'=> $msg));
+            exit;
+        }
     }
 
 }

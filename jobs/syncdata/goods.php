@@ -32,13 +32,17 @@ class syncdata_goodsJob extends billJob
 
         unset($params['con'],$params['act']);
 
-        $this->dealProducts($op_type,$params['products'],$params['products'],$db);
+        if($params['products']){
+            $this->dealProducts($op_type,$params['products'],$params['products'],$db);
 
-        unset($params['products']);
+            unset($params['products']);
+        }
 
-        $this->dealSpecAttr($op_type,$params['spec_attr'],$params['spec_attr'],$db);
+        if($params['spec_attr']){
+            $this->dealSpecAttr($op_type,$params['spec_attr'],$params['spec_attr'],$db);
 
-        unset($params['spec_attr']);
+            unset($params['spec_attr']);
+        }
 
         unset($params['branchstore_sell_price']);
         unset($params['branchstore_goods_name']);

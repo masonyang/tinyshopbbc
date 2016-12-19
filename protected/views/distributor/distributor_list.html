@@ -6,6 +6,9 @@
 
 	<a class="icon-plus" href="{url:/distributor/distributor_edit}"> 添加分销商</a>
 
+    {if: $local_domain == 'zd'}
+    <a  class="" href="javascript:;" onclick="tools_submit({action:'{url:/distributor/distributor_export/type/csv}',msg:'确定要导出选中的分销商吗？'})" title="导出csv"> 导出csv</a>
+    {/if}
     <span class="fr">
             <select name="condition">
                 <option value="distributor_name" {if: $condition == 'distributor_name'} selected{/if} >店铺名称</option>

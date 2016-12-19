@@ -68,6 +68,7 @@ class GoodsController extends Controller
         $params = array();
         $params['id'] = $id;// id is array
         $params['is_online'] = $status;
+        $params['syncdata_type'] = 'goods';
         syncGoods::getInstance()->setParams($params,'update')->sync();
 
 		$this->redirect("goods_list");
@@ -196,7 +197,7 @@ class GoodsController extends Controller
             'update'=>$gaupdate,
             'add'=>$gainsert,
         );
-
+        $params['syncdata_type'] = 'goods_type';
         syncGoodsType::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect('goods_type_list');
@@ -285,7 +286,7 @@ class GoodsController extends Controller
 				$model->table('goods_attr')->where('type_id ='.$id)->delete();
 
 			}
-
+            $params['syncdata_type'] = 'goods_type';
             syncGoodsType::getInstance()->setParams($params,'del')->sync();
 
 			$str = '';
@@ -358,6 +359,7 @@ class GoodsController extends Controller
             'update'=>$update,
             'del'=>array($mdel,$del),
         );
+        $params['syncdata_type'] = 'goods_spec';
         syncSpec::getInstance()->setParams($params,$action)->sync();
 
 		$this->redirect('goods_spec_list');
@@ -387,6 +389,7 @@ class GoodsController extends Controller
             $params = array();
             $params['id'] = $id;
             $params['spec_value'] = $id;
+            $params['syncdata_type'] = 'goods_spec';
             syncSpec::getInstance()->setParams($params,'del')->sync();
 
 			$this->redirect('goods_spec_list');
@@ -438,6 +441,7 @@ class GoodsController extends Controller
 					Log::op($this->manager['id'],"更新商品分类","管理员[".$this->manager['name']."]:更新了商品分类 ".Req::args('name'));
 
                     $params = $goods_category->where('id='.$id)->find();
+                    $params['syncdata_type'] = 'goods_category';
                     syncCategory::getInstance()->setParams($params,'update')->sync();
 
                     $this->redirect("goods_category_list");
@@ -456,6 +460,7 @@ class GoodsController extends Controller
 				Log::op($this->manager['id'],"添加商品分类","管理员[".$this->manager['name']."]:添加商品分类 ".Req::args('name'));
 
                 $params = $goods_category->where('id='.$lastid)->find();
+                $params['syncdata_type'] = 'goods_category';
                 syncCategory::getInstance()->setParams($params,'add')->sync();
 
                 $this->redirect("goods_category_list");
@@ -488,6 +493,7 @@ class GoodsController extends Controller
 
                 $params = array();
                 $params['id'] = $id;
+                $params['syncdata_type'] = 'goods_category';
                 syncCategory::getInstance()->setParams($params,'del')->sync();
 
 				$this->redirect("goods_category_list");
@@ -758,7 +764,7 @@ class GoodsController extends Controller
             'del'=>$sadel,
             'add'=>$saadd,
         );
-
+        $params['syncdata_type'] = 'goods';
         syncGoods::getInstance()->setParams($params,$action)->sync();
 
         $p = Req::args('p');
@@ -793,6 +799,7 @@ class GoodsController extends Controller
         $params['id'] = $id;
         $params['products'] = $id;
         $params['spec_attr'] = $id;
+        $params['syncdata_type'] = 'goods';
         syncGoods::getInstance()->setParams($params,'del')->sync();
 
 		$msg = array('success',"成功删除商品 ".$str);
@@ -908,6 +915,7 @@ class GoodsController extends Controller
         $params['id'] = $id;
         $params['name'] = $goodsname;
         $params['is_online'] = $isonline;
+        $params['syncdata_type'] = 'goods';
         syncGoods::getInstance()->setParams($params,'update')->sync();
 
         echo json_encode(array('res'=>'success'));

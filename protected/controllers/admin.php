@@ -958,6 +958,7 @@ class AdminController extends Controller
                 unset($data['site_url']);
                 $localManger = new Model('manager');
                 $localManger->data($data)->where('id='.Req::args('id'))->update();
+                $params['syncdata_type'] = 'distributor';
                 //同步分销商信息到总店
                 syncDistributorInfo::getInstance()->setParams($params,'update')->sync();
 

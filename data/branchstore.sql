@@ -12,7 +12,7 @@ CREATE TABLE `tiny_balance_log` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='预存款日志表';
 DROP TABLE IF EXISTS `tiny_brand`;
 CREATE TABLE `tiny_brand` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL ,
   `url` varchar(255) NOT NULL ,
   `logo` varchar(255) DEFAULT NULL ,
@@ -20,8 +20,7 @@ CREATE TABLE `tiny_brand` (
   `sort` int(11) DEFAULT '1' ,
   `seo_title` varchar(255) DEFAULT NULL ,
   `seo_keywords` varchar(255) DEFAULT NULL ,
-  `seo_description` varchar(255) DEFAULT NULL ,
-  PRIMARY KEY (`id`)
+  `seo_description` varchar(255) DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='品牌表';
 DROP TABLE IF EXISTS `tiny_cache`;
 CREATE TABLE `tiny_cache` (
@@ -139,7 +138,7 @@ ALTER TABLE `tiny_doc_returns` add INDEX idx_s (`status`);
 
 DROP TABLE IF EXISTS `tiny_goods`;
 CREATE TABLE `tiny_goods` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `id` bigint(20) NOT NULL ,
   `name` varchar(50) NOT NULL ,
   `branchstore_goods_name` varchar(50) DEFAULT NULL COMMENT '分店自定义商品名称',
   `category_id` bigint(20) NOT NULL ,
@@ -172,8 +171,7 @@ CREATE TABLE `tiny_goods` (
   `attrs` text ,
   `prom_id` bigint(20) DEFAULT '0' ,
   `is_online` tinyint(1) DEFAULT '0' ,
-  `sale_protection` text ,
-  PRIMARY KEY (`id`)
+  `sale_protection` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品表';
 ALTER TABLE `tiny_goods` add INDEX is_online (is_online);
 DROP TABLE IF EXISTS `tiny_goods_attr`;
@@ -188,7 +186,7 @@ CREATE TABLE `tiny_goods_attr` (
 ALTER TABLE `tiny_goods_attr` add INDEX type_id (type_id);
 DROP TABLE IF EXISTS `tiny_goods_category`;
 CREATE TABLE `tiny_goods_category` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `name` varchar(200) NOT NULL DEFAULT '' ,
   `alias` varchar(200) NOT NULL DEFAULT '' ,
   `parent_id` bigint(20) DEFAULT '0' ,
@@ -201,29 +199,26 @@ CREATE TABLE `tiny_goods_category` (
   `seo_title` varchar(255) DEFAULT NULL ,
   `seo_keywords` varchar(255) DEFAULT NULL ,
   `seo_description` varchar(255) DEFAULT NULL ,
-  PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `alias` (`alias`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品分类关联表';
 ALTER TABLE `tiny_goods_category` add INDEX parent_id (parent_id);
 DROP TABLE IF EXISTS `tiny_goods_spec`;
 CREATE TABLE `tiny_goods_spec` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL ,
   `value` text NOT NULL ,
   `type` tinyint(1) DEFAULT '1' ,
   `note` varchar(255) DEFAULT NULL ,
-  `is_del` tinyint(1) DEFAULT '0' ,
-  PRIMARY KEY (`id`)
+  `is_del` tinyint(1) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品规格';
 DROP TABLE IF EXISTS `tiny_goods_type`;
 CREATE TABLE `tiny_goods_type` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `attr` text,
   `spec` text,
-  `brand` text,
-  PRIMARY KEY (`id`)
+  `brand` text
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品类型';
 DROP TABLE IF EXISTS `tiny_manager`;
 CREATE TABLE `tiny_manager` (
@@ -385,7 +380,7 @@ CREATE TABLE `tiny_order_log` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单日志表';
 DROP TABLE IF EXISTS `tiny_products`;
 CREATE TABLE `tiny_products` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT ,
+  `id` bigint(20) NOT NULL ,
   `goods_id` bigint(20) NOT NULL ,
   `pro_no` varchar(20) DEFAULT NULL ,
   `spec` text ,
@@ -399,7 +394,6 @@ CREATE TABLE `tiny_products` (
   `cost_price` float(10,2) DEFAULT '0.00' ,
   `weight` int(11) DEFAULT NULL ,
   `specs_key` varchar(255) DEFAULT NULL ,
-  PRIMARY KEY (`id`),
   KEY `GOODS_ID` (`goods_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='货品表';
 ALTER TABLE `tiny_products` add INDEX idx_goodsid_specskey (`goods_id`,`specs_key`);
@@ -438,12 +432,11 @@ CREATE TABLE `tiny_spec_attr` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='规格表';
 DROP TABLE IF EXISTS `tiny_spec_value`;
 CREATE TABLE `tiny_spec_value` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `spec_id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `img` varchar(255) NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '1',
-  PRIMARY KEY (`id`),
+  `sort` int(11) NOT NULL DEFAULT '1'
   UNIQUE KEY `ID_NAME` (`spec_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='规格值表';
 DROP TABLE IF EXISTS `tiny_tags`;
@@ -453,7 +446,6 @@ CREATE TABLE `tiny_tags` (
   `num` bigint(20) DEFAULT '0' ,
   `sort` int(11) DEFAULT '0' ,
   `is_hot` int(1) DEFAULT '0' ,
-  PRIMARY KEY (`id`),
   KEY `index_name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='标签表';
 DROP TABLE IF EXISTS `tiny_user`;
@@ -564,7 +556,7 @@ CREATE TABLE `tiny_grade` (
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_payment`;
 CREATE TABLE `tiny_payment` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `plugin_id` varchar(32) NOT NULL ,
   `pay_name` varchar(100) NOT NULL ,
   `config` text,
@@ -574,9 +566,9 @@ CREATE TABLE `tiny_payment` (
   `pay_fee` float(10,2) DEFAULT '0.00' ,
   `fee_type` tinyint(1) DEFAULT '0' ,
   `sort` int(11) DEFAULT NULL ,
-  `status` int(1) DEFAULT '0' ,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ;
+  `status` int(1) DEFAULT '0'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+
 DROP TABLE IF EXISTS `tiny_pay_plugin`;
 CREATE TABLE `tiny_pay_plugin` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
