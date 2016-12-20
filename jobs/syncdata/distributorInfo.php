@@ -27,6 +27,8 @@ class syncdata_distributorInfoJob extends billJob
 		
 		unset($params['distributor_id']);
 
+        unset($params['syncdata_type']);
+
 		branchToHeadJob::getInstance()->deal($op_type,$params,$where,'distributor');
 
         $this->return_msg['res'] = 'success';
@@ -53,6 +55,8 @@ class syncdata_distributorInfoJob extends billJob
         $db = $this->params['domain'];
 
         unset($params['distributor_id']);
+
+        unset($params['syncdata_type']);
 
         $params['is_lock'] = $params['disabled'];
 

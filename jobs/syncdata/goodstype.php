@@ -27,7 +27,11 @@ class syncdata_goodstypeJob extends billJob
 
         $db = $this->params['domain'];
 
-        unset($params['id']);
+        if($op_type != 'add'){
+            unset($params['id']);
+        }
+
+        unset($params['syncdata_type']);
 
         unset($params['distributor_id']);
 

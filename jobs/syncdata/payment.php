@@ -28,7 +28,9 @@ class syncdata_paymentJob extends billJob
 
         unset($params['syncdata_type']);
 
-        unset($params['id']);
+        if($op_type != 'add'){
+            unset($params['id']);
+        }
 
         unset($params['distributor_id']);
 
