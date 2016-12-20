@@ -180,8 +180,7 @@ CREATE TABLE `tiny_goods_attr` (
   `type_id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `show_type` int(11) DEFAULT '0' ,
-  `sort` int(11) DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `sort` int(11) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品属性';
 ALTER TABLE `tiny_goods_attr` add INDEX type_id (type_id);
 DROP TABLE IF EXISTS `tiny_goods_category`;
@@ -445,7 +444,7 @@ CREATE TABLE `tiny_tags` (
   `name` varchar(20) NOT NULL ,
   `num` bigint(20) DEFAULT '0' ,
   `sort` int(11) DEFAULT '0' ,
-  `is_hot` int(1) DEFAULT '0' ,
+  `is_hot` int(1) DEFAULT '0'
   KEY `index_name` (`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='标签表';
 DROP TABLE IF EXISTS `tiny_user`;

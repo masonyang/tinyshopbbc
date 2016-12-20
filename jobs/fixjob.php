@@ -5,11 +5,21 @@ define("APP_ROOT",dirname(__file__).'/../');
 
 include(APP_ROOT."framework/tiny.php");
 
+if(isset($config['classes']))Tiny::setClasses($config['classes']);
+else Tiny::setClasses('classes.*');
+
 $distributorModel = new Model('distributor','zd','master');
 
 $distrDatas = $distributorModel->findAll();
 
 foreach($distrDatas as $val){
+
+//    if($val['site_url'] != 'g'){
+//
+//        continue;
+//    }
+
+    echo $val['site_url'];
 
     _addcategory($val['site_url'],$val['catids']);//商品分类
 
@@ -195,7 +205,7 @@ function _addpayment($domain)
 
 function _addTags($domain,$tagids)
 {
-    $tagsModel = new Model('tags');
+    $tagsModel = new Model('tags','zd','master');
     $tags = $tagsModel->where('id in ('.implode(',',$tagids).')')->findAll();
 
     $syncTagModel = new Model('tags',$domain,'master');

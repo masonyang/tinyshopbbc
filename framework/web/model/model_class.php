@@ -517,7 +517,26 @@ class Model
                 $info = $this->db[$this->md5key]->getTableInfo($this->sql['table']);
                 $cache->set('table_'.$this->sql['table'].'_'.$this->md5key,$info,86400);
             }
-            $this->primary_key = $info['primary_key'];
+
+            $exp_array = array(
+                'tiny_products',
+                'tiny_spec_value',
+                'tiny_tags',
+                'tiny_goods_type',
+                'tiny_goods_spec',
+                'tiny_goods_category',
+                'tiny_goods_attr',
+                'tiny_goods',
+                'tiny_brand',
+                'tiny_payment',
+            );
+
+            if(in_array($this->sql['table'],$exp_array)){
+                $this->primary_key = 'id';
+            }else{
+                $this->primary_key = $info['primary_key'];
+            }
+
             $this->fields[$this->md5key] = $info['fields'];
         }
 
@@ -598,9 +617,11 @@ class Model
     private function changeWhere()
     {
         $sql = $this->sql;$where = '';
+
         if(is_array($sql['data']))
         {
             $key_array 	= array_keys($sql['data']);
+
             if (in_array($this->primary_key, $key_array))
             {
                 if(is_string($sql['data'][$this->primary_key]))
