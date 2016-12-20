@@ -176,7 +176,7 @@ CREATE TABLE `tiny_goods` (
 ALTER TABLE `tiny_goods` add INDEX is_online (is_online);
 DROP TABLE IF EXISTS `tiny_goods_attr`;
 CREATE TABLE `tiny_goods_attr` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `type_id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `show_type` int(11) DEFAULT '0' ,
@@ -436,12 +436,12 @@ CREATE TABLE `tiny_spec_value` (
   `spec_id` bigint(20) NOT NULL,
   `name` varchar(50) NOT NULL,
   `img` varchar(255) NOT NULL,
-  `sort` int(11) NOT NULL DEFAULT '1'
+  `sort` int(11) NOT NULL DEFAULT '1',
   UNIQUE KEY `ID_NAME` (`spec_id`,`name`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='规格值表';
 DROP TABLE IF EXISTS `tiny_tags`;
 CREATE TABLE `tiny_tags` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `id` bigint(20) NOT NULL,
   `name` varchar(20) NOT NULL ,
   `num` bigint(20) DEFAULT '0' ,
   `sort` int(11) DEFAULT '0' ,
