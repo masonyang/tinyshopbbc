@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+exit;
+
 define("APP_ROOT",dirname(__file__).'/../');
 
 include(APP_ROOT."framework/tiny.php");

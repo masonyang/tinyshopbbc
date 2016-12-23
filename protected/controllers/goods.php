@@ -588,12 +588,18 @@ class GoodsController extends Controller
 		$id = intval(Req::args("id"));
 		$gdata = Req::args();
 
+        $p = Req::args('p');
+
+        $p = isset($p) ? $p : 1;
+
         if(isset($branchstore_sell_price)){
-            $suggest_price = 0;//$trade_price * ($this->other_tradeprice_rate/100);
-            if($suggest_price >= $branchstore_sell_price){
+            $suggest_price = $sell_price * ($this->other_tradeprice_rate/100);
+            if($suggest_price <= $branchstore_sell_price){
                 $gdata['branchstore_sell_price'] = $branchstore_sell_price;
             }else{
-                $gdata['branchstore_sell_price'] = $sell_price;
+                $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+
+                $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
             }
         }
 
@@ -621,11 +627,12 @@ class GoodsController extends Controller
 			$result = $products->where("goods_id = ".$goods_id." and specs_key = '$key'")->find();
 
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'trade_price'=>$trade_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
-            $suggest_price = $trade_price[$k] * ($this->other_tradeprice_rate/100);
-            if($suggest_price >= $branchstore_sell_price[$k]){
+            $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
+            if($suggest_price <= $branchstore_sell_price[$k]){
                 $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
             }else{
-                $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+                $this->msg = array("error","货号:".$pro_no[$k].",自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+                $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
             }
 
 

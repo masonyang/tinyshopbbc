@@ -48,7 +48,7 @@
     'other_currency_unit' => '元',
     'other_is_invoice' => '1',
     'other_tax' => '6',
-    'other_tradeprice_rate' => '6',
+    'other_tradeprice_rate' => '90',
     'other_order_delay' => '120',
     'other_verification_eamil' => NULL,
   ),

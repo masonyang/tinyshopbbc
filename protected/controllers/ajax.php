@@ -269,4 +269,27 @@ class AjaxController extends Controller
         exit;
     }
 
+    public function check_manage()
+    {
+        $safebox = Safebox::getInstance();
+        $manager = $safebox->get('manager');
+
+        if($manager['id']){
+            $safebox->set('manager',$manager);
+
+            $result = array(
+                'status'=>'success',
+            );
+        }else{
+            $result = array(
+                'status'=>'error',
+            );
+        }
+        echo json_encode($result);
+
+        exit;
+
+
+    }
+
 }

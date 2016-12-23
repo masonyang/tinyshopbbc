@@ -62,9 +62,27 @@
 		}
 		$(".submenu .sub-index").on("click",function(){
 			$(this).parent().parent().toggleClass('current');
-		})
+		});
+
 	})
-	
+
+    function check_manage(){
+        var url = '{url:/ajax/check_manage}';
+
+        $.get(url,{status:'check'},function(data){
+            if(data['status']=='success'){
+
+                setTimeout("check_manage()",120000);
+            }else{
+                alert('系统自动退出');
+                window.location.href = '{url:/admin/login}';
+            }
+
+        },'json');
+    }
+
+    check_manage();
+
 </script>
 </body>
 </html>
