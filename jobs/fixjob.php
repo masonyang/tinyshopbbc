@@ -45,7 +45,7 @@ foreach($distrDatas as $val){
 function _addGoodsBrand($domain,$brandids)
 {
     $brandModel = new Model('brand','zd','master');
-    $brands = $brandModel->where('id in ('.implode(',',$brandids).')')->findAll();
+    $brands = $brandModel->findAll();
 
     $syncBrandModel = new Model('brand',$domain,'master');
     if($brands){

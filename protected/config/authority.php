@@ -96,7 +96,6 @@ return array(
           </dd>
         </dl><dl class="lineD">
           <dt>
-            <b class="red">*</b>
             自定义商品名称：
           </dt>
           <dd>
