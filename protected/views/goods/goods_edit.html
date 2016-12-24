@@ -684,6 +684,11 @@ var products_info = new Array();
             var other_tradeprice_rate = "{$other_tradeprice_rate}";
             var sell_price = $("input[name='sell_price']").val();
             var suggest_price = sell_price * (other_tradeprice_rate/100);
+
+            if((bsell_price == '0') || (bsell_price == '0.00')){
+                return false;
+            }
+
             if(suggest_price > bsell_price){
                 alert('自定义销售价不能低于销售价的'+other_tradeprice_rate+'%');
                 return false;
@@ -698,6 +703,11 @@ var products_info = new Array();
                 var other_tradeprice_rate = "{$other_tradeprice_rate}";
                 var sell_price = $(this).attr('sell_price');
                 var suggest_price = sell_price * (other_tradeprice_rate/100);
+
+                if((bsell_price == '0') || (bsell_price == '0.00')){
+                    return false;
+                }
+
                 if(suggest_price > bsell_price){
                     alert('自定义销售价不能低于销售价的'+other_tradeprice_rate+'%');
                     return false;

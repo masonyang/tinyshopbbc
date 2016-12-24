@@ -633,12 +633,17 @@ class GoodsController extends Controller
 
                 $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
 
-                if($suggest_price <= $branchstore_sell_price[$k]){
-                    $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+                if(($branchstore_sell_price[$k] == '0') || ($branchstore_sell_price[$k] == '0.00')){
+                    $branchstore_sell_price[$k] = 0;
                 }else{
-                    $this->msg = array("error","货号:".$pro_no[$k].",自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
-                    $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+                    if($suggest_price <= $branchstore_sell_price[$k]){
+                        $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+                    }else{
+                        $this->msg = array("error","货号:".$pro_no[$k].",自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+                        $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+                    }
                 }
+
             }
 
 
@@ -722,12 +727,19 @@ class GoodsController extends Controller
 
                 $suggest_price = $g_sell_price * ($this->other_tradeprice_rate/100);
 
-                if($suggest_price <= $g_branchstore_sell_price){
-                    $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+                if(($g_branchstore_sell_price == '0') || ($g_branchstore_sell_price == '0.00')){
+
+                    $g_branchstore_sell_price = 0;
+                    
                 }else{
-                    $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
-                    $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+                    if($suggest_price <= $g_branchstore_sell_price){
+                        $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+                    }else{
+                        $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+                        $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+                    }
                 }
+
             }
 
 
