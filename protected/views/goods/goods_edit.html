@@ -685,7 +685,7 @@ var products_info = new Array();
             var sell_price = $("input[name='sell_price']").val();
             var suggest_price = sell_price * (other_tradeprice_rate/100);
 
-            if((bsell_price == '0') || (bsell_price == '0.00')){
+            if((bsell_price == '0') || (bsell_price == '0.00') || (bsell_price == '')){
                 return false;
             }
 
@@ -704,7 +704,7 @@ var products_info = new Array();
                 var sell_price = $(this).attr('sell_price');
                 var suggest_price = sell_price * (other_tradeprice_rate/100);
 
-                if((bsell_price == '0') || (bsell_price == '0.00')){
+                if((bsell_price == '0') || (bsell_price == '0.00') || (bsell_price == '')){
                     return false;
                 }
 

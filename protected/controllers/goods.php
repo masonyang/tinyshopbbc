@@ -633,7 +633,7 @@ class GoodsController extends Controller
 
                 $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
 
-                if(($branchstore_sell_price[$k] == '0') || ($branchstore_sell_price[$k] == '0.00')){
+                if(($branchstore_sell_price[$k] == '0') || ($branchstore_sell_price[$k] == '0.00') || ($branchstore_sell_price[$k] == '')){
                     $branchstore_sell_price[$k] = 0;
                 }else{
                     if($suggest_price <= $branchstore_sell_price[$k]){
@@ -727,10 +727,10 @@ class GoodsController extends Controller
 
                 $suggest_price = $g_sell_price * ($this->other_tradeprice_rate/100);
 
-                if(($g_branchstore_sell_price == '0') || ($g_branchstore_sell_price == '0.00')){
+                if(($g_branchstore_sell_price == '0') || ($g_branchstore_sell_price == '0.00') || ($g_branchstore_sell_price == '')){
 
                     $g_branchstore_sell_price = 0;
-                    
+
                 }else{
                     if($suggest_price <= $g_branchstore_sell_price){
                         $data['branchstore_sell_price'] = $g_branchstore_sell_price;
