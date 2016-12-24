@@ -13,7 +13,7 @@
     'site_icp' => '',
     'site_url' => '',
     'site_addr' => '联系地址联系地址联系地址',
-    'site_contacter' => '联系人联系人',
+    'site_contacter' => '联系人联系人111',
     'site_mobile' => '',
     'site_email' => '',
     'site_zip' => '20003',

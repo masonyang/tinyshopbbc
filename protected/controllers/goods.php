@@ -592,16 +592,16 @@ class GoodsController extends Controller
 
         $p = isset($p) ? $p : 1;
 
-        if(isset($branchstore_sell_price)){
-            $suggest_price = $sell_price * ($this->other_tradeprice_rate/100);
-            if($suggest_price <= $branchstore_sell_price){
-                $gdata['branchstore_sell_price'] = $branchstore_sell_price;
-            }else{
-                $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
-
-                $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
-            }
-        }
+//        if(isset($branchstore_sell_price)){
+//            $suggest_price = $sell_price * ($this->other_tradeprice_rate/100);
+//            if($suggest_price <= $branchstore_sell_price){
+//                $gdata['branchstore_sell_price'] = $branchstore_sell_price;
+//            }else{
+//                $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+//
+//                $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+//            }
+//        }
 
 
 		$gdata['name'] = Filter::sql($gdata['name']);
@@ -720,12 +720,13 @@ class GoodsController extends Controller
 
             if($g_branchstore_sell_price){
 
-                $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
+                $suggest_price = $g_sell_price * ($this->other_tradeprice_rate/100);
 
                 if($suggest_price <= $g_branchstore_sell_price){
                     $data['branchstore_sell_price'] = $g_branchstore_sell_price;
                 }else{
-                    $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+                    $this->msg = array("error","自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+                    $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
                 }
             }
 
