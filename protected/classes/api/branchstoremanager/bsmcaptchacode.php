@@ -5,7 +5,7 @@
  * Date: 29/4/16
  * Time: 下午5:42
  */
-class bsmcaptchacode extends baseapi
+class bsmcaptchacode extends basmbase
 {
     //验证码变量名
     protected $captchaKey = 'bsmVcode';
@@ -50,10 +50,14 @@ class bsmcaptchacode extends baseapi
 
     public function __construct($params)
     {
+
         header('Content-type:text/html;charset=utf-8');
         header('Access-Control-Allow-Origin:*');
 
         $this->params = $params;
+
+        $this->verifyDomain();
+
     }
 
     public function index()

@@ -627,13 +627,20 @@ class GoodsController extends Controller
 			$result = $products->where("goods_id = ".$goods_id." and specs_key = '$key'")->find();
 
 			$data = array('goods_id' =>$goods_id,'pro_no'=>$pro_no[$k],'store_nums'=>$store_nums[$k],'warning_line'=>$warning_line[$k],'weight'=>$weight[$k],'sell_price'=>$sell_price[$k],'market_price'=>$market_price[$k],'cost_price'=>$cost_price[$k],'trade_price'=>$trade_price[$k],'specs_key'=>$key,'spec'=>serialize($value));
-            $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
-            if($suggest_price <= $branchstore_sell_price[$k]){
-                $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
-            }else{
-                $this->msg = array("error","货号:".$pro_no[$k].",自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
-                $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+
+
+            if(isset($branchstore_sell_price)){
+
+                $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
+
+                if($suggest_price <= $branchstore_sell_price[$k]){
+                    $data['branchstore_sell_price'] = $branchstore_sell_price[$k];
+                }else{
+                    $this->msg = array("error","货号:".$pro_no[$k].",自定义销售价不能低于销售价的".$this->other_tradeprice_rate."%");
+                    $this->redirect('goods/goods_edit/id/'.$id.'/p/'.$p,false);exit;
+                }
             }
+
 
 
             $g_store_nums += $data['store_nums'];
@@ -648,7 +655,10 @@ class GoodsController extends Controller
 			if($g_cost_price==0) $g_cost_price = $data['cost_price'];
 			else if($g_cost_price<$data['cost_price']) $g_cost_price = $data['cost_price'];
 
-            $g_branchstore_sell_price[] = $data['branchstore_sell_price'];
+            if(isset($data['branchstore_sell_price'])){
+                $g_branchstore_sell_price[] = $data['branchstore_sell_price'];
+            }
+
 
             $g_trade_price[] = $data['trade_price'];
 
@@ -677,7 +687,8 @@ class GoodsController extends Controller
             }
 
 			if(!$result){
-				$products->data($data)->insert();
+				$last_p_id = $products->data($data)->insert();
+                $data['id'] = $last_p_id;
                 $padd[] = $data;
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id." and specs_key='$key'")->update();
@@ -706,16 +717,23 @@ class GoodsController extends Controller
             if($serverName['top'] == 'zd'){
                 $data['store_nums'] = $store_nums;
             }
-            $suggest_price = 0;//$g_trade_price * ($this->other_tradeprice_rate/100);
-            if($suggest_price >= $g_branchstore_sell_price){
-                $data['branchstore_sell_price'] = $g_branchstore_sell_price;
-            }else{
-                $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+
+            if($g_branchstore_sell_price){
+
+                $suggest_price = $sell_price[$k] * ($this->other_tradeprice_rate/100);
+
+                if($suggest_price <= $g_branchstore_sell_price){
+                    $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+                }else{
+                    $data['branchstore_sell_price'] = $g_branchstore_sell_price;
+                }
             }
+
 
             $result = $products->where("goods_id = ".$goods_id)->find();
 			if(!$result){
-				$products->data($data)->insert();
+				$last_p_id = $products->data($data)->insert();
+                $data['id'] = $last_p_id;
                 $padd[] = $data;
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id)->update();

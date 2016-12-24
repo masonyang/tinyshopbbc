@@ -8,7 +8,7 @@
  * 订单相关操作
  *
  */
-class bsmorders extends baseapi
+class bsmorders extends basmbase
 {
 
     public static $title = array(
@@ -192,7 +192,7 @@ class bsmorders extends baseapi
 
     private function getFinishOrders()
     {
-        $orderModel = new Model('order');
+        $orderModel = new Model('order',$this->domain,'salve');
 
         $filter = $this->__filter();
 
@@ -245,7 +245,7 @@ class bsmorders extends baseapi
 
     private function getDeliveryOrders()
     {
-        $orderModel = new Model('order');
+        $orderModel = new Model('order',$this->domain,'salve');
 
         $filter = $this->__filter();
 
@@ -299,7 +299,7 @@ class bsmorders extends baseapi
     private function getWaitPayOrders()
     {
 
-        $orderModel = new Model('order');
+        $orderModel = new Model('order',$this->domain,'salve');
 
         $filter = $this->__filter();
 
@@ -383,13 +383,13 @@ class bsmorders extends baseapi
     {
         $orderid = $this->params['oid'];
 
-        $orderModel = new Model('order');
+        $orderModel = new Model('order',$this->domain,'salve');
 
         $orders = $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status,province,city,county,addr,real_freight,user_id,payable_freight,accept_name,mobile')->where('id='.$orderid)->find();
 
-        $orderDetailModel = new Model('order_goods');
+        $orderDetailModel = new Model('order_goods',$this->domain,'salve');
 
-        $goodsModel = new Model('goods');
+        $goodsModel = new Model('goods',$this->domain,'salve');
 
 
         $status = $this->status($orders);
@@ -405,7 +405,7 @@ class bsmorders extends baseapi
             return ;
         }
 
-        $productsModel = new Model('products');
+        $productsModel = new Model('products',$this->domain,'salve');
 
         $products = array();
 
@@ -505,11 +505,13 @@ class bsmorders extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
@@ -526,11 +528,13 @@ class bsmorders extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'安全退出',
                 'data'=>array(
                     'count'=>10,
@@ -554,11 +558,13 @@ class bsmorders extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'订单详情获取成功',
                 'data'=>array(
                     'order_no'=>'20160923102234312',

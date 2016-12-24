@@ -167,6 +167,7 @@
 "bsmgoods"=>"api/branchstoremanager/bsmgoods.php", //商品相关操作
 "bsmorders"=>"api/branchstoremanager/bsmorders.php", //订单相关操作
 "bsmcaptchacode"=>"api/branchstoremanager/bsmcaptchacode.php", //验证码
+"basmbase"=>"api/branchstoremanager/bsmbase.php",//分店店掌柜app端 基类
 
     /**********************分店店掌柜app端 API INTERFACE************************************/
 

@@ -6,7 +6,7 @@
  * Time: 上午11:49
  * 商品相关操作
  */
-class bsmgoods extends baseapi
+class bsmgoods extends basmbase
 {
 
     public static $title = array(
@@ -207,7 +207,7 @@ class bsmgoods extends baseapi
 
     private function goodslist()
     {
-        $goodsModel = new Model('goods');
+        $goodsModel = new Model('goods',$this->domain,'salve');
 
         $filter = $this->__filter();
 
@@ -288,9 +288,9 @@ class bsmgoods extends baseapi
         $id = intval($this->params['id']);
 
 
-        $goodsModel = new Model('goods');
+        $goodsModel = new Model('goods',$this->domain,'salve');
 
-        $productsModel = new Model('products');
+        $productsModel = new Model('products',$this->domain,'salve');
 
         $data = array();
         $goods = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,store_nums,freeze_nums')->where('id='.$id)->find();
@@ -367,7 +367,7 @@ class bsmgoods extends baseapi
         $i = 0;
         $store_nums = 0;
         $attrprice = array();
-        $productsModel = new Model('products');
+        $productsModel = new Model('products',$this->domain,'salve');
 
         foreach($sys_attrprice as $val){
 
@@ -399,7 +399,7 @@ class bsmgoods extends baseapi
             exit;
         }
 
-        $productsModel = new Model('products');
+        $productsModel = new Model('products',$this->domain,'salve');
 
         $g_branchstore_sell_price = array();
 
@@ -414,7 +414,7 @@ class bsmgoods extends baseapi
             $productsModel->data($pdata)->where('id = '.$val['id'])->update();
         }
 
-        $goodsModel = new Model('goods');
+        $goodsModel = new Model('goods',$this->domain,'salve');
 
         $gdata = array(
             'branchstore_goods_name'=>$this->params['name'],
@@ -436,11 +436,13 @@ class bsmgoods extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
@@ -457,11 +459,13 @@ class bsmgoods extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'商品列表获取成功',
                 'data'=>array(
                     'count'=>10,
@@ -487,11 +491,13 @@ class bsmgoods extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'商品详情获取成功',
                 'data'=>array(
                     'gid' => '1',
@@ -522,11 +528,13 @@ class bsmgoods extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'保存成功',
                 'data'=>array(
                     'gid'=>'1',

@@ -9,7 +9,7 @@
  * 管理员相关操作
  *
  */
-class bsmmanager extends baseapi
+class bsmmanager extends basmbase
 {
 
     protected $captchaKey = 'bsmVcode';
@@ -83,6 +83,18 @@ class bsmmanager extends baseapi
                 'colum'=>'name',
                 'content'=>'姓名',
             ),
+            array(
+                'colum'=>'mid',
+                'content'=>'管理员id',
+            ),
+            array(
+                'colum'=>'shop_id',
+                'content'=>'店铺id',
+            ),
+            array(
+                'colum'=>'bmsmd5',
+                'content'=>'加密字符串=店铺id+分店管理员id',
+            ),
         ),
         'loginout'=>array(
             array(
@@ -136,7 +148,7 @@ class bsmmanager extends baseapi
 
         $_vaildcode = $this->params['vaildcode'];
 
-        $cacheModel = new Model('cache');
+        $cacheModel = new Model('cache','zd','master');
 
         $md5 = $this->captchaKey.$this->params['rand'];
 
@@ -145,6 +157,8 @@ class bsmmanager extends baseapi
         $_code = $code['content'];
 
         if($_vaildcode != $_code){
+            $this->output['status'] = 'succ';
+            $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
             $this->output['msg'] = '验证码不正确';
             $this->output();
             exit;
@@ -154,7 +168,19 @@ class bsmmanager extends baseapi
 
         $name = $this->params['name'];
 
-        $model = new Model('manager');
+        $distrModel = new Model('distributor','zd','master');
+
+        $distrData = $distrModel->fields('distributor_id,site_url')->where('distributor_name = "'.$name.'"')->find();
+
+        if(!$distrData){
+            $this->output['status'] = 'succ';
+            $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
+            $this->output['msg'] = '账号不存在';
+            $this->output();
+            exit;
+        }
+
+        $model = new Model('manager',$distrData['site_url'],'salve');
         $name = Filter::sql($name);
         $user = $model->where("name='".$name."'")->find();
 
@@ -166,18 +192,24 @@ class bsmmanager extends baseapi
             $password = substr($key,0,16).$password.substr($key,16,16);
             if($user['password'] == md5($password)){
                 $data = array();
+                $data['shop_id'] = $distrData['distributor_id'];
                 $data['name'] = $user['name'];
                 $data['mid'] = $user['id'];
+                $data['bmsmd5'] = base64_encode($distrData['distributor_id'].'+'.$user['id']);
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
                 $this->output($data);
             }else{
+                $this->output['status'] = 'succ';
+                $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
                 $this->output['msg'] = '密码不正确';
                 $this->output();
                 exit;
             }
         }else{
-            $this->output['msg'] = '用户不存在';
+            $this->output['status'] = 'succ';
+            $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
+            $this->output['msg'] = '账号不存在';
             $this->output();
             exit;
         }
@@ -197,7 +229,7 @@ class bsmmanager extends baseapi
             exit;
         }
 
-        $model = new Model('manager');
+        $model = new Model('manager',$this->domain,'salve');
         $id = Filter::int($this->params['mid']);
         $user = $model->where("id='".$id."'")->find();
 
@@ -209,7 +241,7 @@ class bsmmanager extends baseapi
             $this->output['msg'] = '登录成功';
             $this->output($data);
         }else{
-            $this->output['msg'] = '用户不存在';
+            $this->output['msg'] = '账号不存在';
             $this->output();
             exit;
         }
@@ -221,15 +253,20 @@ class bsmmanager extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(
                         'name'=>'测试分销商',
+                        'mid'=>'管理员id',
+                        'shop_id'=>'店铺id',
+                        'bmsmd5'=>'加密字符串=店铺id+分店管理员id',
                     ),
                 ),
             )
@@ -242,11 +279,13 @@ class bsmmanager extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'安全退出',
                 'data'=>array(
                 ),
@@ -260,11 +299,13 @@ class bsmmanager extends baseapi
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'获取成功',
                 'data'=>array(
                     array(

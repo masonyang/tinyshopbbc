@@ -15,8 +15,15 @@ class baseapi
 
     public static $test = false;
 
+    const CODE_SUCC = 0;//成功
+
+    const CODE_FAIL = 1;//错误
+
+    const CODE_SUCC_BUT_DEALFAIL = 2;//验证失败，请重新登录
+
     protected $output = array(
         'status'=>'fail',
+        'code'=>self::CODE_FAIL,
         'msg'=>'',
         'data'=>array()
     );
@@ -63,7 +70,23 @@ class baseapi
     {
         switch($output){
             case 'json':
+
                  $this->output['data'] = $params;
+
+                 switch($this->output['status']){
+                     case 'succ':
+                         if(isset($this->output['code']) && ($this->output['code'] == 2)){
+                             $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
+                         }else{
+                             $this->output['code'] = self::CODE_SUCC;
+                         }
+
+                        break;
+                     default:
+                         $this->output['code'] = self::CODE_FAIL;
+                        break;
+                 }
+
                  echo json_encode($this->output);
             break;
             case 'html':

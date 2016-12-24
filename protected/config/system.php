@@ -16,7 +16,7 @@
     'site_contacter' => '联系人联系人',
     'site_mobile' => '',
     'site_email' => '',
-    'site_zip' => '',
+    'site_zip' => '20003',
     'site_phone' => '',
     'province' => '370000',
     'city' => '371300',

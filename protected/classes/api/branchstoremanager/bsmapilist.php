@@ -30,5 +30,28 @@ class bsmapilist extends qqclistapi
         'ordersdetail'=>'bsmorders',
     );
 
+    public function __construct($params = array())
+    {
+        header('Content-type:text/html;charset=utf-8');
+        header('Access-Control-Allow-Origin:*');
+//        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
+
+        $this->params = $params;
+
+        $this->verifyDomain();
+
+    }
+
+    protected function verifyDomain()
+    {
+        $serverName = Tiny::getServerName();
+
+        if(!$serverName || ($serverName['top'] != 'zd')){
+            echo 'haha';
+            exit;
+        }
+
+
+    }
 
 }

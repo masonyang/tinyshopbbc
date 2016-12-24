@@ -6,6 +6,7 @@ cache/
 runtime/
 protected/config/mapper_local.php
 protected/config/config_local.php
+protected/config/system.php
 
 .idea
 .tags

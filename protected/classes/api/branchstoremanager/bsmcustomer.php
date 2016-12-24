@@ -6,37 +6,22 @@
  * Time: 上午11:49
  * 会员相关操作
  */
-class bsmcustomer extends baseapi
+class bsmcustomer extends basmbase
 {
 
     public static $title = array(
-        'usrsearch'=>'会员搜索',
         'usrlist'=>'会员列表 ok',
-        'usrdetail'=>'会员详情',
     );
 
     public static $lastmodify = array(
-        'usrsearch'=>'2016-12-17',
         'usrlist'=>'2016-12-17',
-        'usrdetail'=>'2016-12-17',
     );
 
     public static $notice = array(
-        'usrsearch'=>'',
         'usrlist'=>'',
-        'usrdetail'=>'',
     );
 
     public static $requestParams = array(
-        'usrsearch'=>array(
-            array(
-                'colum'=>'无',
-                'required'=>'无',
-                'type'=>'无',
-                'content'=>'无',
-            ),
-
-        ),
         'usrlist'=>array(
             array(
                 'colum'=>'type',
@@ -69,23 +54,9 @@ class bsmcustomer extends baseapi
                 'content'=>'是否返回总数',
             ),
         ),
-        'usrdetail'=>array(
-            array(
-                'colum'=>'mid',
-                'required'=>'必须',
-                'type'=>'string',
-                'content'=>'管理员id',
-            ),
-        ),
     );
 
     public static $responsetParams = array(
-        'usrsearch'=>array(
-            array(
-                'colum'=>'name',
-                'content'=>'姓名',
-            ),
-        ),
         'usrlist'=>array(
             array(
                 'colum'=>'cid',
@@ -104,22 +75,15 @@ class bsmcustomer extends baseapi
                 'content'=>'当传入iscount时，返回count。',
             ),
         ),
-        'usrdetail'=>array(
-            array(
-                'colum'=>'name',
-                'content'=>'姓名',
-            ),
-        ),
     );
 
     public static $requestUrl = array(
-        'usrsearch'=>'     /index.php?con=api&act=index&method=bsmcustomer&source=usrsearch',
         'usrlist'=>'     /index.php?con=api&act=index&method=bsmcustomer&source=usrlist',
-        'usrdetail'=>'     /index.php?con=api&act=index&method=bsmcustomer&source=usrdetail'
     );
 
     public function __construct($params = array())
     {
+
         parent::__construct($params);
 
     }
@@ -138,7 +102,7 @@ class bsmcustomer extends baseapi
     private function usrlist()
     {
 
-        $customerModel = new Model('customer');
+        $customerModel = new Model('customer',$this->domain,'salve');
 
         $filter = $this->__filter();
 
@@ -207,37 +171,19 @@ class bsmcustomer extends baseapi
         return $return;
     }
 
-    public function usrsearch_demo()
-    {
-        return array(
-            'fail'=>array(
-                'status'=>'fail',
-                'msg'=>'数据不存在',
-                'data'=>array(),
-            ),
-            'succ'=>array(
-                'status'=>'succ',
-                'msg'=>'会员列表获取成功',
-                'data'=>array(
-                    array(
-                        'uid'=>'会员id',
-                    ),
-                ),
-            )
-        );
-
-    }
 
     public function usrlist_demo()
     {
         return array(
             'fail'=>array(
                 'status'=>'fail',
+                'code'=>self::CODE_FAIL,
                 'msg'=>'数据不存在',
                 'data'=>array(),
             ),
             'succ'=>array(
                 'status'=>'succ',
+                'code'=>self::CODE_SUCC,
                 'msg'=>'会员列表获取成功',
                 'data'=>array(
                     'count'=>10,
@@ -254,25 +200,5 @@ class bsmcustomer extends baseapi
 
     }
 
-    public function usrdetail_demo()
-    {
-        return array(
-            'fail'=>array(
-                'status'=>'fail',
-                'msg'=>'数据不存在',
-                'data'=>array(),
-            ),
-            'succ'=>array(
-                'status'=>'succ',
-                'msg'=>'获取成功',
-                'data'=>array(
-                    array(
-                        'name'=>'测试分销商',
-                    ),
-                ),
-            )
-        );
-
-    }
 
 }
