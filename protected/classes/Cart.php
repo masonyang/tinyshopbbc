@@ -132,7 +132,12 @@ class Cart{
 				$items= $model->fields("pr.*,go.img,go.name,go.prom_id,go.point,go.goods_no")->join("left join goods as go on pr.goods_id = go.id ")->where("pr.id in($ids)")->findAll();
 				foreach ($items as $item) {
 
-                    $item['sell_price'] = $item['branchstore_sell_price'] ? $item['branchstore_sell_price'] : $item['sell_price'];
+                    if(($item['branchstore_sell_price'] == '0.00') || ($item['branchstore_sell_price'] == '0') || ($item['branchstore_sell_price'] == '')){
+
+                    }else{
+                        $item['sell_price'] = $item['branchstore_sell_price'];
+                    }
+
 
 					$num = $itemids[$item['id']];
 					if($num > $item['store_nums']){

@@ -136,9 +136,15 @@ class products extends baseapi
 
                             $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
 
+                            if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
+                                $price = $val['sell_price'];
+                            }else{
+                                $price = $val['branchstore_sell_price'];
+                            }
+
                             //if($freeze_nums > 0){
                                 $sys_attrprice[$pk] = array(
-                                    'price'=>$val['branchstore_sell_price'] ? $val['branchstore_sell_price'] : $val['sell_price'],
+                                    'price'=>$price,
                                     'pro_no'=>$val['pro_no'],
                                     'store_num'=>$freeze_nums,
                                     'name'=>$sval['name'],
@@ -238,8 +244,14 @@ class products extends baseapi
 
         $imgs = unserialize($goods['imgs']);
 
+        if(($goods['branchstore_sell_price'] == '0.00') || ($goods['branchstore_sell_price'] == '0') || ($goods['branchstore_sell_price'] == '')){
+            $return['price'] = $goods['sell_price'];
+        }else{
+            $return['price'] = $goods['branchstore_sell_price'];
+        }
+
         $return['name'] = $goods['branchstore_goods_name'] ? $goods['branchstore_goods_name'] : $goods['name'];
-        $return['price'] = $goods['branchstore_sell_price'] ? $goods['branchstore_sell_price'] : $goods['sell_price'];
+//        $return['price'] = $goods['branchstore_sell_price'] ? $goods['branchstore_sell_price'] : $goods['sell_price'];
         $return['goods_no'] = $goods['goods_no'];
         $return['pro_no'] = $goods['pro_no'];
         $return['unit'] = $goods['unit'];

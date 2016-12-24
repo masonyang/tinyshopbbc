@@ -142,7 +142,13 @@ class goods extends baseapi
 
             $i = 0;
             foreach($goodsLists as $val){
-                $price = ($val['branchstore_sell_price']) ? $val['branchstore_sell_price'] : $val['sell_price'];
+
+                if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
+                    $price = $val['sell_price'];
+                }else{
+                    $price = $val['branchstore_sell_price'];
+                }
+
                 $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
 
                 $filename = self::getApiUrl().$val['img'];
