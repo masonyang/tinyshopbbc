@@ -74,6 +74,12 @@ class bsmmanager extends basmbase
                 'type'=>'string',
                 'content'=>'管理员id',
             ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
+            ),
         ),
     );
 
@@ -191,6 +197,9 @@ class bsmmanager extends basmbase
             $key = md5($user['validcode']);
             $password = substr($key,0,16).$password.substr($key,16,16);
             if($user['password'] == md5($password)){
+
+                $model->data(array('last_login'=>date('Y-m-d H:i:s')))->where('id = '.$user['id'])->update();
+
                 $data = array();
                 $data['shop_id'] = $distrData['distributor_id'];
                 $data['name'] = $user['name'];
@@ -223,22 +232,30 @@ class bsmmanager extends basmbase
 
     private function uck()
     {
-        if(!isset($this->params['mid']) || empty($this->params['mid'])){
-            $this->output['msg'] = '参数错误';
-            $this->output();
-            exit;
-        }
 
         $model = new Model('manager',$this->domain,'salve');
-        $id = Filter::int($this->params['mid']);
-        $user = $model->where("id='".$id."'")->find();
+
+        $user = $model->where("id=".$this->manager_id)->find();
 
         if($user){
+            $last_login = strtotime($user['last_login']);
+
+            $datetime = time() - $last_login;
+
             $data = array();
-            $data['name'] = $user['name'];
-            $data['mid'] = $user['id'];
-            $this->output['status'] = 'succ';
-            $this->output['msg'] = '登录成功';
+
+            if($datetime > 604800){
+                //7天
+                $this->output['status'] = 'succ';
+                $this->output['code'] = self::CODE_SUCC_BUT_DEALFAIL;
+                $this->output['msg'] = '账号失效';
+            }else{
+                $data['name'] = $user['name'];
+                $data['mid'] = $user['id'];
+                $this->output['status'] = 'succ';
+                $this->output['msg'] = '登录成功';
+            }
+
             $this->output($data);
         }else{
             $this->output['msg'] = '账号不存在';

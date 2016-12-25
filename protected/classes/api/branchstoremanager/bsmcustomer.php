@@ -53,6 +53,12 @@ class bsmcustomer extends basmbase
                 'type'=>'boolean',
                 'content'=>'是否返回总数',
             ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
+            ),
         ),
     );
 

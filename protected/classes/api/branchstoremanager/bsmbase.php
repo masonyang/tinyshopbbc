@@ -10,6 +10,8 @@ class basmbase extends baseapi
 
     protected $domain;
 
+    protected $manager_id;
+
     public function __construct($params = array())
     {
         header('Content-type:text/html;charset=utf-8');
@@ -53,6 +55,7 @@ class basmbase extends baseapi
 
             if($distrData){
                 $this->domain = $distrData['site_url'];
+                $this->manager_id = $user_id;
             }else{
                 $this->output['msg'] = '参数不正确';
                 $this->output();

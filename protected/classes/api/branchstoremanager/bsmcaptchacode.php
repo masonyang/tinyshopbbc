@@ -32,6 +32,12 @@ class bsmcaptchacode extends basmbase
                 'type'=>'string',
                 'content'=>'手机的序列号，用手机的序列号作为存储验证码时候 的key。在提交验证码 表单信息的 时候 也要传这个 手机序列号 来作为验证依据',
             ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
+            ),
         ),
     );
 

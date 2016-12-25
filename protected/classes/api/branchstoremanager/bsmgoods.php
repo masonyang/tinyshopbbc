@@ -65,6 +65,12 @@ class bsmgoods extends basmbase
                 'type'=>'boolean',
                 'content'=>'是否返回总数',
             ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
+            ),
         ),
         'goodsdetail'=>array(
             array(
@@ -72,6 +78,12 @@ class bsmgoods extends basmbase
                 'required'=>'必须',
                 'type'=>'int',
                 'content'=>'商品id',
+            ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
             ),
         ),
         'goodssave'=>array(
@@ -92,6 +104,12 @@ class bsmgoods extends basmbase
                 'required'=>'必须',
                 'type'=>'array',
                 'content'=>'货品集合',
+            ),
+            array(
+                'colum'=>'bmsmd5',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'加密字符串=店铺id+分店管理员id',
             ),
         ),
     );
