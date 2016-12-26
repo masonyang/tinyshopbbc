@@ -105,6 +105,10 @@ class bsmmanager extends basmbase
                 'colum'=>'login_time',
                 'content'=>'2016-12:13:15',
             ),
+            array(
+                'colum'=>'login_timestamp',
+                'content'=>'时间戳',
+            ),
         ),
         'loginout'=>array(
             array(
@@ -124,6 +128,10 @@ class bsmmanager extends basmbase
             array(
                 'colum'=>'login_time',
                 'content'=>'2016-12:13:15',
+            ),
+            array(
+                'colum'=>'login_timestamp',
+                'content'=>'时间戳',
             ),
         ),
     );
@@ -215,6 +223,7 @@ class bsmmanager extends basmbase
                 $data['name'] = $user['name'];
                 $data['mid'] = $user['id'];
                 $data['login_time'] = $login_time;
+                $data['login_timestamp'] = strtotime($login_time);
                 $data['bmsmd5'] = base64_encode($distrData['distributor_id'].'+'.$user['id']);
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
@@ -265,6 +274,7 @@ class bsmmanager extends basmbase
                 $data['name'] = $user['name'];
                 $data['mid'] = $user['id'];
                 $data['login_time'] = date('Y-m-d H:i:s',$login_time);
+                $data['login_timestamp'] = strtotime($login_time);
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
             }
@@ -297,7 +307,8 @@ class bsmmanager extends basmbase
                         'mid'=>'管理员id',
                         'shop_id'=>'店铺id',
                         'bmsmd5'=>'加密字符串=店铺id+分店管理员id',
-                        'login_time'=>'2016-06-07 13:12:15'
+                        'login_time'=>'2016-06-07 13:12:15',
+                        'login_timestamp'=>'时间戳'
                     ),
                 ),
             )
@@ -342,7 +353,8 @@ class bsmmanager extends basmbase
                     array(
                         'name'=>'测试分销商',
                         'mid'=>'1',
-                        'login_time'=>'2016-06-07 13:12:15'
+                        'login_time'=>'2016-06-07 13:12:15',
+                        'login_timestamp'=>'时间戳'
                     ),
                 ),
             )
