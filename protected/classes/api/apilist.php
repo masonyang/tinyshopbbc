@@ -13,6 +13,7 @@
  */
 class qqclistapi extends baseapi
 {
+
     protected $apilist = array(
         'forgetpwd'=>'customer',
         'paylinkv'=>'paylinkv1',
