@@ -198,12 +198,15 @@ class bsmmanager extends basmbase
             $password = substr($key,0,16).$password.substr($key,16,16);
             if($user['password'] == md5($password)){
 
-                $model->data(array('last_login'=>date('Y-m-d H:i:s')))->where('id = '.$user['id'])->update();
+                $login_time = date('Y-m-d H:i:s');
+
+                $model->data(array('last_login'=>$login_time))->where('id = '.$user['id'])->update();
 
                 $data = array();
                 $data['shop_id'] = $distrData['distributor_id'];
                 $data['name'] = $user['name'];
                 $data['mid'] = $user['id'];
+                $data['login_time'] = $login_time;
                 $data['bmsmd5'] = base64_encode($distrData['distributor_id'].'+'.$user['id']);
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
@@ -240,7 +243,8 @@ class bsmmanager extends basmbase
         if($user){
             $last_login = strtotime($user['last_login']);
 
-            $datetime = time() - $last_login;
+            $login_time = time();
+            $datetime = $login_time - $last_login;
 
             $data = array();
 
@@ -252,6 +256,7 @@ class bsmmanager extends basmbase
             }else{
                 $data['name'] = $user['name'];
                 $data['mid'] = $user['id'];
+                $data['login_time'] = date('Y-m-d H:i:s',$login_time);
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
             }
@@ -284,6 +289,7 @@ class bsmmanager extends basmbase
                         'mid'=>'管理员id',
                         'shop_id'=>'店铺id',
                         'bmsmd5'=>'加密字符串=店铺id+分店管理员id',
+                        'login_time'=>'2016-06-07 13:12:15'
                     ),
                 ),
             )
