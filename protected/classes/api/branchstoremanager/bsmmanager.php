@@ -171,7 +171,7 @@ class bsmmanager extends basmbase
         $_code = $code['content'];
 
         if($_vaildcode != $_code){
-            $this->output['status'] = 'succ';
+            $this->output['status'] = 'fail';
             $this->output['code'] = self::CODE_FAIL;
             $this->output['msg'] = '验证码不正确';
             $this->output();
@@ -187,7 +187,7 @@ class bsmmanager extends basmbase
         $distrData = $distrModel->fields('distributor_id,site_url')->where('distributor_name = "'.$name.'"')->find();
 
         if(!$distrData){
-            $this->output['status'] = 'succ';
+            $this->output['status'] = 'fail';
             $this->output['code'] = self::CODE_FAIL;
             $this->output['msg'] = '账号不存在';
             $this->output();
@@ -220,14 +220,14 @@ class bsmmanager extends basmbase
                 $this->output['msg'] = '登录成功';
                 $this->output($data);
             }else{
-                $this->output['status'] = 'succ';
+                $this->output['status'] = 'fail';
                 $this->output['code'] = self::CODE_FAIL;
                 $this->output['msg'] = '密码不正确';
                 $this->output();
                 exit;
             }
         }else{
-            $this->output['status'] = 'succ';
+            $this->output['status'] = 'fail';
             $this->output['code'] = self::CODE_FAIL;
             $this->output['msg'] = '账号不存在';
             $this->output();
