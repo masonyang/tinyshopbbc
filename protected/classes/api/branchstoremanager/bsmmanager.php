@@ -101,6 +101,10 @@ class bsmmanager extends basmbase
                 'colum'=>'bmsmd5',
                 'content'=>'加密字符串=店铺id+分店管理员id',
             ),
+            array(
+                'colum'=>'login_time',
+                'content'=>'2016-12:13:15',
+            ),
         ),
         'loginout'=>array(
             array(
@@ -116,6 +120,10 @@ class bsmmanager extends basmbase
             array(
                 'colum'=>'mid',
                 'content'=>'管理员id',
+            ),
+            array(
+                'colum'=>'login_time',
+                'content'=>'2016-12:13:15',
             ),
         ),
     );
@@ -334,6 +342,7 @@ class bsmmanager extends basmbase
                     array(
                         'name'=>'测试分销商',
                         'mid'=>'1',
+                        'login_time'=>'2016-06-07 13:12:15'
                     ),
                 ),
             )
