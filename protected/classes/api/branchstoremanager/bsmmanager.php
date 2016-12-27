@@ -224,7 +224,7 @@ class bsmmanager extends basmbase
                 $data['mid'] = $user['id'];
                 $data['login_time'] = $login_time;
                 $data['login_timestamp'] = strtotime($login_time);
-                $data['bmsmd5'] = base64_encode($distrData['distributor_id'].'+'.$user['id']);
+                $data['bmsmd5'] = base64_encode($distrData['distributor_id'].'+'.$user['id'].'+'.time());
                 $this->output['status'] = 'succ';
                 $this->output['msg'] = '登录成功';
                 $this->output($data);

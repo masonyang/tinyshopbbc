@@ -47,7 +47,7 @@ class basmbase extends baseapi
 
         if(isset($this->params['bmsmd5'])){
             $this->params['bmsmd5'] = base64_decode($this->params['bmsmd5']);
-            list($distributor_id,$user_id) = explode('+',$this->params['bmsmd5']);
+            list($distributor_id,$user_id,$time) = explode('+',$this->params['bmsmd5']);
 
             $distrModel = new Model('distributor','zd','salve');
 

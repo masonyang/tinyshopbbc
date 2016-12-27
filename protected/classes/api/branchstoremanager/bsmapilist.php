@@ -28,6 +28,8 @@ class bsmapilist extends qqclistapi
         'goodssave'=>'bsmgoods',
         'orderslist'=>'bsmorders',
         'ordersdetail'=>'bsmorders',
+        'bsmdistributor'=>'bsmdistributor',
+//        'bsmcommission'=>'bsmcommission',
     );
 
     public function __construct($params = array())

@@ -38,7 +38,7 @@ class bsmorders extends basmbase
                 'colum'=>'status',
                 'required'=>'必须',
                 'type'=>'string',
-                'content'=>'订单状态 (waitpay:等待付款/delivery:已支付/finish:已发货)',
+                'content'=>'订单状态 (waitpay:等待付款/delivery:已支付/finish:已发货/all:所有订单)',
             ),
             array(
                 'colum'=>'type',
@@ -193,11 +193,101 @@ class bsmorders extends basmbase
                     $this->getDeliveryOrders();
                 }elseif($this->params['status'] == 'finish'){//已发货接口
                     $this->getFinishOrders();
+                }else{
+                    $this->getAllOrders();
                 }
             break;
             case 'ordersdetail':
                 $this->ordersdetail();
             break;
+        }
+
+    }
+
+    private function getAllOrders()
+    {
+
+        $orderModel = new Model('order',$this->domain,'salve');
+
+        $filter = $this->__filter();
+
+        $date = $this->GetMonth();
+
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') '.$filter['where'])->order('unix_timestamp(create_time) desc');
+
+        $orderModel->limit($filter['limit']);
+
+        $orders = $orderModel->findAll();
+
+
+        $count = false;
+
+        if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
+            $count = $orderModel->where('pay_status=0 '.$filter['where'])->count();
+        }
+
+        if($orders){
+
+            $result = array();
+
+            if($count){
+                $result['count'] = $count;
+            }
+
+            $i = 0;
+            foreach($orders as $val){
+
+                $status = $this->status($val);
+
+                $result['orders'][$i]['oid'] = $val['id'];
+                $result['orders'][$i]['order_no'] = $val['order_no'];
+                $result['orders'][$i]['status'] = $status;
+                $result['orders'][$i]['create_time'] = $val['create_time'];
+                $result['orders'][$i]['order_amount'] = $val['order_amount'];
+                $i++;
+            }
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '订单获取成功';
+            $this->output($result);
+        }else{
+            $this->output['msg'] = '暂无订单';
+            $this->output();
+
+        }
+
+    }
+
+    private function GetMonth($sign="1")
+    {
+
+        //得到系统的年月
+
+        $tmp_date=date("YmdHis");
+
+        //切割出年份
+
+        $tmp_year=substr($tmp_date,0,4);
+
+        //切割出月份
+
+        $tmp_mon =substr($tmp_date,4,2);
+
+        $tmp_nextmonth=mktime(0,0,0,$tmp_mon+1,1,$tmp_year);
+
+        $tmp_forwardmonth=mktime(0,0,0,$tmp_mon-1,1,$tmp_year);
+
+        if($sign==0){
+
+            //得到当前月的下一个月
+
+            return $tmp_nextmonth;
+
+        }else{
+
+            //得到当前月的上一个月
+
+            return $tmp_forwardmonth;
+
         }
 
     }
