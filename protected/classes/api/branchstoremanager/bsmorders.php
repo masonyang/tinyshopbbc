@@ -152,6 +152,14 @@ class bsmorders extends basmbase
                 'content'=>'收货地址',
             ),
             array(
+                'colum'=>'accept_mobile',
+                'content'=>'收货人手机号',
+            ),
+            array(
+                'colum'=>'accept_name',
+                'content'=>'收货人姓名',
+            ),
+            array(
                 'colum'=>'payment',
                 'content'=>'支付方式',
             ),
@@ -595,6 +603,8 @@ class bsmorders extends basmbase
 
         $ship_addr = $parse_area[$orders['province']].$parse_area[$orders['city']].$parse_area[$orders['county']].' '.$orders['addr'];
 
+        $addressModel = new Model('address');
+        $addrData = $addressModel->where('user_id='.$orders['user_id'].' and is_default=1')->find();
 
         $this->output['status'] = 'succ';
         $this->output['msg'] = '订单详情获取成功';
@@ -604,6 +614,8 @@ class bsmorders extends basmbase
         $data['create_time'] = $orders['create_time'];
         $data['create_timestamp'] = strtotime($orders['create_time']);
         $data['ship_addr'] = $ship_addr;
+        $data['accept_mobile'] = $orders['mobile'] ? $orders['mobile'] : $addrData['mobile'];
+        $data['accept_name'] = $orders['accept_name'] ? $orders['accept_name'] : $addrData['accept_name'];
         $data['goods_amount'] = $goods_amount;
         $data['payable_freight'] = $orders['payable_freight'];
         $data['order_amount'] = $orders['order_amount'];
@@ -752,6 +764,8 @@ class bsmorders extends basmbase
                     'create_time'=>'2016-09-23',
                     'create_timestamp'=>'时间戳',
                     'order_remark'=>'我要包邮',
+                    'accept_mobile'=>'收货人手机号',
+                    'accept_name'=>'收货人姓名',
                     'goods_item'=>array(
                         array(
                             'name'=>'商品名称',
