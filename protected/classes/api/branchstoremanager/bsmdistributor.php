@@ -52,7 +52,7 @@ class bsmdistributor extends basmbase
     );
 
     public static $requestUrl = array(
-        'login'=>'     /index.php?con=api&act=index&method=bsmdistributor&source=commission'
+        'commission'=>'     /index.php?con=api&act=index&method=bsmdistributor&source=commission'
     );
 
     public function __construct($params = array())
