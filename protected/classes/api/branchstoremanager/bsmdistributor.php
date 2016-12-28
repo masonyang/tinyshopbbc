@@ -89,9 +89,9 @@ class bsmdistributor extends basmbase
 
             $i = 0;
             foreach($distrData as $dist){
-                $data[$i]['op_time'] = date('Y-m-d H:i:s',$dist['op_time']);
-                $data[$i]['op_timestamp'] = $dist['op_time'];
-                $data[$i]['memo'] = $dist['memo'];
+                $data['logdata'][$i]['op_time'] = date('Y-m-d H:i:s',$dist['op_time']);
+                $data['logdata'][$i]['op_timestamp'] = $dist['op_time'];
+                $data['logdata'][$i]['memo'] = $dist['memo'];
                 $i++;
             }
 
