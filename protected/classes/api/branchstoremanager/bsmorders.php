@@ -476,7 +476,7 @@ class bsmorders extends basmbase
 
         $type = $this->params['type'];
 
-        if($type == 'name'){ // 根据 关键字
+        if($type == 'order_no'){ // 根据 关键字
 
             $return['type'] = 'search';
 
