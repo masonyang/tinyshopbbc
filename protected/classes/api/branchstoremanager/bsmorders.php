@@ -225,7 +225,7 @@ class bsmorders extends basmbase
 
         $date = $this->GetMonth();
 
-        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') '.$filter['where'])->order('unix_timestamp(create_time) desc');
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") '.$filter['where'])->order('unix_timestamp(create_time) desc');
 
         $orderModel->limit($filter['limit']);
 
@@ -235,7 +235,7 @@ class bsmorders extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') '.$filter['where'])->count();
+            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") '.$filter['where'])->count();
         }
 
         if($orders){
@@ -315,7 +315,7 @@ class bsmorders extends basmbase
 
         $date = $this->GetMonth();
 
-        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and delivery_status=1 '.$filter['where'])->order('unix_timestamp(create_time) desc');
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and delivery_status=1 '.$filter['where'])->order('unix_timestamp(create_time) desc');
 
         $orderModel->limit($filter['limit']);
 
@@ -325,7 +325,7 @@ class bsmorders extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and status !=6 and delivery_status=1 '.$filter['where'])->count();
+            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and status !=6 and delivery_status=1 '.$filter['where'])->count();
         }
 
         if($orders){
@@ -373,7 +373,7 @@ class bsmorders extends basmbase
 
         $filter = $this->__filter();
 
-        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and pay_status=1 and delivery_status=0 '.$filter['where'])->order('unix_timestamp(pay_time) desc');
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and pay_status=1 and delivery_status=0 '.$filter['where'])->order('unix_timestamp(pay_time) desc');
 
         $orderModel->limit($filter['limit']);
 
@@ -383,7 +383,7 @@ class bsmorders extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and status !=6 and pay_status=1 and delivery_status=0 '.$filter['where'])->count();
+            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and status !=6 and pay_status=1 and delivery_status=0 '.$filter['where'])->count();
         }
 
         if($orders){
@@ -432,7 +432,7 @@ class bsmorders extends basmbase
 
         $filter = $this->__filter();
 
-        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and pay_status=0 '.$filter['where'])->order('unix_timestamp(create_time) desc');
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and pay_status=0 '.$filter['where'])->order('unix_timestamp(create_time) desc');
 
         $orderModel->limit($filter['limit']);
 
@@ -442,7 +442,7 @@ class bsmorders extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') and status !=6 and pay_status=0 '.$filter['where'])->count();
+            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.date('Y-m-d H:i:s',($date+86400)).'") and status !=6 and pay_status=0 '.$filter['where'])->count();
         }
 
         if($orders){
