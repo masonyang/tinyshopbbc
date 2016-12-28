@@ -73,6 +73,10 @@ class bsmcustomer extends basmbase
                 'content'=>'注册时间',
             ),
             array(
+                'colum'=>'register_timestamp',
+                'content'=>'注册时间 时间戳',
+            ),
+            array(
                 'colum'=>'name',
                 'content'=>'会员姓名',
             ),
@@ -145,6 +149,7 @@ class bsmcustomer extends basmbase
             foreach($customerLists as $val){
                 $_data['customers'][$i]['cid'] = $val['user_id'];
                 $_data['customers'][$i]['register_time'] = $val['reg_time'];
+                $_data['customers'][$i]['register_timestamp'] = strtotime($val['reg_time']);
                 $_data['customers'][$i]['name'] = $val['mobile'];
                 $i++;
             }
@@ -207,6 +212,7 @@ class bsmcustomer extends basmbase
                         array(
                             'cid'=>'会员id',
                             'register_time'=>'注册时间',
+                            'register_timestamp'=>'时间戳',
                             'name'=>'手机号'
                         ),
                     ),

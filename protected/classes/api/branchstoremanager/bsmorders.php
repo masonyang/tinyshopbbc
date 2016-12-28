@@ -114,6 +114,10 @@ class bsmorders extends basmbase
                 'content'=>'订单创建时间',
             ),
             array(
+                'colum'=>'create_timestamp',
+                'content'=>'订单创建时间 时间戳',
+            ),
+            array(
                 'colum'=>'status',
                 'content'=>'订单状态 (等待付款/等待审核/已发货/已完成)',
             ),
@@ -158,6 +162,10 @@ class bsmorders extends basmbase
             array(
                 'colum'=>'create_time',
                 'content'=>'订单创建时间',
+            ),
+            array(
+                'colum'=>'create_timestamp',
+                'content'=>'订单创建时间 时间戳',
             ),
             array(
                 'colum'=>'order_remark',
@@ -223,7 +231,7 @@ class bsmorders extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $orderModel->where('pay_status=0 '.$filter['where'])->count();
+            $count = $orderModel->where('(create_time <= "'.date('Y-m-d H:i:s').'" and create_time >="'.$date.') '.$filter['where'])->count();
         }
 
         if($orders){
@@ -243,6 +251,7 @@ class bsmorders extends basmbase
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
                 $result['orders'][$i]['create_time'] = $val['create_time'];
+                $result['orders'][$i]['create_timestamp'] = strtotime($val['create_time']);
                 $result['orders'][$i]['order_amount'] = $val['order_amount'];
                 $i++;
             }
@@ -332,6 +341,7 @@ class bsmorders extends basmbase
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
                 $result['orders'][$i]['create_time'] = $val['create_time'];
+                $result['orders'][$i]['create_timestamp'] = strtotime($val['create_time']);
                 $result['orders'][$i]['order_amount'] = $val['order_amount'];
                 $i++;
             }
@@ -385,6 +395,7 @@ class bsmorders extends basmbase
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
                 $result['orders'][$i]['create_time'] = $val['create_time'];
+                $result['orders'][$i]['create_timestamp'] = strtotime($val['create_time']);
                 $result['orders'][$i]['order_amount'] = $val['order_amount'];
                 $i++;
             }
@@ -439,6 +450,7 @@ class bsmorders extends basmbase
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
                 $result['orders'][$i]['create_time'] = $val['create_time'];
+                $result['orders'][$i]['create_timestamp'] = strtotime($val['create_time']);
                 $result['orders'][$i]['order_amount'] = $val['order_amount'];
                 $i++;
             }
@@ -555,6 +567,7 @@ class bsmorders extends basmbase
 
         $data['order_no'] = $orders['order_no'];
         $data['create_time'] = $orders['create_time'];
+        $data['create_timestamp'] = strtotime($orders['create_time']);
         $data['ship_addr'] = $ship_addr;
         $data['goods_amount'] = $goods_amount;
         $data['payable_freight'] = $orders['payable_freight'];
@@ -645,6 +658,7 @@ class bsmorders extends basmbase
                             'oid'=>1,
                             'order_no'=>'20160923102234312',
                             'create_time'=>'2016-09-23',
+                            'create_timestamp'=>'时间戳',
                             'status'=>'已支付',
                             'orders_amounts'=>'101',
                         ),
@@ -677,6 +691,7 @@ class bsmorders extends basmbase
                     'orders_amounts'=>'101',
                     'payable_freight'=>'1',
                     'create_time'=>'2016-09-23',
+                    'create_timestamp'=>'时间戳',
                     'order_remark'=>'我要包邮',
                     'goods_item'=>array(
                         array(

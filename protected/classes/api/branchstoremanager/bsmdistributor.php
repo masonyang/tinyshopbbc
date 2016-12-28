@@ -44,6 +44,10 @@ class bsmdistributor extends basmbase
                 'colum'=>'op_time',
                 'content'=>'时间',
             ),
+            array(
+                'colum'=>'op_timestamp',
+                'content'=>'时间',
+            ),
         ),
     );
 
@@ -84,6 +88,7 @@ class bsmdistributor extends basmbase
             $i = 0;
             foreach($distrData as $dist){
                 $data[$i]['op_time'] = date('Y-m-d H:i:s',$dist['op_time']);
+                $data[$i]['op_timestamp'] = $dist['op_time'];
                 $data[$i]['memo'] = $dist['memo'];
                 $i++;
             }
@@ -120,6 +125,7 @@ class bsmdistributor extends basmbase
                     array(
                         'memo'=>'备注',
                         'op_time'=>'时间',
+                        'op_timestamp'=>'时间戳',
                     ),
                 ),
             )
