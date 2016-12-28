@@ -112,7 +112,11 @@ class bsmcustomer extends basmbase
 
         $filter = $this->__filter();
 
-        $customerModel->fields('user_id,reg_time,mobile')->where($filter['where']);
+        $customerModel->fields('user_id,reg_time,mobile');
+
+        if(!empty($filter['where'])){
+            $customerModel->where($filter['where']);
+        }
 
         $customerModel->limit($filter['limit']);
 
@@ -121,7 +125,13 @@ class bsmcustomer extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $customerModel->where($filter['where'])->count();
+
+            if(!empty($filter['where'])){
+                $count = $customerModel->where($filter['where'])->count();
+            }else{
+                $count = $customerModel->count();
+            }
+
         }
 
         if($customerLists){

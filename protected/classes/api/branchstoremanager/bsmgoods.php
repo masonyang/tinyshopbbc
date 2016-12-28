@@ -229,7 +229,11 @@ class bsmgoods extends basmbase
 
         $filter = $this->__filter();
 
-        $goodsModel->fields('id,img,name,branchstore_goods_name,sell_price,branchstore_sell_price,store_nums')->where($filter['where']);
+        $goodsModel->fields('id,img,name,branchstore_goods_name,sell_price,branchstore_sell_price,store_nums');
+
+        if(!empty($filter['where'])){
+            $goodsModel->where($filter['where']);
+        }
 
         $goodsModel->limit($filter['limit']);
 
@@ -238,7 +242,13 @@ class bsmgoods extends basmbase
         $count = false;
 
         if(isset($this->params['iscount']) && ($this->params['iscount'] == true)){
-            $count = $goodsModel->where($filter['where'])->count();
+
+            if(!empty($filter['where'])){
+                $count = $goodsModel->where($filter['where'])->count();
+            }else{
+                $count = $goodsModel->count();
+            }
+
         }
 
         if($goodsLists){
