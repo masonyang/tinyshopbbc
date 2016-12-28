@@ -480,7 +480,7 @@ class bsmorders extends basmbase
 
             $return['type'] = 'search';
 
-            $return['where'] = $this->params['filter'] ? 'and (order_no like "%'.Filter::sql($this->params['filter']).'%" or branchstore_goods_name like "%'.Filter::sql($this->params['filter']).'%")' : '';
+            $return['where'] = $this->params['filter'] ? 'and (order_no like "%'.Filter::sql($this->params['filter']).'%")' : '';
 
         }
 
