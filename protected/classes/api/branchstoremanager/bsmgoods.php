@@ -321,7 +321,7 @@ class bsmgoods extends basmbase
         $productsModel = new Model('products',$this->domain,'salve');
 
         $data = array();
-        $goods = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,store_nums,freeze_nums')->where('id='.$id)->find();
+        $goods = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,store_nums')->where('id='.$id)->find();
 
 
         if($goods){
