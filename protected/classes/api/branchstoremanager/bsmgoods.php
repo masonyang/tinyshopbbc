@@ -279,7 +279,7 @@ class bsmgoods extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无商品';
-            $this->output();
+            $this->output(array('count'=>0));
         }
     }
 

@@ -266,7 +266,7 @@ class bsmorders extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
-            $this->output();
+            $this->output(array('count'=>0));
 
         }
 
@@ -360,7 +360,7 @@ class bsmorders extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
-            $this->output();
+            $this->output(array('count'=>0));
 
         }
     }
@@ -418,7 +418,7 @@ class bsmorders extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
-            $this->output();
+            $this->output(array('count'=>0));
 
         }
     }
@@ -477,7 +477,7 @@ class bsmorders extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
-            $this->output();
+            $this->output(array('count'=>0));
 
         }
 

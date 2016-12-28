@@ -99,10 +99,10 @@ class bsmdistributor extends basmbase
             $this->output($data);
 
         }else{
-            $this->output['status'] = 'fail';
-            $this->output['code'] = self::CODE_FAIL;
+            $this->output['status'] = 'succ';
+            $this->output['code'] = self::CODE_SUCC;
             $this->output['msg'] = '暂无数据';
-            $this->output();
+            $this->output(array('count'=>0));
             exit;
         }
 

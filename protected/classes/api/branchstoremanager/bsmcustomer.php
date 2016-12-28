@@ -160,7 +160,7 @@ class bsmcustomer extends basmbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无会员';
-            $this->output();
+            $this->output(array('count'=>0));
         }
     }
 

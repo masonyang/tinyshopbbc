@@ -28,7 +28,7 @@ class bsmapilist extends qqclistapi
         'goodssave'=>'bsmgoods',
         'orderslist'=>'bsmorders',
         'ordersdetail'=>'bsmorders',
-        'bsmdistributor'=>'bsmdistributor',
+        'commission'=>'bsmdistributor',
 //        'bsmcommission'=>'bsmcommission',
     );
 
