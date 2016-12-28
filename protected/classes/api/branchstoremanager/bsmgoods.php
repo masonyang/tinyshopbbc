@@ -313,7 +313,7 @@ class bsmgoods extends basmbase
 
     private function goodsdetail()
     {
-        $id = intval($this->params['id']);
+        $id = intval($this->params['gid']);
 
 
         $goodsModel = new Model('goods',$this->domain,'salve');
