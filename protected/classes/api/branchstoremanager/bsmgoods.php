@@ -451,7 +451,7 @@ class bsmgoods extends basmbase
 
             $g_branchstore_sell_price[] = $val['price'];
 
-            $productsModel->data($pdata)->where('id = '.$val['id'])->update();
+            $productsModel->data($pdata)->where('id = '.$val['pid'])->update();
         }
 
         $goodsModel = new Model('goods',$this->domain,'salve');
