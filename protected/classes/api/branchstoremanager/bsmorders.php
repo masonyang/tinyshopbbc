@@ -259,6 +259,7 @@ class bsmorders extends basmbase
             $this->output['msg'] = '订单获取成功';
             $this->output($result);
         }else{
+            $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
             $this->output();
 
@@ -349,6 +350,7 @@ class bsmorders extends basmbase
             $this->output['msg'] = '订单获取成功';
             $this->output($result);
         }else{
+            $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
             $this->output();
 
@@ -403,6 +405,7 @@ class bsmorders extends basmbase
             $this->output['msg'] = '订单获取成功';
             $this->output($result);
         }else{
+            $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
             $this->output();
 
@@ -458,6 +461,7 @@ class bsmorders extends basmbase
             $this->output['msg'] = '订单获取成功';
             $this->output($result);
         }else{
+            $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无订单';
             $this->output();
 
@@ -514,6 +518,7 @@ class bsmorders extends basmbase
         $odDatas = $orderDetailModel->fields('product_id,goods_id,real_price,goods_nums')->where('order_id='.$orders['id'])->findAll();
 
         if(!$odDatas){
+
             $this->output['msg'] = '订单号不存在';
             $this->output();
             return ;

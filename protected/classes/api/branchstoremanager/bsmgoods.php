@@ -357,6 +357,18 @@ class bsmgoods extends basmbase
                         $freeze += $val['freeze_nums'];
 
                     }else{
+
+                        $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+
+                        $sys_attrprice[0] = array(
+                            'branchstore_sell_price'=>$val['branchstore_sell_price'],
+                            'price'=>$val['sell_price'],
+                            'pro_no'=>$val['pro_no'],
+                            'store_num'=>$freeze_nums,
+                            'name'=>'',
+                            'value'=>'',
+                        );
+
                         $freeze += $val['freeze_nums'];
                     }
 
