@@ -446,10 +446,10 @@ class bsmgoods extends basmbase
         foreach($this->params['products'] as $val){
 
             $pdata = array(
-                'branchstore_sell_price'=>$val['price'],
+                'branchstore_sell_price'=>$val['branchstore_sell_price'],
             );
 
-            $g_branchstore_sell_price[] = $val['price'];
+            $g_branchstore_sell_price[] = $val['branchstore_sell_price'];
 
             $productsModel->data($pdata)->where('id = '.$val['pid'])->update();
         }
