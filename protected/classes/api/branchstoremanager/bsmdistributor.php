@@ -83,7 +83,9 @@ class bsmdistributor extends basmbase
 
         if($distrData){
 
-            $data = array();
+            $data = array(
+                'count'=>count($distrData)
+            );
 
             $i = 0;
             foreach($distrData as $dist){
