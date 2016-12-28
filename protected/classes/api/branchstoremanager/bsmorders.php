@@ -114,6 +114,10 @@ class bsmorders extends basmbase
                 'content'=>'订单创建时间',
             ),
             array(
+                'colum'=>'img',
+                'content'=>'商品图片',
+            ),
+            array(
                 'colum'=>'create_timestamp',
                 'content'=>'订单创建时间 时间戳',
             ),
@@ -247,6 +251,7 @@ class bsmorders extends basmbase
 
                 $status = $this->status($val);
 
+                $result['orders'][$i]['img'] = $this->getFirstImg($val['id']);
                 $result['orders'][$i]['oid'] = $val['id'];
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
@@ -338,6 +343,7 @@ class bsmorders extends basmbase
 
                 $status = $this->status($val);
 
+                $result['orders'][$i]['img'] = $this->getFirstImg($val['id']);
                 $result['orders'][$i]['oid'] = $val['id'];
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
@@ -393,6 +399,7 @@ class bsmorders extends basmbase
 
                 $status = $this->status($val);
 
+                $result['orders'][$i]['img'] = $this->getFirstImg($val['id']);
                 $result['orders'][$i]['oid'] = $val['id'];
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
@@ -449,6 +456,7 @@ class bsmorders extends basmbase
 
                 $status = $this->status($val);
 
+                $result['orders'][$i]['img'] = $this->getFirstImg($val['id']);
                 $result['orders'][$i]['oid'] = $val['id'];
                 $result['orders'][$i]['order_no'] = $val['order_no'];
                 $result['orders'][$i]['status'] = $status;
@@ -585,6 +593,24 @@ class bsmorders extends basmbase
         $this->output($data);
     }
 
+    private function getFirstImg($orderid)
+    {
+        $orderDetailModel = new Model('order_goods',$this->domain,'salve');
+
+        $goodsModel = new Model('goods',$this->domain,'salve');
+
+
+        $odDatas = $orderDetailModel->fields('goods_id')->where('order_id='.$orderid)->find();
+
+
+        $gData = $goodsModel->fields('img')->where('id='.$odDatas['goods_id'])->find();
+
+        $img = ($gData['img']) ? self::getApiUrl().$gData['img'] : '';
+
+        return $img;
+
+    }
+
     private function status($item = array())
     {
         if($item['status'] == '1'){
@@ -666,6 +692,7 @@ class bsmorders extends basmbase
                             'create_timestamp'=>'时间戳',
                             'status'=>'已支付',
                             'orders_amounts'=>'101',
+                            'img'=>'商品图片'
                         ),
                     ),
                 ),
