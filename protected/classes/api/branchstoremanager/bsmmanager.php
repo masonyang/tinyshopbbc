@@ -172,7 +172,7 @@ class bsmmanager extends basmbase
 
         $cacheModel = new Model('cache','zd','master');
 
-        $md5 = $this->captchaKey.$this->params['rand'];
+        $md5 = md5($this->captchaKey.$this->params['rand']);
 
         $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 

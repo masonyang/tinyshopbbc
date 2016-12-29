@@ -73,7 +73,7 @@ class bsmcaptchacode extends basmbase
         $captcha = new Captcha($w,$h,$l,$bc,$c);
         $captcha->createImage($code);
 
-        $rand = $this->captchaKey.$this->params['rand'];
+        $rand = md5($this->captchaKey.$this->params['rand']);
 
         $cacheModel = new Model('cache','zd','master');
 
@@ -82,7 +82,7 @@ class bsmcaptchacode extends basmbase
         if($as){
             $cacheModel->data(array('content'=>$code))->where('`key`="'.$rand.'"')->update();
         }else{
-            $cacheModel->data(array('key'=>$rand,'content'=>$code))->insert();
+            $cacheModel->data(array('`key`'=>$rand,'content'=>$code))->insert();
         }
 
 
