@@ -78,11 +78,12 @@ class bsmcaptchacode extends basmbase
         $cacheModel = new Model('cache','zd','master');
 
         $as = $cacheModel->where('`key`="'.$rand.'"')->find();
+
 //verifyCode3a466d6d-ce54-4ae0-875d-8ee1c5ff6411
         if($as){
             $cacheModel->data(array('content'=>$code))->where('`key`="'.$rand.'"')->update();
         }else{
-            $cacheModel->data(array('`key`'=>$rand,'content'=>$code))->insert();
+            $cacheModel->data(array('key'=>$rand,'content'=>$code,'delay'=>0))->insert();
         }
 
 
