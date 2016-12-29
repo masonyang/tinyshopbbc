@@ -577,9 +577,13 @@ class bsmorders extends basmbase
                 $spec[] = $_specs['value'][2];
             }
 
-            $filename = self::getApiUrl().$gData['img'];
+            if(empty($gData['img'])){
+                $image = '';
+            }else{
+                $filename = self::getApiUrl().$gData['img'];
 
-            $image = $filename;//ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+                $image = $filename;//ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
+            }
 
 
             $products[$k]['img'] = $image;
@@ -634,24 +638,23 @@ class bsmorders extends basmbase
         $goodsModel = new Model('goods',$this->domain,'salve');
 
 
-        $odDatas = $orderDetailModel->fields('goods_id')->where('order_id='.$orderid)->find();
+        $odDatas = $orderDetailModel->fields('goods_id')->where('order_id='.$orderid)->findAll();
 
-
-        $gData = $goodsModel->fields('img,name')->where('id='.$odDatas['goods_id'])->findAll();
 
         $img = '';
 
         $goods_name = '';
-        
-        foreach($gData as $val){
-            if(!empty($val['img'])){
-                $img = ($val['img']) ? self::getApiUrl().$val['img'] : '';
-                $goods_name = $val['name'];
+
+        foreach($odDatas as $oval){
+            $gData = $goodsModel->fields('img,name')->where('id='.$oval['goods_id'])->find();
+
+            if(!empty($gData['img'])){
+                $img = self::getApiUrl().$gData['img'];
+                $goods_name = $gData['name'];
                 break;
             }
+
         }
-
-
 
         return array(
             'img'=>$img,
