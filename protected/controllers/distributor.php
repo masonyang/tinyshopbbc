@@ -351,6 +351,18 @@ class DistributorController extends Controller
 
         $domain = '.'.$serverName['domain'].'.'.$serverName['ext'];
 
+        $distributor_applyModel = new Model('distributor','zd','salve');
+
+        $distrData = $distributor_applyModel->fields('site_url,deposit')->findAll();
+
+        $dispost = array();
+
+        foreach($distrData as $val){
+            $dispost[$val['site_url']] = $val['deposit'];
+        }
+
+        $this->assign('dispost',$dispost);
+
         $this->assign("domain",$domain);
 
         $this->assign("where",$where);
@@ -441,6 +453,12 @@ class DistributorController extends Controller
             $disData = $disModel->where('site_url = "'.$applyData['site_url'].'"')->find();
 
             $deposit = $disData['deposit'] - $applyData['apply_money'];
+
+            if($deposit < 0){
+                $this->msg=array("error","该分销商预存款为:".$disData['deposit']."元,所以请点“审核拒绝”.");
+                $this->redirect("distributor_txcheckedit",false,Req::args());
+                exit;
+            }
 
             $disModel->data(array('deposit'=>$deposit))->where('site_url = "'.$applyData['site_url'].'"')->update();
 

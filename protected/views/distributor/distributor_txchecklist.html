@@ -13,6 +13,7 @@
             <th style="width:70px">操作</th>
             <th style="width:70px">审核状态 </th>
             <th style="width:70px">申请金额 </th>
+            <th style="width:70px">当前剩余金额 </th>
             <th style="width:70px">网店地址 </th>
             <th style="width:70px">申请时间 </th>
             <th style="width:70px">更新时间 </th>
@@ -37,6 +38,9 @@
                 {if: $item['status'] == 'fail'}
                     申请失败
                 {/if}
+            </td>
+            <td style="width:70px">
+                {$dispost[$item['site_url']]}
             </td>
             <td style="width:70px">
                 {$item['apply_money']}
