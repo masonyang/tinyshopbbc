@@ -534,7 +534,7 @@ class DistributorController extends Controller
 
         $deposit = $managerModel->fields('deposit')->where('site_url="'.$serverName['top'].'"')->find();
 
-        if($args['apply_money'] < $deposit['deposit']){
+        if($args['apply_money'] > $deposit['deposit']){
             $this->msg=array("error","最多可提现金额为".$deposit['deposit']."！");
             $this->redirect("distributor_txapplyedit",false,Req::args());
             exit;
