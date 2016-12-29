@@ -168,7 +168,9 @@ class bsmmanager extends basmbase
     private function login()
     {
 
-        $_vaildcode = $this->params['vaildcode'];
+        $_vaildcode = str_replace(' ','',$this->params['vaildcode']);
+
+        $_vaildcode = strtolower($_vaildcode);
 
         $cacheModel = new Model('cache','zd','master');
 
@@ -176,7 +178,7 @@ class bsmmanager extends basmbase
 
         $code = $cacheModel->where('`key`="'.$md5.'"')->find();
 
-        $_code = $code['content'];
+        $_code = strtolower($code['content']);
 
         if($_vaildcode != $_code){
             $this->output['status'] = 'fail';
