@@ -582,7 +582,7 @@ class bsmorders extends basmbase
             $image = $filename;//ImageClipper::getInstance()->getImage($filename,$this->imageSize['width'],$this->imageSize['height']);
 
 
-            $products[$k]['img'] = $image['src'];
+            $products[$k]['img'] = $image;
             $products[$k]['sell_price'] = $vval['real_price'];
             $products[$k]['name'] = $gData['name'];
             $products[$k]['nums'] = $vval['goods_nums'];
@@ -637,10 +637,21 @@ class bsmorders extends basmbase
         $odDatas = $orderDetailModel->fields('goods_id')->where('order_id='.$orderid)->find();
 
 
-        $gData = $goodsModel->fields('img,name')->where('id='.$odDatas['goods_id'])->find();
+        $gData = $goodsModel->fields('img,name')->where('id='.$odDatas['goods_id'])->findAll();
 
-        $img = ($gData['img']) ? self::getApiUrl().$gData['img'] : '';
-        $goods_name = $gData['name'];
+        $img = '';
+
+        $goods_name = '';
+        
+        foreach($gData as $val){
+            if(!empty($val['img'])){
+                $img = ($val['img']) ? self::getApiUrl().$val['img'] : '';
+                $goods_name = $val['name'];
+                break;
+            }
+        }
+
+
 
         return array(
             'img'=>$img,
