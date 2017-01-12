@@ -25,6 +25,12 @@
             'password' => 'qqc-2016-mysql',
             'name' => 'tinyshop',
         ),
+    'cache'=>
+        array(
+            'type'=>'memcache',
+            'host'=>'10.24.35.30',
+            'port'=>'11211',
+        ),
     'headStore'=>'zd',
     'route' =>
         array (

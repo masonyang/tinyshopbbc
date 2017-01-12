@@ -871,16 +871,25 @@ class orders extends baseapi
         $serverName = Tiny::getServerName();
 
         $orderGoodsModel = new Model('order_goods');
-        $productsModel = new Model('products');
+        //$productsModel = new Model('products');
 
         $products = $orderGoodsModel->where("order_id=".$oid)->findAll();
 
+        $OrderNoticeService = new OrderNoticeService();
+
+        $productsInfo = array();
+        $i = 0;
         foreach ($products as $pro) {
             //更新货品中的库存信息
-            $goods_nums = $pro['goods_nums'];
-            $product_id = $pro['product_id'];
-            $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+            $productsInfo[$i]['product_id'] = $pro['product_id'];
+            $productsInfo[$i]['goods_id'] = $pro['goods_id'];
+            $productsInfo[$i]['num'] = $pro['goods_nums'];
+
+            $i++;
+            //$productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
         }
+
+        $OrderNoticeService->updateFreezeNums($productsInfo,'-');
 
         $orderModel = new Model('order');
         $orderModel->where("id=".$oid)->data(array('status'=>6))->update();

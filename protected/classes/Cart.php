@@ -130,6 +130,9 @@ class Cart{
 			if($ids!=''){
 				$prom = new Prom();
 				$items= $model->fields("pr.*,go.img,go.name,go.prom_id,go.point,go.goods_no")->join("left join goods as go on pr.goods_id = go.id ")->where("pr.id in($ids)")->findAll();
+
+                $storenums = $this->getStoresByProIds($ids);
+
 				foreach ($items as $item) {
 
                     if(($item['branchstore_sell_price'] == '0.00') || ($item['branchstore_sell_price'] == '0') || ($item['branchstore_sell_price'] == '')){
@@ -138,6 +141,7 @@ class Cart{
                         $item['sell_price'] = $item['branchstore_sell_price'];
                     }
 
+                    $item['store_nums'] = $storenums[$item['id']]['store_nums'];
 
 					$num = $itemids[$item['id']];
 					if($num > $item['store_nums']){
@@ -162,6 +166,21 @@ class Cart{
 		return $products;
 	}
 
+    private function getStoresByProIds($pid = array())
+    {
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $indata = $inventorysModel->where('product_id in ('.$pid.')')->findAll();
+
+        $return = array();
+
+        foreach($indata as $val){
+            $return[$val['product_id']]['store_nums'] = $val['p_store_nums'];
+            $return[$val['product_id']]['freeze_nums'] = $val['p_freeze_nums'];
+        }
+
+        return $return;
+    }
 
 	public function clear() {
         $this->cartModel->fields('id')->where('uid='.$this->uid)->delete();

@@ -421,16 +421,29 @@ class OrderController extends Controller
                     if($status == 6){
 
                         $orderGoodsModel = new Model('order_goods',$order['site_url']);
-                        $productsModel = new Model('products',$order['site_url']);
+                        //$productsModel = new Model('products',$order['site_url']);
 
                         $products = $orderGoodsModel->where("order_id=".$order['outer_id'])->findAll();
 
+                        $OrderNoticeService = new OrderNoticeService();
+
+                        $productsInfo = array();
+                        $i = 0;
+
                         foreach ($products as $pro) {
                             //更新货品中的库存信息
-                            $goods_nums = $pro['goods_nums'];
-                            $product_id = $pro['product_id'];
-                            $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+//                            $goods_nums = $pro['goods_nums'];
+//                            $product_id = $pro['product_id'];
+                            $productsInfo[$i]['product_id'] = $pro['product_id'];
+                            $productsInfo[$i]['goods_id'] = $pro['goods_id'];
+                            $productsInfo[$i]['num'] = $pro['goods_nums'];
+                            //$productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
                         }
+
+                        $OrderNoticeService->updateFreezeNums($productsInfo,'-');
+
+//                        $OrderNoticeService->updateFreezeNumsForZdGoods($productsInfo,'-');
+//                        $OrderNoticeService->updateFreezeNumsForBanchGoods($productsInfo,-1,'-');
 
                         $orderInvoiceModel = new Model('order_invoice');
                         $orderInvoiceModel->where('order_id='.$id)->delete();

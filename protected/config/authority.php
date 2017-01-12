@@ -20,6 +20,7 @@ return array(
     '<a href=\'javascript:;\' onclick="tools_submit({action:\'<?php echo urldecode(Url::urlFormat("/goods/set_online/status/0"));?>\'});" class="icon-point-up" > 上架</a>',
     '<a href=\'javascript:;\' onclick="tools_submit({action:\'<?php echo urldecode(Url::urlFormat("/goods/set_online/status/1"));?>\'});" class="icon-point-down" > 下架</a>',
     '<li><a class="icon-point-up" href="<?php echo urldecode(Url::urlFormat("/goods/set_online/status/0/id/$item[id]"));?>"> 上架</a></li>',
+                '<li><a class="icon-pencil" href="javascript:;" onclick="chg_store(<?php echo isset($item[\'id\'])?$item[\'id\']:"";?>,<?php echo isset($p)?$p:"";?>);"> 修改库存</a></li>',
                 '<li><a class="icon-point-down" href="<?php echo urldecode(Url::urlFormat("/goods/set_online/status/1/id/$item[id]"));?>"> 下架</a></li>',
                 '<li><a class="icon-remove-2" href="javascript:;" onclick="confirm_action(\'<?php echo urldecode(Url::urlFormat("/goods/goods_del/id/$item[id]"));?>\')"> 删除</a></li>',
 

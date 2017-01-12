@@ -258,6 +258,13 @@ class bsmgoods extends basmbase
                 $_data['count'] = $count;
             }
 
+            $goods_ids = array();
+            foreach($goodsLists as $val){
+                $goods_ids[] = $val['id'];
+            }
+
+            $storeNums = $this->getStoresByIds($goods_ids);
+
             $i = 0;
             foreach($goodsLists as $val){
 
@@ -269,7 +276,7 @@ class bsmgoods extends basmbase
                 $_data['goods'][$i]['branchstore_goods_name'] = $val['branchstore_goods_name'];
                 $_data['goods'][$i]['sell_price'] = $val['sell_price'];
                 $_data['goods'][$i]['branchstore_sell_price'] = $val['branchstore_sell_price'];
-                $_data['goods'][$i]['goods_store'] = $val['store_nums'];
+                $_data['goods'][$i]['goods_store'] = $storeNums[$val['id']]['g_store_nums'];
                 $i++;
             }
 
@@ -315,6 +322,7 @@ class bsmgoods extends basmbase
     {
         $id = intval($this->params['gid']);
 
+        $storenums = $this->getStoreById($id);
 
         $goodsModel = new Model('goods',$this->domain,'salve');
 
@@ -341,7 +349,8 @@ class bsmgoods extends basmbase
                             $spec_arr[$k]['id'] = $sval['id'];
                             $spec_arr[$k]['value'] = $sval['value'][2];
 
-                            $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+//                            $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+                            $freeze_nums = $storenums[$val['id']]['p_store_nums'] - $storenums[$val['id']]['p_freeze_nums'];
 
                             $sys_attrprice[$pk] = array(
                                 'branchstore_sell_price'=>$val['branchstore_sell_price'],
@@ -354,11 +363,12 @@ class bsmgoods extends basmbase
 
                         }
 
-                        $freeze += $val['freeze_nums'];
+                        $freeze += $storenums[$val['id']]['p_freeze_nums'];
 
                     }else{
 
-                        $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+//                        $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+                        $freeze_nums = $storenums[$val['id']]['p_store_nums'] - $storenums[$val['id']]['p_freeze_nums'];
 
                         $sys_attrprice[0] = array(
                             'branchstore_sell_price'=>$val['branchstore_sell_price'],
@@ -369,14 +379,14 @@ class bsmgoods extends basmbase
                             'value'=>'',
                         );
 
-                        $freeze += $val['freeze_nums'];
+                        $freeze += $storenums[$val['id']]['p_freeze_nums'];
                     }
 
                 }
             }
 
             if($freeze){
-                $goods['store_nums'] = $goods['store_nums'] - $freeze;
+                $goods['store_nums'] = $storenums[0]['g_store_nums'] - $freeze;
                 $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
             }
 
@@ -415,7 +425,7 @@ class bsmgoods extends basmbase
 
             $val['pid'] = $product['id'];
 
-            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];
+//            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];
 
             $store_nums += $val['store_nums'];
 
@@ -469,6 +479,38 @@ class bsmgoods extends basmbase
         $data['gid'] = $this->params['gid'];
 
         $this->output($data);
+    }
+
+    protected function getStoreById($id)
+    {
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $indata = $inventorysModel->where('goods_id = '.$id)->findAll();
+
+        $return = array();
+
+        foreach($indata as $val){
+            $return[0]['store_nums'] = $val['g_store_nums'];
+            $return[0]['freeze_nums'] = $val['g_freeze_nums'];
+            $return[$val['product_id']] = $val;
+        }
+
+        return $return;
+    }
+
+    protected function getStoresByIds($ids)
+    {
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $indata = $inventorysModel->where('goods_id in ('.$ids.')')->findAll();
+
+        $return = array();
+
+        foreach($indata as $val){
+            $return[$val['goods_id']]['g_store_nums'] = $val['g_store_nums'];
+        }
+
+        return $return;
     }
 
     public function goodssearch_demo()

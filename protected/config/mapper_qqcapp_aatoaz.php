@@ -4,6 +4,9 @@
  * User: yangminsheng
  * Date: 30/7/16
  * Time: 上午11:56
+ *
+ * aa ~ az
+ *
  */
 $db['aa'] = array(
     'db'=>array(

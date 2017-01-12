@@ -111,6 +111,8 @@ class products extends baseapi
     {
         $id = intval($this->params['id']);
 
+        $storenums = $this->getStoreById($id);
+
         $uid = $this->params['uid'];
 
         $data = array();
@@ -134,7 +136,7 @@ class products extends baseapi
                             $spec_arr[$k]['id'] = $sval['id'];
                             $spec_arr[$k]['value'] = $sval['value'][2];
 
-                            $freeze_nums = $val['store_nums'] - $val['freeze_nums'];
+                            $freeze_nums = $storenums[$val['id']]['p_store_nums'] - $storenums[$val['id']]['p_freeze_nums'];
 
                             if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
                                 $price = $val['sell_price'];
@@ -154,17 +156,17 @@ class products extends baseapi
 
                         }
 
-                        $freeze += $val['freeze_nums'];
+                        $freeze += $storenums[$val['id']]['p_freeze_nums'];
 
                     }else{
-                        $freeze += $val['freeze_nums'];
+                        $freeze += $storenums[$val['id']]['p_freeze_nums'];
                     }
 
                 }
             }
 
             if($freeze){
-                $goods['store_nums'] = $goods['store_nums'] - $freeze;
+                $goods['store_nums'] = $storenums[0]['g_store_nums'] - $freeze;
                 $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
             }
 
@@ -238,6 +240,23 @@ class products extends baseapi
 
     }
 
+    protected function getStoreById($id)
+    {
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $indata = $inventorysModel->where('goods_id = '.$id)->findAll();
+
+        $return = array();
+
+        foreach($indata as $val){
+            $return[0]['store_nums'] = $val['g_store_nums'];
+            $return[0]['freeze_nums'] = $val['g_freeze_nums'];
+            $return[$val['product_id']] = $val;
+        }
+
+        return $return;
+    }
+
     protected function geJson($goods,$spec_arr = array(),$sys_attrprice = array())
     {
         $return = array();
@@ -270,15 +289,14 @@ class products extends baseapi
         $i = 0;
         $store_nums = 0;
         $attrprice = array();
-        $productsModel = new Model('products');
+//        $productsModel = new Model('products');
 
 
         foreach($sys_attrprice as $val){
 
-            $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
-
-
-            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];// -  $cart_nums;
+//            $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
+//
+//            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];// -  $cart_nums;
 
             $store_nums += $val['store_nums'];
 

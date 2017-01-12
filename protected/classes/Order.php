@@ -187,12 +187,11 @@ class Order{
 
             if($serverName['top'] != 'zd'){
 
-                $zdModel = new Model('order','zd','master');
-                $zdData = $zdModel->where('outer_id='.$order['id'].' and site_url="'.$serverName['top'].'"')->find();
+                $productsInfo = self::getOrderProductsInfo($order['id'],$serverName['top']);
 
-                self::minBranchRealStore($order['id'],$serverName['top']);
+                $OrderNoticeService = new OrderNoticeService();
 
-                self::minHeadRealStore($zdData['id'],'zd');
+                $OrderNoticeService->updateRealAndFreezeNums($productsInfo,'-');
             }
 
 			return $order['id'];
@@ -667,85 +666,24 @@ class Order{
     }
 
 
-    public static function minHeadRealStore($orderid,$siteurl)
+    public static function getOrderProductsInfo($orderid,$siteurl)
     {
         $orderGoodsModel = new Model('order_goods',$siteurl);
-        $productsModel = new Model('products',$siteurl);
-        $goodsModel = new Model('goods',$siteurl);
 
         $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
 
-        $goods_ids = array();
-        $sync_goods = array();
+        $productsInfo = array();
 
+        $i = 0;
         foreach ($products as $pro) {
-            //更新货品中的库存信息
-            $goods_nums = $pro['goods_nums'];
-            $product_id = $pro['product_id'];
-            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums))->update();
-            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
-            $sync_goods[$pro['goods_id']][] = $product_id;
+
+            $productsInfo[$i]['num'] = $pro['goods_nums'];
+            $productsInfo[$i]['product_id'] = $pro['product_id'];
+            $productsInfo[$i]['goods_id'] = $pro['goods_id'];
+
         }
 
-        //更新商品表里的库存信息
-        foreach ($goods_ids as $id) {
-            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
-            if($objs){
-                $num = $objs[0]['store_nums'];
-                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
-
-            }
-        }
-
-        //同步商品库存到分店
-        if($sync_goods){
-            foreach($sync_goods as $gid =>$proids){
-                $ginfo = $goodsModel->fields('store_nums')->where('id='.$gid)->find();
-                foreach($proids as $pid){
-                    $proInfo = $productsModel->fields('store_nums')->where('id='.$pid)->find();
-                    $data = array();
-                    $data['id'] = $ginfo['$id'];
-                    $data['store_nums'] = $ginfo['store_nums'];
-                    $pupdate['id='.$pid] = array(
-                        'store_nums'=>$proInfo['store_nums']
-                    );
-                    $params['products'] = array(
-                        'update'=>$pupdate,
-                    );
-                    syncGoods::getInstance()->setParams($params,'update')->sync();
-                }
-            }
-        }
-
-
-    }
-
-    public static function minBranchRealStore($orderid,$siteurl)
-    {
-        $orderGoodsModel = new Model('order_goods',$siteurl);
-        $productsModel = new Model('products',$siteurl);
-        $goodsModel = new Model('goods',$siteurl);
-
-        $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
-
-        $goods_ids = array();
-        foreach ($products as $pro) {
-            //更新货品中的库存信息
-            $goods_nums = $pro['goods_nums'];
-            $product_id = $pro['product_id'];
-            $productsModel->where("id=".$product_id)->data(array('store_nums'=>"`store_nums`-".$goods_nums,'freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
-            $goods_ids[$pro['goods_id']] = $pro['goods_id'];
-        }
-
-        //更新商品表里的库存信息
-        foreach ($goods_ids as $id) {
-            $objs = $productsModel->fields('sum(store_nums) as store_nums')->where('goods_id='.$id)->query();
-            if($objs){
-                $num = $objs[0]['store_nums'];
-                $goodsModel->data(array('store_nums'=>$num))->where('id='.$id)->update();
-            }
-        }
-
+        return $productsInfo;
     }
 
 

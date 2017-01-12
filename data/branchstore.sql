@@ -158,6 +158,7 @@ CREATE TABLE `tiny_goods` (
   `cost_price` float(10,2) NOT NULL ,
   `create_time` datetime DEFAULT NULL ,
   `store_nums` int(11) DEFAULT '0' ,
+  `freeze_nums` int(11) DEFAULT '0' ,
   `warning_line` int(11) DEFAULT '0' ,
   `seo_title` varchar(255) DEFAULT NULL ,
   `seo_keywords` varchar(255) DEFAULT NULL ,

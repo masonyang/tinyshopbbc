@@ -1,0 +1,104 @@
+<div class="form2">
+
+    {if:isset($gspecs) && strlen($gspecs)>6}
+
+    <table class="default">
+        <tbody>
+        <tr>
+            <th>商品编号</th>
+            <th>商品货号</th>
+            {set: $ggspecs = unserialize($gspecs);}
+            {list:items=$ggspecs}
+            <th>{$item['name']}</th>
+            {/list}
+            <th>总库存</th>
+            <th>冻结库存</th>
+        </tr>
+        {list:items=$productsData item=$pro}
+        <tr class="min_inputs">
+            <td>{$goods_no}</td>
+            <td>
+                {$pro['pro_no']}
+            </td>
+
+            {set:$spec = unserialize($pro['spec']);$spec_str = '';}
+            {list:items=$spec item=$spc}
+            <td>{$spc['value'][2]}{set:$spec_str .= implode(":",$spc['value']).","}</td>
+            {/list}
+            <td>
+                <input type="text" name="p_store_nums[]" value="{$pro['p_store_nums']}" >
+                <input type="hidden" name="p_freeze_nums[]" value="{$pro['p_freeze_nums']}" >
+                <input type="hidden" name="product_id[]" value="{$pro['product_id']}" >
+            </td>
+            <td>
+                {$pro['p_freeze_nums']}
+            </td>
+        </tr>
+        {/list}
+        </tbody>
+    </table>
+
+    {else:}
+
+        <table class="default">
+            <tbody>
+            <tr>
+                <th>商品编号</th>
+                <th>商品货号</th>
+                <th>总库存</th>
+                <th>冻结库存</th>
+            </tr>
+            {list:items=$productsData item=$pro}
+            <tr class="min_inputs">
+                <td>{$goods_no}</td>
+                <td>
+                    {$pro['pro_no']}
+                </td>
+                <td>
+                    <input type="text" name="p_store_nums[]" value="{$pro['p_store_nums']}" >
+                    <input type="hidden" name="p_freeze_nums[]" value="{$pro['p_freeze_nums']}" >
+                    <input type="hidden" name="product_id[]" value="{$pro['product_id']}" >
+                </td>
+                <td>
+                    {$pro['p_freeze_nums']}
+                </td>
+            </tr>
+            {/list}
+            </tbody>
+        </table>
+
+    {/if}
+    <input type="hidden" id="goods_id" name="goods_id" value="{$id}" >
+    <div style="text-align:center;margin-top:20px;">
+        <button class="focus_button" onclick="chg_store()">保存</button>
+        &nbsp;&nbsp;&nbsp;&nbsp;
+     </div>
+</div>
+<script>
+    function chg_store(){
+        var goods_id= $("#goods_id").val();
+        var product_id = [];
+        $("input[name='product_id[]']").each(function(i){
+            product_id[i] = $(this).val();
+        });
+
+        var p_store_nums = [];
+        $("input[name='p_store_nums[]']").each(function(i){
+            p_store_nums[i] = $(this).val();
+        });
+
+        var p_freeze_nums = [];
+        $("input[name='p_freeze_nums[]']").each(function(i){
+            p_freeze_nums[i] = $(this).val();
+        });
+
+        if(goods_id != ''){
+            $.post('{url:/goods/store_edit_save}',{goods_id:goods_id,product_id:product_id,p_store_nums:p_store_nums,p_freeze_nums:p_freeze_nums},function(data){
+                if(data['status']=='success'){
+                    window.parent.location.href = '{url:/goods/goods_list/p/$p}';
+                }
+            },'json');
+        }
+
+    }
+</script>

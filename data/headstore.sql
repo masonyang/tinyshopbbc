@@ -383,6 +383,7 @@ CREATE TABLE `tiny_goods` (
   `cost_price` float(10,2) NOT NULL ,
   `create_time` datetime DEFAULT NULL ,
   `store_nums` int(11) DEFAULT '0' ,
+  `freeze_nums` int(11) DEFAULT '0' ,
   `warning_line` int(11) DEFAULT '0' ,
   `seo_title` varchar(255) DEFAULT NULL ,
   `seo_keywords` varchar(255) DEFAULT NULL ,
@@ -750,6 +751,7 @@ CREATE TABLE `tiny_products` (
   `pro_no` varchar(20) DEFAULT NULL ,
   `spec` text ,
   `store_nums` int(11) DEFAULT '0' ,
+  `freeze_nums` int(11) DEFAULT '0' ,
   `warning_line` int(11) DEFAULT '0' ,
   `branchstore_sell_price` float(10,2) DEFAULT '0.00' COMMENT '分店自定义销售价',
   `trade_price` float(10,2) DEFAULT '0.00' COMMENT '批发价',
@@ -1109,3 +1111,14 @@ CREATE TABLE `tiny_distributor_apply` (
   `content` text COMMENT '信息',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='提现申请表';
+DROP TABLE IF EXISTS `tiny_inventorys`;
+CREATE TABLE `tiny_inventorys` (
+  `goods_id` bigint(20) NOT NULL COMMENT '商品id',
+  `product_id` bigint(20) NOT NULL COMMENT '货品id',
+  `p_store_nums` int(11) DEFAULT '0' COMMENT '货品的总库存',
+  `p_freeze_nums` int(11) DEFAULT '0' COMMENT '货品的冻结库存',
+  `g_store_nums` int(11) DEFAULT '0' COMMENT '商品的总库存',
+  `g_freeze_nums` int(11) DEFAULT '0' COMMENT '商品的冻结库存',
+  KEY `idx_goods_id` (`goods_id`),
+  KEY `idx_gp_id` (`goods_id`,`product_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品(货品)库存表';

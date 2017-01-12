@@ -35,7 +35,7 @@ class exportdata_goodsJob
         'trade_price'=>'批发价',
         'cost_price'=>'成本价',
         'sell_price'=>'销售价',
-        'store_nums'=>'上架',
+        'store_nums'=>'库存',
         'weight'=>'重量',
     );
 

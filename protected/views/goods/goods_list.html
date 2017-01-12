@@ -41,7 +41,9 @@
         {/if}
         <th style="width:60px;">批发价</th>
         <th style="width:60px;">排序</th>
-        <th style="width:60px;">库存</th>
+        <th style="width:60px;">总库存</th>
+        <th style="width:60px;">冻结库存</th>
+        <th style="width:80px;">实际销售库存</th>
         <th style="width:60px;">状态</th>
     </tr>
     {query:name=goods_category /}
@@ -51,16 +53,31 @@
         {set:$category.=$item['id'].':'."'".$item['name']."',"}
     {/list}
     {set:$category=trim($category,',');}
+
+    {set:$goodsInfo=array();}
     {query:name=goods id=$obj where=$where order=is_online,id deac page=1 pagesize=$limit order=id desc}
+        {set:$goodsInfo[]=$item['id'];}
         <tr ><td style="width:30px;"><input type="checkbox" name="id[]" value="{$item['id']}"></td>
         <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-point-up" href="{url:/goods/set_online/status/0/id/$item[id]}"> 上架</a></li>
                 <li><a class="icon-point-down" href="{url:/goods/set_online/status/1/id/$item[id]}"> 下架</a></li>
                 <li><a class="icon-pencil" href="{url:/goods/goods_edit/id/$item[id]/p/$p}"> 编辑</a></li>
+                <li><a class="icon-pencil" href="javascript:;" onclick="chg_store({$item['id']},{$p});"> 修改库存</a></li>
                 <li><a class="icon-remove-2" href="javascript:;" onclick="confirm_action('{url:/goods/goods_del/id/$item[id]}')"> 删除</a></li>
                </ul></div></div></td>
-        <td><a href="{url:/index/product/id/$item[id]}" target="_blank">{$item['name']}</a></td> {if: $domain != 'zd'}<td>{$item['branchstore_goods_name']}</td>{/if}<td style="width:80px;">{$item['goods_no']}</td><td style="width:100px;">{$category_name[$item['category_id']]}</td><td style="width:80px;">{$item['sell_price']}</td>{if: $domain != 'zd'}<td>{$item['branchstore_sell_price']}</td>{/if}<td style="width:60px;">{$item['trade_price']}</td>
-        <td style="width:60px;">{$item['sort']}</td><td style="width:60px;" {if:$item['store_nums']<=$item['warning_line']}class="red"{/if}><b>{$item['store_nums']}</b></td><td style="width:60px;">{if:$item['is_online']==0}<b class="green">在售</b>{else:}<b class="red">下架</b>{/if}</td></tr>
+        <td><a href="{url:/index/product/id/$item[id]}" target="_blank">{$item['name']}</a></td>
+        {if: $domain != 'zd'}<td>{$item['branchstore_goods_name']}</td>{/if}
+        <td style="width:80px;">{$item['goods_no']}</td>
+        <td style="width:100px;">{$category_name[$item['category_id']]}</td>
+        <td style="width:80px;">{$item['sell_price']}</td>
+        {if: $domain != 'zd'}<td>{$item['branchstore_sell_price']}</td>{/if}
+        <td style="width:60px;">{$item['trade_price']}</td>
+        <td style="width:60px;">{$item['sort']}</td>
+        <td style="width:60px;" class="{$item['id']}_store_nums"><b>0</b></td>
+        <td style="width:60px;" class="{$item['id']}_freeze_nums"><b>0</b></td>
+        <td style="width:80px;" class="{$item['id']}_sales_nums"><b>0</b></td>
+        <td style="width:60px;">{if:$item['is_online']==0}<b class="green">在售</b>{else:}<b class="red">下架</b>{/if}</td>
+        </tr>
     {/query}
     <input type="hidden" name="limit" id="limit_hidden" value="{$limit}">
     <input type="hidden" name="p" id="p" value="{$p}">
@@ -83,6 +100,18 @@
 //    }});
 //});
 
+    var goodsInfo = '{echo:serialize($goodsInfo);}';
+
+    $.post('{url:/goods/getstores}',{goodsInfo:goodsInfo},function(data){
+
+        $.each(data,function(i,v){
+            $('.'+v['id']+'_store_nums').text(v['store_nums']);
+            $('.'+v['id']+'_freeze_nums').text(v['freeze_nums']);
+            $('.'+v['id']+'_sales_nums').text(v['sales_nums']);
+        });
+
+    },'json');
+
     function goods_import(){
         art.dialog.open("{url:/goods/goods_import}",{id:'goods_import',title:'导入csv',resize:false,width:300,height:200});
     }
@@ -90,6 +119,11 @@
     function goods_import_close(){
         art.dialog({id:'goods_import'}).close();
         tools_reload();
+    }
+
+    function chg_store(id,p){
+        art.dialog.open("{url:/goods/store_edit/id/}"+id+'&p='+p,{id:'view_dialog',title:'修改库存',resize:true,width:900,height:450});
+
     }
 
     $('#limit').change(function(){

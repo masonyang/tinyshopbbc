@@ -603,6 +603,7 @@ class GoodsController extends Controller
 //            }
 //        }
 
+        $inventorysModel = new Model('inventorys','zd','master');
 
 		$gdata['name'] = Filter::sql($gdata['name']);
 		if(is_array($gdata['pro_no'])) $gdata['pro_no'] = $gdata['pro_no'][0];
@@ -695,9 +696,25 @@ class GoodsController extends Controller
 				$last_p_id = $products->data($data)->insert();
                 $data['id'] = $last_p_id;
                 $padd[] = $data;
+
+                $idata = array();
+                $idata['goods_id'] = $goods_id;
+                $idata['product_id'] = $last_p_id;
+                $inventorysModel->data($idata)->insert();
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id." and specs_key='$key'")->update();
                 $pupdate["goods_id=".$goods_id." and specs_key='$key'"] = $data;
+
+                $prods = $products->where("goods_id=".$goods_id." and specs_key='$key'")->find();
+
+                $inData = $inventorysModel->where('goods_id = '.$goods_id.' and product_id = '.$prods['id'])->find();
+
+                if(!$inData){
+                    $idata = array();
+                    $idata['goods_id'] = $goods_id;
+                    $idata['product_id'] = $prods['id'];
+                    $inventorysModel->data($idata)->insert();
+                }
 			}
 			$k++;
 		}
@@ -748,10 +765,17 @@ class GoodsController extends Controller
 				$last_p_id = $products->data($data)->insert();
                 $data['id'] = $last_p_id;
                 $padd[] = $data;
+
+                $idata = array();
+                $idata['goods_id'] = $goods_id;
+                $idata['product_id'] = $last_p_id;
+                $inventorysModel->data($idata)->insert();
+
 			}else{
 				$products->data($data)->where("goods_id=".$goods_id)->update();
                 $pupdate["goods_id=".$goods_id] = $data;
 			}
+
 		}
 		//更新商品相关货品的部分信息
 
@@ -805,6 +829,7 @@ class GoodsController extends Controller
         $params['syncdata_type'] = 'goods';
         syncGoods::getInstance()->setParams($params,$action)->sync();
 
+
         $p = Req::args('p');
 
         $p = isset($p) ? $p : 1;
@@ -821,11 +846,14 @@ class GoodsController extends Controller
 			$model->table("products")->where("goods_id in($id)")->delete();
 			$goods = $model->table("goods")->where("id in ($id)")->findAll();
 			$model->table("goods")->where("id in ($id)")->delete();
+            $model->table("inventorys")->where("goods_id in ($id)")->delete();
+
 		}else if(is_numeric($id)){
 			$model->table("spec_attr")->where("goods_id = $id")->delete();
 			$model->table("products")->where("goods_id = $id")->delete();
 			$goods = $model->table("goods")->where("id = $id ")->findAll();
 			$model->table("goods")->where("id = $id ")->delete();
+            $model->table("inventorys")->where("goods_id = $id ")->delete();
 		}
 		foreach ($goods as $gd) {
 			$str .= $gd['name'].'、';
@@ -1062,6 +1090,111 @@ class GoodsController extends Controller
             return $ret;
 
         }
+    }
+
+    public function store_edit()
+    {
+        $this->layout = "blank";
+        $id = Filter::int(Req::args('id'));
+        $p = Filter::int(Req::args('p'));
+
+        $goodsModel = new Model('goods','zd','salve');
+
+        $productModel = new Model('products','zd','salve');
+
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $goodsData = $goodsModel->fields('specs,goods_no')->where('id = '.$id)->find();
+
+        if($goodsData){
+            $gspecs = $goodsData['specs'];
+
+            $productsData = $productModel->fields('spec,id,pro_no')->where('goods_id = '.$id)->findAll();
+
+            $inventorysData = $inventorysModel->where('goods_id = '.$id)->findAll();
+
+            $inData = array();
+
+            foreach($inventorysData as $val){
+                $inData[$val['product_id']]['p_store_nums'] = $val['p_store_nums'];
+                $inData[$val['product_id']]['p_freeze_nums'] = $val['p_freeze_nums'];
+            }
+
+            foreach($productsData as $k=>$val){
+                $productsData[$k]['product_id'] = $val['id'];
+                $productsData[$k]['p_store_nums'] = $inData[$val['id']]['p_store_nums'];
+                $productsData[$k]['p_freeze_nums'] = $inData[$val['id']]['p_freeze_nums'];
+            }
+
+
+            $this->assign("goods_no",$goodsData['goods_no']);
+            $this->assign("gspecs",$gspecs);
+            $this->assign("productsData",$productsData);
+
+        }
+
+        $this->assign('p',$p);
+        $this->assign("id",$id);
+        $this->redirect();
+    }
+
+    public function store_edit_save()
+    {
+        $goods_id = Req::args('goods_id');
+        $product_id = Req::args('product_id');
+        $p_store_nums = Req::args('p_store_nums');
+        $p_freeze_nums = Req::args('p_freeze_nums');
+
+        $g_store_nums = 0;
+        $g_freeze_nums = 0;
+
+        $inventorysModel = new Model('inventorys','zd','master');
+
+        foreach($product_id as $k=>$id){
+            $data = array();
+            $data['p_store_nums'] = $p_store_nums[$k];
+            $data['p_freeze_nums'] = $p_freeze_nums[$k];
+
+            $g_store_nums += $p_store_nums[$k];
+            $g_freeze_nums += $p_freeze_nums[$k];
+            $inventorysModel->data($data)->where('goods_id = '.$goods_id.' and product_id = '.$id)->update();
+        }
+
+        $gdata = array();
+        $gdata['g_store_nums'] = $g_store_nums;
+        $gdata['g_freeze_nums'] = $g_freeze_nums;
+
+        $inventorysModel->data($gdata)->where('goods_id = '.$goods_id)->update();
+
+
+        //更新对应商品的memcache todo
+        echo json_encode(array('status'=>'success','msg'=>''));
+        exit;
+    }
+
+    public function getstores()
+    {
+        $goodsInfo = Req::args('goodsInfo');
+
+        $goodsInfo = unserialize($goodsInfo);
+
+        $inventorysModel = new Model('inventorys','zd','master');
+
+        $indata = $inventorysModel->where('goods_id in ('.implode(',',$goodsInfo).')')->findAll();
+
+        $inData = array();
+
+        foreach($indata as $val){
+
+            $inData[$val['goods_id']]['id'] = $val['goods_id'];
+            $inData[$val['goods_id']]['store_nums'] = $val['g_store_nums'];
+            $inData[$val['goods_id']]['freeze_nums'] = $val['g_freeze_nums'];
+            $inData[$val['goods_id']]['sales_nums'] = $val['g_store_nums'] - $val['g_freeze_nums'];
+
+        }
+
+        echo json_encode($inData);
+        exit;
     }
 
 }

@@ -313,16 +313,23 @@ class paylinkv1 extends paylink
                 $model->data(array('status'=>6))->where('id='.$orderid)->update();
 
                 $orderGoodsModel = new Model('order_goods');
-                $productsModel = new Model('products');
+//                $productsModel = new Model('products');
 
                 $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
 
+                $productsInfo = array();
+                $i = 0;
                 foreach ($products as $pro) {
                     //更新货品中的库存信息
-                    $goods_nums = $pro['goods_nums'];
-                    $product_id = $pro['product_id'];
-                    $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
+                    $productsInfo[$i]['num'] = $pro['goods_nums'];
+                    $productsInfo[$i]['product_id'] = $pro['product_id'];
+                    $productsInfo[$i]['goods_id'] = $pro['goods_id'];
+//                    $productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
                 }
+
+                $OrderNoticeService = new OrderNoticeService();
+
+                $OrderNoticeService->updateRealAndFreezeNums($productsInfo,'-');
 
                 $zdOrderModel = new Model('order','zd','master');
 

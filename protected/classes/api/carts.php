@@ -342,7 +342,9 @@ class carts extends baseapi
                         }
                     }
 
-                    $less_num = $product['store_nums'] - $product['freeze_nums'] - $cart_nums;
+                    $pro = $this->getStoreByProId($product['id'],$product['goods_id']);
+
+                    $less_num = $pro['store_nums'] - $pro['freeze_nums'] - $cart_nums;
 
 //                    $less_num = $less_num - $num;
                     if($less_num <= 0){
@@ -466,6 +468,20 @@ class carts extends baseapi
                 $this->changecheckout();
             break;
         }
+    }
+
+    protected function getStoreByProId($pid,$gid)
+    {
+        $inventorysModel = new Model('inventorys','zd','salve');
+
+        $indata = $inventorysModel->where('goods_id = '.$gid.' and product_id = '.$pid)->find();
+
+        $return = array();
+
+        $return['store_nums'] = $indata['p_store_nums'];
+        $return['freeze_nums'] = $indata['p_freeze_nums'];
+
+        return $return;
     }
 
     //购物车页面
@@ -754,7 +770,9 @@ class carts extends baseapi
             foreach ($order_products as $item) {
                 $products = $productModel->fields('pro_no,store_nums,freeze_nums')->where('id = '.$item['id'])->find();
 
-                if($item['num'] > ($products['store_nums'] - $products['freeze_nums'])){
+                $pro = $this->getStoreByProId($item['id'],$item['goods_id']);
+
+                if($item['num'] > ($pro['store_nums'] - $pro['freeze_nums'])){
                     $errormsg .= $products['pro_no'].',';
                 }
 
@@ -800,7 +818,7 @@ class carts extends baseapi
             $data['order_no'] = Common::createOrderNo();
             $data['user_id'] = $this->params['uid'];
             $data['payment'] = $payment_id;
-            $data['status'] = 2;
+            $data['status'] = 3;  //待支付
             $data['pay_status'] = 0;
             $data['accept_name'] = Filter::text($address['accept_name']);
             $data['phone'] = $address['phone'];
@@ -863,8 +881,18 @@ class carts extends baseapi
             //写入订单商品
             $tem_data = array();
             $orderItems = array();
+
+            $productsInfo = array();
+
+            $i = 0;
             $orderGoodsModel = new Model('order_goods');
             foreach ($order_products as $item) {
+
+                $productsInfo[$i]['product_id'] = $item['id'];
+                $productsInfo[$i]['goods_id'] = $item['goods_id'];
+                $productsInfo[$i]['num'] = $item['num'];
+
+
                 $tem_data['order_id'] = $order_id;
                 $tem_data['goods_id'] = $item['goods_id'];
                 $tem_data['product_id'] = $item['id'];
@@ -878,16 +906,26 @@ class carts extends baseapi
                 $tem_data['spec'] = serialize($item['spec']);
                 $orderGoodsModel->data($tem_data)->insert();
                 $orderItems[] = $tem_data;
+
+                $i++;
             }
 
             //$product['freeze_nums']
             $cart = Cart::getCart($this->params['uid']);
             $order_products = $cart->all();
 
-            $pModel = new Model('products');
-            foreach($order_products as $productid =>$item){
-                $pModel->where("id=".$productid)->data(array('freeze_nums'=>"`freeze_nums`+".$item['num']))->update();
-            }
+            //$freeze_product = array();
+
+//            $pModel = new Model('products');
+
+//            $i = 0;
+//
+//            foreach($order_products as $productid =>$item){
+//                $freeze_product[$i]['product_id'] = $productid;
+//                $freeze_product[$i]['goods_id'] = $item['goods_id'];
+//                $freeze_product[$i]['product_id'] = $item['num'];
+////                $pModel->where("id=".$productid)->data(array('freeze_nums'=>"`freeze_nums`+".$item['num']))->update();
+//            }
 
             //清空购物车与表单缓存
             $cart = Cart::getCart($this->params['uid'],$serverName['top']);
@@ -899,6 +937,12 @@ class carts extends baseapi
             //推送新建订单到总店后台
             $OrderNoticeService = new OrderNoticeService();
             $OrderNoticeService->sendCreateOrder($orderInfo,$orderItems);
+
+            $OrderNoticeService->updateFreezeNums($productsInfo,'+');
+
+//            $OrderNoticeService->updateFreezeNumsForZdGoods($productsInfo);
+//
+//            $OrderNoticeService->updateFreezeNumsForBanchGoods($productsInfo,$serverName['top']);
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '订单创建成功';
