@@ -165,10 +165,10 @@ class products extends baseapi
                 }
             }
 
-            //if($freeze){
-                $goods['store_nums'] = $storenums[0]['g_store_nums'] - $freeze;
+            if($freeze){
+                $goods['store_nums'] = $storenums[0]['store_nums'] - $freeze;
                 $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
-            //}
+            }
 
             $attention = 'nofav';
 
