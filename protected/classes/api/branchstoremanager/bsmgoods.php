@@ -386,8 +386,10 @@ class bsmgoods extends basmbase
             }
 
             if($freeze){
-                $goods['store_nums'] = $storenums[0]['g_store_nums'] - $freeze;
+                $goods['store_nums'] = $storenums[0]['store_nums'] - $freeze;
                 $goods['store_nums'] = ($goods['store_nums'] > 0) ? $goods['store_nums'] : 0;
+            }else{
+                $goods['store_nums'] = $storenums[0]['store_nums'];
             }
 
             $this->output['status'] = 'succ';
