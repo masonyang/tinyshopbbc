@@ -22,8 +22,8 @@ return array(
         'theme' => 'default',
         'themes_mobile' => 'mobile_default',
 		'menu'=>'headstore',
-		'frontend'=>'zd.git-online.com/index.php?con=admin&act=index',
-		'backend'=>'zd.git-online.com/index.php?con=admin&act=index',
+		'frontend'=>'zd.git-online.org/index.php?con=admin&act=index',
+            'backend'=>'zd.git-online.org/index.php?con=admin&act=index',
 	),
 	'a'=>array(
 		'db'=>array(
@@ -46,7 +46,7 @@ return array(
         'theme' => 'default',
         'themes_mobile' => 'mobile_default',
 		'menu'=>'branchstore',
-		'frontend'=>'a.git-online.com',
-		'backend'=>'a.git-online.com/index.php?con=admin&act=index',
+		'frontend'=>'a.git-online.org',
+		'backend'=>'a.git-online.org/index.php?con=admin&act=index',
 	),
 );
