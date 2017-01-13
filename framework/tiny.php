@@ -764,6 +764,7 @@ class Tiny
                 $evn = 'qqcapp';
             break;
             case 'kaitukeji':
+            case 'git-online':
                 $evn = 'kaitukeji';
             break;
             default:
