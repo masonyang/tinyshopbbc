@@ -342,7 +342,7 @@ class carts extends baseapi
                         }
                     }
 
-                    $pro = $this->getStoreByProId($product['id'],$product['goods_id']);
+                    $pro = $this->getStoreByProId($product['id'],$product['goods_id'],$productsModel);
 
                     $less_num = $pro['store_nums'] - $pro['freeze_nums'] - $cart_nums;
 
@@ -470,16 +470,23 @@ class carts extends baseapi
         }
     }
 
-    protected function getStoreByProId($pid,$gid)
+    protected function getStoreByProId($pid,$gid,$obj)
     {
-        $inventorysModel = new Model('inventorys','zd','salve');
+//        $inventorysModel = new Model('inventorys','zd','salve');
+//
+//        $indata = $inventorysModel->where('goods_id = '.$gid.' and product_id = '.$pid)->find();
 
-        $indata = $inventorysModel->where('goods_id = '.$gid.' and product_id = '.$pid)->find();
+        $mapper = Config::getInstance('mapper')->get('zd');
+        $prefixdb = $mapper['db']['master']['name'];
+
+        $sql = 'select * from `'.$prefixdb.'`.tiny_inventorys where goods_id = '.$gid.' and product_id = '.$pid;
+
+        $indata = $obj->query($sql);
 
         $return = array();
 
-        $return['store_nums'] = $indata['p_store_nums'];
-        $return['freeze_nums'] = $indata['p_freeze_nums'];
+        $return['store_nums'] = $indata[0]['p_store_nums'];
+        $return['freeze_nums'] = $indata[0]['p_freeze_nums'];
 
         return $return;
     }
@@ -770,7 +777,7 @@ class carts extends baseapi
             foreach ($order_products as $item) {
                 $products = $productModel->fields('pro_no,store_nums,freeze_nums')->where('id = '.$item['id'])->find();
 
-                $pro = $this->getStoreByProId($item['id'],$item['goods_id']);
+                $pro = $this->getStoreByProId($item['id'],$item['goods_id'],$productModel);
 
                 if($item['num'] > ($pro['store_nums'] - $pro['freeze_nums'])){
                     $errormsg .= $products['pro_no'].',';

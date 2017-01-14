@@ -56,6 +56,7 @@ class DBFactory
 			$mapper = Config::getInstance('mapper')->get($domain);
 			self::$dbinfo[md5($domain.'-'.$issalve)] = $mapper['db'];
 		}
+
 		return self::$dbinfo[md5($domain.'-'.$issalve)];
 	}
 }

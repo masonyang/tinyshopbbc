@@ -10,6 +10,7 @@ class Cart{
 
 	protected function __construct($uid) {
         $this->uid = $uid;
+
         $this->cartModel = new Model('cart_session');
 	}
 
