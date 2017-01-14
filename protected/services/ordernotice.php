@@ -93,7 +93,7 @@ class OrderNoticeService
                 break;
             }
 
-            $inventorysModel->data(array('p_freeze_num'=>$p_freeze_num))->where('goods_id = '.$pro['goods_id'].' and product_id = '.$pro['product_id'])->update();
+            $inventorysModel->data(array('p_freeze_nums'=>$p_freeze_num))->where('goods_id = '.$pro['goods_id'].' and product_id = '.$pro['product_id'])->update();
 
             $goods_ids[] = $pro['goods_id'];
 
@@ -161,7 +161,7 @@ class OrderNoticeService
                 break;
             }
 
-            $inventorysModel->data(array('p_freeze_num'=>$p_freeze_num,'p_store_nums'=>$p_store_nums))->where('goods_id = '.$pro['goods_id'].' and product_id = '.$pro['product_id'])->update();
+            $inventorysModel->data(array('p_freeze_nums'=>$p_freeze_num,'p_store_nums'=>$p_store_nums))->where('goods_id = '.$pro['goods_id'].' and product_id = '.$pro['product_id'])->update();
 
             $goods_ids[] = $pro['goods_id'];
 
