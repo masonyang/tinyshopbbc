@@ -229,7 +229,7 @@ class bsmgoods extends basmbase
 
         $filter = $this->__filter();
 
-        $goodsModel->fields('id,img,name,branchstore_goods_name,sell_price,branchstore_sell_price,store_nums');
+        $goodsModel->fields('id,img,name,branchstore_goods_name,sell_price,branchstore_sell_price,store_nums');//branchstore_is_online
 
         if(!empty($filter['where'])){
             $goodsModel->where($filter['where']);
@@ -274,6 +274,7 @@ class bsmgoods extends basmbase
                 $_data['goods'][$i]['gid'] = $val['id'];
                 $_data['goods'][$i]['name'] = $val['name'];
                 $_data['goods'][$i]['branchstore_goods_name'] = $val['branchstore_goods_name'];
+                //$_data['goods'][$i]['branchstore_is_online'] = $val['branchstore_is_online'];
                 $_data['goods'][$i]['sell_price'] = $val['sell_price'];
                 $_data['goods'][$i]['branchstore_sell_price'] = $val['branchstore_sell_price'];
                 $_data['goods'][$i]['goods_store'] = $storeNums[$val['id']]['g_store_nums'];
@@ -329,7 +330,7 @@ class bsmgoods extends basmbase
         $productsModel = new Model('products',$this->domain,'salve');
 
         $data = array();
-        $goods = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,store_nums')->where('id='.$id)->find();
+        $goods = $goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,store_nums')->where('id='.$id)->find();//branchstore_is_online
 
 
         if($goods){
@@ -408,6 +409,7 @@ class bsmgoods extends basmbase
         $return = array();
 
         $return['gid'] = $goods['id'];
+        //$return['branchstore_is_online'] = $goods['branchstore_is_online'];
         $return['branchstore_goods_name'] = $goods['branchstore_goods_name'];
         $return['name'] = $goods['name'];
         $return['branchstore_sell_price'] = $goods['branchstore_sell_price'];
@@ -469,6 +471,7 @@ class bsmgoods extends basmbase
         $goodsModel = new Model('goods',$this->domain,'salve');
 
         $gdata = array(
+            //'branchstore_is_online'=>$this->params['branchstore_is_online'], //0 上架 1 下架
             'branchstore_goods_name'=>$this->params['name'],
             'branchstore_sell_price'=>min($g_branchstore_sell_price),
         );

@@ -935,8 +935,12 @@ class carts extends baseapi
 //            }
 
             //清空购物车与表单缓存
-            $cart = Cart::getCart($this->params['uid'],$serverName['top']);
-            $cart->clear();
+//            $cart = Cart::getCart($this->params['uid'],$serverName['top']);
+//            $cart->clear();
+            $cartModel = new Model('cart_session');
+
+            $cartModel->where('uid='.$this->params['uid'])->delete();
+
             Session::clear("order_status");
 
             Log::orderlog($order_id,'会员:'.$uname,'创建订单','创建订单','success',$serverName['top']);

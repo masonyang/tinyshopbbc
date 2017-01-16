@@ -326,7 +326,9 @@ class orders extends baseapi
                 }
             }
         }elseif($item['status'] == '3'){
-            if($item['delivery_status'] == 0){
+            if($item['pay_status'] == 0){
+                return '待支付';
+            }elseif($item['delivery_status'] == 0){
                 return '等待发货';
             }elseif($item['delivery_status'] == 1){
                 return '已发货';
@@ -353,7 +355,7 @@ class orders extends baseapi
 
         $orderModel = new Model('order');
 
-        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status in (1,2)')->order('unix_timestamp(create_time) desc');
+        $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid.' and status=3 and pay_status=0')->order('unix_timestamp(create_time) desc');
 
         if($this->params['page'] != null){
             $orderModel->limit($this->params['page'].','.$this->limit);
