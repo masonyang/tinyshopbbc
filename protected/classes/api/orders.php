@@ -327,7 +327,7 @@ class orders extends baseapi
             }
         }elseif($item['status'] == '3'){
             if($item['pay_status'] == 0){
-                return '待支付';
+                return '等待付款';
             }elseif($item['delivery_status'] == 0){
                 return '等待发货';
             }elseif($item['delivery_status'] == 1){
