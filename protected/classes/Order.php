@@ -681,6 +681,7 @@ class Order{
             $productsInfo[$i]['product_id'] = $pro['product_id'];
             $productsInfo[$i]['goods_id'] = $pro['goods_id'];
 
+            $i++;
         }
 
         return $productsInfo;

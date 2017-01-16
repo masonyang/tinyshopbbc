@@ -437,6 +437,7 @@ class OrderController extends Controller
                             $productsInfo[$i]['product_id'] = $pro['product_id'];
                             $productsInfo[$i]['goods_id'] = $pro['goods_id'];
                             $productsInfo[$i]['num'] = $pro['goods_nums'];
+                            $i++;
                             //$productsModel->where("id=".$product_id)->data(array('freeze_nums'=>"`freeze_nums`-".$goods_nums))->update();
                         }
 
