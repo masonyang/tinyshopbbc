@@ -173,6 +173,12 @@
     /**********************分店店掌柜app端 API INTERFACE************************************/
 
 
+    /**********************分店前台h5 wap API INTERFACE************************************/
+"wapapilist"=>"api/wap/apilist.php", //分店h5 api列表
+"wapbase"=>"api/wap/wapbase.php",//分店h5 基类
+"wptest"=>"api/wap/wptest.php",//分店h5 只是测试
+
+    /**********************分店前台h5 wap API INTERFACE************************************/
 
 "DES3"=>"DES3.php",
 
