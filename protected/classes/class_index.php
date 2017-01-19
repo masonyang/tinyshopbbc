@@ -178,6 +178,22 @@
 "wapbase"=>"api/wap/wapbase.php",//分店h5 基类
 "wptest"=>"api/wap/wptest.php",//分店h5 只是测试
 
+"wpadvert"=>"api/wap/wpadvert.php",//广告
+"wpgcat"=>"api/wap/wpgoodscat.php",//商品分类
+"wpgoods"=>"api/wap/wpgoods.php",//商品列表
+"wpproducts"=>"api/wap/wpproducts.php",//商品详情
+"wpcustomer"=>"api/wap/wpcustomer.php",//会员
+"wpcservice"=>"api/wap/wpcservice.php",//客户服务
+"wporders"=>"api/wap/wporders.php",//订单
+"wpcarts"=>"api/wap/wpcarts.php",//购物车
+"wppaylink"=>"api/wap/wppaylink.php",//支付链接
+"wparealist"=>"api/wap/wparealist.php",//区域筛选器
+"wpcaptchacode"=>"api/wap/wpcaptchacode.php",//验证码
+"wparticlelist"=>"api/wap/wparticlelist.php",//公告
+"wpsiteconf"=>"api/wap/wpsiteconf.php",//店铺基本信息
+"wpattention"=>"api/wap/wpattention.php",//会员商品收藏api
+"wpadposition"=>"api/wap/wpadposition.php",//广告位api
+"wpsms"=>"api/wap/wpsms.php",//短信api
     /**********************分店前台h5 wap API INTERFACE************************************/
 
 "DES3"=>"DES3.php",
