@@ -23,23 +23,19 @@ class DBFactory
      */
     public static function getInstance($domain = null,$issalve = 'salve')
     {
-		$dbinfo = self::getDbInfo($domain,$issalve);
-        $db = DBMysql::getInstance($dbinfo,$issalve);
-        $db->selectDb($dbinfo[$issalve]['name']);
-        return $db;
-//        switch($dbinfo['type']){
-//            default:{
-//                if(version_compare(PHP_VERSION, '5.4.0') >= 0){
-//                    $db = DBMysqli::getInstance($dbinfo,$issalve);
-//                    $db->selectDb($dbinfo[$issalve]['name']);
-//                    return $db;
-//                }else{
-//                    $db = DBMysql::getInstance($dbinfo,$issalve);
-//                    $db->selectDb($dbinfo[$issalve]['name']);
-//                    return $db;
-//                }
-//            }
-//        }
+
+        $dbinfo = self::getDbInfo($domain,$issalve);
+
+        if(version_compare(PHP_VERSION, '5.4.0') >= 0){
+            $db = DBMysqli::getInstance($dbinfo,$issalve);
+            $db->selectDb($dbinfo[$issalve]['name']);
+            return $db;
+        }else{
+            $db = DBMysql::getInstance($dbinfo,$issalve);
+            $db->selectDb($dbinfo[$issalve]['name']);
+            return $db;
+        }
+
     }
     /**
      * 取得数据库信息

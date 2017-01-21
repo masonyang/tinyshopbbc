@@ -131,6 +131,7 @@ class products extends baseapi
                 if($val['spec']){
                     $spec = unserialize($val['spec']);
                     if($spec){
+                        $i = 0;
                         foreach($spec as $k=>$sval){
                             $spec_arr[$k]['name'] = $sval['name'];
                             $spec_arr[$k]['id'] = $sval['id'];
@@ -184,14 +185,13 @@ class products extends baseapi
                 }
             }
 
-
-
             $this->output['status'] = 'succ';
             $this->output['msg'] = '商品详情获取成功';
             $data = $this->geJson($goods,$spec_arr,$sys_attrprice);
 
             $data['attention'] = $attention;
-
+//echo "<pre>";
+//            print_r($data);exit;
             $this->output($data);
         }else{
             $this->output['msg'] = '商品详情获取失败';
