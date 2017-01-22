@@ -6,7 +6,7 @@
  * Time: 下午5:14
  * 192.168.1.100/index.php?con=api&act=index&method=customer&source=uinfo
  */
-class wpcustomer extends baseapi
+class wpcustomer extends wapbase
 {
 
     protected $captchaKey = 'wapverCode';

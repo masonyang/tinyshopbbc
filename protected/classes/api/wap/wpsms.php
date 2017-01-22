@@ -6,7 +6,7 @@
  * Time: 下午5:02
  * 短信验证码接口
  */
-class wpsms extends baseapi
+class wpsms extends wapbase
 {
     //验证码变量名
     protected $safebox;

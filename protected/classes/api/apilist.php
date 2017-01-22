@@ -15,6 +15,7 @@ class qqclistapi extends baseapi
 {
 
     protected $apilist = array(
+        'productsv1'=>'productsv1',
         'forgetpwd'=>'customer',
         'paylinkv'=>'paylinkv1',
         'syncdopay'=>'paylinkv1',

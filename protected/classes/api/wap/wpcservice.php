@@ -6,7 +6,7 @@
  * Time: 下午4:09
  * 客户服务 api
  */
-class wpcservice extends baseapi
+class wpcservice extends wapbase
 {
 
     public static $title = array(

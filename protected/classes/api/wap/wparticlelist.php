@@ -5,7 +5,7 @@
  * Date: 31/7/16
  * Time: 下午4:21
  */
-class wparticlelist extends baseapi
+class wparticlelist extends wapbase
 {
     public static $title = array(
         'articlelist'=>'获取公告列表',

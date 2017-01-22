@@ -6,7 +6,7 @@
  * Time: 上午12:15
  * http://192.168.1.100/index.php?con=api&act=index&method=advert
  */
-class wpadvert extends baseapi
+class wpadvert extends wapbase
 {
     public static $title = array(
         'advert'=>'首页广告轮播图'

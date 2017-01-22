@@ -5,7 +5,7 @@
  * Date: 26/4/16
  * Time: 下午7:42
  */
-class wpgoods extends baseapi
+class wpgoods extends wapbase
 {
 
 

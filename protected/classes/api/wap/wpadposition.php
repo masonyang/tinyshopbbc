@@ -7,7 +7,7 @@
  * adposition 广告位
  * http://a.test.com/index.php?con=api&act=index&method=adposition&apid=32&mason=1
  */
-class wpadposition extends baseapi
+class wpadposition extends wapbase
 {
     public static $title = array(
         'adposition'=>'广告位'

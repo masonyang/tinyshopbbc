@@ -5,7 +5,7 @@
  * Date: 30/4/16
  * Time: 下午12:02
  */
-class wpcarts extends baseapi
+class wpcarts extends wapbase
 {
 
     private $cart = null;

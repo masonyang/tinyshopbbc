@@ -7,7 +7,7 @@
  *
  * http://192.168.1.102/index.php?con=api&act=index&method=gcat&source=category
  */
-class wpgcat extends baseapi
+class wpgcat extends wapbase
 {
     protected $catModel = null;
 

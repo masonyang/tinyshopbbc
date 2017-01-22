@@ -6,7 +6,7 @@
  * Time: 下午10:47
  * 会员商品收藏api
  */
-class wpattention extends baseapi
+class wpattention extends wapbase
 {
     public static $title = array(
         'list'=>'关注商品列表',

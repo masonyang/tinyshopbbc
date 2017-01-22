@@ -5,7 +5,7 @@
  * Date: 29/4/16
  * Time: 下午1:53
  */
-class wparealist extends baseapi
+class wparealist extends wapbase
 {
 
     public static $title = array(

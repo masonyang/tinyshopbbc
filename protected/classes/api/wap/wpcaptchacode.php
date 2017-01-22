@@ -5,7 +5,7 @@
  * Date: 29/4/16
  * Time: 下午5:42
  */
-class wpcaptchacode extends baseapi
+class wpcaptchacode extends wapbase
 {
     //验证码变量名
     protected $captchaKey = 'wapverCode';

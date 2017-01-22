@@ -5,7 +5,7 @@
  * Date: 2/8/16
  * Time: 上午11:48
  */
-class wpsiteconf extends baseapi
+class wpsiteconf extends wapbase
 {
     public static $title = array(
         'siteconf'=>'获取店铺基本信息',

@@ -5,7 +5,7 @@
  * Date: 28/4/16
  * Time: 下午4:29
  */
-class wpproducts extends baseapi
+class wpproducts extends wapbase
 {
     protected $goodsModel = null;
 
@@ -126,43 +126,88 @@ class wpproducts extends baseapi
             $spec_arr = array();
 
             $freeze = 0;
+            $combine_arr = array();
+            $specslist_arr = array();
 
             foreach($products as $pk=>$val){
                 if($val['spec']){
                     $spec = unserialize($val['spec']);
+//                    echo "<pre>";
+//                    print_r($spec);exit;
                     if($spec){
+
+                        $speckey = array();
                         foreach($spec as $k=>$sval){
+
+                            $specslist_arr[$sval['id']]['id'] = $sval['id'];
+                            $specslist_arr[$sval['id']]['name'] = $sval['name'];
+
+                            $specslist_arr[$sval['id']]['child'][$sval['value'][0]] = array(
+                                'id'=>$sval['value'][0],
+                                'name'=>$sval['value'][2],
+                            );
+
+                            $speckey[] = $sval['value'][0];
+
                             $spec_arr[$k]['name'] = $sval['name'];
                             $spec_arr[$k]['id'] = $sval['id'];
-                            $spec_arr[$k]['value'] = $svwapproductsal['value'][2];
+                            $spec_arr[$k]['value'] = $sval['value'][2];
 
-                            $freeze_nums = $storenums[$val['id']]['p_store_nums'] - $storenums[$val['id']]['p_freeze_nums'];
 
-                            if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
-                                $price = $val['sell_price'];
-                            }else{
-                                $price = $val['branchstore_sell_price'];
-                            }
 
                             //if($freeze_nums > 0){
-                                $sys_attrprice[$pk] = array(
-                                    'price'=>$price,
-                                    'pro_no'=>$val['pro_no'],
-                                    'store_num'=>$freeze_nums,
-                                    'name'=>$sval['name'],
-                                    'value'=>$sval['value'][2],
-                                );
+//                            $sys_attrprice[$pk] = array(
+//                                'price'=>$price,
+//                                'pro_no'=>$val['pro_no'],
+//                                'store_num'=>$freeze_nums,
+//                                'name'=>$sval['name'],
+//                                'value'=>$sval['value'][2],
+//                            );
                             //}
 
                         }
 
                         $freeze += $storenums[$val['id']]['p_freeze_nums'];
 
+                        $freeze_nums = $storenums[$val['id']]['p_store_nums'] - $storenums[$val['id']]['p_freeze_nums'];
+
+                        if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
+                            $price = $val['sell_price'];
+                        }else{
+                            $price = $val['branchstore_sell_price'];
+                        }
+
+                        $__speckey = implode('_',$speckey);
+                        $combine_arr[$__speckey]['price'] = $price;
+                        $combine_arr[$__speckey]['pro_no'] = $val['pro_no'];
+                        $combine_arr[$__speckey]['store_num'] = $freeze_nums;
                     }else{
                         $freeze += $storenums[$val['id']]['p_freeze_nums'];
                     }
 
                 }
+            }
+
+            if($combine_arr && $specslist_arr){
+                $sys_attrprice['combine_arr'] = $combine_arr;
+
+                $i = 0;
+                $_specslist_arr = array();
+                foreach($specslist_arr as $val){
+                    $_specslist_arr[$i]['id'] = $val['id'];
+                    $_specslist_arr[$i]['name'] = $val['name'];
+                    $j = 0;
+                    foreach($val['child'] as $vval){
+                        $_specslist_arr[$i]['child'][$j]['id'] = $vval['id'];
+                        $_specslist_arr[$i]['child'][$j]['name'] = $vval['name'];
+
+                        $j++;
+                    }
+                    $i++;
+                }
+
+
+                $sys_attrprice['specslist_arr'] = $_specslist_arr;
             }
 
             if($freeze){
@@ -183,8 +228,6 @@ class wpproducts extends baseapi
                     $attention = 'fav';
                 }
             }
-
-
 
             $this->output['status'] = 'succ';
             $this->output['msg'] = '商品详情获取成功';
@@ -212,30 +255,74 @@ class wpproducts extends baseapi
                 'status'=>'succ',
                 'msg'=>'商品详情获取成功',
                 'data'=>array(
-                        'name' => '哈哈',
-                        'price' => '0.00',
-                        'store_nums' => 1,
-                        'goods_no' => '111111',
-                        'pro_no' => '111111_1',
-                        'unit' => '件',
-                        'content' => '',
-                        'content_data' => '',
-                        'attention'=>'已收藏:fav,未收藏:nofav',
-                        'imgs' => array(
+                    'name' => '哈哈',
+                    'price' => '0.00',
+                    'store_nums' => 1,
+                    'goods_no' => '111111',
+                    'pro_no' => '111111_1',
+                    'unit' => '件',
+                    'content' => '',
+                    'content_data' => '',
+                    'attention'=>'已收藏:fav,未收藏:nofav',
+                    'imgs' => array(
+                        array(
+                            'url' => 'http://a.test.com/data/uploads/2014/04/30/b8f4125b967911e08f7115f8d2b3f684.jpg',
+                        ),
+                    ),
+                    'sys_attrprice' => array(
+                        'combine_arr (规格组合后的数据)' =>array(
+                            '3_5'=>array(
+                                'price' => '20.00（销售价）',
+                                'pro_no' => '23423423423_1（货号）',
+                                'store_num' => '99（库存）',
+                            ),
+                            '3_4'=>array(
+                                'price' => '20.00（销售价）',
+                                'pro_no' => '23423423423_2（货号）',
+                                'store_num' => '98（库存）',
+                            ),
+                            '1_5'=>array(
+                                'price' => '20.00（销售价）',
+                                'pro_no' => '23423423423_3（货号）',
+                                'store_num' => '97（库存）',
+                            ),
+                            '1_4'=>array(
+                                'price' => '20.00（销售价）',
+                                'pro_no' => '23423423423_4（货号）',
+                                'store_num' => '96（库存）',
+                            ),
+                        ),
+                        'specslist_arr'=>array(
                             array(
-                                'url' => 'http://a.test.com/data/uploads/2014/04/30/b8f4125b967911e08f7115f8d2b3f684.jpg',
+                                'id'=>1,
+                                'name'=>'颜色',
+                                'child'=>array(
+                                    array(
+                                        'id'=>3,
+                                        'name'=>'白色',
+                                    ),
+                                    array(
+                                        'id'=>1,
+                                        'name'=>'蓝色',
+                                    ),
+                                ),
+                            ),
+                            array(
+                                'id'=>2,
+                                'name'=>'尺寸',
+                                'child'=>array(
+                                    array(
+                                        'id'=>5,
+                                        'name'=>'41',
+                                    ),
+                                    array(
+                                        'id'=>4,
+                                        'name'=>'40',
+                                    ),
+                                ),
                             ),
                         ),
-                        'sys_attrprice' => array(
-                            '34(规格id)' =>array(
-                                'price' => '12.00（销售价）',
-                                'pro_no' => '111111_1（货号）',
-                                'store_num' => '12（库存）',
-                                'attr_id' => '34 (规格id)',
-                                'name' =>'颜色（规格名称）',
-                                'value' =>'蓝色 (对应规格描述)',
-                            ),
-                        ),
+                    ),
                 ),
             )
         );
@@ -288,27 +375,27 @@ class wpproducts extends baseapi
 
         $return['imgs'] = array();
 
-        $i = 0;
-        $store_nums = 0;
-        $attrprice = array();
-//        $productsModel = new Model('products');
-
-
-        foreach($sys_attrprice as $val){
-
-//            $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
+//        $i = 0;
+//        $store_nums = 0;
+//        $attrprice = array();
+////        $productsModel = new Model('products');
 //
-//            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];// -  $cart_nums;
+//
+//        foreach($sys_attrprice as $val){
+//
+////            $product = $productsModel->where('pro_no="'.$val['pro_no'].'"')->find();
+////
+////            $val['store_nums'] = $product['store_nums'] - $product['freeze_nums'];// -  $cart_nums;
+//
+//            $store_nums += $val['store_nums'];
+//
+//            $attrprice[$i] = $val;
+//            $i++;
+//        }
 
-            $store_nums += $val['store_nums'];
+        $return['store_nums'] = $goods['store_nums'];
 
-            $attrprice[$i] = $val;
-            $i++;
-        }
-
-        $return['store_nums'] = ($store_nums > 0) ? $store_nums : $goods['store_nums'];
-
-        $return['sys_attrprice'] = $attrprice;
+        $return['sys_attrprice'] = $sys_attrprice;
 
         foreach($imgs as $k=>$val){
 
@@ -324,3 +411,5 @@ class wpproducts extends baseapi
     }
 
 }
+
+

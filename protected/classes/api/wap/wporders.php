@@ -5,7 +5,7 @@
  * Date: 29/4/16
  * Time: 下午6:10
  */
-class wporders extends baseapi
+class wporders extends wapbase
 {
 
     protected $imageSize = array(
