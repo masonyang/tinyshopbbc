@@ -5,16 +5,16 @@
 #    2013-05-02 guo     first
 # Path
 #    ....
-BakDir=/home/mysql/backup/daily
-BinDir=/home/mysql/data
-LogFile=/home/mysql/backup/bak.log
-BinFile=/home/mysql/data/mysql-bin.index
-/usr/local/mysql/bin/mysqladmin -uqqc -pqqc-2016-mysql flush-logs
+BakDir=/var/www/html/qqcmysql/backup/daily
+BinDir=/var/lib/mysql
+LogFile=/var/www/html/qqcmysql/backup/bak.log
+BinFile=/var/lib/mysql/mysql-bin.index
+/usr/bin/mysqladmin -uqqc -pqqc-2016-mysql flush-logs
 #这个是用于产生新的mysql-bin.00000*文件
-Counter=`wc -l $BinFile |awk '{print $1}'`
+Counter=`/usr/bin/wc -l $BinFile |awk '{print $1}'`
 NextNum=0
 #这个for循环用于比对$Counter,$NextNum这两个值来确定文件是不是存在或最新的。
-for file in  `cat $BinFile`
+for file in  `/bin/cat $BinFile`
 do
         base=`basename $file`
         #basename用于截取mysql-bin.00000*文件名，去掉./mysql-bin.000005前面的./
