@@ -9,7 +9,7 @@ BakDir=/var/www/html/qqcmysql/backup/daily
 BinDir=/var/lib/mysql
 LogFile=/var/www/html/qqcmysql/backup/bak.log
 BinFile=/var/lib/mysql/mysql-bin.index
-/usr/bin/mysqladmin -uqqc -pqqc-2016-mysql flush-logs
+/usr/bin/mysqladmin -h10.45.54.89 -uqqc -pqqc-2016-mysql flush-logs
 #这个是用于产生新的mysql-bin.00000*文件
 Counter=`/usr/bin/wc -l $BinFile |awk '{print $1}'`
 NextNum=0
