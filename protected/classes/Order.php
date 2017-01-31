@@ -26,7 +26,25 @@ class Order{
 	 * 发货状态(已换货)
 	 */
 	const DELIVERY_STATUS_HAS_REFUNDED = 4;
-	
+
+    protected static $order_refer = array(
+        'app-ios',
+        'app-android',
+        'app-h5'
+    );
+
+    //获取订单来源
+    public static function getOrderRefer($refer = '')
+    {
+        if($refer == ''){
+            return self::$order_refer;
+        }elseif(in_array($refer,self::$order_refer)){
+            return true;
+        }
+
+        return false;
+    }
+
 	public static function updateStatus($orderNo,$payment_id=0,$callback_info=null){
 		$model = new Model("order");
 		$order = $model->where("order_no='".$orderNo."'")->find();

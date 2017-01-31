@@ -63,6 +63,12 @@ class carts extends baseapi
         ),
         'docheckout'=>array(
             array(
+                'colum'=>'refer',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'订单来源(app-android、app-ios)',
+            ),
+            array(
                 'colum'=>'addr_id',
                 'required'=>'是',
                 'type'=>'int',
@@ -836,6 +842,13 @@ class carts extends baseapi
             $data['addr'] = Filter::text($address['addr']);
             $data['zip'] = $address['zip'];
             $data['payable_amount'] = $payable_amount;
+
+            if(isset($this->params['refer']) && Order::getOrderRefer($this->params['refer'])){
+                $data['order_refer'] = $this->params['refer'];
+            }else{
+                $data['order_refer'] = 'app-ios';
+            }
+
 
             $expressModel = new Model('express_company','zd');
             $ex = $expressModel->fields('name as exname')->where('express_company_id="汇通速递"')->find();

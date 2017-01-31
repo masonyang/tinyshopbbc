@@ -673,6 +673,7 @@ CREATE TABLE `tiny_order` (
   `distributor_id` bigint(20) NOT NULL COMMENT '分销商id',
   `site_url` varchar(255) NOT NULL COMMENT '站点网址',
   `outer_id` bigint(20) NOT NULL COMMENT '关联分店订单表的id',
+  `order_refer` enum('app-ios','app-android','app-h5') DEFAULT 'app-ios',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 ALTER TABLE `tiny_order` add INDEX idx_s_d (`status`,`delivery_status`);

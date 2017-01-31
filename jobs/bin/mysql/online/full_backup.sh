@@ -5,8 +5,8 @@
 #    2013-04-27 guo     first
 # Path
 #    ....
-BakDir=/var/www/html/qqcmysql/backup
-LogFile=/var/www/html/qqcmysql/backup/bak.log
+BakDir=/root/qqcmysql/backup
+LogFile=/root/qqcmysql/backup/bak.log
 Date=`date +%Y%m%d`
 Begin=`date +"%Y年%m月%d日 %H:%M:%S"`
 cd $BakDir

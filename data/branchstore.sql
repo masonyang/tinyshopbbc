@@ -345,6 +345,7 @@ CREATE TABLE `tiny_order` (
   `type` int(4) unsigned DEFAULT '0' ,
   `trading_info` varchar(255) DEFAULT NULL,
   `is_del` tinyint(1) DEFAULT '0' ,
+  `order_refer` enum('app-ios','app-android','app-h5') DEFAULT 'app-ios',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单表';
 ALTER TABLE `tiny_order` add INDEX idx_s_d (`status`,`delivery_status`);

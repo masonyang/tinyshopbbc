@@ -837,6 +837,8 @@ class wpcarts extends wapbase
             $data['zip'] = $address['zip'];
             $data['payable_amount'] = $payable_amount;
 
+            $data['order_refer'] = 'app-h5';
+
             $expressModel = new Model('express_company','zd');
             $ex = $expressModel->fields('name as exname')->where('express_company_id="汇通速递"')->find();
 
