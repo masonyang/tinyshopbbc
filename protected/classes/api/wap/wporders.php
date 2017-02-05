@@ -770,7 +770,7 @@ class wporders extends wapbase
 
         $orderModel->fields('id,payment,order_no,status,pay_status,create_time,order_amount,delivery_status')->where('user_id='.$userid)->order('id desc');
 
-        if($this->params['page'] != null){
+        if($this->params['page'] !== null){
             $orderModel->limit($this->params['page'].','.$this->limit);
         }
 
