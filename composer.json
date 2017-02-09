@@ -1,0 +1,13 @@
+{
+  "require": {
+    "ramsey/uuid": "~2.7" ,
+    "endroid/qrcode": "^1.5",
+    "PHPOffice/PHPExcel": "^1.8"
+  } ,
+  "repositories": {
+    "packagist": {
+      "type": "composer",
+      "url": "https://packagist.phpcomposer.com"
+    }
+  }
+}

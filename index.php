@@ -5,6 +5,8 @@ define("APP_ROOT",dirname(__file__).DIRECTORY_SEPARATOR);
 
 include("framework/tiny.php");
 
+Tiny::registerAutoLoad();
+
 //加载配制文件
 $serverName = Tiny::getServerName();
 

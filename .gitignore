@@ -15,3 +15,7 @@ update.txt
 *.zip
 *.tar
 .DS_Store
+
+#composer related
+vendor
+composer.phar

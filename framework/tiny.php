@@ -12,9 +12,6 @@
 //程序运行开始计时
 define('BEGIN_TIME',microtime(true));
 
-//注册自动加载
-spl_autoload_register('Tiny::autoload');
-
 //框架路径
 define('TINY_ROOT',dirname(__file__).DIRECTORY_SEPARATOR);
 //应用开发路径
@@ -449,6 +446,21 @@ class Tiny
             include(TINY_ROOT.self::$_imports[$alias]);
         }
     }
+	
+	/**
+	 * 自动载入方法注册
+	 */
+    public static function registerAutoLoad()
+    {
+	    //注册自动加载
+	    spl_autoload_register('Tiny::autoload');
+	
+	    // 载入composer类
+	    if(file_exists(APP_ROOT . '/vendor/autoload.php')) {
+		    require_once(APP_ROOT . '/vendor/autoload.php');
+	    }
+    }
+    
     /**
      * 类的自动加载
      *
