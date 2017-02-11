@@ -171,16 +171,16 @@ class wppaylink extends wapbase
             exit;
         }
     }
-
+	
+	/**
+	 * 获取支付信息
+	 */
     protected function paylinkv()
     {
-      echo 2323;exit;
-//        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/paylinkv.log');
+        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/wppaylinkv.log');
 
-        $userid = $this->params['uid'];
-
-        $orderid = $this->params['oid']; // order id
-
+        $userId = $this->params['uid'];
+        $orderId = $this->params['oid'];
         $paymentid = $this->params['paymentid'];
 
         $extendDatas = $this->params;

@@ -292,6 +292,10 @@ class AdminController extends Controller
 		}
 		echo JSON::encode($info);
 	}
+	
+	/**
+	 * 正在使用支付方式列表
+	 */
 	public function payment_list()
 	{
      	$model = new Model('payment as pa');
@@ -299,6 +303,7 @@ class AdminController extends Controller
      	$this->assign("payment_list",$list);
      	$this->redirect('payment_list');
     }
+    
     public function payment_validator()
     {
     	$fee_type = Req::args("fee_type");

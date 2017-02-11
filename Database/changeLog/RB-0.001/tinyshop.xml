@@ -7,11 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="1" author="maskwang">
-        <comment>创建测试表</comment>
-        <createTable tableName="test" remarks="测试用">
-            <column name="userId" remarks="用户Id" type="bigint unsigned">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-        </createTable>
+        <comment>给tiny_pay_plugin添加微信wap支付</comment>
+        <sql>
+            INSERT INTO `tiny_pay_plugin` (`name`, `class_name`, `description`, `logo`)
+            VALUES
+            ('微信[公众号支付]', 'wechat', '微信公众号支付', '/payments/logos/pay_wechat.gif');
+        </sql>
     </changeSet>
 </databaseChangeLog>

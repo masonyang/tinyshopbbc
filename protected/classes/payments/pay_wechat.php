@@ -9,6 +9,20 @@ class pay_wechat extends PaymentPlugin
 	public $name = '微信公众号支付';
 	
 	/**
+	 * 取得配置参数
+	 * @return array
+	 */
+	public static function config()
+	{
+		return array(
+			array('field'=>'partner_id','caption'=>'合作身份者id','type'=>'string'),
+			array('field'=>'partner_key','caption'=>'安全检验码key','type'=>'string'),
+			array('field' => 'app_id', 'caption' => '公众平台AppId', 'type' => 'string') ,
+			array('field' => 'app_key', 'caption' => '公众平台AppKey', 'type' => 'string') ,
+		);
+	}
+	
+	/**
 	 * 打包数据
 	 * @param array $payment
 	 * @return array

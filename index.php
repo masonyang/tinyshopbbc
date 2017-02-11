@@ -15,6 +15,6 @@ $env = Tiny::getEnv($serverName['domain']);
 $configPath = "protected/config/config_".$env.".php";
 
 $config = is_file($configPath)?include($configPath):null;
-//运行应用程序
 
+//运行应用程序
 Tiny::createWebApp($config)->run();

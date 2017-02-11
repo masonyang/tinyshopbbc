@@ -480,7 +480,6 @@ class Controller extends Object
      */
     public function render($view,$data=null,$return=false)
     {
-
         $serverConfig = Tiny::getServerConfig();
         $authority = Config::getInstance('authority')->get($serverConfig['menu']);
 
@@ -651,6 +650,7 @@ class Controller extends Object
     {
         if($fileName!==null)$this->layout = $fileName;
     }
+    
     /**
      * 重新定位
      *
