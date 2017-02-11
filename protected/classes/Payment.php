@@ -91,7 +91,18 @@ class Payment{
 		$paymentObj = $this->getPayment();
 		$payment['M_PartnerId']  = isset($this->_config['partner_id'])?$this->_config['partner_id']:'';
 		$payment['M_PartnerKey'] = isset($this->_config['partner_key'])?$this->_config['partner_key']:'';
-
+		
+		// 获取公众号信息
+		if(isset($this->_config['app_id']))
+		{
+			$payment['M_AppId'] = $this->_config['app_id'];
+		}
+		
+		if(isset($this->_config['app_key']))
+		{
+			$payment['M_AppKey'] = $this->_config['app_key'];
+		}
+		
 		$model = new Model("order");
 		if($type == 'order'){
 			$order_id = $argument;

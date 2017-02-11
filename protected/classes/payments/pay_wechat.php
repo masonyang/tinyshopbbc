@@ -30,7 +30,7 @@ class pay_wechat extends PaymentPlugin
 	public function packData($payment)
 	{
 		$wxPartnerId = $payment['M_PartnerId'];
-		$wxPartnerKey = $payment['M_PartnerKey']; // TODO
+		$wxPartnerKey = $payment['M_PartnerKey'];
 		
 		// 微信原样返回的参数
 		$attachParam = array(
@@ -57,8 +57,8 @@ class pay_wechat extends PaymentPlugin
 		$prepackageStr = $this->_getLinkString( $package , true ,true );
 		
 		$reqData = array(
-			'appid' => 123 , // 使用公众平台appId TODO
-			'appkey' => 123 , // TODO
+			'appid' => $payment['M_AppId'] , // 使用公众平台appId
+			'appkey' => $payment['M_AppKey'] ,
 			'timestamp' => (string)$_SERVER[ 'REQUEST_TIME' ] ,
 			'noncestr' => $this->_getNonceStr() ,
 		);
