@@ -711,7 +711,10 @@ class Tiny
         'TString'=>'lib/util/string_class.php',
         'PHPMailer'=>'extend/phpmailer/class.phpmailer.php',
         'POP3'=>'extend/phpmailer/class.pop3.php',
-        'SMTP'=>'extend/phpmailer/class.smtp.php'
+        'SMTP'=>'extend/phpmailer/class.smtp.php',
+	    'InputData' => 'base/input_data_class.php' ,
+	    'Exception_Base' => 'base/exception_base_class.php' ,
+	    'AppException' => 'base/app_exception_class.php' ,
     );
 
 	public static function getServerName($fullServerName = false)

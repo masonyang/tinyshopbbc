@@ -10,7 +10,17 @@ class Payment{
 	private $payment_id;
 	private $payment = array();
 	private $_config = null;
-
+	
+	/**
+	 * 获取实例
+	 * @param $payment_id
+	 * @return Payment
+	 */
+	public static function getInstance($payment_id)
+	{
+		return new self($payment_id);
+	}
+	
 	public function __construct($payment_id){
 		$model = new Model("payment as pa");
 		$this->payment = $model->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$payment_id."' or pi.class_name = '".$payment_id."'")->find();
@@ -20,7 +30,11 @@ class Payment{
             if(empty($this->_config)) $this->_config = null;
         }
 	}
-
+	
+	/**
+	 * 获取支付对应插件实现
+	 * @return PaymentPlugin
+	 */
 	public function getPaymentPlugin(){
 		if($this->payment){
             $class_name = 'pay_'.$this->payment['class_name'];
@@ -34,7 +48,7 @@ class Payment{
 
     /**
      * @brief native app 方式获取 相关支付插件类
-     * @return 返回支付插件类对象
+     * @return PaymentPlugin
      */
     public function getPaymentNativePlugin()
     {

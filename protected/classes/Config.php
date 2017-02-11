@@ -9,7 +9,11 @@ class Config
 	
 	private function __construct(){}
 	private function __clone(){}
-
+	
+	/**
+	 * @param string $file
+	 * @return Config
+	 */
 	public static function getInstance($file = 'system')
 	{
         if($file == 'config' || $file == 'mapper'){
@@ -56,7 +60,7 @@ class Config
 	}
     public function __destruct()
     {
-		if(self::$change_flag)File::putContents(self::$fileName,'<?php return '.var_export(self::$system,true).';'); 
+		if(self::$change_flag)File::putContents(self::$fileName,'<?php return '.var_export(self::$system,true).';');
     }
 
     public function sethead($file,$key,$value)

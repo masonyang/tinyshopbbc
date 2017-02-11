@@ -179,44 +179,40 @@ class wppaylink extends wapbase
     {
         error_log(var_export($this->params,1),3,TINY_ROOT.'../data/wppaylinkv.log');
 
-        $userId = $this->params['uid'];
-        $orderId = $this->params['oid'];
-        $paymentid = $this->params['paymentid'];
-
-        $extendDatas = $this->params;
-
-        $data = array();
-//        $this->output['msg'] = $extendDatas;
-//        $this->output(array());
-//        exit;
-//        error_log(var_export($extendDatas,1),3,TINY_ROOT.'data/extendDatas.log');
-//        exit;
-
-        if($userid && $paymentid && $orderid){
-            $return = $this->genatePayLink($paymentid,$orderid,$extendDatas,$msg,$payData);
-
-            if($return){
-                $this->output['status'] = 'succ';
-                $this->output['msg'] = '支付获取成功';
-                $this->output($payData);
-            }else{
-                $this->output['msg'] = $msg;
-                $this->output(array());
-            }
+        $userId = $this->data->getValueAsPositiveInteger('uid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
+        $orderId = $this->data->getValueAsPositiveInteger('oid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
+	    $paymentId = $this->data->getValueAsPositiveInteger('paymentid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
+	    $extendDatas = $this->params;
+	    
+	    $return = $this->genatePayLink($paymentId, $orderId, $extendDatas, $msg, $payData);
+	    
+        if($return){
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '支付获取成功';
+            $this->output($payData);
         }else{
-            $this->output['msg'] = '未登录';
+            $this->output['msg'] = $msg;
             $this->output(array());
         }
     }
-
-    protected function genatePayLink($paymentid,$orderid,$extendDatas,&$msg = '',&$payData = array())
+	
+	/**
+	 * 获取支付信息
+	 * @param $paymentId
+	 * @param $orderId
+	 * @param $extendDatas
+	 * @param string $msg
+	 * @param array $payData
+	 * @return bool
+	 */
+    protected function genatePayLink($paymentId,$orderId,$extendDatas,&$msg = '',&$payData = array())
     {
-        $payment = new Payment($paymentid);
-        $paymentPlugin = $payment->getPaymentNativePlugin();
+        $payment = Payment::getInstance($paymentId);
+        $paymentPlugin = $payment->getPaymentPlugin();
         $payment_info = $payment->getPayment();
 
         $model = new Model('order');
-        $order = $model->where('id='.$orderid)->find();
+        $order = $model->where('id='.$orderId)->find();
         if($order){
             if($order['order_amount']==0 && $payment_info['class_name']!='balance'){
                 $msg = '0元订单，仅限预付款支付，请选择预付款支付方式。';
@@ -243,9 +239,9 @@ class wppaylink extends wapbase
 
             $time = strtotime("-".$order_delay." Minute");
             $create_time = strtotime($order['create_time']);
-            if($create_time>=$time){
+            if($create_time>=$time || true){ // TODO 为了调试先打开 老是跳登录 @mason
                 //取得所有订单商品
-                $order_goods = $model->table('order_goods')->fields("product_id,goods_nums")->where('order_id='.$orderid)->findAll();
+                $order_goods = $model->table('order_goods')->fields("product_id,goods_nums")->where('order_id='.$orderId)->findAll();
                 $product_ids = array();
                 $order_products = array();
                 foreach ($order_goods  as $value) {
@@ -282,14 +278,14 @@ class wppaylink extends wapbase
                         $prom = $model->table($prom_table)->where("id=".$order['prom_id'])->find();
                         if($prom){
                             if(time() > strtotime($prom['end_time']) || $prom['max_num']<=$prom["goods_num"]){
-                                $model->table("order")->data(array('status'=>6))->where('id='.$orderid)->update();
+                                $model->table("order")->data(array('status'=>6))->where('id='.$orderId)->update();
                                 $msg = '支付晚了，'.$prom_name."活动已结束。";
                                 return false;
                             }
                         }
                     }
 
-                    $packData = $payment->getPaymentInfo('order',$orderid);
+                    $packData = $payment->getPaymentInfo('order',$orderId);
                     $packData = array_merge($extendDatas,$packData);
                     $sendData = $paymentPlugin->packData($packData);
                     if(!$paymentPlugin->isNeedSubmit()){
@@ -297,25 +293,25 @@ class wppaylink extends wapbase
                         return true;
                     }
                 }else{
-                    $model->table("order")->data(array('status'=>6))->where('id='.$orderid)->update();
+                    $model->table("order")->data(array('status'=>6))->where('id='.$orderId)->update();
 
                     $zdOrderModel = new Model('order','zd','master');
 
                     $serverName = Tiny::getServerName();
 
-                    $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderid.' and site_url="'.$serverName['top'].'"')->update();
+                    $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderId.' and site_url="'.$serverName['top'].'"')->update();
 
                     $msg = '支付晚了，库存已不足。';
                     return false;
                 }
 
             }else{
-                $model->data(array('status'=>6))->where('id='.$orderid)->update();
+                $model->data(array('status'=>6))->where('id='.$orderId)->update();
 
                 $orderGoodsModel = new Model('order_goods');
 //                $productsModel = new Model('products');
 
-                $products = $orderGoodsModel->where("order_id=".$orderid)->findAll();
+                $products = $orderGoodsModel->where("order_id=".$orderId)->findAll();
 
                 $productsInfo = array();
                 $i = 0;
@@ -335,7 +331,7 @@ class wppaylink extends wapbase
 
                 $serverName = Tiny::getServerName();
 
-                $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderid.' and site_url="'.$serverName['top'].'"')->update();
+                $zdOrderModel->data(array('status'=>6))->where('outer_id='.$orderId.' and site_url="'.$serverName['top'].'"')->update();
 
                 $msg = '订单超出了规定时间内付款，已作废.';
                 return false;
@@ -345,7 +341,7 @@ class wppaylink extends wapbase
 
                 $msg = '';
 
-                $sendData['payment_id'] = $paymentid;
+                $sendData['payment_id'] = $paymentId;
 
                 $payData['pay_data'] = $sendData;
 

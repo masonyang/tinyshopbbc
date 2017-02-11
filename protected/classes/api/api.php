@@ -10,7 +10,13 @@
 class baseapi
 {
     protected $params = array();
-
+	
+	/**
+	 * 输入数据
+	 * @var InputData
+	 */
+    protected $data;
+    
     const APIURL = 'http://192.168.1.101/';//192.168.1.100
 
     public static $test = false;
@@ -58,7 +64,7 @@ class baseapi
 
 
         $this->params = $params;
-
+        $this->data = new InputData();
     }
 
     public function index()
