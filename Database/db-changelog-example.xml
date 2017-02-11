@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://apitest.yourdream.cc/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="rockybean">
+        <createTable tableName="person" remarks="用户表">
+            <column name="id" type="int" autoIncrement="true" remarks="用户Id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="firstname" type="varchar(50)" remarks="用户名"/>
+            <column name="lastname" type="varchar(50)" remarks="用户姓">
+                <constraints nullable="false"/>
+            </column>
+            <column name="state" type="char(2)" remarks="用户声明"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="2" author="rockybean">
+        <addColumn tableName="person">
+            <column name="username" type="varchar(8)" remarks="用户全称"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="3" author="rockybean">
+        <renameColumn tableName="person" oldColumnName="username" newColumnName="myusername" columnDataType="varchar(8)" remarks="我的姓名"/>
+    </changeSet>
+
+    <changeSet id="4" author="rockybean">
+        <renameTable oldTableName="person" newTableName="person"/>
+    </changeSet>
+
+    <changeSet id="5" author="rockybean">
+        <addColumn tableName="person">
+            <column name="userLastname" type="varchar(8)" remarks="用户姓名只" firstColumn="true"/>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="6" author="rockybean">
+        <addColumn tableName="person">
+            <column name="afterColumn" type="varchar(8)" remarks="在某列后面" afterColumn="userLastname"/>
+        </addColumn>
+    </changeSet>
+
+
+    <changeSet id="7" author="rockybean">
+        <addColumn tableName="person">
+            <column name="lastColumn" type="varchar(8)" remarks="最后一列"/>
+        </addColumn>
+    </changeSet>
+
+    <!-- use system property in sql statement -->
+<!--    <changeSet id="8" author="rockybean">
+        <sql>
+            insert  into ${dbPrefix}_test values(1);
+        </sql>
+    </changeSet>-->
+
+    <!-- roll back 说明 -->
+<!--    createTable renameColumn addColumn会自动生成rollback语句，所以不必填写rollback tag-->
+
+
+
+</databaseChangeLog>

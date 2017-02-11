@@ -7,7 +7,7 @@
  */
 /**
  * web应用类
- * 
+ *
  * @author Tiny
  * @class WebApp
  */
@@ -37,7 +37,7 @@ class WebApp extends App
     private static $requestStack=array();
     /**
      * 构造函数
-     * 
+     *
      * @access public
      * @param mixed $config
      */
@@ -47,7 +47,7 @@ class WebApp extends App
 	}
     /**
      * 压入堆栈
-     * 
+     *
      * @access public
      * @param mixed $key
      * @return void
@@ -58,7 +58,7 @@ class WebApp extends App
 	}
     /**
      * 取出堆栈的内容
-     * 
+     *
      * @access public
      * @param mixed $key
      * @return mixed
@@ -70,7 +70,7 @@ class WebApp extends App
 	}
     /**
      * 修改当前的控制器
-     * 
+     *
      * @access public
      * @param mixed $controller
      * @return mixed
@@ -81,7 +81,7 @@ class WebApp extends App
 	}
     /**
      * 取得当前的控制器
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -91,7 +91,7 @@ class WebApp extends App
 	}
     /**
      * 处理所有请求
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -102,9 +102,9 @@ class WebApp extends App
 	}
     /**
      * 创建控制器
-     * 
+     *
      * @access public
-     * @return mixed
+     * @return Controller
      */
 	public function createController()
 	{
@@ -132,7 +132,7 @@ class WebApp extends App
 	}
     /**
      * 运行控制器
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -144,7 +144,7 @@ class WebApp extends App
 	}
      /**
       * 取得当前主题类
-      * 
+      *
       * @access public
       * @return mixed
       */
@@ -156,7 +156,7 @@ class WebApp extends App
 	}
      /**
       * 设定主题的名称
-      * 
+      *
       * @access public
       * @param mixed $value
       * @return mixed
@@ -167,7 +167,7 @@ class WebApp extends App
 	}
     /**
      * 设定皮肤的名称
-     * 
+     *
      * @access public
      * @param mixed $skin
      * @return mixed
@@ -178,7 +178,7 @@ class WebApp extends App
 	}
     /**
      * 取得皮肤
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -189,7 +189,7 @@ class WebApp extends App
 
      /**
       * 取得主题管理类
-      * 
+      *
       * @access public
       * @return mixed
       */
@@ -199,7 +199,7 @@ class WebApp extends App
 	}
     /**
      * 得到视图路径
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -210,7 +210,7 @@ class WebApp extends App
 	}
     /**
      * 得到布局路径
-     * 
+     *
      * @access public
      * @return mixed
      */
@@ -220,7 +220,7 @@ class WebApp extends App
 	}
     /**
      * 最得数据
-     * 
+     *
      * @access public
      * @param mixed $name
      * @return mixed
@@ -232,7 +232,7 @@ class WebApp extends App
 	}
     /**
      * 设定数据,app中可访问的
-     * 
+     *
      * @access public
      * @param mixed $name
      * @param string $value
@@ -245,7 +245,7 @@ class WebApp extends App
 	}
     /**
      * 创建令牌
-     * 
+     *
      * @access public
      * @param string $key
      * @return mixed
@@ -262,7 +262,7 @@ class WebApp extends App
 
     /**
      * 验证令牌并销毁
-     * 
+     *
      * @access public
      * @param string $key
      * @return mixed

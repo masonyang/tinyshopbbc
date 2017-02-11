@@ -80,7 +80,7 @@ class Tiny
     /**
      * 设定当前的application
      * @access public
-     * @return mixed
+     * @return WebApp
      */
     public static function app()
     {
@@ -156,7 +156,7 @@ class Tiny
      *
      * @access public
      * @param mixed $config webapp的配制文件
-     * @return mixed
+     * @return WebApp
      */
     public static function createWebApp($config=null)
     {
@@ -178,7 +178,7 @@ class Tiny
      * @access public
      * @param mixed $className
      * @param mixed $config
-     * @return mixed
+     * @return App
      */
     public static function createApp($className,$config=null)
     {
