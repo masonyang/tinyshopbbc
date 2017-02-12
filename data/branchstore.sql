@@ -677,3 +677,12 @@ CREATE TABLE `tiny_attention` (
   `time` datetime DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
+DROP TABLE IF EXISTS `tiny_goods_sales_statistics`;
+CREATE TABLE `tiny_goods_sales_statistics` (
+ `stat_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '统计id',
+  `gid` bigint(20) NOT NULL COMMENT '商品id',
+  `gcount` int(11) DEFAULT NULL COMMENT '商品销售数量',
+  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
+  PRIMARY KEY (`stat_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='商品销量统计';
+ALTER TABLE `tiny_goods_sales_statistics` add INDEX idx_gcount (gcount);

@@ -78,16 +78,14 @@ class OrdercountBill
         return $data['id'] ? $data['id'] : 0;
     }
 
-}
+    public static function getOrderGoodsSalesNumsBySiteUrl($siteurl = 'all',$time)
+    {
+        $orderModel = new Model('order_goods',$siteurl);
 
-//DROP TABLE IF EXISTS `tiny_order_count_stat`;
-//CREATE TABLE `tiny_order_count_stat` (
-// `stat_id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '统计id',
-//  `site_url` varchar(255) NOT NULL COMMENT '站点网址',
-//  `new_orders_num` int(11) DEFAULT NULL COMMENT '新增订单数量',
-//  `order_amounts` int(11) DEFAULT NULL COMMENT '营业额',
-//  `create_time` int(11) DEFAULT NULL COMMENT '创建时间',
-//  PRIMARY KEY (`stat_id`)
-//) ENGINE=MyISAM DEFAULT CHARSET=utf8 COMMENT='订单统计';
-//ALTER TABLE `tiny_order_count_stat` add INDEX idx_s_c (site_url,create_time);
+        $data = $orderModel->fields('goods_id as gid,sum(goods_nums) as gcount')->group('goods_id')->findAll();
+
+        return $data;
+    }
+
+}
 

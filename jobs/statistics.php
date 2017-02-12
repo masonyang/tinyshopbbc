@@ -19,7 +19,8 @@ class statisticsJob extends syncdataJob
     private $data = array();
 
     private $syncMapper = array(
-        'ordercount'=>'statistics_ordercountJob',
+        'ordercount'=>'statistics_ordercountJob',//分店订单量统计
+        'goodsrecommend'=>'statistics_goodsrecommendJob',//分店商品销售量统计
     );
 
     protected function __before()
@@ -36,6 +37,11 @@ class statisticsJob extends syncdataJob
         switch($this->statType){
             case 'ordercount':
                 $type = $this->syncMapper['ordercount'];
+                $result = $type::run($this->data);
+
+                break;
+            case 'goodsrecommend':
+                $type = $this->syncMapper['goodsrecommend'];
                 $result = $type::run($this->data);
 
                 break;

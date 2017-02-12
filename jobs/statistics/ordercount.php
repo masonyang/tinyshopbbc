@@ -4,6 +4,9 @@
  * User: yangminsheng
  * Date: 4/12/16
  * Time: 下午4:22
+ *
+ * 分店订单量统计
+ *
  */
 class statistics_ordercountJob
 {
@@ -49,9 +52,9 @@ class statistics_ordercountJob
             $data['create_time'] = $create_time;
 
             if(isset($stat_id)){
-                $model->data()->where('stat_id = '.$stat_id)->update();
+                $model->data($data)->where('stat_id = '.$stat_id)->update();
             }else{
-                $model->data()->insert();
+                $model->data($data)->insert();
             }
         }
 

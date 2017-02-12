@@ -177,7 +177,7 @@ class wppaylink extends wapbase
 	 */
     protected function paylinkv()
     {
-        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/wppaylinkv.log');
+//        error_log(var_export($this->params,1),3,TINY_ROOT.'../data/wppaylinkv.log');
 
         $userId = $this->data->getValueAsPositiveInteger('uid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
         $orderId = $this->data->getValueAsPositiveInteger('oid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);

@@ -43,6 +43,7 @@ class wapapilist extends qqclistapi
         'category'=>'wpgcat',
         'goods'=>'wpgoods',
         'products'=>'wpproducts',
+        'recommend'=>'wpproducts',
         'login'=>'wpcustomer',
         'register'=>'wpcustomer',
         'forgetpwd'=>'wpcustomer',

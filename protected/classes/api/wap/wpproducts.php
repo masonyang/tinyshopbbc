@@ -16,16 +16,24 @@ class wpproducts extends wapbase
         'height'=>'640',
     );
 
+    protected $imageRecommendSize = array(
+        'width'=>'280',
+        'height'=>'280',
+    );
+
     public static $title = array(
-        'products'=>'商品详情'
+        'products'=>'商品详情',
+        'recommend'=>'商品推荐',
     );
 
     public static $lastmodify = array(
         'products'=>'2016-6-23',
+        'recommend'=>'2017-2-12',
     );
 
     public static $notice = array(
         'products'=>'',
+        'recommend'=>'',
     );
 
     public static $requestParams = array(
@@ -41,6 +49,26 @@ class wpproducts extends wapbase
                 'required'=>'必须',
                 'type'=>'int',
                 'content'=>'会员id 默认: 0',
+            ),
+        ),
+        'recommend'=>array(
+            array(
+                'colum'=>'type',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'推荐类型:1-按商品销售量',
+            ),
+            array(
+                'colum'=>'sort',
+                'required'=>'必须',
+                'type'=>'string',
+                'content'=>'排序顺序:desc、asc',
+            ),
+            array(
+                'colum'=>'limit',
+                'required'=>'必须',
+                'type'=>'int',
+                'content'=>'要求返回条数',
             ),
         ),
     );
@@ -92,10 +120,29 @@ class wpproducts extends wapbase
                 'content'=>'是否收藏 [已收藏:fav,未收藏:nofav]（当存在会员id时候，使用）',
             ),
         ),
+        'recommend'=>array(
+            array(
+                'colum'=>'gid',
+                'content'=>'商品id',
+            ),
+            array(
+                'colum'=>'name',
+                'content'=>'商品名称',
+            ),
+            array(
+                'colum'=>'price',
+                'content'=>'销售价',
+            ),
+            array(
+                'colum'=>'img',
+                'content'=>'图片地址',
+            ),
+        ),
     );
 
     public static $requestUrl = array(
-        'products'=>'     /index.php?con=api&act=index&method=wpproducts'
+        'products'=>'     /index.php?con=api&act=index&method=wpproducts',
+        'recommend'=>'     /index.php?con=api&act=index&method=wpproducts&source=recommend',
     );
 
     public function __construct($params = array())
@@ -108,6 +155,17 @@ class wpproducts extends wapbase
     }
 
     public function index()
+    {
+
+        if(isset($this->params['source'])){
+            $this->products();
+        }elseif($this->params['source'] == 'recommend'){
+            $this->recommend();
+        }
+
+    }
+
+    protected function products()
     {
         $id = intval($this->params['id']);
 
@@ -240,7 +298,120 @@ class wpproducts extends wapbase
             $this->output['msg'] = '商品详情获取失败';
             $this->output();
         }
+    }
 
+    protected function recommend()
+    {
+        $type = $this->params['type'];
+
+        if(!isset($this->params['sort']) || !in_array($this->params['sort'],array('desc','asc'))){
+            $this->params['sort'] = 'desc';
+        }
+
+        switch($type){
+            case 1://按商品销售量
+            default:
+                $filter['columns'] = 'stat_id,gid,gcount';
+                $filter['tablename'] = 'goods_sales_statistics';
+                $filter['order'] = 'gcount '.$this->params['sort'];
+                break;
+        }
+
+        $return['limit'] = '0 ,'.$this->params['limit'];
+
+        $recommendModel = new Model($filter['tablename']);
+
+        $recommendModel->fields($filter['columns']);
+
+        if($filter['where']){
+            $recommendModel->where($filter['where']);
+        }
+
+        $recommendModel->limit($filter['limit']);
+
+        if($filter['order']){
+            $recommendModel->order($filter['order']);
+        }
+
+        $recommendData = $recommendModel->findAll();
+
+        if($recommendData){
+
+            $_data = array();
+            $gids = array();
+
+            foreach($recommendData as $val){
+                $gids[$val['gid']] = $val['gcount'];
+            }
+
+            $goodsData = $this->goodsModel->fields('id,name,branchstore_goods_name,img,sell_price,branchstore_sell_price')->where('id in ('.implode(',',array_keys($gids)).') and is_online=0')->findAll();
+
+            $i = 0;
+
+            foreach($goodsData as $val){
+
+                if(($val['branchstore_sell_price'] == '0.00') || ($val['branchstore_sell_price'] == '0') || ($val['branchstore_sell_price'] == '')){
+                    $price = $val['sell_price'];
+                }else{
+                    $price = $val['branchstore_sell_price'];
+                }
+
+                $name = ($val['branchstore_goods_name']) ? $val['branchstore_goods_name'] : $val['name'];
+
+                $filename = self::getApiUrl().$val['img'];
+
+                $image = ImageClipper::getInstance()->getImage($filename,$this->imageRecommendSize['width'],$this->imageRecommendSize['height']);
+
+                $_data['goods'][$i]['gid'] = $val['id'];
+                $_data['goods'][$i]['name'] = $name;
+                $_data['goods'][$i]['img'] = $image['src'];
+                $_data['goods'][$i]['price'] = $price;
+                $i++;
+
+            }
+
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '商品推荐列表获取成功';
+            $this->output($_data);
+
+        }else{
+            $this->output['status'] = 'succ';
+            $this->output['msg'] = '暂无商品推荐';
+            $this->output();
+        }
+
+    }
+
+    public function recommend_demo()
+    {
+        return array(
+            'fail'=>array(
+                'status'=>'fail',
+                'msg'=>'商品推荐列表获取失败',
+                'data'=>array(),
+            ),
+            'succ'=>array(
+                'status'=>'succ',
+                'msg'=>'商品推荐列表获取成功/暂无商品推荐',
+                'data'=>array(
+                    'count'=>4,
+                    'goods'=>array(
+                        array(
+                            'gid' => 5,
+                            'name' => 'KAPA服饰',
+                            'price'=>1000.00,
+                            'img'=>'',
+                        ),
+                        array(
+                            'gid' => 1,
+                            'name' => 'MacBook电脑',
+                            'price'=>100000.00,
+                            'img'=>'',
+                        ),
+                    ),
+                ),
+            )
+        );
     }
 
     public function products_demo()

@@ -40,6 +40,8 @@ class baseapi
         header('Access-Control-Allow-Origin:*');
 //        header('Access-Control-Expose-Headers:X-Reddit-Tracking, X-Moose;');
 
+        $this->verifyDomain();
+
         if(self::$test || isset($params['mason'])){
 
         }else{
@@ -120,6 +122,17 @@ class baseapi
         return json_decode($verify,1);
     }
 
+    protected function verifyDomain()
+    {
+        $serverName = Tiny::getServerName();
+
+        if(!$serverName || ($serverName['top'] == 'zd')){
+            echo 'haha';
+            exit;
+        }
+
+
+    }
 
 }
 
