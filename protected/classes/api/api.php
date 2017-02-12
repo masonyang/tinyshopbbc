@@ -66,7 +66,7 @@ class baseapi
 
 
         $this->params = $params;
-        $this->data = new InputData();
+        $this->data = new InputData($params);
     }
 
     public function index()

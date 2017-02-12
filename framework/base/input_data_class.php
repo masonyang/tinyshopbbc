@@ -61,9 +61,14 @@ class InputData
 	/**
 	 * 实例化
 	 */
-	public function __construct()
+	public function __construct($params = array())
 	{
-		$this->data = Req::args();
+        if($params){
+            $this->data = $params;
+        }else{
+            $this->data = Req::args();
+        }
+
 	}
 	
 	/**

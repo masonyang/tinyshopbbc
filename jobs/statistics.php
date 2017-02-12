@@ -5,6 +5,9 @@
  * Date: 4/12/16
  * Time: 下午4:20
  * 报表统计 job
+ *
+ * php /jobs/job.php statistics --stattype=goodsrecommend
+ *
  */
 class statisticsJob extends syncdataJob
 {
