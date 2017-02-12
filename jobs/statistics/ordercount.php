@@ -1,12 +1,9 @@
 <?php
 /**
- * Created by PhpStorm.
+ * 分店商品销售量统计
  * User: yangminsheng
  * Date: 4/12/16
  * Time: 下午4:22
- *
- * 分店订单量统计
- *
  */
 class statistics_ordercountJob
 {

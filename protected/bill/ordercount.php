@@ -1,6 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
+ * 订单计数逻辑层
  * User: yangminsheng
  * Date: 4/12/16
  * Time: 下午3:27
@@ -77,10 +77,16 @@ class OrdercountBill
 
         return $data['id'] ? $data['id'] : 0;
     }
-
-    public static function getOrderGoodsSalesNumsBySiteUrl($siteurl = 'all',$time)
+	
+	/**
+	 * 根据站点url获取订单商品销量
+	 * @param string $siteUrl
+	 * @param int $time
+	 * @return array
+	 */
+    public static function getOrderGoodsSalesNumsBySiteUrl($siteUrl = 'all',$time)
     {
-        $orderModel = new Model('order_goods',$siteurl);
+        $orderModel = new Model('order_goods',$siteUrl);
 
         $data = $orderModel->fields('goods_id as gid,sum(goods_nums) as gcount')->group('goods_id')->findAll();
 
