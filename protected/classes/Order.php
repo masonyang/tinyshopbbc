@@ -476,7 +476,7 @@ class Order{
         $paymentModel = new Model("payment as pa");
         $paymentInfo = $paymentModel->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$order_info['payment']."' or pi.class_name = '".$order_info['payment']."'")->find();
 
-        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile'))){//支付宝支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
+        if(in_array($paymentInfo['class_name'],array('alipaydirect','alipaytrad','alipay','alipaygateway','alipaymobile','wechat'))){//支付宝支付、微信支付  收益=订单金额-分销商批发价格-(订单金额*0.6%)
             $is_onlinepay = true;
         }else{
             $is_onlinepay = false;

@@ -665,12 +665,27 @@ class wpcarts extends wapbase
         $return['order']['promlist'] = $promlist;
 
         $paymentModel = new Model('payment','zd','salve');
-        $payment = $paymentModel->where('pay_name = "支付宝[手机支付]"')->find();
+        $payments = $paymentModel->findAll();
 
-        if($payment){
+        if($payments){
 
-            $return['payment']['paymentid'] = $payment['id'];
-            $return['payment']['payment_name'] = '支付宝[手机支付]';
+            $payment_type = '';
+
+            foreach($payments as $k =>$payment){
+
+                switch($payment['pay_name']){
+                    case '支付宝[手机支付]':
+                        $payment_type = 'wap_alipaymobile';
+                        break;
+                    case '微信[公众号支付]':
+                        $payment_type = 'wap_wechat';
+                        break;
+                }
+
+                $return['payment'][$k]['paymentid'] = $payment['id'];
+                $return['payment'][$k]['payment_type'] = $payment_type;
+                $return['payment'][$k]['payment_name'] = $payment['pay_name'];
+            }
         }
 
         if($addrData){
@@ -1114,8 +1129,16 @@ class wpcarts extends wapbase
                         'payable_freight'=>'配送费',
                     ),
                     'payment'=>array(
-                        'paymentid'=>'支付方式id ',
-                        'payment_name'=>'支付方式名称 ',
+                        array(
+                            'paymentid'=>'9 [支付方式id]',
+                            'payment_type'=>'wap_alipaymobile [支付方式类型]',
+                            'payment_name'=>'支付宝wap支付 [支付方式名称]',
+                        ),
+                        array(
+                            'paymentid'=>'11 [支付方式id]',
+                            'payment_type'=>'wap_wechat [支付方式类型]',
+                            'payment_name'=>'微信支付 [支付方式名称]',
+                        ),
                     ),
                 ),
             )

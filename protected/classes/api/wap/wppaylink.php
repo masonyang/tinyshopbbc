@@ -10,8 +10,8 @@ class wppaylink extends wapbase
 {
 
     public static $title = array(
-        'paylinkv'=>'支付宝手机支付native方式,支付前验证订单信息，并返回支付相关信息 以便前端调用支付方式',
-        'syncdopay'=>'支付宝手机支付native方式，支付同步方法',
+        'paylinkv'=>'支付前验证订单信息，并返回支付相关信息 以便前端调用支付方式',
+        'syncdopay'=>'支付同步方法',
     );
 
     public static $lastmodify = array(
@@ -106,11 +106,10 @@ class wppaylink extends wapbase
 
     protected function syncdopay()
     {
-        echo 121;exit;
         //从URL中获取支付方式
         $payment_id      = Filter::int($this->params['paymentid']);
         $payment = new Payment($payment_id);
-        $paymentPlugin = $payment->getPaymentNativePlugin();
+        $paymentPlugin = $payment->getPaymentPlugin();
 
         if(!is_object($paymentPlugin))
         {
