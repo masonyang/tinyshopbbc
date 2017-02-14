@@ -12,7 +12,7 @@ class Wechat
 	 * 单例
 	 * @var
 	 */
-	private static $singleton;
+	private static $singletons;
 	
 	/**
 	 * @var Gaoming13\WechatPhpSdk\Api
@@ -44,11 +44,12 @@ class Wechat
 	 */
 	public static function getInstance($config)
 	{
-		if(self::$singleton === null)
+		$key = md5($config);
+		if(!isset(self::$singletons[$key]) || self::$singletons[$key] === null)
 		{
-			self::$singleton = new self($config);
+			self::$singletons[$key] = new self($config);
 		}
-		return self::$singleton;
+		return self::$singletons[$key];
 	}
 	
 	/**
@@ -165,15 +166,19 @@ class Wechat
 	}
 	
 	/**
-	 * 处理业务逻辑
+	 * 处理微信异步通知
 	 */
-	public function doAsyncPayNotify()
+	public function progressWxPayNotify()
 	{
-		list($res, $notifyData, $replyData) = $this->_api->progressWxPayNotify();
-		
-		// TODO 处理业务逻辑
-		
+		return $this->_api->progressWxPayNotify();
+	}
+	
+	/**
+	 * 获取异步通知
+	 * @param $replyData
+	 */
+	public static function replyWxPayNotify($replyData)
+	{
 		apiLib::replyWxPayNotify($replyData);
-		exit();
 	}
 }

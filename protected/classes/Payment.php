@@ -12,13 +12,23 @@ class Payment{
 	private $_config = null;
 	
 	/**
-	 * 获取实例
+	 * 单例
+	 * @var Payment
+	 */
+	private static $_singleton = null;
+	
+	/**
+	 * 获取单例
 	 * @param $payment_id
 	 * @return Payment
 	 */
 	public static function getInstance($payment_id)
 	{
-		return new self($payment_id);
+		if(self::$_singleton === null)
+		{
+			self::$_singleton = new self($payment_id);
+		}
+		return self::$_singleton;
 	}
 	
 	public function __construct($payment_id){
@@ -29,6 +39,15 @@ class Payment{
             $this->_config = unserialize($this->payment['config']);
             if(empty($this->_config)) $this->_config = null;
         }
+	}
+	
+	/**
+	 * 获取配置
+	 * @return array
+	 */
+	public function getConfig()
+	{
+		return $this->_config;
 	}
 	
 	/**

@@ -9,6 +9,12 @@ class pay_wechat extends PaymentPlugin
 	public $name = '微信公众号支付';
 	
 	/**
+	 * 应答数据
+	 * @var null
+	 */
+	private $_replyData = null;
+	
+	/**
 	 * 取得配置参数
 	 * @return array
 	 */
@@ -23,6 +29,42 @@ class pay_wechat extends PaymentPlugin
 	}
 	
 	/**
+	 * 终止异步处理
+	 */
+	public function asyncStop()
+	{
+		Wechat::replyWxPayNotify($this->_replyData);
+		exit();
+	}
+	
+	/**
+	 * 异步处理
+	 * @param $callbackData
+	 * @param $paymentId
+	 * @param $money
+	 * @param $message
+	 * @param $orderNo
+	 * @return bool
+	 */
+	public function callback( $callbackData , &$paymentId , &$money , &$message , &$orderNo )
+	{
+		$server = $this->_getServer(Payment::getInstance($paymentId)->getConfig());
+		
+		list($res, $notifyData, $this->_replyData) = $server->progressWxPayNotify();
+		
+		if(!$res)
+		{
+			return false;
+		}
+		
+		$orderNo = $notifyData['out_trade_no'];
+		$money = $notifyData['total_fee'];
+		$message = $this->_replyData['return_msg'];
+		
+		return true;
+	}
+	
+	/**
 	 * 获取打包数据
 	 * @param array $payment
 	 * @return array|bool
@@ -30,18 +72,7 @@ class pay_wechat extends PaymentPlugin
 	 */
 	public function packData($payment)
 	{
-		$server = Wechat::getInstance(
-			array(
-			'appId' => $payment['M_AppId'] ,
-			'appSecret' => $payment['M_AppSecret'] ,
-			'mchId' => $payment['M_PartnerId'] ,
-			'key' => $payment['M_PartnerKey'] ,
-			)
-		)->setRedirectUrl(
-			'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
-		)->setNotifyUrl(
-			$this->asyncCallbackUrl
-		);
+		$server = $this->_getServer(Payment::getInstance($payment['paymentid'])->getConfig());
 		
 		$openId = $server->getOpenId($payment['uid']);
 		
@@ -65,5 +96,26 @@ class pay_wechat extends PaymentPlugin
 		}
 		
 		return $server->getWxPayJsApiParameters($wxOrder['prepay_id']);
+	}
+	
+	/**
+	 * 获取server
+	 * @param $payment
+	 * @return Wechat
+	 */
+	private function _getServer($payment)
+	{
+		return Wechat::getInstance(
+			array(
+				'appId' => $payment['app_id'] ,
+				'appSecret' => $payment['app_secret'] ,
+				'mchId' => $payment['partner_id'] ,
+				'key' => $payment['partner_key'] ,
+			)
+		)->setRedirectUrl(
+			'http://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']
+		)->setNotifyUrl(
+			$this->asyncCallbackUrl
+		);
 	}
 }
