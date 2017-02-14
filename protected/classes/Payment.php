@@ -15,7 +15,7 @@ class Payment{
 	 * 单例
 	 * @var Payment
 	 */
-	private static $_singleton = null;
+	private static $singletons = null;
 	
 	/**
 	 * 获取单例
@@ -24,11 +24,11 @@ class Payment{
 	 */
 	public static function getInstance($payment_id)
 	{
-		if(self::$_singleton === null)
+		if(!isset(self::$singletons[$payment_id]) || self::$singletons[$payment_id] === null)
 		{
-			self::$_singleton = new self($payment_id);
+			self::$singletons[$payment_id] = new self($payment_id);
 		}
-		return self::$_singleton;
+		return self::$singletons[$payment_id];
 	}
 	
 	public function __construct($payment_id){
