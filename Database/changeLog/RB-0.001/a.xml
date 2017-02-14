@@ -7,10 +7,11 @@
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
 
     <changeSet id="1" author="maskwang">
-        <comment>用户表增加微信信息</comment>
-        <addColumn tableName="tiny_user">
-            <column name="wxOpenId" type="varchar(100)" defaultValue="" remarks="微信用户openId"/>
-            <column name="wxAccessToken" type="varchar(100)" defaultValue="" remarks="微信用户授权access_token"/>
-        </addColumn>
+        <comment>给tiny_pay_plugin添加微信wap支付</comment>
+        <sql>
+            INSERT INTO `tiny_pay_plugin` (`name`, `class_name`, `description`, `logo`)
+            VALUES
+            ('微信[公众号支付]', 'wechat', '微信公众号支付', '/payments/logos/pay_wechat.gif');
+        </sql>
     </changeSet>
 </databaseChangeLog>
