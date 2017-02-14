@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e8923cff6d12236319a5e15266424a41",
+    "content-hash": "b4a40a28c04a8653e7f41209227791eb",
     "packages": [
         {
             "name": "endroid/qrcode",
@@ -65,6 +65,48 @@
                 "symfony"
             ],
             "time": "2017-01-03T11:02:14+00:00"
+        },
+        {
+            "name": "gaoming13/wechat-php-sdk",
+            "version": "1.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gaoming13/wechat-php-sdk.git",
+                "reference": "aa3e4aad90a154d2341d4e5d91789a457475e545"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/gaoming13/wechat-php-sdk/aa3e4aad90a154d2341d4e5d91789a457475e545.zip",
+                "reference": "aa3e4aad90a154d2341d4e5d91789a457475e545",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mcrypt": "*",
+                "php": ">=5.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Gaoming13\\WechatPhpSdk\\": "src/WechatPhpSdk/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "gaoming13",
+                    "email": "gaoming13@yeah.net"
+                }
+            ],
+            "description": "微信公众平台php版开发包",
+            "keywords": [
+                "wechat",
+                "wechat-php-sdk",
+                "weixin"
+            ],
+            "time": "2016-12-28T05:40:18+00:00"
         },
         {
             "name": "paragonie/random_compat",

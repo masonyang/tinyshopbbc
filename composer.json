@@ -2,7 +2,8 @@
   "require": {
     "ramsey/uuid": "~2.7" ,
     "endroid/qrcode": "^1.5",
-    "PHPOffice/PHPExcel": "^1.8"
+    "PHPOffice/PHPExcel": "^1.8",
+    "gaoming13/wechat-php-sdk": "1.*"
   } ,
   "repositories": {
     "packagist": {

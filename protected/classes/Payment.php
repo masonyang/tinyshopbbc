@@ -98,9 +98,9 @@ class Payment{
 			$payment['M_AppId'] = $this->_config['app_id'];
 		}
 		
-		if(isset($this->_config['app_key']))
+		if(isset($this->_config['app_secret']))
 		{
-			$payment['M_AppKey'] = $this->_config['app_key'];
+			$payment['M_AppSecret'] = $this->_config['app_secret'];
 		}
 		
 		$model = new Model("order");

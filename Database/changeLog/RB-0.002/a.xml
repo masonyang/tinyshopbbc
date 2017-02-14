@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://apitest.yourdream.cc/dbchangelog-3.0.xsd
+        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet id="1" author="maskwang">
+        <comment>用户表增加微信信息</comment>
+        <addColumn tableName="tiny_user">
+            <column name="wxOpenId" type="varchar(100)" defaultValue="" remarks="微信用户openId"/>
+            <column name="wxAccessToken" type="varchar(100)" defaultValue="" remarks="微信用户授权access_token"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>
