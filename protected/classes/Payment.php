@@ -126,7 +126,7 @@ class Payment{
 		if($type == 'order'){
 			$order_id = $argument;
 			//获取订单信息
-			$order = $model->where('id = '.$order_id.' and status = 2')->find();
+			$order = $model->where('id = '.$order_id.' and status = 3')->find();
 			if(empty($order))
 			{
 				$msg = array('type'=>'fail','msg'=>'订单信息不正确，不能进行支付！');
