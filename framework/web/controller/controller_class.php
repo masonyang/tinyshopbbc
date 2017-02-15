@@ -68,6 +68,7 @@ class Controller extends Object
      */
     public function run()
     {
+
         if(Tiny::app()->checkToken('redirect')){
             $data = Req::args();
             unset($data['con'],$data['act'],$data['tiny_token_redirect']);

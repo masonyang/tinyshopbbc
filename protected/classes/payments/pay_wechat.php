@@ -13,7 +13,19 @@ class pay_wechat extends PaymentPlugin
 	 * @var null
 	 */
 	private $_replyData = null;
-	
+
+    /**
+     * @brief 重写构造函数
+     */
+    public function __construct($paymentId=0){
+
+        parent::__construct($paymentId);
+
+        //异步回调地址
+        $this->asyncCallbackUrl = str_replace('plugins/','',Url::fullUrlFormat("/payment/async_callback/payment_id/{$paymentId}",true));
+
+    }
+
 	/**
 	 * 取得配置参数
 	 * @return array

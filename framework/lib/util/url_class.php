@@ -255,7 +255,7 @@ class Url
     /**
      *路径格式化处理
      */
-    static function urlFormat($path)
+    static function urlFormat($path,$restful = false)
     {
         if($path=='') return self::baseDir();
         if(preg_match('@[/\@#*!]?(https?://.+)$@i', $path,$matches)) return $matches[1];
@@ -263,7 +263,7 @@ class Url
         {
             case '/':
             {
-                $path = self::createUrl($path);
+                $path = self::createUrl($path,$restful);
                 return rtrim(self::baseUri(),'/').$path;//解释成绝对路由地址
             }
             case '@': return self::baseDir().substr($path,1);//解析成绝对路径
@@ -305,19 +305,22 @@ class Url
                 {
                     if(is_string($k))$url .= '/'.$k.'/'.$v;
                 }
-                $path = self::createUrl($url);
+                $path = self::createUrl($url,$restful);
                 return rtrim(self::baseUri(),'/').$path;//解释成绝对路由地址
             }
         }
     }
+
     //完整路径的format
-    static function fullUrlFormat($path)
+    static function fullUrlFormat($path,$restful = false)
     {
         $path = trim($path);
         if(preg_match('@[/\@#*!]?(https?://.+)$@i', $path,$matches)) return $matches[1];
-        return self::getHost().self::urlFormat($path);
+
+        return self::getHost().self::urlFormat($path,$restful);
+
     }
-    public static function createUrl($_url)
+    public static function createUrl($_url,$restful = false)
     {
         $routes  =  self::getRoute();
         $route = new Route($routes);
@@ -376,7 +379,7 @@ class Url
             }
             //$param_arr = array_merge($param_arr,$param);
 
-            if(self::getUrlFormat()=='get')$url = '?'.http_build_query($param_arr);//.($param==''?'':'&'.$param);
+            if(self::getUrlFormat()=='get' && !$restful)$url = '?'.http_build_query($param_arr);//.($param==''?'':'&'.$param);
             else
             {
                 $param_key = implode("/",$param_key);
