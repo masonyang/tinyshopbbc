@@ -43,7 +43,7 @@ class SelectBranch
                 <select name="site" id="selectSite"><option value="all">--选择分店--</option>';
 
             foreach($distrs as $distr){
-                $selectbranch .= '<option value="'.$distr['site_url'].'">'.$distr['site_url'].'</option>';
+                $selectbranch .= '<option value="'.$distr['site_url'].'">'.$distr['distributor_name'].'</option>';
             }
 
             $selectbranch .= '</select>

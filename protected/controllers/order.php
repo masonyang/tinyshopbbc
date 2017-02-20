@@ -300,6 +300,24 @@ class OrderController extends Controller
 		}
 
 		$this->assign("payment",$payment);
+
+
+        $serverName = Tiny::getServerName();
+
+        if($serverName['top'] == 'zd'){
+            $distrModel = new Model('distributor',$headStore,"salve");
+
+            $disDatas = $distrModel->fields('distributor_name,site_url')->findAll();
+
+            $distrdata = array();
+
+            foreach($disDatas as $val){
+                $distrdata[$val['site_url']] = $val['distributor_name'];
+            }
+
+            $this->assign("distrdata",$distrdata);
+        }
+
 		$this->redirect();
 	}
 
