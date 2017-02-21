@@ -65,7 +65,7 @@ class wppaylink extends wapbase
         'syncdopay'=>array(
             array(
                 'colum'=>'pay_data',
-                'content'=>'支付宝相关参数',
+                'content'=>'支付宝相关参数(支付宝支付是返回url，微信支付是返回具体参数)',
             ),
         ),
     );
@@ -340,9 +340,20 @@ class wppaylink extends wapbase
 
                 $msg = '';
 
-                $sendData['payment_id'] = $paymentId;
+                if($payment_info['name'] == '支付宝[手机支付]'){
 
-                $payData['pay_data'] = $sendData;
+                    $url = '';
+
+                    foreach($sendData as $key=>$item){
+                        $url .= "&".$key."=".$item;
+                    }
+                    $payData['pay_data'] = baseapi::getApiUrl().'index.php?con=payment&act=paymobile&payment_id='.$paymentId.'&order_id='.$orderId;
+
+                }else{
+                    $sendData['payment_id'] = $paymentId;
+
+                    $payData['pay_data'] = $sendData;
+                }
 
                 return true;
             }else{
