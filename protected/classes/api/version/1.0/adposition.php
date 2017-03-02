@@ -5,24 +5,24 @@
  * Date: 25/9/16
  * Time: 下午5:49
  * adposition 广告位
- * http://a.test.com/index.php?con=api&act=index&method=adposition&apid=32&mason=1
+ * http://a.test.com/index.php?con=api&act=index&method=adpositionv1&apid=32&mason=1
  */
-class wpadposition extends wapbase
+class adpositionv1 extends adposition
 {
     public static $title = array(
-        'adposition'=>'广告位'
+        'adpositionv1'=>'广告位 (1.0版本)'
     );
 
     public static $lastmodify = array(
-        'adposition'=>'2016-9-25',
+        'adpositionv1'=>'2017-3-2',
     );
 
     public static $notice = array(
-        'adposition'=>'',
+        'adpositionv1'=>'',
     );
 
     public static $requestParams = array(
-        'adposition'=>array(
+        'adpositionv1'=>array(
             array(
                 'colum'=>'apid',
                 'required'=>'必须',
@@ -33,7 +33,7 @@ class wpadposition extends wapbase
     );
 
     public static $responsetParams = array(
-        'adposition'=>array(
+        'adpositionv1'=>array(
             array(
                 'colum'=>'apid',
                 'content'=>'广告位id',
@@ -54,7 +54,7 @@ class wpadposition extends wapbase
     );
 
     public static $requestUrl = array(
-        'adposition'=>'     /index.php?con=api&act=index&method=wpadposition'
+        'adpositionv1'=>'     /index.php?con=api&act=index&method=adpositionv1'
     );
 
     public function __construct($params = array())
@@ -114,7 +114,7 @@ class wpadposition extends wapbase
 
     }
 
-    public function adposition_demo()
+    public function adpositionv1_demo()
     {
         return array(
             'fail'=>array(

@@ -157,6 +157,7 @@
 
 "paylinkv1"=>"api/version/1.0/paylink.php",//支付前验证订单信息，并返回支付相关信息 以便前端调用支付方式
 "productsv1"=>"api/version/1.0/products.php",//商品详情 1.0版本
+"adpositionv1"=>"api/version/1.0/adposition.php",//广告位 1.0版本
 
 /**********************分店前台app端 API INTERFACE************************************/
 
