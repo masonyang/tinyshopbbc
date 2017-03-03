@@ -502,8 +502,7 @@ CREATE TABLE `tiny_address` (
   `addr` varchar(250) DEFAULT NULL ,
   `is_default` tinyint(1) DEFAULT '0' ,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 ;
-INSERT INTO `tiny_address` (`id`,`user_id`,`accept_name`,`mobile`,`phone`,`province`,`city`,`county`,`zip`,`addr`,`is_default`) VALUES ('1','1','晓飞 宁','13589100333','13589100475','370000','370100','370102','250000','山东省ddddddd','1');
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
 DROP TABLE IF EXISTS `tiny_prom_goods`;
 CREATE TABLE `tiny_prom_goods` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
