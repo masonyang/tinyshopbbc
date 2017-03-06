@@ -111,13 +111,13 @@ class products extends baseapi
     {
         $id = intval($this->params['id']);
 
-        $storenums = $this->getStoreById($id);
-
         $uid = $this->params['uid'];
 
         $data = array();
         $goods = $this->goodsModel->fields('id,name,branchstore_goods_name,goods_no,pro_no,sell_price,branchstore_sell_price,imgs,unit,content,store_nums')->where('id='.$id)->find();
 
+
+        $storenums = $this->getStoreById($id);
 
         if($goods){
             $products = $this->productsModel->where('goods_id='.$id)->findAll();
