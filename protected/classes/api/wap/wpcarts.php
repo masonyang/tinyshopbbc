@@ -350,7 +350,7 @@ class wpcarts extends wapbase
                     if($less_num <= 0){
                         $info = '该商品暂缺货';
                         $data['less_nums'] = ($less_num < 0) ? 0 : $less_num;
-                    }elseif(($product['store_nums'] > 0) && ($less_num >= $num)){
+                    }elseif(($pro['store_nums'] > 0) && ($less_num >= $num)){
                         $cart->addItem($product['id'],$num);
                         $this->output['status'] = 'succ';
 
