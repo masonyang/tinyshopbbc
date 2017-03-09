@@ -210,6 +210,9 @@ class productsv1 extends products
 
 
                 $sys_attrprice['specslist_arr'] = $_specslist_arr;
+            }else{
+                $sys_attrprice['combine_arr'] = array();
+                $sys_attrprice['specslist_arr'] = array();
             }
 
             if($freeze){
