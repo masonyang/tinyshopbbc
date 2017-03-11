@@ -1,665 +1,611 @@
 <?php
-//总店、分店配置映射表
-$db = array(
-    'zd'=>array(
-        'db'=>array(
-            'type' => 'mysql',
-            'domain'=>'zd',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'tinyshop',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'tinyshop',
-            ),
+/**
+ * Created by PhpStorm.
+ * User: yangminsheng
+ * Date: 11/3/17
+ * Time: 上午11:36
+ *
+ * da ~ dz
+ *
+ */
+$db['da'] = array(
+    'db'=>array(
+        'type' => 'mysql',
+        'domain'=>'da',
+        'tablePre' => 'tiny_',
+        'master'=>array(
+            'host' => '10.45.54.89:3306',
+            'user' => 'qqc',
+            'password' => 'qqc-2016-mysql',
+            'name' => 'da',
         ),
-        'theme' => 'default',
-        'themes_mobile' => 'mobile_default',
-        'menu'=>'headstore',
-        'frontend'=>'zd.qqcapp.com/index.php?con=admin&act=index',
-        'backend'=>'zd.qqcapp.com/index.php?con=admin&act=index',
+        'salve'=>array(
+            'host' => '10.45.54.89:3306',
+            'user' => 'qqc',
+            'password' => 'qqc-2016-mysql',
+            'name' => 'da',
+        ),
     ),
-    'a'=>array(
-        'db'=>array(
-            'type' => 'mysql',
-            'domain'=>'a',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'a',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'a',
-            ),
-        ),
-        'theme' => 'default',
-        'themes_mobile' => 'mobile_default',
-        'menu'=>'branchstore',
-        'frontend'=>'a.qqcapp.com',
-        'backend'=>'a.qqcapp.com/index.php?con=admin&act=index',
-    ),
-    'b' =>
-        array (
-            'db' =>
-                array (
-                    'type' => 'mysql',
-                    'domain' => 'b',
-                    'tablePre' => 'tiny_',
-                    'master'=>array(
-                        'host' => '10.45.54.89:3306',
-                        'user' => 'qqc',
-                        'password' => 'qqc-2016-mysql',
-                        'name' => 'b',
-                    ),
-                    'salve'=>array(
-                        'host' => '10.45.54.89:3306',
-                        'user' => 'qqc',
-                        'password' => 'qqc-2016-mysql',
-                        'name' => 'b',
-                    ),
-                ),
-            'theme' => 'default',
-            'themes_mobile' => 'mobile_default',
-            'menu' => 'branchstore',
-            'frontend' => 'b.qqcapp.com',
-            'backend' => 'b.qqcapp.com/index.php?con=admin&act=index',
-        ),
-    'c' =>
-        array (
-            'db' =>
-                array (
-                    'type' => 'mysql',
-                    'domain' => 'c',
-                    'tablePre' => 'tiny_',
-                    'master'=>array(
-                        'host' => '10.45.54.89:3306',
-                        'user' => 'qqc',
-                        'password' => 'qqc-2016-mysql',
-                        'name' => 'c',
-                    ),
-                    'salve'=>array(
-                        'host' => '10.45.54.89:3306',
-                        'user' => 'qqc',
-                        'password' => 'qqc-2016-mysql',
-                        'name' => 'c',
-                    ),
-                ),
-            'theme' => 'default',
-            'themes_mobile' => 'mobile_default',
-            'menu' => 'branchstore',
-            'frontend' => 'c.qqcapp.com',
-            'backend' => 'c.qqcapp.com/index.php?con=admin&act=index',
-        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu'=>'branchstore',
+    'frontend'=>'da.qqcapp.com',
+    'backend'=>'da.qqcapp.com/index.php?con=admin&act=index',
 );
 
-$db['d'] = array (
+$db['dc'] = array (
     'db' =>
         array (
             'type' => 'mysql',
-            'domain' => 'd',
+            'domain' => 'dc',
             'tablePre' => 'tiny_',
             'master'=>array(
                 'host' => '10.45.54.89:3306',
                 'user' => 'qqc',
                 'password' => 'qqc-2016-mysql',
-                'name' => 'd',
+                'name' => 'dc',
             ),
             'salve'=>array(
                 'host' => '10.45.54.89:3306',
                 'user' => 'qqc',
                 'password' => 'qqc-2016-mysql',
-                'name' => 'd',
+                'name' => 'dc',
             ),
         ),
     'theme' => 'default',
     'themes_mobile' => 'mobile_default',
     'menu' => 'branchstore',
-    'frontend' => 'd.qqcapp.com',
-    'backend' => 'd.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['e'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'e',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'e',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'e',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'e.qqcapp.com',
-    'backend' => 'e.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['f'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'f',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'f',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'f',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'f.qqcapp.com',
-    'backend' => 'f.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['g'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'g',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'g',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'g',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'g.qqcapp.com',
-    'backend' => 'g.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['h'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'h',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'h',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'h',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'h.qqcapp.com',
-    'backend' => 'h.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['i'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'i',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'i',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'i',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'i.qqcapp.com',
-    'backend' => 'i.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['j'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'j',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'j',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'j',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'j.qqcapp.com',
-    'backend' => 'j.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['k'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'k',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'k',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'k',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'k.qqcapp.com',
-    'backend' => 'k.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['l'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'l',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'l',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'l',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'l.qqcapp.com',
-    'backend' => 'l.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['n'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'n',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'n',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'n',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'n.qqcapp.com',
-    'backend' => 'n.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['o'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'o',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'o',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'o',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'o.qqcapp.com',
-    'backend' => 'o.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['p'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'p',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'p',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'p',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'p.qqcapp.com',
-    'backend' => 'p.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['q'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'q',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'q',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'q',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'q.qqcapp.com',
-    'backend' => 'q.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['r'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'r',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'r',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'r',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'r.qqcapp.com',
-    'backend' => 'r.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['s'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 's',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 's',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 's',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 's.qqcapp.com',
-    'backend' => 's.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['t'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 't',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 't',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 't',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 't.qqcapp.com',
-    'backend' => 't.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['u'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'u',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'u',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'u',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'u.qqcapp.com',
-    'backend' => 'u.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['v'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'v',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'v',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'v',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'v.qqcapp.com',
-    'backend' => 'v.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['w'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'w',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'w',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'w',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'w.qqcapp.com',
-    'backend' => 'w.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['x'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'x',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'x',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'x',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'x.qqcapp.com',
-    'backend' => 'x.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['y'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'y',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'y',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'y',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'y.qqcapp.com',
-    'backend' => 'y.qqcapp.com/index.php?con=admin&act=index',
-);
-$db['z'] = array (
-    'db' =>
-        array (
-            'type' => 'mysql',
-            'domain' => 'z',
-            'tablePre' => 'tiny_',
-            'master'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'z',
-            ),
-            'salve'=>array(
-                'host' => '10.45.54.89:3306',
-                'user' => 'qqc',
-                'password' => 'qqc-2016-mysql',
-                'name' => 'z',
-            ),
-        ),
-    'theme' => 'default',
-    'themes_mobile' => 'mobile_default',
-    'menu' => 'branchstore',
-    'frontend' => 'z.qqcapp.com',
-    'backend' => 'z.qqcapp.com/index.php?con=admin&act=index',
+    'frontend' => 'dc.qqcapp.com',
+    'backend' => 'dc.qqcapp.com/index.php?con=admin&act=index',
 );
 
-
-require('mapper_qqcapp_aatoaz.php');
-require('mapper_qqcapp_abtoaz.php');
-require('mapper_qqcapp_batobz.php');
-require('mapper_qqcapp_catocz.php');
-require('mapper_qqcapp_datodz.php');
-
-return $db;
-
+$db['de'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'de',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'de',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'de',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'de.qqcapp.com',
+    'backend' => 'de.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['df'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'df',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'df',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'df',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'df.qqcapp.com',
+    'backend' => 'df.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dg'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dg',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dg',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dg',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dg.qqcapp.com',
+    'backend' => 'dg.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dh'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dh',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dh',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dh',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dh.qqcapp.com',
+    'backend' => 'dh.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['di'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'di',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'di',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'di',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'di.qqcapp.com',
+    'backend' => 'di.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dj'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dj',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dj',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dj',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dj.qqcapp.com',
+    'backend' => 'dj.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dk'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dk',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dk',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dk',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dk.qqcapp.com',
+    'backend' => 'dk.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dl'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dl',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dl',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dl',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dl.qqcapp.com',
+    'backend' => 'dl.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dm'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dm',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dm',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dm',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dm.qqcapp.com',
+    'backend' => 'dm.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dn'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dn',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dn',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dn',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dn.qqcapp.com',
+    'backend' => 'dn.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['do'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'do',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'do',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'do',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'do.qqcapp.com',
+    'backend' => 'do.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dp'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dp',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dp',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dp',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dp.qqcapp.com',
+    'backend' => 'dp.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dq'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dq',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dq',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dq',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dq.qqcapp.com',
+    'backend' => 'dq.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dr'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dr',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dr',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dr',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dr.qqcapp.com',
+    'backend' => 'dr.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['ds'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'ds',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'ds',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'ds',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'ds.qqcapp.com',
+    'backend' => 'ds.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dt'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dt',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dt',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dt',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dt.qqcapp.com',
+    'backend' => 'dt.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['du'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'du',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'du',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'du',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'du.qqcapp.com',
+    'backend' => 'du.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dv'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dv',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dv',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dv',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dv.qqcapp.com',
+    'backend' => 'dv.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dw'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dw',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dw',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dw',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dw.qqcapp.com',
+    'backend' => 'dw.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dx'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dx',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dx',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dx',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dx.qqcapp.com',
+    'backend' => 'dx.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dy'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dy',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dy',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dy',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dy.qqcapp.com',
+    'backend' => 'dy.qqcapp.com/index.php?con=admin&act=index',
+);
+$db['dz'] = array (
+    'db' =>
+        array (
+            'type' => 'mysql',
+            'domain' => 'dz',
+            'tablePre' => 'tiny_',
+            'master'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dz',
+            ),
+            'salve'=>array(
+                'host' => '10.45.54.89:3306',
+                'user' => 'qqc',
+                'password' => 'qqc-2016-mysql',
+                'name' => 'dz',
+            ),
+        ),
+    'theme' => 'default',
+    'themes_mobile' => 'mobile_default',
+    'menu' => 'branchstore',
+    'frontend' => 'dz.qqcapp.com',
+    'backend' => 'dz.qqcapp.com/index.php?con=admin&act=index',
+);
