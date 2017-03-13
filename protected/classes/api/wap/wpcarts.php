@@ -399,7 +399,9 @@ class wpcarts extends wapbase
                 if(isset($num)){
                     if($product['id'] && ($num>=1)){
 
-                        if($product['store_nums'] > 0){
+                        $pro = $this->getStoreByProId($product['id'],$product['goods_id'],$productsModel);
+
+                        if($pro['store_nums'] > 0){
                             $cart->decNum($product['id'],$num);
                             $this->output['status'] = 'succ';
                             $info = '操作成功';
