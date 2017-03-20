@@ -42,7 +42,7 @@ class wppaylink extends wapbase
                 'colum'=>'paymentid',
                 'required'=>'是',
                 'type'=>'string',
-                'content'=>'支付方式id',
+                'content'=>'支付方式id[6:支付宝[手机支付];8:微信公众号支付]',
             ),
         ),
         'syncdopay'=>array(
@@ -238,7 +238,7 @@ class wppaylink extends wapbase
 
             $time = strtotime("-".$order_delay." Minute");
             $create_time = strtotime($order['create_time']);
-            if($create_time>=$time || true){ // TODO 为了调试先打开 老是跳登录 @mason
+            if($create_time>=$time){
                 //取得所有订单商品
                 $order_goods = $model->table('order_goods')->fields("product_id,goods_nums")->where('order_id='.$orderId)->findAll();
                 $product_ids = array();
