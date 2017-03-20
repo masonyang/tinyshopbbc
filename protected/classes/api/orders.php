@@ -128,6 +128,14 @@ class orders extends baseapi
                 'colum'=>'products',
                 'content'=>'购买的商品 列表 多维数组',
             ),
+            array(
+                'colum'=>'express_no',
+                'content'=>'物流单号',
+            ),
+            array(
+                'colum'=>'express_company_name',
+                'content'=>'物流公司',
+            ),
         ),
         'ordercancel'=>array(
             array(
@@ -289,6 +297,20 @@ class orders extends baseapi
         $addressModel = new Model('address');
         $addrData = $addressModel->where('user_id='.$orders['user_id'].' and is_default=1')->find();
 
+        // 获取物流单号
+        $docInvoiceModel = new Model("doc_invoice");
+        $docInvoiceData = $docInvoiceModel->where('order_no=' . $orders['order_no'])->find();
+        $express_no = $docInvoiceData['express_no'] ? : '';
+        $express_company_id = $docInvoiceData['express_company_id'] ? : '';
+
+        if ($express_company_id) {
+            $model = new Model('express_company');
+            $express = $model->fields('*')->where('id = '. $express_company_id)->find();
+            $express_company_name = $express ? $express['alias'] : '';
+        } else {
+            $express_company_name = '';
+        }
+
         $this->output['status'] = 'succ';
         $this->output['msg'] = '订单详情获取成功';
         $data['orderlog'] = $orderlog;
@@ -306,6 +328,8 @@ class orders extends baseapi
         $data['payment'] = '支付宝[手机支付]';
         $data['products'] = $products;
         $data['status'] = $status;
+        $data['express_no'] = $express_no;
+        $data['express_company_name'] = $express_company_name;
 
         $this->output($data);
     }
