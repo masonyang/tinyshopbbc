@@ -8,6 +8,8 @@ define("APP_ROOT",dirname(__file__).'/../');
 
 include(APP_ROOT."framework/tiny.php");
 
+Tiny::registerAutoLoad();
+
 try {
 
 	$jobName = $argv[1];
