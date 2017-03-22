@@ -156,13 +156,13 @@ class wpproducts extends wapbase
 
     public function index()
     {
-
         if(isset($this->params['source'])){
-            $this->products();
-        }elseif($this->params['source'] == 'recommend'){
-            $this->recommend();
+            if($this->params['source'] == 'recommend') {
+                $this->recommend();
+            } else {
+                $this->products();
+            }
         }
-
     }
 
     protected function products()
