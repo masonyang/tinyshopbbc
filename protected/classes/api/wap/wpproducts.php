@@ -379,7 +379,7 @@ class wpproducts extends wapbase
         }else{
             $this->output['status'] = 'succ';
             $this->output['msg'] = '暂无商品推荐';
-            $this->output();
+            $this->output(array());
         }
 
     }
