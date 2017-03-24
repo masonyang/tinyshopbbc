@@ -1,6 +1,6 @@
 <?php
 /**
- * description...
+ * description... 弃用
  *
  * @author Tinyhu
  * @package IndexController
@@ -27,7 +27,7 @@ class WeixinController extends Controller{
 
         $currentNode = $menu->currentNode();
         if(isset($currentNode['name']))$this->assign('admin_title',$currentNode['name']);
-        $this->weChat = new WeChat();
+        $this->weChat = WeChat::getInstance();
     }
     public function index()
     {

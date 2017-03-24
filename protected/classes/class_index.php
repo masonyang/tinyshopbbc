@@ -29,7 +29,7 @@
 "syncProducts"=>"datasync/syncProducts.php",
 "syncSpec"=>"datasync/syncSpec.php",
 "syncTag"=>"datasync/syncTag.php",
-"WeChat"=>"advanced/WeChat.php",
+//"WeChat"=>"advanced/WeChat.php", 无用
 //"AlipayMobileNotify"=>"advanced/payments/alipay/lib/alipay_notify.class.php",
 //"AlipayMoblieSubmit"=>"advanced/payments/alipay/lib/alipay_submit.class.php",
 //"pay_alipaymobile"=>"advanced/payments/pay_alipaymobile.php",

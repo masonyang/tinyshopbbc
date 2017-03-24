@@ -13,24 +13,24 @@ class Wechat
 	 * @var
 	 */
 	private static $singletons;
-	
+
 	/**
 	 * @var Gaoming13\WechatPhpSdk\Api
 	 */
 	private $_api;
-	
+
 	/**
 	 * 用户授权回调地址
 	 * @var
 	 */
 	private $_redirectUrl;
-	
+
 	/**
 	 * 异步通知地址
 	 * @var
 	 */
 	private $_notifyUrl;
-	
+
 	/**
 	 * 获取实例
 	 * @param $config
@@ -42,23 +42,34 @@ class Wechat
 	 *          )
 	 * @return Wechat
 	 */
-	public static function getInstance($config)
+	public static function getInstance($config = array())
 	{
-		$key = md5($config);
+	    if ($config) {
+            $key = md5(
+                is_array($config) ? implode(',', $config) : $config
+            );
+        } else {
+	        $key = 'default';
+        }
+
 		if(!isset(self::$singletons[$key]) || self::$singletons[$key] === null)
 		{
 			self::$singletons[$key] = new self($config);
 		}
 		return self::$singletons[$key];
 	}
-	
+
 	/**
 	 * 构造函数
 	 * Wechat constructor.
 	 * @param $config
 	 */
-	protected function __construct($config)
+	protected function __construct($config = array())
 	{
+	    if (empty($config)) {
+	        $config = $this->_getDefaultConfig();
+        }
+
 		$this->_api = new apiLib(array(
 			'appId' => $config['appId'] ,
 			'appSecret' => $config['appSecret'] ,
@@ -69,10 +80,12 @@ class Wechat
 			} ,
 			'save_access_token' => function($token) {
 				$_SESSION['wxAccessToken'] = $token;
-			}
+			} ,
+            'token' 		=> 	'gaoming13', // TODO @maskwang
+            'encodingAESKey' =>	'072vHYArTp33eFwznlSvTRvuyOTe5YME1vxSoyZbzaV'
 		));
 	}
-	
+
 	/**
 	 * 设置异步通知地址
 	 * @param $notifyUrl
@@ -83,7 +96,7 @@ class Wechat
 		$this->_notifyUrl = $notifyUrl;
 		return $this;
 	}
-	
+
 	/**
 	 * 设置用户授权回调地址
 	 * @param $redirectUrl
@@ -94,7 +107,7 @@ class Wechat
 		$this->_redirectUrl = $redirectUrl;
 		return $this;
 	}
-	
+
 	/**
 	 * 获取openId
 	 * @param $userId
@@ -104,19 +117,19 @@ class Wechat
 	{
 		$model = new Model('tiny_user');
 		$user = $model->where("id='".$userId."'")->find();
-		
+
 		if($user && $user['wxOpenId'])
 		{
 			return $user['wxOpenId'];
 		}
-		
+
 		list($err, $userInfo) = $this->_api->get_userinfo_by_authorize('snsapi_base');
 		if($userInfo == null)
 		{
 			$url = $this->_api->get_authorize_url('snsapi_base', $this->_redirectUrl );
 			header('Location:' . $url);
 		}
-		
+
 		//更新信息到用户表
 		$model->table('tiny_user')
 			->data(
@@ -127,10 +140,10 @@ class Wechat
 			)
 			->where("id=".$userId)
 			->update();
-		
+
 		return $userInfo['openid'];
 	}
-	
+
 	/**
 	 * 创建微信预订单
 	 * @param $orderInfo
@@ -146,7 +159,7 @@ class Wechat
 			'notify_url' => $this->_notifyUrl ,
 			'openid' => $orderInfo['openId'] ,
 		));
-		
+
 		// 判断预订单是否生成成功
 		if ($wxOrder['return_code'] == 'SUCCESS' && $wxOrder['result_code'] == 'SUCCESS') {
 			return $wxOrder;
@@ -154,7 +167,7 @@ class Wechat
 			return false;
 		}
 	}
-	
+
 	/**
 	 * 获取JSAPI支付需要的参数
 	 * @param $prepayId
@@ -164,7 +177,7 @@ class Wechat
 	{
 		return $this->_api->getWxPayJsApiParameters($prepayId);
 	}
-	
+
 	/**
 	 * 处理微信异步通知
 	 */
@@ -172,7 +185,7 @@ class Wechat
 	{
 		return $this->_api->progressWxPayNotify();
 	}
-	
+
 	/**
 	 * 获取异步通知
 	 * @param $replyData
@@ -181,4 +194,21 @@ class Wechat
 	{
 		apiLib::replyWxPayNotify($replyData);
 	}
+
+    /**
+     * 获取微信默认配置
+     * @param int $paymentId
+     * @return array
+     */
+	private function _getDefaultConfig($paymentId = 8)
+    {
+        $config = Payment::getInstance($paymentId)->getConfig();
+
+        return array(
+            'appId' => $config['app_id'] ,
+            'appSecret' => $config['app_secret'] ,
+            'mchId' => $config['partner_id'] ,
+            'key' => $config['partner_key'] ,
+        );
+    }
 }

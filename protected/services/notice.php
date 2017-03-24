@@ -57,7 +57,7 @@ class NoticeService
 				switch ($style) {
 					case 'weixin':
 						if(class_exists("WeChat")){
-							$obj = new WeChat();
+							$obj = WeChat::getInstance();
 							$this->noticeClasses['weixin'] = $obj;
 						}
 						break;
