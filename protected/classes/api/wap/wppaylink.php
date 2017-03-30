@@ -44,6 +44,12 @@ class wppaylink extends wapbase
                 'type'=>'string',
                 'content'=>'支付方式id[6:支付宝[手机支付];8:微信公众号支付]',
             ),
+            array(
+                'colum'=>'return_url',
+                'required'=>'是',
+                'type'=>'string',
+                'content'=>'当支付方式为支付宝[手机支付] 时候，需要传',
+            ),
         ),
         'syncdopay'=>array(
             array(
@@ -182,8 +188,10 @@ class wppaylink extends wapbase
         $orderId = $this->data->getValueAsPositiveInteger('oid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
 	    $paymentId = $this->data->getValueAsPositiveInteger('paymentid', 0, true, Exception_Base::STATUS_API_PARAMETER_ERROR);
 	    $extendDatas = $this->params;
-	    
-	    $return = $this->genatePayLink($paymentId, $orderId, $extendDatas, $msg, $payData);
+
+        $return_url = urldecode($this->params['return_url']);
+
+	    $return = $this->genatePayLink($paymentId, $orderId, $extendDatas, $msg, $payData,$return_url);
 	    
         if($return){
             $this->output['status'] = 'succ';
@@ -204,7 +212,7 @@ class wppaylink extends wapbase
 	 * @param array $payData
 	 * @return bool
 	 */
-    protected function genatePayLink($paymentId,$orderId,$extendDatas,&$msg = '',&$payData = array())
+    protected function genatePayLink($paymentId,$orderId,$extendDatas,&$msg = '',&$payData = array(),$return_url = '')
     {
         $payment = Payment::getInstance($paymentId);
         $paymentPlugin = $payment->getPaymentPlugin();
@@ -347,7 +355,7 @@ class wppaylink extends wapbase
                     foreach($sendData as $key=>$item){
                         $url .= "&".$key."=".$item;
                     }
-                    $payData['pay_data'] = baseapi::getApiUrl().'index.php?con=payment&act=paymobile&payment_id='.$paymentId.'&order_id='.$orderId;
+                    $payData['pay_data'] = baseapi::getApiUrl().'index.php?con=payment&act=paymobile&payment_id='.$paymentId.'&order_id='.$orderId.'&return_url='.urlencode($return_url);
 
                 }else{
                     $sendData['payment_id'] = $paymentId;

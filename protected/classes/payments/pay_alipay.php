@@ -104,7 +104,7 @@ class pay_alipay extends PaymentPlugin{
         $return['partner'] = $payment['M_PartnerId'];
         $return['_input_charset'] = 'utf-8';
         $return['payment_type'] = 1;
-        $return['return_url'] = $this->callbackUrl;
+        $return['return_url'] = isset($payment['return_url']) ? $payment['return_url'] : $this->callbackUrl;
         $return['notify_url'] = $this->asyncCallbackUrl;
 
         $return['subject'] = $payment['R_Name'];

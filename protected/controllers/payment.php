@@ -550,6 +550,10 @@ class PaymentController extends Controller
         $order_id = Filter::int(Req::args('order_id'));
         $extendDatas = Req::args();
 
+        if(isset($extendDatas['return_url'])){
+            $extendDatas['return_url'] = urldecode($extendDatas['return_url']);
+        }
+
         $payment = new Payment($payment_id);
         $paymentPlugin = $payment->getPaymentPlugin();
 
