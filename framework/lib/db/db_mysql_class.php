@@ -43,7 +43,7 @@ class DBMysql
         self::$tablePre = $dbinfo['tablePre'];
         self::md5key($dbinfo,$issalve);
         self::$dbinfo[self::$md5key] = $dbinfo[$issalve];
-		if(null === self::$dbo[self::$md5key])
+		if(!isset(self::$dbo[self::$md5key]) || null === self::$dbo[self::$md5key])
 		{
 			self::$conn[self::$md5key]=mysql_connect($dbinfo[$issalve]['host'],$dbinfo[$issalve]['user'],$dbinfo[$issalve]['password']);
 
