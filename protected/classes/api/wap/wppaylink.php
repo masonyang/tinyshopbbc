@@ -246,6 +246,7 @@ class wppaylink extends wapbase
 
             $time = strtotime("-".$order_delay." Minute");
             $create_time = strtotime($order['create_time']);
+
             if($create_time>=$time){
                 //取得所有订单商品
                 $order_goods = $model->table('order_goods')->fields("product_id,goods_nums")->where('order_id='.$orderId)->findAll();
@@ -295,6 +296,7 @@ class wppaylink extends wapbase
                     $packData = $payment->getPaymentInfo('order',$orderId);
                     $packData = array_merge($extendDatas,$packData);
                     $sendData = $paymentPlugin->packData($packData);
+
                     if(!$paymentPlugin->isNeedSubmit()){
                         $msg = $sendData;
                         return true;
@@ -348,7 +350,7 @@ class wppaylink extends wapbase
 
                 $msg = '';
 
-                if($payment_info['name'] == '支付宝[手机支付]'){
+                if($payment_info['pay_name'] == '支付宝[手机支付]'){
 
                     $url = '';
 
