@@ -17,5 +17,6 @@ update.txt
 .DS_Store
 
 #composer related
-vendor
+#因为服务器不能安装composer vendor随版本库走
+!vendor
 composer.phar
