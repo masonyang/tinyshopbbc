@@ -20,19 +20,21 @@ class Payment{
 	/**
 	 * 获取单例
 	 * @param $payment_id
+	 * @param $domain
 	 * @return Payment
 	 */
-	public static function getInstance($payment_id)
+	public static function getInstance($payment_id, $domain = null)
 	{
-		if(!isset(self::$singletons[$payment_id]) || self::$singletons[$payment_id] === null)
+		$key = $payment_id . $domain;
+		if(!isset(self::$singletons[$key]) || self::$singletons[$key] === null)
 		{
-			self::$singletons[$payment_id] = new self($payment_id);
+			self::$singletons[$key] = new self($payment_id, $domain);
 		}
-		return self::$singletons[$payment_id];
+		return self::$singletons[$key];
 	}
 	
-	public function __construct($payment_id){
-		$model = new Model("payment as pa");
+	public function __construct($payment_id, $domain = null){
+		$model = new Model("payment as pa", $domain);
 		$this->payment = $model->fields('pa.*,pi.class_name,pi.name,pi.logo')->join("left join pay_plugin as pi on pa.plugin_id = pi.id")->where("pa.id = '".$payment_id."' or pi.class_name = '".$payment_id."'")->find();
 		if($this->payment){
             $this->payment_id = $this->payment['id'];

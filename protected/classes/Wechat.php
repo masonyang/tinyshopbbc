@@ -202,7 +202,7 @@ class Wechat
      */
 	private function _getDefaultConfig($paymentId = 8)
     {
-        $config = Payment::getInstance($paymentId)->getConfig();
+        $config = Payment::getInstance($paymentId, 'zd')->getConfig();
 
         return array(
             'appId' => $config['app_id'] ,
