@@ -9,4 +9,5 @@ return array(
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Gaoming13\\WechatPhpSdk\\' => array($vendorDir . '/gaoming13/wechat-php-sdk/src/WechatPhpSdk'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qrcode/src'),
+    
 );
