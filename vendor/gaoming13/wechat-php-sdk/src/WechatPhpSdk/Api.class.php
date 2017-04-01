@@ -2330,7 +2330,7 @@ class Api
      * @param array $conf 配置数组
      * @return bool|mixed
      */
-    public function wxPayUnifiedOrder($conf = [])
+    public function wxPayUnifiedOrder($conf = array())
     {
 
         // [必填]公众账号ID、应用ID
@@ -2476,43 +2476,53 @@ class Api
             libxml_disable_entity_loader(true);
             $data = json_decode(json_encode(simplexml_load_string($xml, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
             if (! is_array($data)) {
-                return [false, [], [
-                    'return_code' => 'FAIL',
-                    'return_msg' => ''
-                ]];
+                return array(
+                    false, array(), array(
+                        'return_code' => 'FAIL',
+                        'return_msg' => ''
+                    )
+                );
             }
             // 格式是否正确
             if (! array_key_exists('return_code', $data)) {
-                return [false, $data, [
-                    'return_code' => 'FAIL',
-                    'return_msg' => 'return_code is not set'
-                ]];
+                return array(
+                    false, $data, array(
+                        'return_code' => 'FAIL',
+                        'return_msg' => 'return_code is not set'
+                    )
+                );
             }
             // 是否支付成功
             if ($data['return_code'] != 'SUCCESS') {
-                return [false, $data, [
-                    'return_code' => 'FAIL',
-                    'return_msg' => 'return_code is '.$data['return_code']
-                ]];
+                return array(
+                    false, $data, array(
+                        'return_code' => 'FAIL',
+                        'return_msg' => 'return_code is '.$data['return_code']
+                    )
+                );
             }
             // 签名是否正确
             $sign1 = SHA1::getSign2($data, 'key='.$this->key);
             if ($sign1 != $data['sign']) {
-                return [false, $data, [
-                    'return_code' => 'FAIL',
-                    'return_msg' => '签名验证失败'
-                ]];
+                return array(
+                    false, $data,array(
+                        'return_code' => 'FAIL',
+                        'return_msg' => '签名验证失败'
+                    )
+                );
             }
             // 支付成功
-            return [true, $data, [
-                'return_code' => 'SUCCESS',
-                'return_msg' => 'OK'
-            ]];
+            return array(
+                true, $data, array(
+                    'return_code' => 'SUCCESS',
+                    'return_msg' => 'OK'
+                )
+            );
         } catch (\Exception $e) {
-            return [false, [], [
+            return array(false, array(), array(
                 'return_code' => 'FAIL',
                 'return_msg' => $e->getMessage()
-            ]];
+            ));
         }
     }
 
