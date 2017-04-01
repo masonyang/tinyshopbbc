@@ -7,7 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
-    'Rhumsaa\\Uuid\\' => array($vendorDir . '/ramsey/uuid/src'),
     'Gaoming13\\WechatPhpSdk\\' => array($vendorDir . '/gaoming13/wechat-php-sdk/src/WechatPhpSdk'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qrcode/src'),
 );
