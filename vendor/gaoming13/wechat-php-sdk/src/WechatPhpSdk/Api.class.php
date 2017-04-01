@@ -2442,7 +2442,7 @@ class Api
     public function getWxPayAppApiParameters($prepayId)
     {
         // 获取App支付的参数
-        $input = [
+        $input = array(
             // 应用ID
             'appId' => $this->appId,
             // 商户号
@@ -2455,7 +2455,7 @@ class Api
             'nonceStr' => SHA1::get_random_str(32),
             // 时间戳
             'timestamp' => (string)time(),
-        ];
+        );
         // 签名
         $input['paySign'] = SHA1::getSign2($input, 'key='.$this->key);
         return $input;
