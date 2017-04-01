@@ -122,7 +122,7 @@ class pay_alipaymobile extends PaymentPlugin{
         $return['notify_url'] = $this->asyncCallbackUrl;
         $return['return_url'] = isset($payment['return_url']) ? $payment['return_url'] : $this->callbackUrl;
         $return['out_trade_no'] = $payment['M_OrderNO'];
-        $return['subject'] = urlencode($payment['R_Name']."(订单号:".$payment['M_OrderNO'].")");
+        $return['subject'] = $payment['R_Name']."(订单号:".$payment['M_OrderNO'].")";
         $return['total_fee'] = number_format($payment['M_Amount'], 2, '.', '');
         $return['show_url'] = 1;//商品展示地址
         $return['_input_charset'] = 'utf-8';
