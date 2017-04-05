@@ -196,6 +196,8 @@
 "wpattention"=>"api/wap/wpattention.php",//会员商品收藏api
 "wpadposition"=>"api/wap/wpadposition.php",//广告位api
 "wpsms"=>"api/wap/wpsms.php",//短信api
+"wpdownload"=>"api/wap/wpdownload.php",//应用下载地址api
+
     /**********************分店前台h5 wap API INTERFACE************************************/
 
 "DES3"=>"DES3.php",

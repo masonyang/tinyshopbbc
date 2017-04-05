@@ -19,6 +19,7 @@ class wapapilist extends qqclistapi
 
     protected $apilist = array(
         'wptest'=>'wptest',
+        'sitedownload'=>'wpdownload',
         'paylinkv'=>'wppaylink',
         'syncdopay'=>'wppaylink',
         'sms'=>'wpsms',
