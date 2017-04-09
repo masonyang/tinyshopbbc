@@ -116,7 +116,7 @@ class Wechat
 	 */
 	public function getOpenId($userId,$code)
 	{
-		$model = new Model('tiny_user');
+		$model = new Model('user');
 		$user = $model->where("id='".$userId."'")->find();
 
 		if($user && $user['wxOpenId'])
@@ -135,7 +135,7 @@ class Wechat
 		}
 
 		//更新信息到用户表
-		$model->table('tiny_user')
+		$model->table('user')
 			->data(
 				array(
 					'wxOpenId' => $userInfo['access_token'] ,
