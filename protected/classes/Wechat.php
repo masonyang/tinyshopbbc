@@ -126,7 +126,7 @@ class Wechat
 
 		list($err, $userInfo) = $this->_api->get_userinfo_by_authorize('snsapi_base','zh_CN',$code);
 
-//        error_log(var_export($err,1),3,dirname(__FILE__).'/haha.log');
+//        error_log(var_export($userInfo,1),3,dirname(__FILE__).'/haha.log');
 
 		if($userInfo == null)
 		{
@@ -138,14 +138,14 @@ class Wechat
 		$model->table('user')
 			->data(
 				array(
-					'wxOpenId' => $userInfo['access_token'] ,
-					'wxAccessToken' => $userInfo['openid'] ,
+					'wxOpenId' => $userInfo->openid ,
+					'wxAccessToken' => $userInfo->access_token ,
 				)
 			)
 			->where("id=".$userId)
 			->update();
 
-		return $userInfo['openid'];
+		return $userInfo->openid;
 	}
 
 	/**

@@ -10,7 +10,7 @@
         <comment>用户表增加微信信息</comment>
         <addColumn tableName="tiny_user">
             <column name="wxOpenId" type="varchar(100)" defaultValue="" remarks="微信用户openId"/>
-            <column name="wxAccessToken" type="varchar(100)" defaultValue="" remarks="微信用户授权access_token"/>
+            <column name="wxAccessToken" type="varchar(150)" defaultValue="" remarks="微信用户授权access_token"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
