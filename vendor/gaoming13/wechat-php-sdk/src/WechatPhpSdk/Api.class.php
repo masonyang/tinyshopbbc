@@ -2281,10 +2281,10 @@ class Api
      *
      * @return array|object
      */
-    public function get_userinfo_by_authorize($scope, $lang = 'zh_CN')
+    public function get_userinfo_by_authorize($scope, $lang = 'zh_CN',$code)
     {
-        if (isset($_GET['code']) && !empty($_GET['code'])) {
-            $code = $_GET['code'];
+        if (isset($code) && !empty($code)) {
+//            $code = $_GET['code'];
             // 1. 通过code换取网页授权access_token
             $url = self::API_DOMAIN . 'sns/oauth2/access_token?appid=' . $this->appId . '&secret=' . $this->appSecret .
                 '&code=' . $code . '&grant_type=authorization_code';

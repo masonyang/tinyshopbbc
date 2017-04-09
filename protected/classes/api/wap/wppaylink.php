@@ -50,6 +50,12 @@ class wppaylink extends wapbase
                 'type'=>'string',
                 'content'=>'当支付方式为支付宝[手机支付] 时候，需要传',
             ),
+            array(
+                'colum'=>'code',
+                'required'=>'可选',
+                'type'=>'string',
+                'content'=>'获取微信用户openid专用. 当支付方式为微信支付 时候，需要传',
+            ),
         ),
         'syncdopay'=>array(
             array(

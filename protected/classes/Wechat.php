@@ -111,9 +111,10 @@ class Wechat
 	/**
 	 * 获取openId
 	 * @param $userId
+     * @param $code
 	 * @return mixed
 	 */
-	public function getOpenId($userId)
+	public function getOpenId($userId,$code)
 	{
 		$model = new Model('tiny_user');
 		$user = $model->where("id='".$userId."'")->find();
@@ -123,7 +124,10 @@ class Wechat
 			return $user['wxOpenId'];
 		}
 
-		list($err, $userInfo) = $this->_api->get_userinfo_by_authorize('snsapi_base');
+		list($err, $userInfo) = $this->_api->get_userinfo_by_authorize('snsapi_base','zh_CN',$code);
+
+//        error_log(var_export($err,1),3,dirname(__FILE__).'/haha.log');
+
 		if($userInfo == null)
 		{
 			$url = $this->_api->get_authorize_url('snsapi_base', $this->_redirectUrl );
