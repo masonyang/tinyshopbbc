@@ -2416,6 +2416,7 @@ class Api
      */
     public function getWxPayJsApiParameters($prepayId)
     {
+
         // 获取jsapi支付的参数
         $input = array(
             //微信分配的公众账号ID WxPayConfig::APPID
@@ -2431,7 +2432,7 @@ class Api
         );
         // 签名
         $input['paySign'] = SHA1::getSign2($input, 'key='.$this->key);
-        return json_encode($input);
+        return $input;
     }
 
     /**
