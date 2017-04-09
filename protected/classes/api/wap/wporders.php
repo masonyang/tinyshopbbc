@@ -314,7 +314,7 @@ class wporders extends wapbase
         $this->output['status'] = 'succ';
         $this->output['msg'] = '订单详情获取成功';
         $data['orderlog'] = $orderlog;
-        $data['oid'] = (int)$orders['id'];
+        $data['oid'] = intval($orders['id']);
         $data['order_no'] = $orders['order_no'];
         $data['create_time'] = $orders['create_time'];
         $data['ship_addr'] = $ship_addr;
@@ -324,8 +324,8 @@ class wporders extends wapbase
         $data['real_freight'] = $orders['real_freight'];
         $data['payable_freight'] = $orders['payable_freight'];
         $data['order_amount'] = $orders['order_amount'];
-        $data['payment_id'] = (int)$orders['payment'];
-        $data['payment'] = ($orders['payment'] == 8) ? '微信公众号支付' : '支付宝[手机支付]';
+        $data['payment_id'] = intval($orders['payment']);
+        $data['payment'] = ($data['payment_id'] == 8) ? '微信公众号支付' : '支付宝[手机支付]';
         $data['products'] = $products;
         $data['status'] = $status;
         $data['express_no'] = $express_no;
