@@ -459,7 +459,7 @@ CREATE TABLE `tiny_user` (
   `validcode` varchar(40) NOT NULL ,
   `status` tinyint(1) DEFAULT '1' ,
   `wxOpenId` varchar(100) NOT NULL COMMENT '微信用户openId',
-  `wxAccessToken` varchar(150) NOT NULL COMMENT '微信用户授权access_token',
+  `wxAccessToken` varchar(200) NOT NULL COMMENT '微信用户授权access_token',
   PRIMARY KEY (`id`),
   UNIQUE KEY `USEREMAIL` (`email`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 ;
