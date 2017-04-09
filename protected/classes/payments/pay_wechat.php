@@ -97,7 +97,7 @@ class pay_wechat extends PaymentPlugin
             array(
                 'orderId' => $payment['M_OrderNO'],
                 'body' => $payment['R_Name'] . "(订单号:" . $payment['M_OrderNO'] . ")",
-                'totalFee' => number_format($payment['M_Amount'], 2, '.', ''),
+                'totalFee' => $payment['M_Amount']*100,
                 'openId' => $openId,
             )
         );

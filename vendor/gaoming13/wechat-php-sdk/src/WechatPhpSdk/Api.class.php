@@ -2400,6 +2400,7 @@ class Api
         $url = 'https://api.mch.weixin.qq.com/pay/unifiedorder';
         try {
             $res = HttpCurl::post($url, $xml);
+//            error_log(var_export($res,1),3,dirname(__FILE__).'/haha234234.log');
             libxml_disable_entity_loader(true);
             return json_decode(json_encode(simplexml_load_string($res, 'SimpleXMLElement', LIBXML_NOCDATA)), true);
         } catch (\Exception $e) {
