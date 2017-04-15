@@ -515,7 +515,7 @@ class PaymentController extends Controller
         $return = $paymentPlugin->callback($callbackData,$payment_id,$money,$message,$orderNo);
 
         // 记录日志 @maskwang
-        error_log(var_export($callbackData,1),3,TINY_ROOT.'../data/async_callback_'.$payment_id.'.log');
+        //error_log(var_export($callbackData,1),3,TINY_ROOT.'../data/async_callback_'.$payment_id.'.log');
         
         //支付成功
         if($return == 1)
