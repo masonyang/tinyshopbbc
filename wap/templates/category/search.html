@@ -1,0 +1,37 @@
+<ion-view view-title='搜索“{{keyword}}”结果' hide-nav-bar="false" class="w" cache-view="false">
+
+    <div class="bar bar-subheader padding" ng-if="GoodsList != 0" style="font-size:14px;">共计 {{total}} 条结果</div>
+
+    <ion-content class="has-subheader" lazy-scroll>
+        <!-- 下拉刷新 -->
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新..." spinner="ios"></ion-refresher>
+
+        <div class="cart-content" ng-if="GoodsList.length == 0">
+            <div class="empyt_cart ion-sad-outline" style="font-size:6rem; color:#aaa; padding-bottom:15px;"></div>
+            <p style="padding-bottom:30px;">暂无商品</p>
+        </div>
+
+        <div class="goods-list" ng-if="GoodsList.length != 0">
+            <ul class="clearfix" style="padding-top:8px;">
+                <li class="" ng-repeat="goods in GoodsList">
+                    <a ng-href="#/tab/detail/{{goods.gid}}">
+                        <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
+                        <img ng-if="!goods.img" ng-src="img/img.jpg">
+                        <div class="info">
+                            <h5>{{goods.name}}</h5>
+                            <div class="all-price">
+                                <span class="price">￥{{goods.price | currency:''}}</span>
+                                <!--<span class="thr-price">￥121235.00</span>-->
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+
+        <!-- 上拉加载更多 -->
+        <ion-infinite-scroll icon="ion-load-a" distance="3%" immediate-check="false"  on-infinite="loadMore();" ng-if="hasNext()"></ion-infinite-scroll>
+    </ion-content>
+
+</ion-view>

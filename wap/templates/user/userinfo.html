@@ -1,0 +1,27 @@
+<ion-view view-title="我的信息" class="w content_bg" hide-tabs>
+
+    <ion-content>
+        <form name="myForm" novalidate>
+            <div class="list">
+                <a class="item item-icon-right" ng-click="changeAvatar()" style="border-top: none; height: 102px; line-height: 60px;">
+                    头像
+                    <span style="float: right;width: 70px; height: 70px;">
+                        <img src="{{user.head_pic}}" style="width:100%; height:100%; border-radius:50%;" ng-if="user.head_pic">
+                        <img src="img/touxiang.png" style="width:100%; height:100%; border-radius:50%;" ng-if="!user.head_pic">
+                    </span>
+                    <!--<i class="icon ion-ios-arrow-right icon-accessory" style="float: right;"></i>-->
+                </a>
+                <a class="item item-icon-right">
+                    手机号码<span style="float: right; color:#aaa;">{{user.name}}</span>
+                </a>
+                <a class="item item-icon-right" ng-click="changeSex()">
+                    性别
+                    <span style="float: right">{{user.sex}}</span>
+                    <i class="icon ion-ios-arrow-right icon-accessory" style="float: right;"></i>
+                </a>
+            </div>
+        </form>
+
+    </ion-content>
+
+</ion-view>

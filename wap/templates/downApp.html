@@ -1,0 +1,22 @@
+<ion-view view-title="登录" hide-nav-bar="true" class="w content_bg">
+    <!--<ion-header-bar class="bar bar-header bar-assertive">-->
+        <!--<a class="button icon ion-ios-arrow-left button-clear" ng-click="goBack()" nav-direction="back"></a>-->
+        <!--<h1 class="title">下载 “<b>{{shopinfo.site_name}}</b>” APP</h1>-->
+    <!--</ion-header-bar>-->
+
+    <ion-content class="assertive-bg">
+        <div class="downPage text-center">
+            <div class="downLogo"><img src="{{shopinfo.site_logo}}" /></div>
+            <div class="downTitle">{{shopinfo.site_name}}</div>
+            <div class="downTitle2">{{shopinfo.site_name}} App下载</div>
+            <div style="width:60%; margin-left:20%; margin-top:10%;" ng-if="downUrl.site_android_url"><a href="{{downUrl.site_android_url}}" class="button button-block downBtn">Android 下载</a></div>
+            <div style="width:60%; margin-left:20%; margin-top:20px;" ng-if="downUrl.site_ios_url"><a href="{{downUrl.site_ios_url}}" class="button button-block downBtn">Ios 下载</a></div>
+        </div>
+    </ion-content>
+
+    <div class="assertive-bg downFooter">
+        <div>义乌百发文化用品有限公司</div>
+        <div>©版权所有</div>
+    </div>
+
+</ion-view>

@@ -1,0 +1,76 @@
+<ion-view view-title="商品介绍" hide-nav-bar="true" class="w" cache-view="false" hide-tabs>
+
+    <div class="bar bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-click="goBack()" nav-direction="back"></a>
+        <h1 class="title">商品介绍</h1>
+        <a class="button icon ion-android-share-alt" ng-click="openShare(goods.gid)"></a>
+    </div>
+
+    <ion-content class="has-header" has-bouncing="true" style="margin-top:-1px; background:#f8f3f7;">
+
+        <!-- 轮播图 -->
+        <ion-slide-box does-continue="true" auto-play="true" show-pager="true">
+            <ion-slide ng-repeat="img in goods.imgs">
+                <a href="#"><img ng-src="{{img.url}}" /></a>
+            </ion-slide>
+        </ion-slide-box>
+
+        <dl class="text-box border-top-bottom" ng-if="goods.name">
+            <dt>
+                <h3>{{goods.name}}</h3>
+            </dt>
+            <dd>
+                <div class="price-box">
+                    <b id="goods-price">￥{{goods.use_price | currency:''}}</b>&nbsp;
+                    <!--<del>¥139</del>-->
+                </div>
+
+                <span class="box-right icon ion-ios-heart-outline" ng-click="shoucang(1)" ng-if="goods.attention == 'nofav'">收藏</span>
+                <span class="box-right icon ion-ios-heart assertive" ng-click="shoucang(2)" ng-if="goods.attention == 'fav'"> 已收藏</span>
+            </dd>
+        </dl>
+
+        <div class="margin-top" ng-if="goods.sys_attrprice.specslist_arr.length > 0">
+            <dl class="attr-box border-top-bottom" ng-repeat="attr in goods.sys_attrprice.specslist_arr" style="margin-bottom:-1px;">
+                <dt>{{attr.name||"规格"}}：</dt>
+                <dd ng-repeat="attrChild in attr.child" ng-click="changeAttr(attr.id, attrChild.id)" ng-class="{'hover':attr_list[attr.id]==attrChild.id}">
+                    {{attrChild.name}}
+                </dd>
+                <div class="clear"></div>
+            </dl>
+        </div>
+
+        <div class="attr-list-box list margin-top" ng-if="goods.name" style="margin-bottom:10px;">
+            <div class="item">
+                <span class="label">数量：</span>
+                <span class="goods-count">
+                    <a ng-click="calculation('sub')" class="sub"><i class="ion-android-remove"></i></a>
+                    <input class="input-box" type="number" ng-model="count" ng-change="calculation(count)" />
+                    <a ng-click="calculation('add')" class="add"><i class="ion-android-add"></i></a>
+                </span>
+            </div>
+            <div class="item">
+                <span class="label">库存：</span>
+                <span class="">{{goods.use_store_num||goods.store_nums}} {{goods.unit}}</span>
+            </div>
+        </div>
+
+        <!-- start 推荐商品 -->
+        <div class="list" ng-if="recommendList.length > 0">
+            <div class="item item-divider" style="background:#fff; text-align:center;"><i class="icon ion-ios-arrow-thin-down"></i>&nbsp;为你推荐&nbsp;<i class="icon ion-ios-arrow-thin-down"></i></div>
+            <ul class="home_menu2 ul-padding clearfix" style="background:#fff; padding:0 1.5% 1% 1.5%;">
+                <li ng-repeat="rGoods in recommendList"><a ng-href="#/tab/detail/{{rGoods.gid}}"><img src="{{rGoods.img}}" /><h5>{{rGoods.name}}</h5></a></li>
+            </ul>
+        </div>
+        <!-- end 推荐商品 -->
+
+        <div class="text-box margin-top border-top-bottom" id="content_data" ng-bind-html="goods.content_data" ng-if="goods.content_data"></div>
+    </ion-content>
+
+    <div class="bar bar-footer goods-cart">
+        <a class="icon ion-home" href="#/tab/home"></a>
+        <a class="cart-left" ng-click="goCart()">去购物车(<span class="num assertive">{{num}}</span>)</a>
+        <a class="cart-right assertive-bg light" ng-click="addCart()">加入购物车</a>
+    </div>
+
+</ion-view>

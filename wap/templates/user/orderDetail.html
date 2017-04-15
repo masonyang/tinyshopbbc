@@ -1,0 +1,57 @@
+<ion-view view-title="订单详情" hide-nav-bar="true" class="w content_bg" hide-tabs cache-view="false">
+
+    <div class="bar bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-href="#/tab/myorder" nav-direction="back"></a>
+        <h1 class="title">订单详情</h1>
+        <a class="button icon ion-ios-trash-outline light block padding-right" ng-click="flag.showDelete=!flag.showDelete"></a>
+    </div>
+
+    <ion-content class="has-header">
+        <div class="block-box margin-bottom" style="border-bottom:1px solid #ddd;font-size:13px;">
+            <p class="title-left">订单编号：{{order.order_no}}</p>
+            <p class="title-left">创建时间：{{order.create_time}}</p>
+            <p class="title-left">订单状态：{{order.status}}</p>
+        </div>
+
+        <ion-list class="list cart-list" ng-if="order.payment_id > 0">
+            <ion-item class="item-divider">收货信息</ion-item>
+            <ion-item style="padding:0px;">
+                <div class="row block-box">
+                    <div class="col-center" style="margin-right:8px;margin-left:4px;">
+                        <div class="icon ion-ios-location-outline text-center" style="font-size:1.4rem;"></div>
+                    </div>
+                    <div class="col">
+                        收货人：{{order.accept_name}}&nbsp;&nbsp;&nbsp;&nbsp;{{order.accept_mobile}}
+                        <br>
+                        收货地址：{{order.ship_addr}}
+                    </div>
+                </div>
+            </ion-item>
+            <ion-item class="item-divider">支付方式</ion-item>
+            <ion-item class="payment" ng-if="order.payment_id == 7">
+                <span class="item-content"><img ng-src="img/alipay-icon.png" />支付宝支付</span>
+            </ion-item>
+
+            <ion-item class="item-divider">商品信息</ion-item>
+            <ion-item ng-repeat="(key, goods) in order.products" class="padding" ng-href="#/tab/detail/{{goods.gid}}">
+                <img ng-src="{{goods.img}}" width="65px" height="65px" class="cart-img" />
+                <p class="p1" style="white-space:nowrap;">{{goods.goods_name}}</p>
+                <p class="p2" style="margin-bottom:0px;" ng-if="goods.specs">规格：{{goods.specs}}</p>
+                <span class="item-note" style="position:absolute;right:10px;bottom:10px;font-size:12px;">
+                    {{goods.sale_price | currency:'¥'}}
+                    &nbsp;x{{goods.goods_nums}}
+                </span>
+            </ion-item>
+        </ion-list>
+        <div class="light-bg padding">
+            <div style="color:#aaa; font-size:12px; line-height:20px;">商品总价：<span class="item-note">{{order.goods_amount | currency:'¥ '}}</span></div>
+            <div style="color:#aaa; font-size:12px; line-height:20px;">配送费用：<span class="item-note">{{order.payable_freight | currency:'¥ '}}</span></div>
+            <div style="font-size:0.8rem; line-height:32px;">订单总价：<span class="assertive item-note" style="font-size:1rem;">{{order.order_amount | currency:'¥'}}</span></div>
+        </div>
+    </ion-content>
+
+    <ion-footer-bar class="light-bg padding" style="height:50px;" ng-if="order.status == '等待付款'">
+        <a class="light-bg border-d order-footer-button" ng-click="cancelOrder({{order.oid}})">取消订单</a>
+        <a class="assertive-bg border-d order-footer-button margin-left margin-right light" style="right:0; border-color:#fb6660;" ng-click="payOrder({{order.oid}})">立即付款</a>
+    </ion-footer-bar>
+</ion-view>

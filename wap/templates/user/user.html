@@ -1,0 +1,49 @@
+<ion-view view-title="返回" hide-nav-bar="true" class="w">
+    <ion-content class="content_bg setting">
+
+        <div class="user_top clearfix light" ng-if="!userInfo">
+            <div class="user-pic"><a href="#/login"><img ng-src="img/touxiang.png"></a></div>
+            <div class="user-info">
+                <p><a href="#/login" class="light">登录/注册</a></p>
+            </div>
+        </div>
+
+        <div class="user_top clearfix light" ng-if="userInfo">
+            <a class="icon ion-ios-gear-outline setting margin-top" href="#/tab/userinfo"></a>
+            <div class="user-pic">
+                <a href="#/tab/userinfo">
+                    <img ng-src="img/{{userInfo.touxiang}}" ng-if="userInfo.touxiang">
+                    <img ng-src="img/touxiang.png" ng-if="!userInfo.touxiang">
+                </a>
+            </div>
+            <div class="user-info">
+                <p><a href="#/login" class="light">{{userInfo.user_name}}</a></p>
+                <p>欢迎您来到 {{shopinfo.site_name}} 商城</p>
+            </div>
+        </div>
+
+        <ion-list class="quan-icon">
+            <ion-item ng-href="#/tab/myorder" ng-if="userInfo"><i class="icon ion-navicon" style="background-color:#FF572A;"></i>我的订单</ion-item>
+            <ion-item ng-href="#/tab/addresslist" ng-if="userInfo"><i class="icon ion-ios-location-outline" style="background-color:#BC4ED6;"></i>我的收货地址</ion-item>
+
+            <ion-item ng-href="#/login" ng-if="userInfo == false"><i class="icon ion-navicon" style="background-color:#FF572A;"></i>我的订单</ion-item>
+            <ion-item ng-href="#/login" ng-if="userInfo == false"><i class="icon ion-ios-location-outline" style="background-color:#BC4ED6;"></i>我的收货地址</ion-item>
+
+            <ion-item ng-href="#/findpwd" ng-if="userInfo"><i class="icon ion-ios-locked-outline" style="background-color:#31C673;"></i>修改密码</ion-item>
+            <ion-item ng-href="#/findpwd" ng-if="userInfo == false"><i class="icon ion-ios-locked-outline" style="background-color:#31C673;"></i>忘记密码</ion-item>
+            <ion-item ng-href="tel:{{shopinfo.mobile}}" ng-if="shopinfo.mobile">
+                <i class="icon ion-ios-telephone-outline" style="background-color:#f90;"></i>客服电话
+                <em class="fr ng-binding" style="position:absolute;color:#ccc;font-size:12px;line-height:24px;right:0.5rem;top:1.2rem;">{{shopinfo.mobile}} </em>
+            </ion-item>
+            <ion-item ng-if="version">
+                <i class="icon ion-ios-cloud-download" style="background-color:#F4C600;"></i>程序版本
+                <em class="fr ng-binding" style="position:absolute;color:#ccc;font-size:12px;line-height:24px;right:0.5rem;top:1.2rem;">当前版本：{{version}} </em>
+            </ion-item>
+        </ion-list>
+
+        <div class="padding margin-top" id="exit-button" ng-if="userInfo">
+            <button class="button button-block button-assertive" ng-click="logout()">退出登录</button>
+        </div>
+
+    </ion-content>
+</ion-view>

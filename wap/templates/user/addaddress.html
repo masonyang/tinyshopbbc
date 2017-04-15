@@ -1,0 +1,41 @@
+<ion-view view-title="更新地址" hide-nav-bar="false" class="w content_bg" cache-view="false">
+
+    <ion-content class="has-header" overflow-scroll='true'>
+
+        <form name="myForm" novalidate>
+            <ul class="list">
+                <li class="item item-input">
+                    <span class="input-label">收 货 人：</span>
+                    <input type="text" ng-model="address.name" name="name" placeholder="收货人姓名" required>
+                </li>
+                <li class="item item-input">
+                    <span class="input-label">手 机 号：</span>
+                    <input type="text" ng-model="address.mobile" name="mobile" ng-pattern="/^1[3|4|5|7|8][0-9]\d{8}$/" placeholder="收货人电话" required>
+                </li>
+                <li ng-if="vm.CityPickData">
+                    <ionic-city-picker options='vm.CityPickData' overflow-scroll=false></ionic-city-picker>
+                </li>
+                <li class="item item-input">
+                    <span class="input-label">详细地址：</span>
+                    <input type="text" ng-model="address.address" name="address" placeholder="请填写街道地址" required>
+                </li>
+                <li class="item item-toggle">
+                    默认地址：
+                    <label class="toggle toggle-balanced">
+                        <input type="checkbox" ng-model="address.is_default" name="is_default">
+                        <div class="track">
+                            <div class="handle"></div>
+                        </div>
+                    </label>
+                </li>
+            </ul>
+
+            <div class="formError" ng-if="myForm.name.$touched && myForm.name.$invalid">收货人不能为空</div>
+            <div class="formError" ng-if="myForm.mobile.$touched && myForm.mobile.$invalid">请输入正确手机号码</div>
+            <div class="formError" ng-if="myForm.address.$touched && myForm.address.$invalid">请填写详细地址</div>
+
+            <div class="padding"><button class="button button-block button-assertive" ng-disabled="myForm.$invalid" ng-click="update(address)">保存</button></div>
+        </form>
+    </ion-content>
+
+</ion-view>

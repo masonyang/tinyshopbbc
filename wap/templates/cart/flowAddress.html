@@ -1,0 +1,56 @@
+<ion-view view-title="{{title}}" hide-nav-bar="false" class="w content_bg">
+
+    <ion-nav-buttons side="right" >
+        <a class="button button-assertive" ng-if="formShow == false" href="#/tab/flow">返回</a>
+        <a class="button button-assertive" ng-if="formShow == true && addressList.length > 0" ng-click="hideForm()">返回</a>
+        <a class="button button-assertive" ng-if="formShow == true && addressList.length <= 0" ng-href="#/tab/cart">购物车</a>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header">
+        <ion-list ng-if="formShow == false">
+            <ion-item class="address-list margin-bottom" ng-repeat="address in addressList">
+                <div class="margin-bottom item-text-wrap">
+                    <p style="padding-bottom:2px;">{{address.name}}<span style="float:right;margin-right:30%;">{{address.mobile}}</span></p>
+                    <p style="opacity: 0.6;">收货地址：{{address.address}}</p>
+                </div>
+                <p class="line"  ng-if="address.is_default == 0" ng-click="setDefault2(address.addr_id)">
+                    <span><i class="icon ion-android-checkmark-circle" style="color:#aaa;"></i>&nbsp;设为默认</span>
+                </p>
+                <p class="line" ng-if="address.is_default == 1">
+                    <span><i class="icon ion-android-checkmark-circle assertive"></i>&nbsp;默认地址</span>
+                </p>
+            </ion-item>
+        </ion-list>
+        <div class="padding" ng-if="addressList.length && addressList.length < 5 && formShow == false">
+            <a class="button button-light button-assertive button-bar-inline button-bar" ng-click="showForm()">新建地址</a>
+        </div>
+
+        <form name="myForm" novalidate ng-if="formShow == true">
+            <ul class="list margin-bottom">
+                <li class="item item-input">
+                    <span class="input-label">收货人：</span>
+                    <input type="text" ng-model="address.name" name="name" required>
+                </li>
+                <li class="item item-input">
+                    <span class="input-label">手机号：</span>
+                    <input type="text" ng-model="address.mobile" name="mobile" ng-pattern="/^1[3|4|5|7|8][0-9]\d{8}$/" required>
+                </li>
+                <li ng-if="vm.CityPickData">
+                    <ionic-city-picker options='vm.CityPickData'></ionic-city-picker>
+                </li>
+                <li class="item item-input">
+                    <span class="input-label">详细地址：</span>
+                    <input type="text" ng-model="address.address" name="address" placeholder="请填写街道地址" required>
+                </li>
+            </ul>
+
+            <div class="formError" ng-if="myForm.name.$touched && myForm.name.$invalid">收货人不能为空</div>
+            <div class="formError" ng-if="myForm.mobile.$touched && myForm.mobile.$invalid">请输入正确手机号码</div>
+            <div class="formError" ng-if="myForm.address.$touched && myForm.address.$invalid">请填写详细地址</div>
+
+            <div class="padding"><button class="button button-block button-assertive" ng-disabled="myForm.$invalid" ng-click="update(address)">保存</button></div>
+        </form>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,62 @@
+<ion-view view-title="我的订单" class="w content_bg" hide-nav-bar="true" cache-view="false">
+
+    <div class="bar bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-href="#/tab/user" nav-direction="back"></a>
+        <h1 class="title">我的订单</h1>
+        <a class="button icon ion-ios-trash-outline light block padding-right" ng-click="flag.showDelete=!flag.showDelete"></a>
+    </div>
+
+    <div class="bar bar-subheader bar-light"  style="border:0px;background-image:none;">
+        <div class="button-bar sub_header_list" id="sub_header_list">
+            <a class="font-13 button button-clear" ng-class="{'sub_button_select':orderType==0}"  ng-click="orderBy(0)" style="font-size:14px;">全部订单</a>
+            <a class="button button-clear" ng-class="{'sub_button_select':orderType==1}" ng-click="orderBy(1)" style="font-size:14px;">待付款</a>
+            <a class="button button-clear" ng-class="{'sub_button_select':orderType==2}" ng-click="orderBy(2)" style="font-size:14px;">待收货</a>
+            <a class="button button-clear" ng-class="{'sub_button_select':orderType==3}" ng-click="orderBy(3)" style="font-size:14px;">已完成</a>
+        </div>
+    </div>
+
+
+    <ion-content class="has-subheader">
+
+        <!-- 下拉刷新 -->
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新..." spinner="ios"></ion-refresher>
+
+        <div class="cart-content" ng-if="list == '' || list.length == 0">
+            <div class="empyt_cart ion-sad-outline" style="font-size:5rem; color:#aaa; padding-bottom:15px;"></div>
+            <p style="padding-bottom:30px;">暂无订单</p>
+        </div>
+
+        <ion-list ng-if="list.length > 0">
+            <ion-item class="address-list margin-bottom" ng-repeat="order in list" style="margin-bottom:8px;">
+                <div style="line-height:30px; padding-bottom:5px;">
+                    <a ng-href="#/tab/orderdetail/{{order.oid}}" >
+                        订单号：{{order.order_no}}
+                        <span class="assertive item-note" ng-if="order.status == '等待付款'">{{order.status}}</span>
+                        <span class="balanced item-note" ng-if="order.status == '已完成'">{{order.status}}</span>
+                        <span class="item-note" ng-if="order.status != '等待付款' && order != '已完成'">{{order.status}}</span>
+                    </a>
+                </div>
+
+                <div class="content_bg order-img" ng-if="order.products.length > 1">
+                    <a ng-href="#/tab/orderdetail/{{order.oid}}" ><img ng-src="{{goods.img}}" ng-repeat="goods in order.products" /></a>
+                </div>
+                <div class="order-img"  ng-if="order.products.length <= 1">
+                    <a ng-href="#/tab/orderdetail/{{order.oid}}" >
+                        <img ng-src="{{order.products[0].img}}" style="float:left;" />
+                        <p style="white-space: normal; line-height:22px; height:44px; overflow:hidden;">{{order.products[0].goods_name}}</p>
+                        <p class="margin-top" style="color:#aaa;"><span ng-if="order.products[0].spec">&nbsp;[{{order.products[0].spec}}]</span> <span class="item-note">{{order.products[0].sale_price | currency:'¥ '}} x{{order.products[0].goods_nums}}&nbsp;</span></p>
+                    </a>
+                </div>
+                <p style="line-height:32px;" class="margin-top">共{{order.goods_count}}件商品 合计：<span style="font-size:16px;">{{order.order_amount | currency:'¥'}}</span>
+                    <span class="assertive-bg light item-note col-center"
+                          style="margin-top:2px; height:29px; line-height:29px; padding:0px 15px; border-radius:5px;"
+                          ng-click="payOrder({{order.oid}})"
+                          ng-if="order.status == '等待付款'">立即付款</span>
+                </p>
+
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

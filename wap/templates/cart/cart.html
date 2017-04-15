@@ -1,0 +1,42 @@
+<ion-view view-title="购物车({{num}})" hide-nav-bar="true" class="w" hide-tabs cache-view="false">
+
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-click="goBack()" nav-direction="back"></a>
+        <h1 class="title">购物车({{num}})</h1>
+        <a class="button icon ion-ios-trash-outline light block padding-right" ng-click="flag.showDelete=!flag.showDelete"></a>
+    </ion-header-bar>
+
+    <ion-content class="has-header" has-bouncing="true">
+        <!-- 下拉刷新 -->
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新..." spinner="ios"></ion-refresher>
+
+        <div class="cart-content" ng-if="num <= 0">
+            <div class="empyt_cart"><img ng-src="img/empty_cart.png" width="40%" /></div>
+            <p>购物车还是空的</p>
+            <a class="button button-assertive" style="width:60%;" href="#/tab/home">马上逛逛</a>
+        </div>
+
+        <ion-list class="list cart-list" ng-if="num" show-delete="flag.showDelete">
+            <ion-item ng-repeat="(key, goods) in list">
+                <a href="#/tab/detail/{{goods.goods_id}}"><img ng-src="{{goods.goods_img}}" width="100px" height="100px" class="cart-img" /></a>
+                <p class="p1"><a href="#/tab/detail/{{goods.goods_id}}">{{goods.goods_name}}</a></p>
+                <p class="p2" ng-if="goods.goods_spec">规格：{{goods.goods_spec}}</p>
+                <p class="goods-count">
+                    <a ng-click="calculation('sub', key)" class="sub"><i class="ion-android-remove"></i></a>
+                    <span class="input-box">{{goods.num}}</span>
+                    <a ng-click="calculation('add', key)" class="add"><i class="ion-android-add"></i></a>
+                </p>
+                <p class="p3"><b>{{goods.amount | currency:'¥'}}</b></p>
+                <ion-option-button class="light button-assertive ion-ios-trash-outline" ng-click="deleteGoods(key)" style="font-size:1.8rem;"></ion-option-button>
+                <ion-delete-button class="ion-ios-trash-outline" ng-click="deleteGoods(key)"></ion-delete-button>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+    <ion-footer-bar class="light-bg" ng-if="num" style="padding:0;height:50px; border-top:1px solid #ccc;">
+        <a class="col-66 col-center text-center" style="color:#333; background:#f5f5f5; opacity:1; line-height:50px;"><b>合计：{{total | currency:'¥ '}}</b></a>
+        <a class="light col-34 col-center text-center assertive-bg" style="line-height:50px;" href="#/tab/flow">去结算({{num}})</a>
+    </ion-footer-bar>
+
+</ion-view>

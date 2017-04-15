@@ -1,0 +1,57 @@
+<ion-view view-title="确认订单" hide-nav-bar="false" class="w" hide-tabs cache-view="false">
+
+    <ion-content class="content_bg">
+
+        <div class="row block-box" ng-if="defAddress" ng-click="upAddress();">
+            <div class="col-center" style="margin-right:8px;margin-left:4px;">
+                <div class="icon ion-ios-location-outline text-center" style="font-size:1.4rem;"></div>
+            </div>
+            <div class="col">
+                    收货人：{{defAddress.name}}&nbsp;&nbsp;&nbsp;&nbsp;{{defAddress.mobile}}
+                    <br>
+                    收货地址：{{defAddress.address}}
+            </div>
+            <div class="col-center">
+                <div class="icon ion-chevron-right" style="color:#999; font-size:1.4rem; margin-left:4px;"></div>
+            </div>
+        </div>
+        <ion-list class="list cart-list" ng-if="list">
+            <ion-item class="item-divider" ng-if="platform.system == 'app' || platform.system == 'h5'">支付方式</ion-item>
+            <ion-item class="payment" ng-if="payment.alipay">
+                <span class="item-content"><img ng-src="img/alipay-icon.png" />支付宝支付</span>
+                <input type="radio" name="payment" class="radio-icon" ng-value="alipay" ng-click="onPayment('alipay')" ng-if="payment.alipay" checked="checked" />
+                <input type="radio" name="payment" class="radio-icon" ng-value="alipay" ng-click="onPayment('alipay')" ng-if="!payment.alipay" />
+            </ion-item>
+            <ion-item class="payment" ng-if="payment.weixin">
+                <span class="item-content"><img ng-src="img/wx-icon.png" />微信支付</span>
+                <input type="radio" name="payment" class="radio-icon" ng-value="weach" ng-click="onPayment('weixin')" ng-if="payment.weixin" checked="checked"  />
+                <input type="radio" name="payment" class="radio-icon" ng-value="weach" ng-click="onPayment('weixin')" ng-if="!payment.weixin" />
+            </ion-item>
+
+            <ion-item class="item-divider">商品信息</ion-item>
+            <ion-item ng-repeat="(key, goods) in list" class="padding">
+                <img ng-src="{{goods.goods_img}}" width="65px" height="65px" class="cart-img" />
+                <p class="p1" style="white-space:nowrap;">{{goods.goods_name}}</p>
+                <p class="p2" style="margin-bottom:0px;" ng-if="goods.goods_spec">规格：{{goods.goods_spec}}</p>
+                <span class="item-note" style="position:absolute;right:10px;bottom:10px;font-size:12px;">
+                    {{goods.amount/goods.num | currency:'¥'}}
+                    &nbsp;x{{goods.num}}
+                </span>
+            </ion-item>
+            <ion-item style="padding:16px 10px;">运费：<span class="item-note">{{payable_freight | currency:'¥ '}}</span></ion-item>
+            <ion-item style="padding:16px 10px;">商品总金额：<span class="item-note">{{total | currency:'¥ '}}</span></ion-item>
+            <ion-item style="padding:16px 10px;">订单总金额：<span class="item-note assertive" style="font-size:16px;">{{total*1 + payable_freight*1 | currency:'¥ '}}</span></ion-item>
+
+            <ion-item>
+                <label class="item item-input">
+                    <textarea placeholder="备注" rows="3" ng-model="order.user_remark"></textarea>
+                </label>
+            </ion-item>
+            <ion-item>
+                <button class="button button-assertive button-full" ng-click="subOrder()">提交订单</button>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

@@ -1,0 +1,50 @@
+<ion-view view-title="商品列表" hide-nav-bar="true" class="w">
+
+    <ion-header-bar class="bar  bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-click="goBack()" nav-direction="back"></a>
+        <h1 class="title">商品列表</h1>
+    </ion-header-bar>
+
+    <div class="bar bar-subheader bar-light" ng-if="GoodsList" style="padding:2px 5px 0px 5px;">
+        <div class="row">
+            <a class="col text-center" ng-click="orderBy(2)">价格 <i class="icon assertive ion-arrow-down-a {{menuIconClass2}}" style="font-size:0.9rem;"></i></a>
+            <em style="color:#ddd;">|</em>
+            <a class="col text-center" ng-click="orderBy(3)">销量 <i class="icon assertive ion-arrow-down-a {{menuIconClass3}}" style="font-size:0.9rem;"></i></a>
+            <em style="color:#ddd;">|</em>
+            <a class="col text-center" ng-click="orderBy(1)">最新 <i class="icon assertive ion-arrow-down-a {{menuIconClass1}}" style="font-size:0.9rem;"></i></a>
+        </div>
+    </div>
+
+    <ion-content class="has-subheader" lazy-scroll>
+        <!-- 下拉刷新 -->
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新..." spinner="ios"></ion-refresher>
+
+        <div class="cart-content" ng-if="GoodsList.length == 0">
+            <div class="empyt_cart ion-sad-outline" style="font-size:6rem; color:#aaa; padding-bottom:15px;"></div>
+            <p style="padding-bottom:30px;">暂无商品</p>
+        </div>
+
+        <div class="goods-list" ng-if="GoodsList">
+            <ul class="clearfix" style="padding-top:8px;">
+                <li class="" ng-repeat="goods in GoodsList">
+                    <a ng-href="#/tab/detail/{{goods.gid}}">
+                        <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
+                        <img ng-if="!goods.img" ng-src="img/img.jpg">
+                        <div class="info">
+                            <h5>{{goods.name}}</h5>
+                            <div class="all-price">
+                                <span class="price">￥{{goods.price | currency:''}}</span>
+                                <!--<span class="thr-price">￥121235.00</span>-->
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+
+        <!-- 上拉加载更多 -->
+        <ion-infinite-scroll icon="ion-load-a" distance="3%" immediate-check="false"  on-infinite="loadMore();" ng-if="hasNextPage()"></ion-infinite-scroll>
+    </ion-content>
+
+</ion-view>

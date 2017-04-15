@@ -1,0 +1,88 @@
+<ion-view view-title="{{shopname}}" hide-nav-bar="false" class="w">
+
+    <!-- 第一版头部 -->
+    <ion-nav-buttons side="right">
+        <div class="icon ion-ios-search light" style="font-size:24px;padding-right:5px;line-height:33px;" ng-click="SearchFormModel(0)"></div>
+    </ion-nav-buttons>
+
+    <ion-content class="has-header content_bg" has-bouncing="true" lazy-scroll>
+
+        <!-- 下拉刷新 -->
+        <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新..." spinner="ios"></ion-refresher>
+
+        <!-- 轮播图 -->
+        <ion-slide-box does-continue="true" auto-play="true" show-pager="true" ng-if="!ads">
+            <ion-slide>
+                <a href="#"><img ng-src="img/banner.png" /></a>
+            </ion-slide>
+        </ion-slide-box>
+        <ion-slide-box does-continue="true" auto-play="true" show-pager="true" ng-if="ads" delegate-handle="slideBanner">
+            <ion-slide ng-repeat="ad in ads">
+                <a ui-sref="{{ad.img_url}}" ng-if="ad.s_type == 'category'"><img ng-src="{{ad.img_path}}" /></a>
+                <a href="{{ad.img_url}}" ng-if="ad.s_type != 'category'"><img ng-src="{{ad.img_path}}" /></a>
+            </ion-slide>
+        </ion-slide-box>
+
+        <div class="row home-menu margin-bottom clearfix">
+            <a class="col" href="#/tab/myorder"><img class="ico" src="img/m1.png"><span class="menu-title">我的订单</span></a>
+            <a class="col" href="#/tab/user"><img class="ico" src="img/m2.png"><span class="menu-title">个人中心</span></a>
+            <a class="col" href="#/tab/cart"><img class="ico" src="img/m3.png"><span class="menu-title">购物车</span></a>
+            <a class="col" href="#"><img class="ico" src="img/m4.png"><span class="menu-title">猜你喜欢</span></a>
+        </div>
+
+        <ul class="home_menu2 ul-border clearfix margin-top">
+            <li><a ui-sref="tab.goodsList({id:0})"><img src="img/home-m1.png"></a></li>
+            <li><a ui-sref="tab.goodsList({id:5})"><img src="img/home-m2.png"></a></li>
+            <li><a ui-sref="tab.goodsList({id:6})"><img src="img/home-m3.png"></a></li>
+            <li><a ui-sref="tab.goodsList({id:7})"><img src="img/home-m4.png"></a></li>
+            <li><a ui-sref="tab.goodsList({id:8})"><img src="img/home-m5.png"></a></li>
+            <li><a ui-sref="tab.goodsList({id:1})"><img src="img/home-m6.png"></a></li>
+        </ul>
+
+        <div class="nav clearfix margin-bottom" ng-class="{'margin-top':$index==0}" ng-repeat="adv in advlist">
+            <a ng-if="adv[0].s_type == 'category'" ui-sref="{{adv[0].img_url}}"><img image-lazy-src="{{adv[0].img_path}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios"></a>
+            <a ng-if="adv[0].s_type != 'category'" href="{{adv[0].img_url}}" ><img image-lazy-src="{{adv[0].img_path}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios"></a>
+        </div>
+
+        <ul class="home_menu2 ul-padding clearfix margin-top">
+            <li><a ui-sref="tab.goodsList({id:16})"><img src="img/menu-1.jpg"/></a></li>
+            <li><a ui-sref="tab.goodsList({id:18})"><img src="img/menu-2.jpg"/></a></li>
+            <li><a ui-sref="tab.goodsList({id:19})"><img src="img/menu-3.jpg"/></a></li>
+            <li><a ui-sref="tab.goodsList({id:22})"><img src="img/menu-4.jpg"/></a></li>
+            <li><a ui-sref="tab.goodsList({id:57})"><img src="img/menu-5.jpg"/></a></li>
+            <li><a ui-sref="tab.goodsList({id:71})"><img src="img/menu-6.jpg"/></a></li>
+        </ul>
+
+        <!-- 商品列表 -->
+        <div class="nav margin-top" ng-if="GoodsList"><img src="img/home-h2-1.png"></div>
+
+        <div class="goods-list" ng-if="GoodsList">
+            <ul class="clearfix" style="padding-top:8px;">
+                <li class="" ng-repeat="goods in GoodsList">
+                    <a href="#/tab/detail/{{goods.gid}}">
+                        <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
+                        <img ng-if="!goods.img" ng-src="img/img.jpg">
+                        <div class="info">
+                            <h5>{{goods.name}}</h5>
+                            <div class="all-price">
+                                <span class="price">￥{{goods.price | currency:''}}</span>
+                                <!--<span class="thr-price">￥121235.00</span>-->
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <div class="clear"></div>
+            </ul>
+        </div>
+
+        <!-- 上拉加载更多 -->
+        <ion-infinite-scroll icon="ion-load-a" distance="3%" immediate-check="false"  on-infinite="loadMore();" ng-if="hasNextPage()"></ion-infinite-scroll>
+    </ion-content>
+
+    <ion-footer-bar class="download bar-footer hide" ng-class="{'show':getPlatform.system != 'app'}">
+        <span class="ion-ios-cloud-download-outline"></span>
+        <a href="#/downApp">下载APP，更多功能、更方便！ </a>
+        <a class="button light button-assertive right" href="#/downApp">立即下载</a>
+    </ion-footer-bar>
+
+</ion-view>

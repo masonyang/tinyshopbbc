@@ -101,6 +101,11 @@ class Controller extends Object
 
             $clientType = Chips::clientType();
 
+            if($clientType=='tablet' || $clientType=='mobile'){
+                header('Location:./wap/');
+                exit;
+            }
+
             if(in_array($req['con'],array('index','simple','ucenter')) || empty($req)){
 
                 if($clientType == 'desktop'){

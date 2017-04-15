@@ -1,0 +1,18 @@
+<ion-view class="modal w" cache-view="false">
+    <ion-header-bar class="bar-assertive">
+        <h1 class="title">商品搜索</h1>
+        <button class="button"  ng-click="SearchFormModel(1)">关闭</button>
+    </ion-header-bar>
+
+    <ion-content has-bouncing="true" class="has-header">
+        <div class="list list-inset">
+            <div class="item item-input" style="border-radius:25px; padding-top:2px; padding-bottom:2px; border-color:#999;">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <!--<input type="text" placeholder="搜索">-->
+                <input type="text" placeholder="搜索商品" class="" style="border-radius:5px;font-size:12px;padding-bottom:3px;padding-left:8px;" ng-model="search.keyword"/>
+            </div>
+        </div>
+
+        <div class="padding"><a class="button button-block button-assertive" ng-click="searchButton()">搜索</a></div>
+    </ion-content>
+</ion-view>

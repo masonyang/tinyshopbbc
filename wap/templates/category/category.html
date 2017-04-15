@@ -1,0 +1,33 @@
+<ion-view view-title="商品分类" hide-nav-bar="true" class="w">
+
+    <ion-header-bar class="assertive-bg" ng-click="SearchFormModel(0)">
+        <h1 class="title">
+            <div class="light-bg search-input">
+                <i class="icon ion-ios-search assertive"></i> 搜索商品
+            </div>
+        </h1>
+    </ion-header-bar>
+
+    <ion-content class="content_bg" has-bouncing="true" id="category">
+
+        <ion-list class="quan-icon col-2 menu-list clearfix" id="menu-list">
+            <ion-item class="menu-item"
+                      ng-repeat="item in getList"
+                      ng-class="{'item-hover':$first}"
+                      ng-click="changeTab($index)">
+                {{item.name}}
+            </ion-item>
+        </ion-list>
+
+        <ul ng-show="$first" class="menu-right-list clearfix" ng-repeat="(key, topCate) in getList" id="menu-right-list-{{topCate.parent_id}}" style="border-left:1px solid #ddd;">
+            <li ng-repeat="child in topCate.sub_cat">
+                <a ui-sref="tab.goodsList({id:child.id})">
+                    <img ng-src="{{imgPath}}{{child.img}}" />
+                    <div class="menu-title">{{child.name}}</div>
+                </a>
+            </li>
+        </ul>
+
+    </ion-content>
+
+</ion-view>

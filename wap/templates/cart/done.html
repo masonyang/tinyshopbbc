@@ -1,0 +1,37 @@
+<ion-view view-title="支付收银台" hide-nav-bar="true" class="w" hide-tabs cache-view="false">
+
+    <ion-header-bar class="bar bar-header bar-assertive">
+        <a class="button icon ion-ios-arrow-left button-clear" ng-href="#/tab/cart" nav-direction="back"></a>
+        <h1 class="title">支付收银台</h1>
+        <a class="button button-assertive" ng-href="#/tab/myorder">我的订单</a>
+    </ion-header-bar>
+
+    <ion-content class="content_bg">
+
+        <ion-list class="list cart-list">
+            <ion-item style="padding:16px 10px;">订单号：<span class="item-note">{{order.order_no}}</span></ion-item>
+            <ion-item style="padding:16px 10px;">商品总金额：<span class="item-note">{{order.goods_amount | currency:'¥ '}}</span></ion-item>
+            <ion-item style="padding:16px 10px;">配送费用：<span class="item-note">{{order.payable_freight | currency:'¥ '}}</span></ion-item>
+            <ion-item style="padding:16px 10px;">订单总金额：<span class="item-note assertive" style="font-size:18px;">{{order.order_amount | currency:'¥ '}}</span></ion-item>
+            <ion-item class="payment" ng-if="order.payment_id == paylist.alipay">
+                <span class="item-content"><img ng-src="img/alipay-icon.png" />支付宝支付</span>
+            </ion-item>
+            <!--
+            <ion-item class="payment">
+                <span class="item-content"><img ng-src="img/wx-icon.png" />微信支付</span>
+                <input type="radio" name="payment" class="radio-icon" ng-value="weach" ng-click="onPayment('weach')" />
+            </ion-item>
+            -->
+
+            <ion-item>
+                <button class="button button-assertive button-full" ng-click="payment()">立即支付</button>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+    <script>
+
+    </script>
+
+</ion-view>
