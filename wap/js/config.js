@@ -1,10 +1,10 @@
 angular.module("starter.config", [])
 .factory("ENV", function($location){
-    var host = $location.host();
 
-    host = host.replace('wap/','');
-        
-    var hostUrl = $location.protocol() + '://' + host + '/';
+    var hostUrl = $location.protocol() + '://' + $location.host() + '/';
+
+    hostUrl = hostUrl.replace('wap/','');
+
     // var hostUrl = 'http://a.git-online.org/';
     // var hostUrl = 'http://a.qqcapp.com/';
     return {
