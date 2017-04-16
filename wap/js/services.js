@@ -1,7 +1,7 @@
 angular.module('starter.services', [])
 
     //微信接口
-    .factory('WeiXin', function(ENV, GlobalFun) {
+    .factory('WeiXin', function(ENV) {
         var appid       = ENV.weixin.appid;
 
         return {
@@ -11,7 +11,7 @@ angular.module('starter.services', [])
             },
             wapPay: function(data) {
                 var oid = data.oid;
-                var url = GlobalFun.getH5Url()+'#/tab/orderdetail/'+oid;
+                var url = ENV.H5Url()+'#/tab/orderdetail/'+oid;
 
                 function onBridgeReady(){
                     WeixinJSBridge.invoke(
@@ -49,9 +49,8 @@ angular.module('starter.services', [])
     })
 
     //自定义方法
-    .factory('GlobalFun', function($timeout, $cordovaDevice, $ionicPopup, $ionicActionSheet, ENV, msg, $cordovaClipboard, $location) {
+    .factory('GlobalFun', function($timeout, $cordovaDevice, $ionicPopup, $ionicActionSheet, ENV, msg, $cordovaClipboard) {
         return {
-            getH5Url: $location.protocol() + '://' + $location.host() + '/www',
             GetQueryString: function (name) {
                 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
                 var r = window.location.search.substr(1).match(reg);
@@ -127,7 +126,7 @@ angular.module('starter.services', [])
                 if(gid <= 0) {
                     return false;
                 }
-                var url = this.getH5Url+'#/tab/detail/'+gid;
+                var url = ENV.H5Url+'#/tab/detail/'+gid;
 
                 var weixinShare = function() {
                     var option = {
@@ -750,7 +749,7 @@ angular.module('starter.services', [])
     })
 
     // 订单管理 v2
-    .factory('Order', function(ENV, $http, Des3, GlobalFun) {
+    .factory('Order', function(ENV, $http, Des3) {
         var result;
         return {
             //创建订单
@@ -765,7 +764,7 @@ angular.module('starter.services', [])
             },
             //支付检查订单是否有效
             payCheck: function(uid, oid, paymentid, code) {
-                var url = encodeURI(GlobalFun.getH5Url+'#/tab/detail/'+oid);
+                var url = encodeURI(ENV.H5Url+'#/tab/detail/'+oid);
                 var sign = Des3.encrypt({uid:uid, oid:oid, paymentid:paymentid, return_url:url, code:code});
                 if(paymentid == 7) {
                     return $http.get(ENV.api+'&method=paylinkv1&source=paylinkv&sign='+sign);

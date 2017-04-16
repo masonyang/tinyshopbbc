@@ -1,7 +1,7 @@
 angular.module('starter.controllers', [])
 
     //首页 v2
-    .controller('HomeCtrl', function($scope, ENV, ShopInfoV2, AdvListV2, HomeAdvV2, NewGoodsList, $ionicSlideBoxDelegate, $ionicLoading, $ionicModal, $state, $rootScope, msg) {
+    .controller('HomeCtrl', function($scope, ENV, ShopInfoV2, AdvListV2, HomeAdvV2, NewGoodsList, $ionicSlideBoxDelegate, $ionicLoading, $ionicModal, $state, $rootScope, msg, GlobalFun) {
         $ionicLoading.show({
             noBackdrop:false,
             duration: 10000
@@ -13,6 +13,8 @@ angular.module('starter.controllers', [])
                 $rootScope.hideTabs = false;
             });
             //显示菜单
+
+            $scope.getPlatform = GlobalFun.getPlatform();
         });
 
         //幻灯片
@@ -1008,7 +1010,7 @@ angular.module('starter.controllers', [])
     })
 
     //马上支付 v2
-    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin, GlobalFun) {
+    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin) {
 
         $scope.$on('$ionicView.afterEnter', function() {
             var user = User._User();
@@ -1048,7 +1050,7 @@ angular.module('starter.controllers', [])
                     var getCode = GlobalFun.GetQueryString('code');
 
                     if(result.data.payment_id === ENV.payList.weixin && getCode === null) {
-                        var callback = GlobalFun.getH5Url+'#/tab/done/'+oid;
+                        var callback = ENV.H5Url+'#/tab/done/'+oid;
                         var callUrl = WeiXin.getOauthCodeUrl(callback, oid);
                         window.location = callUrl;
                         return false;

@@ -67,6 +67,12 @@
         <div class="text-box margin-top border-top-bottom" id="content_data" ng-bind-html="goods.content_data" ng-if="goods.content_data"></div>
     </ion-content>
 
+    <ion-footer-bar class="download bar-footer hide" ng-class="{'show':getPlatform.system != 'app'}" style="bottom:50px;">
+        <span class="ion-ios-cloud-download-outline"></span>
+        <a href="#/downApp">下载APP，更多功能、更方便！ </a>
+        <a class="button light button-assertive right" href="#/downApp">立即下载</a>
+    </ion-footer-bar>
+
     <div class="bar bar-footer goods-cart">
         <a class="icon ion-home" href="#/tab/home"></a>
         <a class="cart-left" ng-click="goCart()">去购物车(<span class="num assertive">{{num}}</span>)</a>
