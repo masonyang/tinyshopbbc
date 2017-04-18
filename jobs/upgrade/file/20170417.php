@@ -18,7 +18,12 @@ $upgradedata['branch']['insert'] = array(
 );
 
 //更新 分店 数据表数据
-$upgradedata['branch']['update'] = array();
+$upgradedata['branch']['update'] = array(
+    'payment'=>array(
+        'where'=>'pay_name="微信[公众号支付]"',
+        'sql'=>"update `tiny_payment` set id=8 where pay_name='微信[公众号支付]';",
+    ),
+);
 
 //删除 分店 数据表数据
 $upgradedata['branch']['delete'] = array();
@@ -103,7 +108,7 @@ return array(
  * 
  *  add job:
  *
- *  php /jobs/job.php statisticsJob --stattype=goodsrecommend
+ *  /usr/bin/php /var/www/html/qqc/jobs/job.php statisticsJob --stattype=goodsrecommend
  *
  *  run fix job:
  *  
