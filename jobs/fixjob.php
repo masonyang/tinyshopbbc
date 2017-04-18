@@ -23,31 +23,21 @@ foreach($distrDatas as $val){
 
     echo $val['site_url'];
 
-    $sql = "update `tiny_payment` set id=8 where pay_name='微信[公众号支付]';";
+    _addcategory($val['site_url'],$val['catids']);//商品分类
 
-    $paymentModel = new Model('payment',$val['site_url'],'master');
+    $goods = _addgoods($val['site_url'],$val['catids']);//根据授权商品分类 对应的商品
 
-    $data = array(
-        'id'=>8
-    );
-    
-    $paymentModel->data($data)->where("pay_name='微信[公众号支付]'")->update();
+    _addproducts($val['site_url'],$goods['goodsids']);//同步货品
 
-//    _addcategory($val['site_url'],$val['catids']);//商品分类
-//
-//    $goods = _addgoods($val['site_url'],$val['catids']);//根据授权商品分类 对应的商品
-//
-//    _addproducts($val['site_url'],$goods['goodsids']);//同步货品
-//
-//    _addGoodsSpec($val['site_url'],$goods['goodsids'],$goods['specsids'],$goods['specvaluesids']);//同步商品规格
-//
-//    _addGoodsType($val['site_url'],$goods['typeids']);//对应商品类型
-//
-//    _addGoodsBrand($val['site_url'],$goods['brandids']);//品牌 信息
-//
-//    _addTags($val['site_url'],$goods['tagids']);//商品标签
-//
-//    _addpayment($val['site_url']);//支付方式
+    _addGoodsSpec($val['site_url'],$goods['goodsids'],$goods['specsids'],$goods['specvaluesids']);//同步商品规格
+
+    _addGoodsType($val['site_url'],$goods['typeids']);//对应商品类型
+
+    _addGoodsBrand($val['site_url'],$goods['brandids']);//品牌 信息
+
+    _addTags($val['site_url'],$goods['tagids']);//商品标签
+
+    _addpayment($val['site_url']);//支付方式
 
     sleep(1);
 }

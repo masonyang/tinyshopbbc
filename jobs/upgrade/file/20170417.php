@@ -15,18 +15,24 @@ $upgradedata['branch']['insert'] = array(
         'where'=>'name="微信[公众号支付]"',
         'sql'=>"INSERT INTO `tiny_pay_plugin` (`name`, `class_name`, `description`, `logo`) VALUES ('微信[公众号支付]', 'wechat', '微信公众号支付', '/payments/logos/pay_wechat.gif');",
     ),
+    'payment'=>array(
+        'where'=>'id=8"',
+        'sql'=>"INSERT INTO `tiny_payment` (`id`, `plugin_id`, `pay_name`, `config`, `client_type`, `description`, `note`, `pay_fee`, `fee_type`, `sort`, `status`) VALUES (8, 11, '微信[公众号支付]', 'a:4:{s:10:\"partner_id\";s:10:\"1452355402\";s:11:\"partner_key\";s:32:\"baifabaihuo109quanqiucangapp209h\";s:6:\"app_id\";s:18:\"wxabe371a3d4002bc5\";s:10:\"app_secret\";s:32:\"3d5a3d5796bb306f8596e66907a6deeb\";}',1,'微信公众号支付','<span>微信公众号支付</span>',0.00,1,2,0);",
+    ),
 );
 
 //更新 分店 数据表数据
 $upgradedata['branch']['update'] = array(
-    'payment'=>array(
-        'where'=>'pay_name="微信[公众号支付]"',
-        'sql'=>"update `tiny_payment` set id=8 where pay_name='微信[公众号支付]';",
-    ),
+
 );
 
 //删除 分店 数据表数据
-$upgradedata['branch']['delete'] = array();
+$upgradedata['branch']['delete'] = array(
+    'payment'=>array(
+        'where'=>'id=0"',
+        'sql'=>"delete from `tiny_payment` where id=0;",
+    ),
+);
 
 
 //插入 总店 数据表数据

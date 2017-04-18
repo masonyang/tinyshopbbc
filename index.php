@@ -7,14 +7,23 @@ include("framework/tiny.php");
 
 Tiny::registerAutoLoad();
 
-//加载配制文件
-$serverName = Tiny::getServerName();
+$clientType = Chips::clientType();
 
-$env = Tiny::getEnv($serverName['domain']);
+if(($clientType=='tablet' || $clientType=='mobile') && ($_GET['con'] != 'api')){
 
-$configPath = "protected/config/config_".$env.".php";
+    header('Location: http://'.$_SERVER['HTTP_HOST'].'/wap');
+    exit;
+}else{
+    //加载配制文件
+    $serverName = Tiny::getServerName();
 
-$config = is_file($configPath)?include($configPath):null;
+    $env = Tiny::getEnv($serverName['domain']);
+
+    $configPath = "protected/config/config_".$env.".php";
+
+    $config = is_file($configPath)?include($configPath):null;
 
 //运行应用程序
-Tiny::createWebApp($config)->run();
+    Tiny::createWebApp($config)->run();
+}
+
