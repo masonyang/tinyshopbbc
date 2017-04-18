@@ -58,7 +58,7 @@ $upgradeschema['branch']['create'] = array(
 //更新 分店 数据表结构
 $upgradeschema['branch']['modify'] = array(
     'user'=>array(
-        'wxOpenId'=>"alter table `tiny_user` add columns `wxOpenId` varchar(100) comment '微信用户openId';",
+        'wxOpenId'=>"alter table `tiny_user` add column `wxOpenId` varchar(100) comment '微信用户openId';",
         'wxAccessToken'=>"alter table `tiny_user` add column `wxAccessToken` varchar(200) comment '微信用户授权access_token';",
     ),
     'order'=>array(
