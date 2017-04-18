@@ -6,7 +6,7 @@
  * Time: 下午4:20
  * 报表统计 job
  *
- * php /jobs/job.php statistics --stattype=goodsrecommend
+ * php /jobs/job.php statisticsJob --stattype=goodsrecommend
  *
  */
 class statisticsJob extends syncdataJob
