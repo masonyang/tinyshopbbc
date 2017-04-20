@@ -319,7 +319,15 @@ class wpproducts extends wapbase
                 break;
         }
 
-        $return['limit'] = '0 ,'.$this->params['limit'];
+        $limit = 4;
+
+        if(isset($this->params['limit']) && (intval($this->params['limit']) > 0)){
+            $limit = $this->params['limit'];
+        }
+
+        $this->params['limit'] =  $limit;
+
+        $filter['limit'] = '0 ,'.$this->params['limit'];
 
         $recommendModel = new Model($filter['tablename']);
 
