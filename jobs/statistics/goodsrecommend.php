@@ -31,7 +31,7 @@ class statistics_goodsrecommendJob
 
                     $model = Model::getInstance('goods_sales_statistics',$v['site_url']);
 
-                    $_data = $model->fields('stat_id')->where('gid = "'.$val['gid'])->find();
+                    $_data = $model->fields('stat_id')->where('gid = '.$val['gid'])->find();
 
                     if($_data['stat_id']){
                         $stat_id = $_data['stat_id'];
