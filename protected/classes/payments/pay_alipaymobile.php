@@ -215,7 +215,10 @@ class pay_alipaymobile extends PaymentPlugin{
 //        $sign = base64_encode($sign);
 //        return $sign;
 //    }
-    function rsaSign($data, $private_key) {
+    function rsaSign($data, $private_key_path) {
+
+        $private_key = file_get_contents($private_key_path);
+
         //以下为了初始化私钥，保证在您填写私钥时不管是带格式还是不带格式都可以通过验证。
         $private_key=str_replace("-----BEGIN RSA PRIVATE KEY-----","",$private_key);
         $private_key=str_replace("-----END RSA PRIVATE KEY-----","",$private_key);
@@ -253,7 +256,9 @@ class pay_alipaymobile extends PaymentPlugin{
 //        openssl_free_key($res);
 //        return $result;
 //    }
-    function rsaVerify($data, $alipay_public_key, $sign)  {
+    function rsaVerify($data, $ali_public_key_path, $sign)  {
+
+        $alipay_public_key = file_get_contents($ali_public_key_path);
         //以下为了初始化私钥，保证在您填写私钥时不管是带格式还是不带格式都可以通过验证。
         $alipay_public_key=str_replace("-----BEGIN PUBLIC KEY-----","",$alipay_public_key);
         $alipay_public_key=str_replace("-----END PUBLIC KEY-----","",$alipay_public_key);
@@ -272,7 +277,7 @@ class pay_alipaymobile extends PaymentPlugin{
         openssl_free_key($res);
         return $result;
     }
-    
+
     /**
      * RSA解密
      * @param $content 需要解密的内容，密文
