@@ -1010,7 +1010,7 @@ angular.module('starter.controllers', [])
     })
 
     //马上支付 v2
-    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin) {
+    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin, GlobalFun) {
 
         $scope.$on('$ionicView.afterEnter', function() {
             var user = User._User();
