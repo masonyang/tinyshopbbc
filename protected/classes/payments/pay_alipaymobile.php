@@ -16,6 +16,8 @@ class pay_alipaymobile extends PaymentPlugin{
 
     private $transport = 'http';
 
+    public $method      = "get";//form提交模式
+
     /**
      * HTTPS形式消息验证地址
      */
