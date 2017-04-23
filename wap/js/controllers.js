@@ -1067,7 +1067,7 @@ angular.module('starter.controllers', [])
                                 res.data.pay_data['oid'] = oid;
                                 WeiXin.wapPay(res.data.pay_data);
                             }else if(result.data.payment_id === ENV.payList.wapAlipay) {
-                                //window.location = res.data.pay_data;
+                                window.location = res.data.pay_data;
                             }
                         }else{
                             msg(res.msg);

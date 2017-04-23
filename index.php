@@ -9,7 +9,7 @@ Tiny::registerAutoLoad();
 
 $clientType = Chips::clientType();
 
-if(($clientType=='tablet' || $clientType=='mobile') && ($_GET['con'] != 'api')){
+if(($clientType=='tablet' || $clientType=='mobile') && !in_array($_GET['con'],array('api','payment'))){
 
     header('Location: http://'.$_SERVER['HTTP_HOST'].'/wap');
     exit;
