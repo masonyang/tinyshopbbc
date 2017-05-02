@@ -1,6 +1,6 @@
 angular.module("starter.config", [])
 .factory("ENV", function($location){
-    var hostUrl = $location.protocol() + ':/' + $location.host() + '/';
+    var hostUrl = $location.protocol() + '://' + $location.host() + '/';
     hostUrl = hostUrl.replace('wap/','');
     // var hostUrl = 'http://a.qqcapp.com/';
 
