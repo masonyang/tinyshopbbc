@@ -79,7 +79,7 @@
         <ion-infinite-scroll icon="ion-load-a" distance="3%" immediate-check="false"  on-infinite="loadMore();" ng-if="hasNextPage()"></ion-infinite-scroll>
     </ion-content>
 
-    <ion-footer-bar class="download bar-footer hide" ng-class="{'show':getPlatform.system != 'app'}">
+    <ion-footer-bar class="download bar-footer hide" ng-class="{'show':getPlatform.system != 'app'}" ng-if="getPlatform.system != 'app'">
         <span class="ion-ios-cloud-download-outline"></span>
         <a href="#/downApp">下载APP，更多功能、更方便！ </a>
         <a class="button light button-assertive right" href="#/downApp">立即下载</a>

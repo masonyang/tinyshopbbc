@@ -54,7 +54,7 @@ angular.module('starter.services', [])
             GetQueryString: function (name) {
                 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
                 var r = window.location.search.substr(1).match(reg);
-                if(r!=null)return  unescape(r[2]); return null;
+                if(r!==null)return  unescape(r[2]); return null;
             },
             //判断是否是微信打开返回true
             isWechat: function() {
@@ -153,6 +153,19 @@ angular.module('starter.services', [])
                 };
 
                 weixinShare();
+            },
+            checkPayment: function(type) {
+                var arr = {'weixin':'该订单需要在微信内进行支付', 'appAlipay':'该订单需要在浏览器内支付', 'wapAlipay':'该订单需要在App下支付'};
+                var payment = {alipay:false, weixin:false};
+                var platform = this.getPlatform();
+                if(platform.system == 'app' && type !== 'appAlipay') {
+                    return arr.appAlipay;
+                }else if(platform.system == 'h5' && type !== 'wapAlipay') {
+                    return arr.wapAlipay;
+                }else if(platform.system == 'weixin' && type !== 'weixin') {
+                    return arr.weixin;
+                }
+                return false;
             }
         };
     })

@@ -365,6 +365,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
     }
   })
 
+  //微信接口借权
+  .state('getWxCode', {
+      url: '/getWxCode/:str',
+      // templateUrl: 'templates/wxcode.html',
+      controller: 'getWxCodeCtrl'
+  })
+
   // 下单收货地址管理
   .state('tab.flowaddress', {
     url: '/flowaddress/:act',
