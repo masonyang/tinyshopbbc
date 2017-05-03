@@ -56,6 +56,12 @@ class wppaylink extends wapbase
                 'type'=>'string',
                 'content'=>'获取微信用户openid专用. 当支付方式为微信支付 时候，需要传',
             ),
+            array(
+                'colum'=>'host',
+                'required'=>'可选',
+                'type'=>'string',
+                'content'=>'分站域名. 当支付方式为微信支付 时候，需要传',
+            ),
         ),
         'syncdopay'=>array(
             array(
@@ -197,7 +203,21 @@ class wppaylink extends wapbase
 
         $return_url = urldecode($this->params['return_url']);
 
-	    $return = $this->genatePayLink($paymentId, $orderId, $extendDatas, $msg, $payData,$return_url);
+        $domain = '';
+
+        if(isset($this->params['host'])){
+            $domains = explode('.',$this->params['host']);
+            if(count($domains) == 3){
+                $domain = $domains[0];
+            }else{
+                $this->output['msg'] = '微信支付参数错误！';
+                $this->output(array());
+                exit;
+            }
+
+        }
+
+	    $return = $this->genatePayLink($paymentId, $orderId, $extendDatas, $msg, $payData,$return_url,$domain);
 	    
         if($return){
             $this->output['status'] = 'succ';
@@ -218,13 +238,14 @@ class wppaylink extends wapbase
 	 * @param array $payData
 	 * @return bool
 	 */
-    protected function genatePayLink($paymentId,$orderId,$extendDatas,&$msg = '',&$payData = array(),$return_url = '')
+    protected function genatePayLink($paymentId,$orderId,$extendDatas,&$msg = '',&$payData = array(),$return_url = '',$domain = '')
     {
-        $payment = Payment::getInstance($paymentId);
+        $payment = Payment::getInstance($paymentId,$domain);
         $paymentPlugin = $payment->getPaymentPlugin();
         $payment_info = $payment->getPayment();
 
-        $model = new Model('order');
+
+        $model = new Model('order',$domain);
         $order = $model->where('id='.$orderId)->find();
         if($order){
             if($order['order_amount']==0 && $payment_info['class_name']!='balance'){
@@ -299,8 +320,9 @@ class wppaylink extends wapbase
                         }
                     }
 
-                    $packData = $payment->getPaymentInfo('order',$orderId);
+                    $packData = $payment->getPaymentInfo('order',$orderId,$domain);
                     $packData = array_merge($extendDatas,$packData);
+                    $packData['top'] = $domain;
                     $sendData = $paymentPlugin->packData($packData);
 
                     if(!$paymentPlugin->isNeedSubmit()){
@@ -323,7 +345,7 @@ class wppaylink extends wapbase
             }else{
                 $model->data(array('status'=>6))->where('id='.$orderId)->update();
 
-                $orderGoodsModel = new Model('order_goods');
+                $orderGoodsModel = new Model('order_goods',$domain);
 //                $productsModel = new Model('products');
 
                 $products = $orderGoodsModel->where("order_id=".$orderId)->findAll();

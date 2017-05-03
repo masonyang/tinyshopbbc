@@ -85,6 +85,14 @@ class pay_wechat extends PaymentPlugin
      */
     public function packData($payment)
     {
+
+
+         $serverName = Tiny::getServerName();
+        if(isset($payment['top'])){
+            $this->asyncCallbackUrl = str_replace($serverName['top'].'.', $payment['top'].'.', $this->asyncCallbackUrl);
+        }
+        
+
         $server = $this->_getServer();
 
         $openId = $server->getOpenId($payment['uid'],$payment['code']);

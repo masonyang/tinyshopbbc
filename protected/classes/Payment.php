@@ -102,7 +102,7 @@ class Payment{
 	 * @return array 支付提交信息
 	 * R表示店铺 ; P表示用户;
 	 */
-	public function getPaymentInfo($type,$argument){
+	public function getPaymentInfo($type,$argument,$domain = ''){
 
 		$controller = Tiny::app()->getController();
 		//支付信息
@@ -124,7 +124,7 @@ class Payment{
 			$payment['M_AppSecret'] = $this->_config['app_secret'];
 		}
 		
-		$model = new Model("order");
+		$model = new Model("order",$domain);
 		if($type == 'order'){
 			$order_id = $argument;
 			//获取订单信息
@@ -157,7 +157,7 @@ class Payment{
 			}
 			$safebox =  Safebox::getInstance();
 			$user = $safebox->get('user');
-			$recharge = new Model('recharge');
+			$recharge = new Model('recharge',$domain);
 			$data      = array(
 				'user_id'     => $user['id'],
 				'recharge_no' => Common::createOrderNo(),
