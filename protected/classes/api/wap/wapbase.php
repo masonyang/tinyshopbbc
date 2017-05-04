@@ -50,7 +50,7 @@ class wapbase extends baseapi
     {
         $serverName = Tiny::getServerName();
 
-        if(!$serverName || (($serverName['top'] == 'zd') && ($params['method']!= 'wppaylink'))){
+        if(!$serverName || (($serverName['top'] == 'zd') && ($params['source']!= 'paylinkv'))){
             echo 'haha';
             exit;
         }
