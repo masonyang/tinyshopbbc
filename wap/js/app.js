@@ -368,8 +368,13 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   //微信接口借权
   .state('getWxCode', {
       url: '/getWxCode/:str',
-      // templateUrl: 'templates/wxcode.html',
       controller: 'getWxCodeCtrl'
+  })
+
+  //微支付接口借权
+  .state('wxPayIng', {
+      url: '/wxPayIng/:str',
+      controller: 'wxPayIngCtrl'
   })
 
   // 下单收货地址管理

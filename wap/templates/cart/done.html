@@ -16,12 +16,9 @@
             <ion-item class="payment" ng-if="order.payment_id == paylist.alipay">
                 <span class="item-content"><img ng-src="img/alipay-icon.png" />支付宝支付</span>
             </ion-item>
-            <!--
-            <ion-item class="payment">
+            <ion-item class="payment" ng-if="order.payment_id == paylist.weixin">
                 <span class="item-content"><img ng-src="img/wx-icon.png" />微信支付</span>
-                <input type="radio" name="payment" class="radio-icon" ng-value="weach" ng-click="onPayment('weach')" />
             </ion-item>
-            -->
 
             <ion-item>
                 <button class="button button-assertive button-full" ng-click="payment()">立即支付</button>

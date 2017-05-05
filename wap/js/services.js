@@ -9,9 +9,9 @@ angular.module('starter.services', [])
                 callback = encodeURIComponent(callback);
                 return "https://open.weixin.qq.com/connect/oauth2/authorize?appid="+appid+"&redirect_uri="+callback+"&response_type=code&scope=snsapi_base&state="+state+"#wechat_redirect";
             },
-            wapPay: function(data) {
+            wapPay: function(data, url) {
                 var oid = data.oid;
-                var url = ENV.H5Url()+'#/tab/orderdetail/'+oid;
+                // var url = ENV.H5Url+'#/tab/orderdetail/'+oid;
 
                 function onBridgeReady(){
                     WeixinJSBridge.invoke(
@@ -28,6 +28,7 @@ angular.module('starter.services', [])
                             if(res.err_msg == "get_brand_wcpay_request:ok" ) {
                                 alert('支付成功');
                             }else{
+                                alert(res.err_msg);
                                 alert('支付失败');
                             }
                             window.location = url;
@@ -198,6 +199,7 @@ angular.module('starter.services', [])
     .factory('HomeAdvV2', function(ENV, $http, Des3) {
         return function() {
             var sign = Des3.encrypt({"_params":null});
+            console.log(ENV.api+'&method=advert&sign='+sign);
             return $http.get(ENV.api+'&method=advert&sign='+sign);
         };
     })
@@ -776,11 +778,17 @@ angular.module('starter.services', [])
                 return $http.get(ENV.api+'&method=orders&source=orderdetail&sign='+sign);
             },
             //支付检查订单是否有效
-            payCheck: function(uid, oid, paymentid, code) {
+            payCheck: function(uid, oid, paymentid, obj) {
                 var url = encodeURI(ENV.H5Url+'#/tab/detail/'+oid);
-                var sign = Des3.encrypt({uid:uid, oid:oid, paymentid:paymentid, return_url:url, code:code});
+                if(obj.hasOwnProperty('return_url')) {
+                    url = obj.return_url;
+                }
+                console.log({uid:uid, oid:oid, paymentid:paymentid, return_url:url, host:obj.host, code:obj.code});
+                var sign = Des3.encrypt({uid:uid, oid:oid, paymentid:paymentid, return_url:url, host:obj.host, code:obj.code});
                 if(paymentid == 7) {
-                    return $http.get(ENV.api+'&method=paylinkv1&source=paylinkv&sign='+sign);
+                    return $http.get(ENV.api + '&method=paylinkv1&source=paylinkv&sign=' + sign);
+                }else if(paymentid == 8) {
+                    return $http.get(ENV.wxUrl+'index.php?con=api&act=index&method=wppaylink&source=paylinkv&sign='+sign);
                 }else{
                     return $http.get(ENV.api+'&method=wppaylink&source=paylinkv&sign='+sign);
                 }
