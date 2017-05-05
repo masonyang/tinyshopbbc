@@ -476,7 +476,6 @@ angular.module('starter.controllers', [])
             });
 
             if(!user) {
-                console.log(user);
                 msg('请登录您的账号');
                 $state.go('login');
                 return false;
@@ -1009,7 +1008,7 @@ angular.module('starter.controllers', [])
     })
 
     //马上支付 v2
-    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin, GlobalFun) {
+    .controller('DownCtrl', function($scope, $state, msg, User, $stateParams, $ionicLoading, Order, $timeout, Payment, ENV, WeiXin, GlobalFun, ENV) {
 
         $scope.$on('$ionicView.afterEnter', function() {
             var user = User._User();
@@ -1045,19 +1044,27 @@ angular.module('starter.controllers', [])
                     var code = '';
                     var getCode = GlobalFun.GetQueryString('code');
 
-                    if(result.data.payment_id === ENV.payList.weixin && getCode === null) {
-                        var callback = window.btoa(ENV.H5Url+'#/tab/done/'+oid);
-                        // var callback = window.btoa('http://localhost/quanqiucang/www/#/tab/done/'+oid);
-                        var wxcallback = ENV.wxUrl+'#/getWxCode/'+callback;
-                        window.location = wxcallback;
-                        console.log(wxcallback);
-                        return false;
-                        var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
-                        window.location = callUrl;
-                        return false;
+                    if(result.data.payment_id === ENV.payList.weixin) {
+                        if(getCode === null) {
+                            var callback = window.btoa(ENV.H5Url+'#/tab/done/'+oid);
+                            var wxcallback = ENV.wxUrl+'wap/#/getWxCode/'+callback;
+                            // console.log(wxcallback);
+                            var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
+                            console.log(callUrl);
+                            window.location = callUrl;
+                            return false;
+                        }else{
+                            var host = location.host;
+                            var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
+                            console.log(ENV.wxUrl+'wap/#/wxPayIng/'+str);
+                            window.location = ENV.wxUrl+'wap/#/wxPayIng/'+str;
+                            return false;
+                        }
                     }
+
                     code = getCode;
-                    Order.payCheck(uid, order.oid, order.payment_id, code).then(function(json) {
+                    var host = location.host;
+                    Order.payCheck(uid, order.oid, order.payment_id, {host:host, code:code}).then(function(json) {
                         var res = json.data;
 
                         if(res.status == 'succ') {
@@ -1065,8 +1072,10 @@ angular.module('starter.controllers', [])
                                 //支付宝app支付
                                 Payment.alipayPay(order.oid, res.data.pay_data);
                             }else if(result.data.payment_id === ENV.payList.weixin) {
-                                res.data.pay_data.oid = order.oid;
-                                WeiXin.wapPay(res.data.pay_data);
+                                // res.data.pay_data.oid = order.oid;
+                                // var str = window.btoa(JSON.stringify({url:ENV.H5Url+'#/tab/orderdetail/'+order.oid, data:res.data}));
+                                // console.log(str);
+                                // window.location = ENV.wxUrl+'wap/#/wxPayIng/'+str;
                             }else if(result.data.payment_id === ENV.payList.wapAlipay) {
                                 window.location = res.data.pay_data;
                             }
@@ -1089,14 +1098,37 @@ angular.module('starter.controllers', [])
     .controller('getWxCodeCtrl', function($scope, $state, $stateParams, GlobalFun) {
         var str = $stateParams.str;
         url = window.atob(str);
-        console.log(url);
         var code = GlobalFun.GetQueryString('code');
-        console.log(code);
         if(code) {
             url = url.replace('#', '?code='+code+'&#');
         }
-        console.log('newUrl:', url);
         window.location = url;
+    })
+
+    .controller('wxPayIngCtrl', function($scope, $state, $stateParams, GlobalFun, WeiXin, Order, msg, ENV) {
+        var str = $stateParams.str;
+        if(!str) {
+            return false;
+        }
+        var obj = JSON.parse(window.atob(str));
+        // console.log(obj);
+        var return_url = encodeURI(location.protocol+'//'+obj.host+'#/tab/detail/'+obj.oid);
+        console.log(return_url);
+        Order.payCheck(obj.uid, obj.oid, obj.payment_id, {host:obj.host, code:obj.code, return_url:return_url}).then(function(json) {
+            var res = json.data;
+            console.log(res);
+
+            if(res.status == 'succ') {
+                // WeiXin.wapPay(res.data.pay_data, obj.url);
+
+                var p = JSON.stringify({pay_data:res.data.pay_data,url:return_url});
+                window.location = ENV.wxUrl + 'wap/test.html?p='+window.btoa(p);
+            }else{
+                msg(res.msg);
+            }
+        });
+
+        //WeiXin.wapPay(obj.data.pay_data, obj.url);
     })
 
     //会员中心 v2
@@ -1649,7 +1681,8 @@ angular.module('starter.controllers', [])
                             return false;
                         }
                         code = getCode;
-                        Order.payCheck(uid, oid, orderInfo.payment_id, code).then(function(json) {
+                        var host = location.host;
+                        Order.payCheck(uid, oid, orderInfo.payment_id, {host:host, code:code}).then(function(json) {
                             var res = json.data;
 
                             if(res.status == 'succ') {
@@ -1750,7 +1783,8 @@ angular.module('starter.controllers', [])
                         return false;
                     }
                     code = getCode;
-                    Order.payCheck(uid, oid, orderInfo.payment_id, code).then(function(json) {
+                    var host = location.host;
+                    Order.payCheck(uid, oid, orderInfo.payment_id, {host:host, code:code}).then(function(json) {
                         var res = json.data;
 
                         if(res.status == 'succ') {
