@@ -95,7 +95,7 @@ class pay_wechat extends PaymentPlugin
 
         $server = $this->_getServer();
 
-        $openId = $server->getOpenId($payment['uid'],$payment['code']);
+        $openId = $server->getOpenId($payment['uid'],$payment['code'],$payment['top']);
 
         if (!$openId) {
             throw new AppException(Exception_Base::STATUS_CUSTOM_ERROR, '获取openId失败');

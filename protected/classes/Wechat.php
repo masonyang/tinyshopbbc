@@ -114,9 +114,9 @@ class Wechat
      * @param $code
 	 * @return mixed
 	 */
-	public function getOpenId($userId,$code)
+	public function getOpenId($userId,$code,$domain = '')
 	{
-		$model = new Model('user');
+		$model = new Model('user',$domain);
 		$user = $model->where("id='".$userId."'")->find();
 
 		if($user && $user['wxOpenId'])
@@ -135,7 +135,7 @@ class Wechat
 		}
 
 		//更新信息到用户表
-		$model->table('user')
+		$model->table('user',$domain)
 			->data(
 				array(
 					'wxOpenId' => $userInfo->openid ,
