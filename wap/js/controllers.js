@@ -1035,11 +1035,11 @@ angular.module('starter.controllers', [])
             //获取支付订单
             $scope.payment = function(order, result) {
                 if(order.goods_amount > 0 && order.payment_id > 0 && order.status == '等待付款') {
-/*                    $ionicLoading.show({
+                    $ionicLoading.show({
                         template:'启动支付...',
                         noBackdrop:false,
                         duration: 5000
-                    });*/
+                    });
 
                     var code = '';
                     var getCode = GlobalFun.GetQueryString('code');
@@ -1071,11 +1071,6 @@ angular.module('starter.controllers', [])
                             if(result.data.payment_id === ENV.payList.appAlipay) {
                                 //支付宝app支付
                                 Payment.alipayPay(order.oid, res.data.pay_data);
-                            }else if(result.data.payment_id === ENV.payList.weixin) {
-                                // res.data.pay_data.oid = order.oid;
-                                // var str = window.btoa(JSON.stringify({url:ENV.H5Url+'#/tab/orderdetail/'+order.oid, data:res.data}));
-                                // console.log(str);
-                                // window.location = ENV.wxUrl+'wap/#/wxPayIng/'+str;
                             }else if(result.data.payment_id === ENV.payList.wapAlipay) {
                                 window.location = res.data.pay_data;
                             }
@@ -1112,7 +1107,7 @@ angular.module('starter.controllers', [])
         }
         var obj = JSON.parse(window.atob(str));
         // console.log(obj);
-        var return_url = encodeURI(location.protocol+'//'+obj.host+'#/tab/detail/'+obj.oid);
+        var return_url = encodeURI(location.protocol+'//'+obj.host+'#/tab/orderdetail/'+obj.oid);
         console.log(return_url);
         Order.payCheck(obj.uid, obj.oid, obj.payment_id, {host:obj.host, code:obj.code, return_url:return_url}).then(function(json) {
             var res = json.data;
@@ -1120,14 +1115,12 @@ angular.module('starter.controllers', [])
 
             if(res.status == 'succ') {
                 // WeiXin.wapPay(res.data.pay_data, obj.url);
-
                 var p = JSON.stringify({pay_data:res.data.pay_data,url:return_url});
                 window.location = ENV.wxUrl + 'wap/test.html?p='+window.btoa(p);
             }else{
                 msg(res.msg);
             }
         });
-
         //WeiXin.wapPay(obj.data.pay_data, obj.url);
     })
 
@@ -1613,7 +1606,7 @@ angular.module('starter.controllers', [])
     })
 
     //我的订单 v2
-    .controller('MyOrderCtrl', function($scope, User, msg, $state, $ionicLoading, $ionicHistory, Payment, $rootScope, Order, GlobalFun, ENV) {
+    .controller('MyOrderCtrl', function($scope, User, msg, $state, $ionicLoading, $ionicHistory, Payment, $rootScope, Order, GlobalFun, ENV, WeiXin) {
         $scope.goBack = function() {
             $ionicHistory.goBack();
         };
@@ -1674,41 +1667,34 @@ angular.module('starter.controllers', [])
                         var code = '';
                         var getCode = GlobalFun.GetQueryString('code');
 
-                        if(orderInfo.payment_id === ENV.payList.weixin && getCode === null) {
-                            var callback = ENV.H5Url+'#/tab/done/'+orderInfo.oid;
-                            var callUrl = WeiXin.getOauthCodeUrl(callback, orderInfo.oid);
-                            window.location = callUrl;
-                            return false;
+                        if(result.data.payment_id === ENV.payList.weixin) {
+                            if(getCode === null) {
+                                var callback = window.btoa(ENV.H5Url+'#/tab/done/'+oid);
+                                var wxcallback = ENV.wxUrl+'wap/#/getWxCode/'+callback;
+                                // console.log(wxcallback);
+                                var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
+                                console.log(callUrl);
+                                window.location = callUrl;
+                                return false;
+                            }else{
+                                var host = location.host;
+                                var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
+                                console.log(ENV.wxUrl+'wap/#/wxPayIng/'+str);
+                                window.location = ENV.wxUrl+'wap/#/wxPayIng/'+str;
+                                return false;
+                            }
                         }
+
                         code = getCode;
                         var host = location.host;
-                        Order.payCheck(uid, oid, orderInfo.payment_id, {host:host, code:code}).then(function(json) {
+                        Order.payCheck(uid, order.oid, order.payment_id, {host:host, code:code}).then(function(json) {
                             var res = json.data;
 
                             if(res.status == 'succ') {
-                                var chkpay = '';
-                                if(orderInfo.payment_id === ENV.payList.appAlipay) {
-                                    chkpay = GlobalFun.checkPayment('appAlipay');
-                                    if(chkpay) {
-                                        msg(chkpay);
-                                        return false;
-                                    }
+                                if(result.data.payment_id === ENV.payList.appAlipay) {
                                     //支付宝app支付
-                                    Payment.alipayPay(oid, res.data.pay_data);
-                                }else if(orderInfo.payment_id === ENV.payList.weixin) {
-                                    chkpay = GlobalFun.checkPayment('weixin');
-                                    if(chkpay) {
-                                        msg(chkpay);
-                                        return false;
-                                    }
-                                    res.data.pay_data.oid = oid;
-                                    WeiXin.wapPay(res.data.pay_data);
-                                }else if(orderInfo.payment_id === ENV.payList.wapAlipay) {
-                                    chkpay = GlobalFun.checkPayment('wapAlipay');
-                                    if(chkpay) {
-                                        msg(chkpay);
-                                        return false;
-                                    }
+                                    Payment.alipayPay(order.oid, res.data.pay_data);
+                                }else if(result.data.payment_id === ENV.payList.wapAlipay) {
                                     window.location = res.data.pay_data;
                                 }
                             }else{
@@ -1730,7 +1716,7 @@ angular.module('starter.controllers', [])
     })
 
     //订单详情 v2
-    .controller('OrderDetailCtrl', function($scope, User, msg, $state, $ionicLoading, Order, $stateParams, $ionicHistory, Payment, GlobalFun, ENV) {
+    .controller('OrderDetailCtrl', function($scope, User, msg, $state, $ionicLoading, Order, $stateParams, $ionicHistory, Payment, GlobalFun, ENV, WeiXin) {
         $scope.goBack = function() {
             $ionicHistory.goBack();
         };
@@ -1766,6 +1752,7 @@ angular.module('starter.controllers', [])
             //订单支付
             $scope.payOrder = function(oid) {
                 var orderInfo = $scope.order;
+                var result = {data:orderInfo};
                 if(orderInfo.goods_amount > 0 && orderInfo.payment_id > 0 && orderInfo.status == '等待付款') {
                     $ionicLoading.show({
                         template:'启动支付...',
@@ -1776,41 +1763,34 @@ angular.module('starter.controllers', [])
                     var code = '';
                     var getCode = GlobalFun.GetQueryString('code');
 
-                    if(orderInfo.payment_id === ENV.payList.weixin && getCode === null) {
-                        var callback = ENV.H5Url+'#/tab/done/'+orderInfo.oid;
-                        var callUrl = WeiXin.getOauthCodeUrl(callback, orderInfo.oid);
-                        window.location = callUrl;
-                        return false;
+                    if(result.data.payment_id === ENV.payList.weixin) {
+                        if(getCode === null) {
+                            var callback = window.btoa(ENV.H5Url+'#/tab/done/'+oid);
+                            var wxcallback = ENV.wxUrl+'wap/#/getWxCode/'+callback;
+                            // console.log(wxcallback);
+                            var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
+                            console.log(callUrl);
+                            window.location = callUrl;
+                            return false;
+                        }else{
+                            var host = location.host;
+                            var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
+                            console.log(ENV.wxUrl+'wap/#/wxPayIng/'+str);
+                            window.location = ENV.wxUrl+'wap/#/wxPayIng/'+str;
+                            return false;
+                        }
                     }
+
                     code = getCode;
                     var host = location.host;
-                    Order.payCheck(uid, oid, orderInfo.payment_id, {host:host, code:code}).then(function(json) {
+                    Order.payCheck(uid, order.oid, order.payment_id, {host:host, code:code}).then(function(json) {
                         var res = json.data;
 
                         if(res.status == 'succ') {
-                            var chkpay = '';
-                            if(orderInfo.payment_id === ENV.payList.appAlipay) {
-                                chkpay = GlobalFun.checkPayment('appAlipay');
-                                if(chkpay) {
-                                    msg(chkpay);
-                                    return false;
-                                }
+                            if(result.data.payment_id === ENV.payList.appAlipay) {
                                 //支付宝app支付
-                                Payment.alipayPay(oid, res.data.pay_data);
-                            }else if(orderInfo.payment_id === ENV.payList.weixin) {
-                                chkpay = GlobalFun.checkPayment('weixin');
-                                if(chkpay) {
-                                    msg(chkpay);
-                                    return false;
-                                }
-                                res.data.pay_data.oid = oid;
-                                WeiXin.wapPay(res.data.pay_data);
-                            }else if(orderInfo.payment_id === ENV.payList.wapAlipay) {
-                                chkpay = GlobalFun.checkPayment('wapAlipay');
-                                if(chkpay) {
-                                    msg(chkpay);
-                                    return false;
-                                }
+                                Payment.alipayPay(order.oid, res.data.pay_data);
+                            }else if(result.data.payment_id === ENV.payList.wapAlipay) {
                                 window.location = res.data.pay_data;
                             }
                         }else{

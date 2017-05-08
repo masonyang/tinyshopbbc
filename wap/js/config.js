@@ -1,7 +1,7 @@
 angular.module("starter.config", [])
 .factory("ENV", function($location){
     var hostUrl = $location.protocol() + '://' + $location.host() + '/';
-    hostUrl = 'http://a.qqcapp.com/';
+    //hostUrl = 'http://a.qqcapp.com/';
     var H5Url   = hostUrl;
     hostUrl = hostUrl.replace('wap/','');
     console.log(hostUrl);
