@@ -248,7 +248,7 @@ class wporders extends wapbase
         foreach($odDatas as $k=>$vval){
             $gData = $goodsModel->fields('name,img')->where('id='.$vval['goods_id'])->find();
 
-            $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->findAll();
+            $items= $productsModel->fields("spec")->where("id=".$vval['product_id'])->find();
 
             $spec = array();
             $specs = unserialize($items['spec']);
