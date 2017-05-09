@@ -1,12 +1,8 @@
-<ion-view view-title="登录" hide-nav-bar="true" class="w content_bg">
-    <!--<ion-header-bar class="bar bar-header bar-assertive">-->
-        <!--<a class="button icon ion-ios-arrow-left button-clear" ng-click="goBack()" nav-direction="back"></a>-->
-        <!--<h1 class="title">下载 “<b>{{shopinfo.site_name}}</b>” APP</h1>-->
-    <!--</ion-header-bar>-->
+<ion-view view-title="App下载" hide-nav-bar="true" class="w content_bg">
 
     <ion-content class="assertive-bg">
         <div class="downPage text-center">
-            <div class="downLogo"><img src="{{shopinfo.site_logo}}" /></div>
+            <div class="downLogo"><img src="{{shopinfo.site_logo}}" style="max-width:50%;" /></div>
             <div class="downTitle">{{shopinfo.site_name}}</div>
             <div class="downTitle2">{{shopinfo.site_name}} App下载</div>
             <div style="width:60%; margin-left:20%; margin-top:10%;" ng-if="downUrl.site_android_url"><a href="{{downUrl.site_android_url}}" class="button button-block downBtn">Android 下载</a></div>
@@ -19,4 +15,5 @@
         <div>©版权所有</div>
     </div>
 
+    <div class="downBg" ng-if="isWechat"><img src="./img/wx-bg.png" /></div>
 </ion-view>

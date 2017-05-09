@@ -736,9 +736,21 @@ input, img {vertical-align: middle;}
     font-size:1.4rem;
     margin-right:3px;
 }
+.download .left {
+    top:5px;
+    left:5px;
+    /*position:absolute;*/
+}
+.download .close {
+    right:0px;
+    top:1px;
+    position:absolute;
+    padding:0px 5px 0px 10px;
+    font-size:1.3em;
+}
 .download .right {
     top:7px;
-    right:6px;
+    right:32px;
     position:absolute;
 }
 .download .button.right {
@@ -761,7 +773,7 @@ input, img {vertical-align: middle;}
 .downTitle {
     font-family:'楷体';
     color:#ffffff;
-    font-size:2.2em;
+    font-size:2em;
     font-weight:bold;
     line-height:1.5em;
 }
@@ -783,4 +795,15 @@ input, img {vertical-align: middle;}
     text-align:center;
     width:100%;
     font-size:0.7rem;
+}
+.downBg {
+    background:rgba(25, 25, 25, 0.9);
+    z-index:999;
+    position:fixed;
+    width:100%;
+    height:100%;
+}
+.downBg img {
+    padding-top:25%;
+    width:100%;
 }

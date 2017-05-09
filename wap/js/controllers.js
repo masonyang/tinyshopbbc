@@ -15,6 +15,9 @@ angular.module('starter.controllers', [])
             //显示菜单
 
             $scope.getPlatform = GlobalFun.getPlatform();
+            $scope.closeDown = function() {
+                $scope.getPlatform.close = true;
+            };
         });
 
         //幻灯片
@@ -147,10 +150,11 @@ angular.module('starter.controllers', [])
     })
 
     //下载app
-    .controller('DownAppCtrl', function($scope, $ionicHistory, ShopInfoV2, DownloadApp) {
+    .controller('DownAppCtrl', function($scope, $ionicHistory, ShopInfoV2, DownloadApp, GlobalFun) {
         $scope.goBack = function() {
             $ionicHistory.goBack();
         };
+        $scope.isWechat = GlobalFun.isWechat();
 
         ShopInfoV2().then(function(json) {
             var result = json.data;
@@ -556,6 +560,11 @@ angular.module('starter.controllers', [])
         $scope.openShare = function(gid) {
             var platform = GlobalFun.getPlatform();
             GlobalFun.openShare(platform.system, gid);
+        };
+
+        $scope.getPlatform = GlobalFun.getPlatform();
+        $scope.closeDown = function() {
+            $scope.getPlatform.close = true;
         };
     })
 
@@ -1723,6 +1732,7 @@ angular.module('starter.controllers', [])
 
         $scope.$on('$ionicView.afterEnter', function() {
 
+            $scope.payList = ENV.payList;
             var user = User._User();
             var uid  = user.user_id;
             if(user === false) {

@@ -96,7 +96,7 @@ angular.module('starter.services', [])
                 //system: app weixin h5
                 //platform: pc mobile
                 //name: android ios weixin h5
-                var data = {system:'', platform:'mobile', name:'h5', kernel:'other'};
+                var data = {system:'', platform:'mobile', name:'h5', kernel:'other', close:false};
 
                 document.addEventListener("deviceready", function () {
                     data.system = 'app';
@@ -148,6 +148,14 @@ angular.module('starter.services', [])
                                     });
                                 });
                             }
+                        },{
+                            text:'关闭',
+                            type:'button button-dark'
+                        }];
+                    }else{
+                        option.buttons = [{
+                            text:'关闭',
+                            type:'button button-dark'
                         }];
                     }
                     $ionicPopup.show(option);
@@ -199,7 +207,6 @@ angular.module('starter.services', [])
     .factory('HomeAdvV2', function(ENV, $http, Des3) {
         return function() {
             var sign = Des3.encrypt({"_params":null});
-            console.log(ENV.api+'&method=advert&sign='+sign);
             return $http.get(ENV.api+'&method=advert&sign='+sign);
         };
     })
