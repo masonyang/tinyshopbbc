@@ -304,7 +304,7 @@ class orders extends baseapi
         $express_company_id = $docInvoiceData['express_company_id'] ? : '';
 
         if ($express_company_id) {
-            $model = new Model('express_company');
+            $model = new Model('express_company','zd','salve');
             $express = $model->fields('*')->where('id = '. $express_company_id)->find();
             $express_company_name = $express ? $express['alias'] : '';
         } else {
