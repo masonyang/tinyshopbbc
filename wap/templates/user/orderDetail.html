@@ -34,10 +34,10 @@
             <ion-item class="payment" ng-if="order.payment_id == payList.weixin">
                 <span class="item-content"><img ng-src="img/wx-icon.png" />微信支付</span>
             </ion-item>
-            <ion-item class="item-divider" ng-if="goods.express_no || goods.express_company_name">配送信息</ion-item>
-            <ion-item class="payment" ng-if="goods.express_no || goods.express_company_name">
-                <p class="item-content" ng-if="goods.express_no">物流公司：{{goods.express_no}}</p>
-                <p class="item-content" ng-if="goods.express_no">物流单号：{{goods.express_company_name}}</p>
+            <ion-item class="item-divider" ng-if="order.express_no || order.express_company_name">配送信息</ion-item>
+            <ion-item class="payment" ng-if="order.express_no || order.express_company_name">
+                <p class="item-content" ng-if="order.express_no">物流公司：{{order.express_no}}</p>
+                <p class="item-content" ng-if="order.express_company_name">物流单号：{{order.express_company_name}}</p>
             </ion-item>
 
             <ion-item class="item-divider">商品信息</ion-item>
