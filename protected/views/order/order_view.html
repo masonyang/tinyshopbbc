@@ -91,7 +91,7 @@
     {set:$areas[$item['id']]=$item['name']}
     {/query}
 
-    {query:name=express_company fields=name as exname where=id eq $invoice[express_company_id]}
+    {query:name=express_company fields=alias as exname where=id eq $invoice[express_company_id]}
     {set:$express = $items[0]}
     {/query}
 

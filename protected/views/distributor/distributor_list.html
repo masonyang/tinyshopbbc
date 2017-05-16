@@ -25,6 +25,7 @@
 <table class="default" >
     <tr>
         <th style="width:30px">选择</th>
+        <th style="width:30px">ID</th>
         <th style="width:70px">操作</th>
         <th style="width:100px">店铺名称</th>
         <th style="width:70px">联系方式 </th>
@@ -36,8 +37,9 @@
         <!--<th style="width:80px">已授权分类</th>-->
     </tr>
 
-    {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,register_time where=$where id=$obj page=1 order= distributor_id desc }
+    {query:name=distributor fields=distributor_id,distributor_name,mobile,site_name,site_url,deposit,income,member_count,order_count,catids,register_time where=$where id=$obj page=1 pagesize=20 order= distributor_id desc }
         <tr><td style="width:30px"><input type="checkbox" name="id[]" value="{$item['distributor_id']}"></td>
+            <td style="width:30px;">{$item['distributor_id']}</td>
             <td style="width:70px" class="btn_min"><div class="operat hidden"><a  class="icon-cog action" href="javascript:;"> 处理</a><div class="menu_select"><ul>
                 <li><a class="icon-eye" href="javascript:;" onclick="view({$item['distributor_id']})"> 查看</a></li>
                 <li><a class="icon-pencil" href="{url:/distributor/distributor_edit/id/}{$item['distributor_id']}"> 编辑</a></li>
