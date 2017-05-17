@@ -137,7 +137,7 @@ angular.module('starter.controllers', [])
 
         //下载连接
         $scope.openDownloadUrl = function(){
-            window.open(ENV.H5Url+'#/downApp', '_system', 'location=yes');
+            window.open('http://www.baidu.com', '_system', 'location=yes');//ENV.H5Url+'#/downApp'
         };
     })
 
@@ -573,7 +573,7 @@ angular.module('starter.controllers', [])
 
         //下载连接
         $scope.openDownloadUrl = function(){
-            window.open(ENV.H5Url+'#/downApp', '_system', 'location=yes');
+            window.open('http://www.baidu.com', '_system', 'location=yes');//ENV.H5Url+'#/downApp'
         };
     })
 
