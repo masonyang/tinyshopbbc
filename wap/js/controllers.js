@@ -135,6 +135,10 @@ angular.module('starter.controllers', [])
         });
         //搜索表单
 
+        //下载连接
+        $scope.openDownloadUrl = function(){
+            window.open(ENV.H5Url+'#/downApp', '_system', 'location=yes');
+        };
     })
 
     //处理路由 v2
@@ -565,6 +569,11 @@ angular.module('starter.controllers', [])
         $scope.getPlatform = GlobalFun.getPlatform();
         $scope.closeDown = function() {
             $scope.getPlatform.close = true;
+        };
+
+        //下载连接
+        $scope.openDownloadUrl = function(){
+            window.open(ENV.H5Url+'#/downApp', '_system', 'location=yes');
         };
     })
 
