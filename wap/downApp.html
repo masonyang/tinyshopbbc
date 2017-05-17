@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <script type="text/javascript" src="js/lib/jquery.min.js"></script>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
+<body>
+
+    <ion-view view-title="App下载" hide-nav-bar="true" class="w content_bg">
+
+        <ion-content class="assertive-bg scroll-content ionic-scroll">
+            <div class="downPage text-center">
+                <div class="downLogo"><img id="logo_img" src="" style="max-width:50%;" /></div>
+                <div class="downTitle"></div>
+                <div class="downTitle2">App下载</div>
+                <div id="android_download_url" style="width:60%; margin-left:20%; margin-top:10%; display: none;" ><a href="#" id="android_down" class="button button-block downBtn">Android 下载</a></div>
+                <div id="ios_download_url" style="width:60%; margin-left:20%; margin-top:20px; display: none;"><a href="#" id="ios_down" class="button button-block downBtn">Ios 下载</a></div>
+            </div>
+        </ion-content>
+
+        <div class="assertive-bg downFooter">
+            <div>义乌百发文化用品有限公司</div>
+            <div>©版权所有</div>
+        </div>
+
+        <div class="downBg" style="display: none;"><img src="./img/wx-bg.png" /></div>
+    </ion-view>
+</body>
+
+<script type="text/javascript" src="js/lib/downapp.js"></script>
+
+</html>
