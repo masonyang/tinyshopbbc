@@ -1,6 +1,5 @@
 angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', 'starter.config', 'ngResource', 'starter.directive', 'ionic-citypicker', 'ionicLazyLoad', 'ngCordova', 'ionic-native-transitions'])
 
-//.run(function($ionicPlatform, $ionicLoading, $state, $timeout, jpushService) {
 .run(function($ionicPlatform, $rootScope, $timeout, jpushService, checkUpdate, $cordovaFile, $ionicHistory, $cordovaToast, $cordovaKeyboard, $location, $cordovaNetwork, $cordovaDevice, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -102,7 +101,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 })
 
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider,$locationProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
 
   //全局配置
   $ionicNativeTransitionsProvider.setDefaultOptions({
@@ -299,8 +298,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 
   // 商品列表页
   .state('tab.goodsList', {
-    url: '/goodsList',
-    params:{'id':null},
+    url: '/goodsList/:id',
+    // params:{'id':null},
     views: {
       'tab-category': {
         templateUrl: 'templates/category/goodsList.html',
@@ -391,5 +390,4 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/tab/home');
 
-  $locationProvider.html5Mode(false).hashPrefix('!');
 });

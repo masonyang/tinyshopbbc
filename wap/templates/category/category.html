@@ -21,7 +21,7 @@
 
         <ul ng-show="$first" class="menu-right-list clearfix" ng-repeat="(key, topCate) in getList" id="menu-right-list-{{topCate.parent_id}}" style="border-left:1px solid #ddd;">
             <li ng-repeat="child in topCate.sub_cat">
-                <a ui-sref="tab.goodsList({id:child.id})">
+                <a href="#/tab/goodsList/{{child.id}}">
                     <img ng-src="{{imgPath}}{{child.img}}" />
                     <div class="menu-title">{{child.name}}</div>
                 </a>

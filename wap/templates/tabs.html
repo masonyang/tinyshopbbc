@@ -1,18 +1,18 @@
 <ion-tabs class="tabs-icon-top tabs-color-active-assertive" ng-class="{'tabs-item-hide': $root.hideTabs}">
 
-    <ion-tab title="首页" icon-off="ion-tb-home-outline" icon-on="ion-tb-home" href="#!/tab/home">
+    <ion-tab title="首页" icon-off="ion-tb-home-outline" icon-on="ion-tb-home" href="#/tab/home">
         <ion-nav-view name="tab-home"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab title="分类" icon-off="ion-tb-category-outline" icon-on="ion-tb-category" ng-click="goToState('tab.category');">
+    <ion-tab title="分类" icon-off="ion-tb-category-outline" icon-on="ion-tb-category" ng-click="goToState('#tab/category');">
         <ion-nav-view name="tab-category"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab title="购物车" icon-off="ion-tb-cart-outline" icon-on="ion-tb-cart" ng-click="goToState('tab.cart');">
+    <ion-tab title="购物车" icon-off="ion-tb-cart-outline" icon-on="ion-tb-cart" ng-click="goToState('#/tab/cart');">
         <ion-nav-view name="tab-cart"></ion-nav-view>
     </ion-tab>
 
-    <ion-tab title="用户中心" icon-off="ion-tb-user-outline" icon-on="ion-tb-user" ng-click="goToState('tab.user');">
+    <ion-tab title="用户中心" icon-off="ion-tb-user-outline" icon-on="ion-tb-user" ng-click="goToState('#/tab/user');">
         <ion-nav-view name="tab-user"></ion-nav-view>
     </ion-tab>
 </ion-tabs>

@@ -52,6 +52,16 @@ angular.module('starter.services', [])
     //自定义方法
     .factory('GlobalFun', function($timeout, $cordovaDevice, $ionicPopup, $ionicActionSheet, ENV, msg, $cordovaClipboard) {
         return {
+            wechatEachHref: function() {
+                if(this.isWechat()) {
+                    $('a').each(function() {
+                        if($(this).attr('href') && $(this).attr('href') != '#') {
+                            $(this).attr('href', '?from=singlemessage'+$(this).attr('href'));
+                            console.log($(this).attr('href'));
+                        }
+                    });
+                }
+            },
             GetQueryString: function (name) {
                 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
                 var r = window.location.search.substr(1).match(reg);
@@ -127,7 +137,7 @@ angular.module('starter.services', [])
                 if(gid <= 0) {
                     return false;
                 }
-                var url = ENV.H5Url+'#!/tab/detail/'+gid;
+                var url = ENV.H5Url+'#/tab/detail/'+gid;
 
                 var weixinShare = function() {
                     var option = {
@@ -786,7 +796,7 @@ angular.module('starter.services', [])
             },
             //支付检查订单是否有效
             payCheck: function(uid, oid, paymentid, obj) {
-                var url = encodeURI(ENV.H5Url+'#!/tab/detail/'+oid);
+                var url = encodeURI(ENV.H5Url+'#/tab/detail/'+oid);
                 if(obj.hasOwnProperty('return_url')) {
                     url = obj.return_url;
                 }
