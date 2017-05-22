@@ -24,19 +24,19 @@
         </ion-slide-box>
 
         <div class="row home-menu margin-bottom clearfix">
-            <a class="col" href="/tab/myorder"><img class="ico" src="img/m1.png"><span class="menu-title">我的订单</span></a>
-            <a class="col" href="/tab/user"><img class="ico" src="img/m2.png"><span class="menu-title">个人中心</span></a>
-            <a class="col" href="/tab/cart"><img class="ico" src="img/m3.png"><span class="menu-title">购物车</span></a>
+            <a class="col" href="/wap/tab/myorder"><img class="ico" src="img/m1.png"><span class="menu-title">我的订单</span></a>
+            <a class="col" href="/wap/tab/user"><img class="ico" src="img/m2.png"><span class="menu-title">个人中心</span></a>
+            <a class="col" href="/wap/tab/cart"><img class="ico" src="img/m3.png"><span class="menu-title">购物车</span></a>
             <a class="col" href=""><img class="ico" src="img/m4.png"><span class="menu-title">猜你喜欢</span></a>
         </div>
 
         <ul class="home_menu2 ul-border clearfix margin-top">
-            <li><a href="/tab/goodsList/0"><img src="img/home-m1.png"></a></li>
-            <li><a href="/tab/goodsList/5"><img src="img/home-m2.png"></a></li>
-            <li><a href="/tab/goodsList/6"><img src="img/home-m3.png"></a></li>
-            <li><a href="/tab/goodsList/7"><img src="img/home-m4.png"></a></li>
-            <li><a href="/tab/goodsList/8"><img src="img/home-m5.png"></a></li>
-            <li><a href="/tab/goodsList/1"><img src="img/home-m6.png"></a></li>
+            <li><a href="/wap/tab/goodsList/0"><img src="img/home-m1.png"></a></li>
+            <li><a href="/wap/tab/goodsList/5"><img src="img/home-m2.png"></a></li>
+            <li><a href="/wap/tab/goodsList/6"><img src="img/home-m3.png"></a></li>
+            <li><a href="/wap/tab/goodsList/7"><img src="img/home-m4.png"></a></li>
+            <li><a href="/wap/tab/goodsList/8"><img src="img/home-m5.png"></a></li>
+            <li><a href="/wap/tab/goodsList/1"><img src="img/home-m6.png"></a></li>
         </ul>
 
         <div class="nav clearfix margin-bottom" ng-class="{'margin-top':$index==0}" ng-repeat="adv in advlist">
@@ -45,12 +45,12 @@
         </div>
 
         <ul class="home_menu2 ul-padding clearfix margin-top">
-            <li><a href="/tab/goodsList/16"><img src="img/menu-1.jpg"/></a></li>
-            <li><a href="/tab/goodsList/18"><img src="img/menu-2.jpg"/></a></li>
-            <li><a href="/tab/goodsList/19"><img src="img/menu-3.jpg"/></a></li>
-            <li><a href="/tab/goodsList/22"><img src="img/menu-4.jpg"/></a></li>
-            <li><a href="/tab/goodsList/57"><img src="img/menu-5.jpg"/></a></li>
-            <li><a href="/tab/goodsList/71"><img src="img/menu-6.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/16"><img src="img/menu-1.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/18"><img src="img/menu-2.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/19"><img src="img/menu-3.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/22"><img src="img/menu-4.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/57"><img src="img/menu-5.jpg"/></a></li>
+            <li><a href="/wap/tab/goodsList/71"><img src="img/menu-6.jpg"/></a></li>
         </ul>
 
         <!-- 商品列表 -->
@@ -59,7 +59,7 @@
         <div class="goods-list" ng-if="GoodsList">
             <ul class="clearfix" style="padding-top:8px;">
                 <li class="" ng-repeat="goods in GoodsList">
-                    <a href="/tab/detail/{{goods.gid}}">
+                    <a href="/wap/tab/detail/{{goods.gid}}">
                         <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
                         <img ng-if="!goods.img" ng-src="img/img.jpg">
                         <div class="info">

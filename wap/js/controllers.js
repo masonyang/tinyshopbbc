@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
                     for(var i in advList) {
                         advList[i].img_url = '#';
                         if(advList[i].s_type == 'goods') {
-                            advList[i].img_url = '/tab/detail/'+advList[i].url;
+                            advList[i].img_url = 'wap/tab/detail/'+advList[i].url;
                         }else if(advList[i].s_type == 'category') {
                             advList[i].img_url = 'tab.goodsList({id:'+advList[i].url+'})';
                         }
@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
                             for (var i in advList[z]) {
                                 advList[z][i].img_url = '#';
                                 if (advList[z][i].s_type == 'goods') {
-                                    advList[z][i].img_url = '/tab/detail/' + advList[z][i].url;
+                                    advList[z][i].img_url = 'wap/tab/detail/' + advList[z][i].url;
                                 } else if (advList[z][i].s_type == 'category') {
                                     advList[z][i].img_url = 'tab.goodsList({id:' + advList[z][i].url + '})';
                                 }
@@ -1117,7 +1117,7 @@ angular.module('starter.controllers', [])
         }
         var obj = JSON.parse(window.atob(str));
         // console.log(obj);
-        var return_url = encodeURI(location.protocol+'//'+obj.host+'tab/orderdetail/'+obj.oid);
+        var return_url = encodeURI(location.protocol+'//'+obj.host+'wap/tab/orderdetail/'+obj.oid);
         console.log(return_url);
         Order.payCheck(obj.uid, obj.oid, obj.payment_id, {host:obj.host, code:obj.code, return_url:return_url}).then(function(json) {
             var res = json.data;
