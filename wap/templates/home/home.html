@@ -24,9 +24,9 @@
         </ion-slide-box>
 
         <div class="row home-menu margin-bottom clearfix">
-            <a class="col" href="#/tab/myorder"><img class="ico" src="img/m1.png"><span class="menu-title">我的订单</span></a>
-            <a class="col" href="#/tab/user"><img class="ico" src="img/m2.png"><span class="menu-title">个人中心</span></a>
-            <a class="col" href="#/tab/cart"><img class="ico" src="img/m3.png"><span class="menu-title">购物车</span></a>
+            <a class="col" href="#!/tab/myorder"><img class="ico" src="img/m1.png"><span class="menu-title">我的订单</span></a>
+            <a class="col" href="#!/tab/user"><img class="ico" src="img/m2.png"><span class="menu-title">个人中心</span></a>
+            <a class="col" href="#!/tab/cart"><img class="ico" src="img/m3.png"><span class="menu-title">购物车</span></a>
             <a class="col" href="#"><img class="ico" src="img/m4.png"><span class="menu-title">猜你喜欢</span></a>
         </div>
 
@@ -59,7 +59,7 @@
         <div class="goods-list" ng-if="GoodsList">
             <ul class="clearfix" style="padding-top:8px;">
                 <li class="" ng-repeat="goods in GoodsList">
-                    <a href="#/tab/detail/{{goods.gid}}">
+                    <a href="#!/tab/detail/{{goods.gid}}">
                         <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
                         <img ng-if="!goods.img" ng-src="img/img.jpg">
                         <div class="info">

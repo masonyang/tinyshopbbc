@@ -127,7 +127,7 @@ angular.module('starter.services', [])
                 if(gid <= 0) {
                     return false;
                 }
-                var url = ENV.H5Url+'#/tab/detail/'+gid;
+                var url = ENV.H5Url+'#!/tab/detail/'+gid;
 
                 var weixinShare = function() {
                     var option = {
@@ -786,7 +786,7 @@ angular.module('starter.services', [])
             },
             //支付检查订单是否有效
             payCheck: function(uid, oid, paymentid, obj) {
-                var url = encodeURI(ENV.H5Url+'#/tab/detail/'+oid);
+                var url = encodeURI(ENV.H5Url+'#!/tab/detail/'+oid);
                 if(obj.hasOwnProperty('return_url')) {
                     url = obj.return_url;
                 }

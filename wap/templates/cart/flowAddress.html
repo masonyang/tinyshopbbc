@@ -1,9 +1,9 @@
 <ion-view view-title="{{title}}" hide-nav-bar="false" class="w content_bg">
 
     <ion-nav-buttons side="right" >
-        <a class="button button-assertive" ng-if="formShow == false" href="#/tab/flow">返回</a>
+        <a class="button button-assertive" ng-if="formShow == false" href="#!/tab/flow">返回</a>
         <a class="button button-assertive" ng-if="formShow == true && addressList.length > 0" ng-click="hideForm()">返回</a>
-        <a class="button button-assertive" ng-if="formShow == true && addressList.length <= 0" ng-href="#/tab/cart">购物车</a>
+        <a class="button button-assertive" ng-if="formShow == true && addressList.length <= 0" ng-href="#!/tab/cart">购物车</a>
     </ion-nav-buttons>
 
     <ion-content class="has-header">
