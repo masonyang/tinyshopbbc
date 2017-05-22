@@ -59,7 +59,7 @@
         <div class="list" ng-if="recommendList.length > 0">
             <div class="item item-divider" style="background:#fff; text-align:center;"><i class="icon ion-ios-arrow-thin-down"></i>&nbsp;为你推荐&nbsp;<i class="icon ion-ios-arrow-thin-down"></i></div>
             <ul class="home_menu2 ul-padding clearfix" style="background:#fff; padding:0 1.5% 1% 1.5%;">
-                <li ng-repeat="rGoods in recommendList"><a ng-href="#/tab/detail/{{rGoods.gid}}"><img src="{{rGoods.img}}" /><h5>{{rGoods.name}}</h5></a></li>
+                <li ng-repeat="rGoods in recommendList"><a ng-href="index.html#/tab/detail/{{rGoods.gid}}"><img src="{{rGoods.img}}" /><h5>{{rGoods.name}}</h5></a></li>
             </ul>
         </div>
         <!-- end 推荐商品 -->
@@ -80,7 +80,7 @@
     </ion-footer-bar>
 
     <div class="bar bar-footer goods-cart">
-        <a class="icon ion-home" href="#/tab/home"></a>
+        <a class="icon ion-home" href="index.html#/tab/home"></a>
         <a class="cart-left" ng-click="goCart()">去购物车(<span class="num assertive">{{num}}</span>)</a>
         <a class="cart-right assertive-bg light" ng-click="addCart()">加入购物车</a>
     </div>
