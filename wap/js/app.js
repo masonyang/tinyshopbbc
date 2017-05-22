@@ -101,7 +101,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
 })
 
 
-.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider,$locationProvider) {
+.config(function($stateProvider, $urlRouterProvider, $ionicConfigProvider, $ionicNativeTransitionsProvider) {
 
   //全局配置
   $ionicNativeTransitionsProvider.setDefaultOptions({
@@ -151,7 +151,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services', '
   $ionicConfigProvider.platform.ios.backButton.icon('ion-ios-arrow-left');
   $ionicConfigProvider.platform.android.backButton.icon('ion-ios-arrow-back');
 
-  $locationProvider.html5Mode(true);
+
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.

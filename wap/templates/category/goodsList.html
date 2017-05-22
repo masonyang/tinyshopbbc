@@ -27,7 +27,7 @@
         <div class="goods-list" ng-if="GoodsList">
             <ul class="clearfix" style="padding-top:8px;">
                 <li class="" ng-repeat="goods in GoodsList">
-                    <a ng-href="/wap/tab/detail/{{goods.gid}}">
+                    <a ng-href="#/tab/detail/{{goods.gid}}">
                         <img ng-if="goods.img" image-lazy-src="{{goods.img}}" image-lazy-distance-from-bottom-to-load="100" image-lazy-loader="ios" image-lazy-type="280">
                         <img ng-if="!goods.img" ng-src="img/img.jpg">
                         <div class="info">

@@ -5,7 +5,7 @@
         <div class="cart-content" ng-if="!addressList.length">
             <div class="empyt_cart ion-ios-location-outline" style="font-size:5rem; color:#aaa; padding-bottom:15px;"></div>
             <p style="padding-bottom:30px;">您还没有收货地址</p>
-            <a class="button button-light button-assertive" style="width:40%;" href="/wap/tab/addaddress">新建地址</a>
+            <a class="button button-light button-assertive" style="width:40%;" href="#/tab/addaddress">新建地址</a>
         </div>
 
         <ion-list ng-if="addressList.length">
@@ -18,14 +18,14 @@
                     <span ng-if="address.is_default == 1"><i class="icon ion-android-checkmark-circle assertive"></i>&nbsp;默认地址</span>
                     <span ng-if="address.is_default == 0" ng-click="setDefault(address.addr_id)"><i class="icon ion-android-checkmark-circle" style="color:#aaa;"></i>&nbsp;设为默认</span>
                     <span class="item-note">
-                        <a ng-href="/wap/tab/editaddress/{{address.addr_id}}" class="black padding-top padding-bottom"><i class="icon ion-compose"></i>编辑</a>&nbsp;
+                        <a ng-href="#/tab/editaddress/{{address.addr_id}}" class="black padding-top padding-bottom"><i class="icon ion-compose"></i>编辑</a>&nbsp;
                         <a ng-click="delAddress(address.addr_id)" class="black padding-top padding-bottom"><i class="icon ion-ios-trash-outline"></i>删除</a>
                     </span>
                 </p>
             </ion-item>
         </ion-list>
         <div class="padding" ng-if="addressList.length && addressList.length < 5">
-            <a class="button button-light button-assertive" style="width:100%;" ng-href="/wap/tab/addaddress">新建地址</a>
+            <a class="button button-light button-assertive" style="width:100%;" ng-href="#/tab/addaddress">新建地址</a>
         </div>
 
     </ion-content>
