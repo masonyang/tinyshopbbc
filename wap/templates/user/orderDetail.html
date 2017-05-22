@@ -1,7 +1,7 @@
 <ion-view view-title="订单详情" hide-nav-bar="true" class="w content_bg" hide-tabs cache-view="false">
 
     <div class="bar bar-header bar-assertive">
-        <a class="button icon ion-ios-arrow-left button-clear" ng-href="index.html#/tab/myorder" nav-direction="back"></a>
+        <a class="button icon ion-ios-arrow-left button-clear" ng-href="/tab/myorder" nav-direction="back"></a>
         <h1 class="title">订单详情</h1>
         <a class="button icon ion-ios-trash-outline light block padding-right" ng-click="flag.showDelete=!flag.showDelete"></a>
     </div>
@@ -41,7 +41,7 @@
             </ion-item>
 
             <ion-item class="item-divider">商品信息</ion-item>
-            <ion-item ng-repeat="(key, goods) in order.products" class="padding" ng-href="index.html#/tab/detail/{{goods.gid}}">
+            <ion-item ng-repeat="(key, goods) in order.products" class="padding" ng-href="/tab/detail/{{goods.gid}}">
                 <img ng-src="{{goods.img}}" width="65px" height="65px" class="cart-img" />
                 <p class="p1" style="white-space:nowrap;">{{goods.goods_name}}</p>
                 <p class="p2" style="margin-bottom:0px;" ng-if="goods.specs">规格：{{goods.specs}}</p>

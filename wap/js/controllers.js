@@ -31,7 +31,7 @@ angular.module('starter.controllers', [])
                     for(var i in advList) {
                         advList[i].img_url = '#';
                         if(advList[i].s_type == 'goods') {
-                            advList[i].img_url = 'index.html#/tab/detail/'+advList[i].url;
+                            advList[i].img_url = '/tab/detail/'+advList[i].url;
                         }else if(advList[i].s_type == 'category') {
                             advList[i].img_url = 'tab.goodsList({id:'+advList[i].url+'})';
                         }
@@ -70,7 +70,7 @@ angular.module('starter.controllers', [])
                             for (var i in advList[z]) {
                                 advList[z][i].img_url = '#';
                                 if (advList[z][i].s_type == 'goods') {
-                                    advList[z][i].img_url = 'index.html#/tab/detail/' + advList[z][i].url;
+                                    advList[z][i].img_url = '/tab/detail/' + advList[z][i].url;
                                 } else if (advList[z][i].s_type == 'category') {
                                     advList[z][i].img_url = 'tab.goodsList({id:' + advList[z][i].url + '})';
                                 }
@@ -1058,8 +1058,8 @@ angular.module('starter.controllers', [])
 
                     if(result.data.payment_id === ENV.payList.weixin) {
                         if(getCode === null) {
-                            var callback = window.btoa(ENV.H5Url+'index.html#/tab/done/'+oid);
-                            var wxcallback = ENV.wxUrl+'wap/index.html#/getWxCode/'+callback;
+                            var callback = window.btoa(ENV.H5Url+'/tab/done/'+oid);
+                            var wxcallback = ENV.wxUrl+'wap/getWxCode/'+callback;
                             // console.log(wxcallback);
                             var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
                             console.log(callUrl);
@@ -1067,8 +1067,8 @@ angular.module('starter.controllers', [])
                             return false;
                         }else{
                             var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
-                            console.log(ENV.wxUrl+'wap/index.html#/wxPayIng/'+str);
-                            window.location = ENV.wxUrl+'wap/index.html#/wxPayIng/'+str;
+                            console.log(ENV.wxUrl+'wap/wxPayIng/'+str);
+                            window.location = ENV.wxUrl+'wap/wxPayIng/'+str;
                             return false;
                         }
                     }
@@ -1117,7 +1117,7 @@ angular.module('starter.controllers', [])
         }
         var obj = JSON.parse(window.atob(str));
         // console.log(obj);
-        var return_url = encodeURI(location.protocol+'//'+obj.host+'index.html#/tab/orderdetail/'+obj.oid);
+        var return_url = encodeURI(location.protocol+'//'+obj.host+'tab/orderdetail/'+obj.oid);
         console.log(return_url);
         Order.payCheck(obj.uid, obj.oid, obj.payment_id, {host:obj.host, code:obj.code, return_url:return_url}).then(function(json) {
             var res = json.data;
@@ -1680,8 +1680,8 @@ angular.module('starter.controllers', [])
 
                         if(result.data.payment_id === ENV.payList.weixin) {
                             if(getCode === null) {
-                                var callback = window.btoa(ENV.H5Url+'index.html#/tab/done/'+oid);
-                                var wxcallback = ENV.wxUrl+'wap/index.html#/getWxCode/'+callback;
+                                var callback = window.btoa(ENV.H5Url+'tab/done/'+oid);
+                                var wxcallback = ENV.wxUrl+'wap/getWxCode/'+callback;
                                 // console.log(wxcallback);
                                 var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
                                 console.log(callUrl);
@@ -1689,8 +1689,8 @@ angular.module('starter.controllers', [])
                                 return false;
                             }else{
                                 var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
-                                console.log(ENV.wxUrl+'wap/index.html#/wxPayIng/'+str);
-                                window.location = ENV.wxUrl+'wap/index.html#/wxPayIng/'+str;
+                                console.log(ENV.wxUrl+'wap/wxPayIng/'+str);
+                                window.location = ENV.wxUrl+'wap/wxPayIng/'+str;
                                 return false;
                             }
                         }
@@ -1776,8 +1776,8 @@ angular.module('starter.controllers', [])
 
                     if(result.data.payment_id === ENV.payList.weixin) {
                         if(getCode === null) {
-                            var callback = window.btoa(ENV.H5Url+'index.html#/tab/done/'+oid);
-                            var wxcallback = ENV.wxUrl+'wap/index.html#/getWxCode/'+callback;
+                            var callback = window.btoa(ENV.H5Url+'tab/done/'+oid);
+                            var wxcallback = ENV.wxUrl+'wap/getWxCode/'+callback;
                             // console.log(wxcallback);
                             var callUrl = WeiXin.getOauthCodeUrl(wxcallback, oid);
                             console.log(callUrl);
@@ -1785,8 +1785,8 @@ angular.module('starter.controllers', [])
                             return false;
                         }else{
                             var str = window.btoa(JSON.stringify({host:host, oid:order.oid, payment_id:order.payment_id, code:getCode, uid:uid}));
-                            console.log(ENV.wxUrl+'wap/index.html#/wxPayIng/'+str);
-                            window.location = ENV.wxUrl+'wap/index.html#/wxPayIng/'+str;
+                            console.log(ENV.wxUrl+'wap/wxPayIng/'+str);
+                            window.location = ENV.wxUrl+'wap/wxPayIng/'+str;
                             return false;
                         }
                     }
