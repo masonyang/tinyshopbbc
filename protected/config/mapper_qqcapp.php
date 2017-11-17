@@ -656,10 +656,6 @@ $db['z'] = array (
 
 
 require('mapper_qqcapp_aatoaz.php');
-require('mapper_qqcapp_abtoaz.php');
-require('mapper_qqcapp_batobz.php');
-require('mapper_qqcapp_catocz.php');
-require('mapper_qqcapp_datodz.php');
 
 return $db;
 
